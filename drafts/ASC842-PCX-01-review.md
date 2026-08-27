@@ -479,3 +479,45 @@ J8, J9, J10, and J12 accepted as drafted. Nothing on this lesson awaits a
 source lookup or a judgment call. Next steps are the runbook's: dry-run,
 silent scrub, then `npm run generate -- --lesson 01` (human step — spends
 credits), listen, render, export.
+
+---
+
+## Third addendum (2026-08-27) — q-09, the fourth assessment question
+
+Feature 04 applies course-level question rules that superCPE 007 will
+enforce, the first of which requires **four assessment questions per lesson,
+each mapped to a different objective**, so every objective is measured. This
+lesson's three assessment questions covered lo-1 (q-06), lo-2 (q-07), and
+lo-4 (q-08); **lo-3 — the by-class policy objective — was unmeasured.**
+q-09 closes the gap. Nothing else changed: no narration, no slides, no audio
+— `questions-01.json` alone, so export produces a new content hash (version
+3 on upload) over the identical video. `meta.status` stays `"reviewed"`; the
+CPA's pass over this addendum is the review of the one new question.
+
+**q-09 · assessment · tests lo-3.** A lessee elects short-term for its
+office-equipment class but not its real-estate class; within the elected
+class the election applies to every lease that meets the short-term
+definition. Sources: `842-20-25-2.txt` final sentence (accounting policy by
+class); the "every qualifying lease in the class" reading is the
+reviewer-confirmed J7 interpretation. Distractor (b) is the lease-by-lease
+designation error, (c) forgets the election never reaches leases outside
+the definition, (d) inflates by-class into entity-wide. Feedback names
+block 5 (S-05) for re-study, per 5.01.2.2.
+
+Stem-duplication note (course rule 2): q-04 (review) also tests lo-3, from
+the pick-favorites-within-a-class angle; q-09 asks from the
+class-versus-class angle with a different fact pattern and different
+wording. `npm run check`'s course-wide duplicate-stem check (lowercased,
+whitespace collapsed, trailing punctuation stripped) passes.
+
+### Judgment item — OPEN
+
+- **J13 (q-09).** Confirm the new question: (a) that its correct answer's
+  phrasing "every office-equipment lease that meets the short-term
+  definition" cannot be read as making the election mandatory rather than a
+  policy the lessee has already made; (b) that distractor (c) is cleanly
+  wrong (the election "applying" to an over-twelve-month lease is
+  impossible, not merely disfavored); and (c) that q-09 and q-04 are far
+  enough apart to satisfy the ask-it-differently rule in substance, not just
+  after normalization. J1–J12 remain closed; J13 is the only open item on
+  this lesson.

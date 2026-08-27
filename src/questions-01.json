@@ -123,5 +123,20 @@
     "feedback": "Two changes end short-term status: the lease term extending more than twelve months past the end of the previously determined term, or the lessee becoming reasonably certain to exercise a purchase option. Variable payments (b) are expensed as incurred under the election and do not touch the definition; a change of lessor (c) changes the counterparty, not the lease term; widening the policy to another class (d) affects other leases, not this one. The lessee then applies the guidance as if the change date were commencement. This is block 6.",
     "objective_ids": ["lo-4"],
     "_source": "sources/asc842/842-20-25-3.txt"
+  },
+  {
+    "id": "q-09",
+    "kind": "assessment",
+    "stem": "A lessee makes the short-term lease election for its office-equipment class but not for its real-estate class. Within the office-equipment class, how does the election apply?",
+    "choices": [
+      { "id": "a", "text": "To every office-equipment lease that meets the short-term definition — the election is an accounting policy for the whole class" },
+      { "id": "b", "text": "Only to the office-equipment leases the lessee designates, one lease at a time" },
+      { "id": "c", "text": "To every office-equipment lease, including those with lease terms over twelve months" },
+      { "id": "d", "text": "It is invalid — the election must cover real estate as well" }
+    ],
+    "correct": "a",
+    "feedback": "The final sentence of 842-20-25-2 makes this an accounting policy election by class of underlying asset: within an elected class, every lease that qualifies as short-term takes the election, and electing one class commits no other — vehicles-yes, real-estate-no is a permitted pair of policies. Answer (b) is the lease-by-lease designation a policy election exists to prevent; (c) forgets the election only ever reaches leases that meet the twelve-month definition — it widens nothing; (d) inflates a by-class choice into an entity-wide one. This is block 5 (S-05, election by class).",
+    "objective_ids": ["lo-3"],
+    "_source": "sources/asc842/842-20-25-2.txt (final sentence — accounting policy by class); the every-qualifying-lease reading is the reviewer-confirmed J7 interpretation"
   }
 ]

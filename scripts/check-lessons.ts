@@ -24,7 +24,9 @@
  * ever reach a credit calculation (7.02.7).
  */
 
+import { COURSE } from "../src/course";
 import { LESSONS, type LessonId } from "../src/lessons";
+import { QUESTIONS } from "../src/questions";
 
 /* ------------------------------------------------------------------ */
 /* Configuration                                                       */
@@ -271,6 +273,166 @@ function checkLesson(mod: LessonModule): Finding[] {
     });
   }
 
+  /* --- course-record mirror ----------------------------------------- */
+  /* COURSE.lessons[].status mirrors meta.status (the module is the       */
+  /* authority — it gates export); a disagreement means course.ts was     */
+  /* not updated when the lesson's status changed, or vice versa.         */
+
+  const courseLesson = COURSE.lessons.find((l) => l.lessonId === mod.meta.courseCode);
+  if (!courseLesson) {
+    findings.push({
+      level: "WARN",
+      block: "meta",
+      message: `no COURSE.lessons entry for "${mod.meta.courseCode}" in src/course.ts — export will refuse this lesson (course_code/position come from the course record)`,
+    });
+  } else if (courseLesson.status !== status) {
+    findings.push({
+      level: "WARN",
+      block: "meta",
+      message: `COURSE.lessons[].status is "${courseLesson.status}" but meta.status is "${status}" — src/course.ts mirrors the module and one of them is stale`,
+    });
+  }
+
+  return findings;
+}
+
+/* ------------------------------------------------------------------ */
+/* Course-wide question rules                                          */
+/* ------------------------------------------------------------------ */
+/*
+ * superCPE feature 007 enforces these across the whole course on ingest;
+ * they are applied here first so a course does not fail readiness on
+ * arrival. All ERRORs: a violation is something superCPE will refuse.
+ *
+ *   1. Four assessment questions per lesson, each mapped to a different
+ *      one of the lesson's objectives, so every objective is measured.
+ *   2. No assessment stem duplicates a review stem anywhere in the course
+ *      (compared lowercased, whitespace collapsed, trailing punctuation
+ *      stripped). Checked here as: no two stems anywhere may collide.
+ *   3. Assessment questions have four choices; review questions at least
+ *      three (two-choice review questions do not count toward the minimum).
+ *   4. Five review questions per lesson, each with `after_block` on the
+ *      narrated block it tests, never two on the same block.
+ *   5. Feedback on every question.
+ */
+
+const REVIEW_PER_LESSON = 5;
+const ASSESSMENT_PER_LESSON = 4;
+
+const normalizeStem = (stem: string): string =>
+  stem.toLowerCase().replace(/\s+/g, " ").trim().replace(/[.?!…:;,]+$/, "");
+
+function checkCourseQuestions(ids: LessonId[]): Finding[] {
+  const findings: Finding[] = [];
+  const err = (block: string, message: string) =>
+    findings.push({ level: "ERROR", block, message });
+
+  // Rule 2: duplicate stems anywhere in the course, review and assessment.
+  const seenStems = new Map<string, string>(); // normalized stem -> "lesson id q-id"
+  for (const id of ids) {
+    for (const q of QUESTIONS[id]) {
+      const where = `${id} ${q.id}`;
+      const norm = normalizeStem(q.stem);
+      const first = seenStems.get(norm);
+      if (first) {
+        err(where, `stem duplicates ${first} after normalization — a question testing the same fact must ask it differently (course rule 2)`);
+      } else {
+        seenStems.set(norm, where);
+      }
+    }
+  }
+
+  for (const id of ids) {
+    const mod = LESSONS[id] as unknown as LessonModule;
+    const questions = QUESTIONS[id];
+    const narrated = mod.blocks.filter((b) => b.narration.trim().length > 0).length;
+    const objectiveIds = (
+      (mod.meta as unknown as { learningObjectives: { id: string }[] }).learningObjectives ?? []
+    ).map((o) => o.id);
+
+    const review = questions.filter((q) => q.kind === "review");
+    const assessment = questions.filter((q) => q.kind === "assessment");
+
+    // Rules 1 and 4: the counts.
+    if (review.length !== REVIEW_PER_LESSON) {
+      err(`${id} questions`, `${review.length} review question(s), rule 4 requires ${REVIEW_PER_LESSON}`);
+    }
+    if (assessment.length !== ASSESSMENT_PER_LESSON) {
+      err(`${id} questions`, `${assessment.length} assessment question(s), rule 1 requires ${ASSESSMENT_PER_LESSON}`);
+    }
+
+    // Rule 4: review placement — on a real narrated block, one per block.
+    const blocksUsed = new Map<number, string>();
+    for (const q of review) {
+      const where = `${id} ${q.id}`;
+      if (q.after_block === undefined) {
+        err(where, `review question has no after_block — superCPE cannot place it (5.01.2.1)`);
+        continue;
+      }
+      if (!Number.isInteger(q.after_block) || q.after_block < 1 || q.after_block > narrated) {
+        err(where, `after_block ${q.after_block} is outside 1..${narrated} (the lesson's narrated blocks)`);
+        continue;
+      }
+      const already = blocksUsed.get(q.after_block);
+      if (already) {
+        err(where, `after_block ${q.after_block} already carries ${already} — never two review questions on the same block (rule 4)`);
+      } else {
+        blocksUsed.set(q.after_block, q.id);
+      }
+    }
+    for (const q of assessment) {
+      if (q.after_block !== undefined) {
+        err(`${id} ${q.id}`, `assessment question carries after_block — placement is for review questions only`);
+      }
+    }
+
+    // Rule 3: choice counts.
+    for (const q of questions) {
+      const min = q.kind === "assessment" ? 4 : 3;
+      if (q.choices.length < min) {
+        err(`${id} ${q.id}`, `${q.choices.length} choices — ${q.kind} questions need at least ${min} (rule 3)`);
+      }
+      if (!q.choices.some((c) => c.id === q.correct)) {
+        err(`${id} ${q.id}`, `correct answer "${q.correct}" is not among the choice ids`);
+      }
+    }
+
+    // Rule 5: feedback, and the contract's objective mapping.
+    for (const q of questions) {
+      if (!q.feedback || q.feedback.trim().length === 0) {
+        err(`${id} ${q.id}`, `no feedback — every question explains the right answer, the misunderstandings, and the block to re-study (rule 5, 5.01.2.2)`);
+      }
+      if (!q.objective_ids || q.objective_ids.length === 0) {
+        err(`${id} ${q.id}`, `maps to no learning objective — superCPE rejects it`);
+      } else {
+        for (const lo of q.objective_ids) {
+          if (!objectiveIds.includes(lo)) {
+            err(`${id} ${q.id}`, `objective "${lo}" is not among the lesson's learningObjectives (${objectiveIds.join(", ")})`);
+          }
+        }
+      }
+    }
+
+    // Rule 1: assessment coverage — each question a different objective,
+    // every objective measured.
+    const coveredBy = new Map<string, string>();
+    for (const q of assessment) {
+      for (const lo of q.objective_ids ?? []) {
+        const already = coveredBy.get(lo);
+        if (already) {
+          err(`${id} ${q.id}`, `objective ${lo} is already assessed by ${already} — each assessment question maps to a different objective (rule 1)`);
+        } else {
+          coveredBy.set(lo, q.id);
+        }
+      }
+    }
+    for (const lo of objectiveIds) {
+      if (!coveredBy.has(lo)) {
+        err(`${id} questions`, `objective ${lo} has no assessment question — every objective must be measured (rule 1, 6.01.2)`);
+      }
+    }
+  }
+
   return findings;
 }
 
@@ -318,6 +480,26 @@ function main() {
       continue;
     }
     for (const f of findings) {
+      const tag = f.level === "ERROR" ? "  ERROR" : "  warn ";
+      console.log(`${tag} ${f.block.padEnd(14)} ${f.message}`);
+    }
+  }
+
+  // The course-wide question rules always run over every registered lesson —
+  // duplicate stems are a cross-lesson property, so a --lesson filter cannot
+  // scope them.
+  const allIds = (Object.keys(LESSONS) as LessonId[]).sort();
+  const courseFindings = checkCourseQuestions(allIds);
+  errors += courseFindings.filter((f) => f.level === "ERROR").length;
+  warnings += courseFindings.filter((f) => f.level === "WARN").length;
+
+  const questionCount = allIds.reduce((sum, id) => sum + QUESTIONS[id].length, 0);
+  console.log(`\nCOURSE ${COURSE.courseCode}  ${COURSE.title}`);
+  console.log(`  ${allIds.length} lessons · ${questionCount} questions`);
+  if (courseFindings.length === 0) {
+    console.log(`  ok`);
+  } else {
+    for (const f of courseFindings) {
       const tag = f.level === "ERROR" ? "  ERROR" : "  warn ";
       console.log(`${tag} ${f.block.padEnd(14)} ${f.message}`);
     }

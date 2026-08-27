@@ -19,30 +19,34 @@ export const COURSE = {
     "and recognizing a right-of-use asset and lease liability.",
   advancePreparation: "None",
   deliveryMethod: "Self study",
+  // Each entry's `status` mirrors that lesson module's `meta.status` — the
+  // module is authoritative (it gates export); this copy exists so the course
+  // outline can be read without loading every module. `npm run check` warns
+  // when the two disagree (scripts/check-lessons.ts).
   lessons: [
     {
       position: 1,
       lessonId: "ASC842-PCX-01",
       title: "The Short-Term Lease Exception",
-      status: "draft",
+      status: "reviewed",
     },
     {
       position: 2,
       lessonId: "ASC842-PCX-02",
       title: "The Risk-Free Rate Election",
-      status: "planned",
+      status: "draft",
     },
     {
       position: 3,
       lessonId: "ASC842-PCX-03",
       title: "Not Separating Lease and Nonlease Components",
-      status: "planned",
+      status: "draft",
     },
     {
       position: 4,
       lessonId: "ASC842-PCX-04",
       title: "Common Control Arrangements",
-      status: "planned",
+      status: "draft",
     },
   ],
 } as const;

@@ -376,3 +376,102 @@ Shipped: 2026-08-27
   duration" (the package does not carry the title length) or that timings
   are measured rather than estimated — both remain video-tool attestations,
   like `duration_source`.
+
+## 04 — Lessons 2–4 drafted, and lesson 1's coverage fix
+Shipped: 2026-08-27
+
+**What changed**
+- `src/lesson-02.ts` — "The Risk-Free Rate Election" (1,067 words),
+  `lesson-03.ts` — "Not Separating Lease and Nonlease Components" (1,002),
+  `lesson-04.ts` — "Common Control Arrangements" (1,135): title sheet plus
+  eight narrated blocks each, every sheet inside the 40–75s window, four
+  observable objectives each, same voice as lesson 1 ("the standard says"
+  before each quotation, one quoted sentence per block at most, worked Calc
+  examples). Each `audio-meta-NN.json` is `{}` — `usingEstimates` true, as
+  it must be; `status: "draft"` on all three. Blocks 2–4 import their
+  `Block`/`Figure` types from lesson-01 instead of redefining them.
+- Arc adjustments where the sources argued for them, recorded in the review
+  documents: lesson 2 block 7 teaches that NFP conduit bond obligors CAN
+  make the risk-free rate election (the feature's arc said the opposite;
+  ASU 2021-09's Summary and BC13 are explicit, and the exclusion the arc
+  remembered belongs to lesson 4's ASU 2023-01 expedient — the contrast is
+  now taught in both lessons and flagged J2 for the reviewer). Lesson 4
+  block 4 adds that the leasehold-improvements amendment reaches all
+  entities, public included (ASU 2023-01 Summary), which the arc did not
+  mention.
+- `src/questions-0[2-4].json`: 5 review + 4 assessment per lesson, four
+  choices throughout, review questions on five distinct blocks, one
+  assessment question per objective, feedback per 5.01.2.2 naming the block
+  to re-study, `_source` comment keys throughout.
+- Lesson 1 coverage fix: `q-09` (assessment, lo-3 — the objective its three
+  assessment questions left unmeasured) added to `questions-01.json`;
+  documented as a third addendum in `drafts/ASC842-PCX-01-review.md` with
+  one open judgment item (J13) for the CPA. `meta.status` stays "reviewed";
+  narration untouched. Re-exported → `dist/ASC842-PCX-01.zip`, 7m03s
+  measured, 9 questions — a new content hash over the identical video
+  (version 3 on upload).
+- Course-wide question checks in `scripts/check-lessons.ts`, as ERRORs (the
+  rules superCPE 007 will refuse on): per-lesson counts (5 review / 4
+  assessment), assessment coverage of every objective with no two
+  assessment questions sharing one, duplicate stems across all lessons'
+  review and assessment questions (lowercased, whitespace collapsed,
+  trailing punctuation stripped), `after_block` on a real narrated block
+  and never two review questions on one block, four/three-choice minimums,
+  feedback and objective mapping on every question. They run over every
+  registered lesson even under `--lesson` (duplicate stems are cross-lesson).
+  Negative-tested: a tampered questions file fired all five rule families;
+  restored byte-identical.
+- `src/course.ts`: lesson statuses reconciled (01 `reviewed`, 02–04
+  `draft`) with a comment that `COURSE.lessons[].status` mirrors each
+  module's `meta.status`; `check` now warns on disagreement (and on a
+  lesson with no course entry).
+- `drafts/ASC842-PCX-0[2-4]-review.md`: the lesson-1-format reviewer's
+  documents — per block, narration as drafted, sources by paragraph/BC
+  number, reveal targets; per question, sources and objective; UNSOURCED
+  flags inline; open judgment lists (L2: J1–J7, L3: J1–J9, L4: J1–J8); a
+  `Sources still needed` list in each (L4's is empty, deliberately).
+- `LESSON-RUNBOOK.md`: the five question rules as a "Questions" section, so
+  future lessons inherit them.
+- Registered lessons 02–04 in `lessons.ts`/`questions.ts`; `Root.tsx`
+  needed no change.
+
+**Standards touched**
+- 3.01 — twelve new learning objectives written as observable outcomes
+  (determine / apply / explain / identify / evaluate / compute).
+- 6.01.2 — assessment coverage (every objective measured, one question
+  each) and the duplicate-stem prohibition applied at authoring time,
+  enforced by `npm run check` before superCPE ever sees the course.
+- 5.01.2.1 — five review questions per lesson placed on five distinct
+  narrated blocks via `after_block`.
+
+**Verified**
+- `npm run typecheck` clean; `npm run check`: 4 lessons, 36 questions, 0
+  errors, 3 warnings (the by-design `[draft]` warnings on 02–04; the
+  status-mirror warning is silent because the statuses agree).
+- Dry runs spend nothing: lessons 02–04 each list all eight narrated blocks
+  pending with marker counts (3/3/4/4/4/3/3/3, 3/3/3/4/3/3/4/3,
+  3/4/4/4/4/4/4/4), title sheets absent.
+- Export refuses each of 02–04 on `draft` status, naming its review
+  document; `npm run export -- --lesson 01` → `dist/ASC842-PCX-01.zip`,
+  7m03s measured, 8 narrated blocks, 9 questions.
+- Silent renders: lesson-02.mp4 8:22.06, lesson-03.mp4 7:50.06,
+  lesson-04.mp4 8:51.05 (ffprobe), each matching its estimated total.
+  End-of-block frames extracted for all 27 sheets: every statement line,
+  facts row, calc row, and list item visible by the end of its block; pink
+  emphasis on exactly one element per Calc sheet; titles render real text;
+  draft watermark present.
+- `ls src/`: four lessons, four questions files, four audio-meta files.
+
+**Known gaps**
+- Lessons 2–4 are UNREVIEWED and UNVOICED; their judgment lists are open
+  (7 + 9 + 8 items) and their review documents are the CPA's next surface.
+- Sources still needed (per the review documents): Master Glossary
+  "Incremental Borrowing Rate" and a Codification `842-20-50-10.txt`
+  (lesson 2); `842-10-15-33`, `842-10-15-35`, `842-10-15-42A`, and
+  `842-10-15-3.txt` (lesson 3 — its lessor block and default-allocation
+  mechanics are UNSOURCED until then); lesson 4 needs nothing.
+- Lesson 1's J13 (the new q-09) awaits the CPA; version 3 exists locally in
+  `dist/` and has not been uploaded to superCPE.
+- The lesson-2/4 worked-example arithmetic (7%/4% office lease; $150,000
+  roof) and lesson 3's ($5,000/$1,000 split at 5%) are illustrative figures
+  awaiting the reviewer's blessing, like lesson 1's ≈$23,400 was.
