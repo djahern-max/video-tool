@@ -30,6 +30,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { deflateRawSync } from "node:zlib";
 
+import { COURSE } from "../src/course";
 import { LESSONS, type LessonId } from "../src/lessons";
 import type { PackageLessonMeta, Question } from "../src/types";
 import { QUESTIONS_FILE } from "../src/questions";
@@ -37,9 +38,6 @@ import { MODEL_ID, TTS_PROVIDER } from "./generate-audio";
 import { computeContentHash, validatePackage } from "./validate-package";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-
-/** The status value LESSON-RUNBOOK.md step 6 sets when the SME signs off. */
-const STATUS_READY = "";
 
 type Block = {
   id: string;
@@ -52,6 +50,7 @@ type LessonModule = {
   blocks: Block[];
   transcriptOf: (b: Block) => string;
   hasAudio: (b: Block) => boolean;
+  durationOf: (b: Block) => number;
   usingEstimates: boolean;
   totalSeconds: number;
 };
@@ -129,11 +128,12 @@ const main = () => {
   const questions = JSON.parse(questionsBytes.toString("utf8")) as Question[];
 
   // 2. meta.status is the single authority on whether a lesson may ship.
-  if (meta.status !== STATUS_READY) {
+  if (meta.status !== "reviewed") {
     refuse(
-      `lesson ${lessonId}'s meta.status is "${meta.status}". Only a lesson ` +
-        `whose status has been cleared after subject-matter review may be ` +
-        `exported (4.01.1, 4.02); LESSON-RUNBOOK.md step 6 is where that happens.`
+      `lesson ${lessonId}'s meta.status is "${meta.status}". Only "reviewed" ` +
+        `exports (4.01.1, 4.02): work through drafts/${meta.courseCode}-review.md, ` +
+        `then set status: "reviewed" by hand — LESSON-RUNBOOK.md step 6. ` +
+        `Nothing in the tooling sets it.`
     );
   }
 
@@ -171,6 +171,12 @@ const main = () => {
   // 5. Build dist/<lesson_id>/. The manifest lesson_id is meta.courseCode —
   // the globally unique code — not meta.lessonId, the module selector.
   const packageId = meta.courseCode;
+  const courseLesson =
+    COURSE.lessons.find((l) => l.lessonId === packageId) ??
+    refuse(
+      `lesson_id ${packageId} has no entry in COURSE.lessons (src/course.ts). ` +
+        `The manifest's course_code and position are read from the course record.`
+    );
   const packageDir = join(root, "dist", packageId);
   rmSync(packageDir, { recursive: true, force: true });
   mkdirSync(packageDir, { recursive: true });
@@ -199,6 +205,24 @@ const main = () => {
     readFileSync(join(packageDir, "video.mp4"))
   );
 
+  // Where each narrated block starts and ends, measured, so superCPE can
+  // pause the video for review questions at the right second. The cursor
+  // walks every block in playback order; the title sheet (the only
+  // unnarrated block) contributes only its offset. Its length is a fixed
+  // render constant, not an estimate of speech, so it is not subject to the
+  // 7.02.7 measured-durations rule; every narrated duration here is
+  // measured, because step 3 refused the export otherwise.
+  const round3 = (seconds: number) => Math.round(seconds * 1000) / 1000;
+  const blockTimings: { id: string; start_seconds: number; end_seconds: number }[] = [];
+  let cursor = 0;
+  for (const b of lesson.blocks) {
+    const start = round3(cursor);
+    cursor += lesson.durationOf(b);
+    if (b.narration.trim().length > 0) {
+      blockTimings.push({ id: b.id, start_seconds: start, end_seconds: round3(cursor) });
+    }
+  }
+
   const manifest = {
     package_version: 1,
     lesson_id: packageId,
@@ -213,6 +237,7 @@ const main = () => {
       tts_provider: TTS_PROVIDER,
       tts_voice_id: voiceIdFromEnv(),
       tts_model: MODEL_ID,
+      blocks: blockTimings,
     },
 
     learning_objectives: meta.learningObjectives,
@@ -230,11 +255,15 @@ const main = () => {
     word_count: meta.wordCount,
     av_is_additional_learning: meta.avIsAdditionalLearning,
 
-    // Not (yet) in the contract: packages.py rule 3 checks required fields
-    // only and tolerates unknown keys, so the lesson-module fields superCPE
-    // feature 004 will formalize ride along under their eventual names.
-    course_code: meta.courseCode,
-    position: meta.position,
+    // course_code and position are contract fields since superCPE feature
+    // 004 formalized them: the course's code and the lesson's integer order
+    // within it, both read from the course record — not meta.courseCode
+    // (which is this lesson's package id) and not meta.position (a display
+    // string). delivery_method and revision are not (yet) in the contract:
+    // packages.py rule 3 checks required fields only and tolerates unknown
+    // keys, so they ride along under their eventual names.
+    course_code: COURSE.courseCode,
+    position: courseLesson.position,
     delivery_method: meta.deliveryMethod,
     revision: meta.revision,
   };

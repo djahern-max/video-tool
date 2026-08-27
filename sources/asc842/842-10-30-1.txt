@@ -1,0 +1,5 @@
+
+An entity shall determine the lease term as the noncancellable period of the lease, together with all of the following:
+aPeriods covered by an option to extend the lease if the lessee is reasonably certain to exercise that option
+bPeriods covered by an option to terminate the lease if the lessee is reasonably certain not to exercise that option
+cPeriods covered by an option to extend (or not to terminate) the lease in which exercise of the option is controlled by the lessor.

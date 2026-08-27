@@ -26,6 +26,12 @@ const PACKAGE_FILES = ["manifest.json", "video.mp4", "transcript.md", "questions
 const MANIFEST_FIELDS: Record<string, string> = {
   package_version: "int",
   lesson_id: "str",
+  // Required since superCPE feature 004. Their value checks — course_code
+  // matches the course the lesson attaches to, position positive and unique
+  // within it — need the course database and stay server-side, like rule 5's
+  // ffprobe comparison.
+  course_code: "str",
+  position: "int",
   title: "str",
   content_hash: "str",
   video: "dict",
@@ -47,6 +53,7 @@ const VIDEO_FIELDS: Record<string, string> = {
   tts_provider: "str",
   tts_voice_id: "str",
   tts_model: "str",
+  blocks: "list",
 };
 const AUTHOR_FIELDS: Record<string, string> = {
   name: "str",
@@ -254,6 +261,93 @@ export function validatePackage(dir: string): string[] {
       errors.push(
         `manifest.video.narration_blocks: must be at least 1, got ${video.narration_blocks}`
       );
+    }
+
+    // Rule 18: measured block timings, so review questions can be placed
+    // throughout the program at measured points (5.01.2.1). One entry per
+    // narrated block, in playback order, ids matching transcript.md's
+    // `## <block id>` headings, contiguous, ending at duration_seconds
+    // within 1 second. "Values come from measured audio" is an attestation
+    // carried by duration_source (rule 4); what is checkable here is the
+    // structure. The first entry's start being the title sheet's duration
+    // is video-tool's obligation and is not checkable from the package.
+    const blocks = video.blocks;
+    if (Array.isArray(blocks)) {
+      const headings = transcriptBytes
+        .toString("utf8")
+        .split("\n")
+        .filter((line) => line.startsWith("## "))
+        .map((line) => line.slice(3).trim());
+      if (blocks.length !== headings.length) {
+        errors.push(
+          `manifest.video.blocks: ${blocks.length} entries but transcript.md ` +
+            `has ${headings.length} block headings; one entry per narrated block`
+        );
+      }
+      if (isInt(video.narration_blocks) && blocks.length !== video.narration_blocks) {
+        errors.push(
+          `manifest.video.blocks: ${blocks.length} entries does not equal ` +
+            `narration_blocks (${video.narration_blocks})`
+        );
+      }
+      const isSeconds = (v: unknown): v is number =>
+        typeof v === "number" && Number.isFinite(v);
+      let prevEnd: number | null = null;
+      blocks.forEach((entry, i) => {
+        const label = `manifest.video.blocks[${i}]`;
+        if (!hasType(entry, "dict")) {
+          errors.push(`${label}: expected an object with id, start_seconds, end_seconds`);
+          prevEnd = null;
+          return;
+        }
+        const block = entry as Record<string, unknown>;
+        const id = block.id;
+        if (typeof id !== "string" || id.trim() === "") {
+          errors.push(`${label}.id: must be a non-blank string`);
+        } else if (blocks.length === headings.length && id !== headings[i]) {
+          errors.push(
+            `${label}.id: "${id}" does not match transcript.md heading ` +
+              `"${headings[i]}" — entries are in playback order`
+          );
+        }
+        const start = block.start_seconds;
+        const end = block.end_seconds;
+        if (!isSeconds(start)) {
+          errors.push(`${label}.start_seconds: expected a number, got ${pyType(start)}`);
+        }
+        if (!isSeconds(end)) {
+          errors.push(`${label}.end_seconds: expected a number, got ${pyType(end)}`);
+        }
+        if (!isSeconds(start) || !isSeconds(end)) {
+          prevEnd = null;
+          return;
+        }
+        if (start < 0) {
+          errors.push(`${label}.start_seconds: must be >= 0, got ${start}`);
+        }
+        if (end <= start) {
+          errors.push(
+            `${label}: end_seconds (${end}) must be greater than start_seconds (${start})`
+          );
+        }
+        if (prevEnd !== null && start !== prevEnd) {
+          errors.push(
+            `${label}.start_seconds: ${start} does not equal the previous ` +
+              `entry's end_seconds (${prevEnd}); blocks are contiguous`
+          );
+        }
+        prevEnd = end;
+      });
+      if (prevEnd !== null && isInt(video.duration_seconds)) {
+        const drift = Math.abs((video.duration_seconds as number) - prevEnd);
+        if (drift > 1) {
+          errors.push(
+            `manifest.video.blocks: last end_seconds (${prevEnd}) is ` +
+              `${drift.toFixed(2)}s from duration_seconds ` +
+              `(${video.duration_seconds}); they must agree within 1 second`
+          );
+        }
+      }
     }
   }
 

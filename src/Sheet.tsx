@@ -103,7 +103,7 @@ export const Sheet: React.FC<{
         <Cell label="SHEET" value={sheet} width={140} emphasis />
       </div>
 
-      {/* Draft watermark. Remove when the course is reviewed and published. */}
+      {/* Draft watermark. Blank once the lesson's status is "reviewed". */}
       <div
         style={{
           position: "absolute",
@@ -118,7 +118,7 @@ export const Sheet: React.FC<{
           color: theme.color.flag,
         }}
       >
-        {meta.status}
+        {meta.status === "reviewed" ? "" : meta.status}
       </div>
     </AbsoluteFill>
   );

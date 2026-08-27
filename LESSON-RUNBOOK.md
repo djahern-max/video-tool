@@ -165,8 +165,12 @@ summing all lessons and all questions, divided once.
 Listen straight through. Two things: reveals landing as the narrator names
 each item, and no sheet sounding tonally different from its neighbors.
 
-Send the MP4 to the subject matter expert. When they sign off, set
-`status: ""` in `meta` and re-render. **Clearing the stamp does not require
+`meta.status` is `"draft"` or `"reviewed"`, nothing else, and export refuses
+`"draft"`. Work through the lesson's review document,
+`drafts/<lesson>-review.md`, until its judgment list is closed and the
+reviewer signs off. Then set `status: "reviewed"` in `meta` **by hand** —
+nothing in the tooling sets it; the status is the record that a human did
+this step — and re-render. **Clearing the stamp does not require
 regenerating audio** — it is a re-render only, and free.
 
 ---

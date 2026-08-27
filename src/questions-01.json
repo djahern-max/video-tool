@@ -13,7 +13,7 @@
     "correct": "b",
     "feedback": "The definition has two parts, and both must hold: a lease term of twelve months or less at commencement, AND no option to purchase the underlying asset that the lessee is reasonably certain to exercise. Choosing (a) applies only the first part — the common shortcut this lesson warns against. The purchase option here is reasonably certain of exercise, so the lease is not short-term at any length. Re-study block 2 (S-02, the definition).",
     "objective_ids": ["lo-1"],
-    "_source": "Definition: ASC 842 Master Glossary 'Short-term lease' (not yet in sources/asc842 — flagged in drafts/ASC842-PCX-01-review.md); election: sources/asc842/842-20-25-2.txt"
+    "_source": "sources/asc842/glossary-short-term-lease.txt (both parts of the definition); sources/asc842/842-20-25-2.txt (the election)"
   },
   {
     "id": "q-02",
@@ -29,7 +29,7 @@
     "correct": "b",
     "feedback": "The twelve months are measured against the lease term, which includes renewal periods the lessee is reasonably certain to exercise — judged at commencement, not retrospectively as in (c). Answer (a) reads the contract instead of the standard, and (d) confuses a measurement with an election: the policy choice is whether to apply the exception, never how long the lease is. Five years at commencement means this lease was never short-term. Re-study block 3 (S-03, the lease-term trap).",
     "objective_ids": ["lo-1"],
-    "_source": "UNSOURCED — lease term / reasonably certain guidance (842-10-30-1 through 30-2 expected) is not in sources/asc842; flagged in drafts/ASC842-PCX-01-review.md"
+    "_source": "sources/asc842/842-10-30-1.txt (lease term includes reasonably certain extension periods); sources/asc842/842-10-30-2.txt (assessed at commencement)"
   },
   {
     "id": "q-03",
@@ -45,7 +45,7 @@
     "correct": "b",
     "feedback": "The election removes the recognition requirements — no right-of-use asset, no lease liability — and replaces them with lease payments recognized in profit or loss on a straight-line basis over the lease term, variable payments as incurred. It does not remove the disclosure: short-term lease cost still appears in the notes. Answers (c) and (d) mistake relief from recognition for relief from the whole standard. Re-study block 4 (S-04, what the election gets you).",
     "objective_ids": ["lo-2"],
-    "_source": "sources/asc842/842-20-25-2.txt (straight-line recognition); UNSOURCED — the disclosure requirement (842-20-50) is not in sources/asc842; flagged in drafts/ASC842-PCX-01-review.md"
+    "_source": "sources/asc842/842-20-25-2.txt (straight-line recognition); sources/asc842/842-20-50-4.txt item (c) (short-term lease cost disclosure)"
   },
   {
     "id": "q-04",
@@ -77,7 +77,7 @@
     "correct": "b",
     "feedback": "When the lease term changes so that the remaining term extends more than twelve months past the end of the previously determined term, the lease stops meeting the definition, and the lessee applies the remainder of the guidance as if the date of the change in circumstances were the commencement date — recognizing a right-of-use asset and lease liability prospectively from that date. It is not retrospective (c), and it is a change in this lease's facts, not a change in the class policy (d). Re-study block 6 (S-06, when the facts change).",
     "objective_ids": ["lo-4"],
-    "_source": "sources/asc842/842-20-30-3.txt — file content is the reassessment guidance; paragraph number in question (see INDEX.md and drafts/ASC842-PCX-01-review.md)"
+    "_source": "sources/asc842/842-20-25-3.txt"
   },
   {
     "id": "q-06",
@@ -92,7 +92,7 @@
     "correct": "b",
     "feedback": "The lease term includes renewal periods the lessee is reasonably certain to exercise: six plus six is twelve months. The definition is twelve months OR LESS, so twelve months exactly still qualifies — (c) misplaces the boundary. Answer (a) ignores the reasonably certain renewal, and (d) turns a measurement question into a prohibition: renewal options only count when their exercise is reasonably certain. This is the commencement-date arithmetic from blocks 2 and 3.",
     "objective_ids": ["lo-1"],
-    "_source": "Twelve-months-or-less boundary: ASC 842 Master Glossary 'Short-term lease' (not yet in sources/asc842 — flagged in drafts/ASC842-PCX-01-review.md); lease-term treatment of renewals: UNSOURCED, same flag"
+    "_source": "sources/asc842/glossary-short-term-lease.txt ('12 months or less' — twelve exactly qualifies); sources/asc842/842-10-30-1.txt (renewal counted when reasonably certain)"
   },
   {
     "id": "q-07",
@@ -107,7 +107,7 @@
     "correct": "b",
     "feedback": "For an operating lease the income statement pattern is a single straight-line lease cost either way — $2,000 a month, $24,000 over the term. What the election removes is the balance-sheet gross-up: the present-value lease liability and matching right-of-use asset, and the discounting and schedules behind them. Answers (a) and (c) reflect the misunderstanding that recognition changes the amount of expense rather than where the lease appears; (d) forgets that recognition, not disclosure, is what the election waives. This is the worked example in block 7.",
     "objective_ids": ["lo-2"],
-    "_source": "sources/asc842/842-20-25-2.txt (straight-line recognition); the worked figures are illustrative arithmetic — flagged for reviewer verification in drafts/ASC842-PCX-01-review.md"
+    "_source": "sources/asc842/842-20-25-2.txt (elected side); sources/asc842/842-20-25-6.txt item (a) (single straight-line lease cost when not elected); figures are illustrative arithmetic — see drafts/ASC842-PCX-01-review.md"
   },
   {
     "id": "q-08",
@@ -122,6 +122,6 @@
     "correct": "a",
     "feedback": "Two changes end short-term status: the lease term extending more than twelve months past the end of the previously determined term, or the lessee becoming reasonably certain to exercise a purchase option. Variable payments (b) are expensed as incurred under the election and do not touch the definition; a change of lessor (c) changes the counterparty, not the lease term; widening the policy to another class (d) affects other leases, not this one. The lessee then applies the guidance as if the change date were commencement. This is block 6.",
     "objective_ids": ["lo-4"],
-    "_source": "sources/asc842/842-20-30-3.txt — file content is the reassessment guidance; paragraph number in question (see INDEX.md and drafts/ASC842-PCX-01-review.md)"
+    "_source": "sources/asc842/842-20-25-3.txt"
   }
 ]

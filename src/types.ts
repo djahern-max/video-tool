@@ -30,6 +30,14 @@ export type Author = {
   licenseNumber: string;
 };
 
+/**
+ * Where the lesson stands with its reviewer. "draft" until the human has
+ * worked through drafts/<lesson>-review.md, closed its judgment list, and
+ * set "reviewed" by hand — nothing in the tooling sets it. Export refuses
+ * "draft" (4.01.1, 4.02); `npm run check` warns on it.
+ */
+export type LessonStatus = "draft" | "reviewed";
+
 /** 3.01.1's five levels, exactly as superCPE spells them. */
 export type KnowledgeLevel =
   | "Basic"
@@ -57,6 +65,8 @@ export type Question = {
 export type PackageLessonMeta = LessonMeta & {
   /** Module selector ("01") — not the manifest lesson_id; see header. */
   lessonId: string;
+  /** Narrows LessonMeta's string to the review-gate vocabulary. */
+  status: LessonStatus;
   title: string;
   subtitle: string;
   eyebrow: string;

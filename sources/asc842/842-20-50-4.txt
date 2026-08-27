@@ -1,0 +1,28 @@
+
+For each period presented in the financial statements, a lessee shall disclose the following amounts relating to a lessee's total lease cost, which includes both amounts recognized in profit or loss during the period and any amounts capitalized as part of the cost of another asset in accordance with other Topics, and the cash flows arising from lease transactions:
+aFinance lease cost, segregated between the amortization of the right-of-use assets and interest on the lease liabilities.
+bOperating lease cost determined in accordance with paragraphs 842-20-25-6(a) and 842-20-25-7.
+cShort-term lease cost, excluding expenses relating to leases with a lease term of one month or less, determined in accordance with paragraph 842-20-25-2.
+dVariable lease cost determined in accordance with paragraphs 842-20-25-5(b) and 842-20-25-6(b).
+eSublease income, disclosed on a gross basis, separate from the finance or operating lease expense.
+fNet gain or loss recognized from sale and leaseback transactions in accordance with paragraph 842-40-25-4.
+gAmounts segregated between those for finance and operating leases for the following items:
+1Cash paid for amounts included in the measurement of lease liabilities, segregated between operating and financing cash flows
+2Supplemental noncash information on lease liabilities arising from obtaining right-of-use assets
+3Weighted-average remaining lease term
+4Weighted-average discount rate.
+Clock ImagePENDING CONTENTQuestion Image
+Transition date:Pending FASB P December 16, 2026; Pending FASB N December 16, 2026Transition guidance:220-40-65-1
+For each period presented in the financial statements, a lessee shall disclose the following amounts relating to a lessee's total lease cost, which includes both amounts recognized in profit or loss during the period and any amounts capitalized as part of the cost of another asset in accordance with other Topics, and the cash flows arising from lease transactions:
+aFinance lease cost, segregated between the amortization of the right-of-use assets and interest on the lease liabilities.
+bOperating lease cost determined in accordance with paragraphs 842-20-25-6(a) and 842-20-25-7.
+cShort-term lease cost, excluding expenses relating to leases with a lease term of one month or less, determined in accordance with paragraph 842-20-25-2.
+dVariable lease cost determined in accordance with paragraphs 842-20-25-5(b) and 842-20-25-6(b).
+eSublease income, disclosed on a gross basis, separate from the finance or operating lease expense.
+fNet gain or loss recognized from sale and leaseback transactions in accordance with paragraph 842-40-25-4.
+gAmounts segregated between those for finance and operating leases for the following items:
+1Cash paid for amounts included in the measurement of lease liabilities, segregated between operating and financing cash flows
+2Supplemental noncash information on lease liabilities arising from obtaining right-of-use assets
+3Weighted-average remaining lease term
+4Weighted-average discount rate.
+See paragraphs 220-40-50-21 through 50-25 for additional disclosure requirements.

@@ -252,6 +252,25 @@ function checkLesson(mod: LessonModule): Finding[] {
     }
   }
 
+  /* --- review gate ------------------------------------------------- */
+
+  const status = mod.meta.status;
+  if (status !== "draft" && status !== "reviewed") {
+    findings.push({
+      level: "ERROR",
+      block: "meta",
+      message: `meta.status must be "draft" or "reviewed", got "${status}" — export gates on this value`,
+    });
+  } else if (status === "draft") {
+    // A warning, not an error: a draft renders fine, it just cannot ship.
+    // Export refuses it; this makes the state visible without trying.
+    findings.push({
+      level: "WARN",
+      block: "meta",
+      message: `status is "draft" — export will refuse it until the human works through drafts/${mod.meta.courseCode}-review.md and sets status: "reviewed" by hand`,
+    });
+  }
+
   return findings;
 }
 
@@ -289,7 +308,7 @@ function main() {
     const audio = mod.usingEstimates
       ? `${mmss(mod.totalSeconds)} estimated`
       : `${mmss(mod.totalSeconds)} measured`;
-    const draft = mod.meta.status ? `  [${mod.meta.status}]` : "";
+    const draft = mod.meta.status === "reviewed" ? "" : `  [${mod.meta.status}]`;
 
     console.log(`\nLESSON ${id}  ${mod.meta.courseTitle} — ${mod.meta.lessonTitle}${draft}`);
     console.log(`  ${mod.blocks.length} blocks · ${audio}`);

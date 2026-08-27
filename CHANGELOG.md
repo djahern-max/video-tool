@@ -234,3 +234,145 @@ Shipped: 2026-08-27
 - `HAZWASTE-01` still exists in superCPE's database; superCPE has no package
   delete yet — noted for superCPE feature 004, along with the course-level
   fields `course.ts` now records.
+
+## 02, addendum — UNSOURCED flags resolved against the completed source set
+Shipped: 2026-08-27
+
+**What changed**
+- The human completed `sources/asc842/` (glossary definition, 842-10-30-1,
+  842-10-30-2, 842-20-25-3 — the confirmed rename of the mislabeled file —
+  842-20-25-6, 842-20-50-4, the real 842-20-30-3, and ASU 2016-02 Section A).
+  Every UNSOURCED flag in `drafts/ASC842-PCX-01-review.md` was then resolved:
+  citation where a paragraph supports the sentence, rewrite where none did.
+- Two narration rewrites in `src/lesson-01.ts`, logged in the review
+  document's Resolution log: block 3's "high threshold / effectively
+  compelled" sentence (Basis-for-Conclusions language, not in sources)
+  replaced with 842-10-30-2's economic-incentive factor language, and
+  block 5's "A class is a grouping…" replaced with wording that does not
+  promise a definition the Codification does not give (per INDEX.md).
+  Block 3 also tightened to 842-10-30-1's "noncancellable period plus"
+  phrasing. estimatedSeconds and reveals recomputed for both (block 3:
+  138 words/64s, block 5: 122 words/56s; lesson now 7m52s estimated).
+- Sheet citations now carry the real paragraph numbers (block 6 cites
+  842-20-25-3); `meta.sources` lists all seven citations; question `_source`
+  keys point at the actual files. The "no ROU asset / no liability" and
+  as-if-commencement interpretations are anchored to 842-20-25-1 as issued
+  (ASU 2016-02 Section A).
+- Review document rewritten: per-block sources with paragraph quotes, a
+  Resolution log, and "Sources still needed" replaced by a 12-item
+  "Still needs a CPA's judgment" list (J1–J12).
+
+**Verified**
+- `npm run typecheck` clean; `npm run check`: 0 errors, 0 warnings.
+- Dry run: all eight blocks pending, marker counts 3/3/4/3/4/3/4/3, nothing
+  sent. Re-rendered silent: 14,160 frames (7m52s).
+
+**Known gaps**
+- Still unreviewed and unvoiced; the J1–J12 judgment items are the remaining
+  review surface. The prior entry's note on `meta.status` stands.
+
+## 02, second addendum — CPA review applied; judgment list closed
+Shipped: 2026-08-27
+
+**What changed**
+- Applied the reviewer's dispositions of the twelve judgment items. Edits to
+  `src/lesson-01.ts`: "a private company" → "a lessee" in blocks 1 and 7
+  (J1/J11); block 2 drops "bargain" so the purchase-option example turns on
+  intent, matching the glossary; block 3 adds the termination-option
+  sentence from 842-10-30-1(b) (J3); block 4's disclosure sentence now
+  carries 50-4(c)'s one-month-or-less carve-out (J5).
+- Retired the month-to-month storage unit example (J4): the reviewer's
+  analysis is that a true month-to-month either party can end without
+  penalty has a one-month noncancellable lease term under 842-10-30-1 — it
+  IS short-term — so the example undercut the point. Blocks 1, 3, and 8 now
+  use a delivery van on a one-year lease with three always-taken one-year
+  renewals (a four-year lease term); block 1's slide line is "A one-year van
+  lease with renewals: it depends". No question used the retired example, so
+  `questions-01.json` needed no content change.
+- J2, J6, J7, J8, J9, J10 (the "≈ $23,400" arithmetic blessed), and J12
+  accepted as drafted. The review document's judgment list is CLOSED;
+  its Resolution log records every edit.
+- estimatedSeconds and reveals recomputed for the six edited blocks; the
+  narration is now 1,033 words, 8m05s estimated total. Re-rendered silent
+  (14,550 frames) and spot-checked the changed sheet.
+
+**Verified**
+- `npm run typecheck` clean; `npm run check`: 0 errors, 0 warnings.
+- Dry run: eight blocks pending, marker counts 3/3/4/3/4/3/4/3, nothing
+  sent.
+
+**Known gaps**
+- Content review is complete but the lesson is still unvoiced; author fields
+  remain `TODO:`. Next step is the human's: `npm run generate -- --lesson 01`
+  after a final Studio scrub.
+
+## 03 — Block timings in the manifest, and a real review gate
+Shipped: 2026-08-27
+
+**What changed**
+- `manifest.video.blocks`: one `{ id, start_seconds, end_seconds }` per
+  narrated block, in playback order, so superCPE can pause the video for
+  review questions at the right second. Values are measured: `export.ts`
+  walks the blocks with `durationOf` (the existing `usingEstimates` refusal
+  already guarantees every narrated duration is measured), offset by the
+  title sheet's `estimatedSeconds` — the only unnarrated block; its length
+  is a fixed render constant, not an estimate of speech, so it is not
+  subject to 7.02.7. Rounded to 3 decimals; each entry's `start_seconds` is
+  by construction the previous `end_seconds`.
+- `docs/course-package.md`: the `blocks` field and its four ingest rules.
+  While syncing, the local copy turned out to be *behind* superCPE's
+  authoritative one, which had formalized `course_code` and `position`
+  (their feature 004); adopted that text too, and the edited contract is
+  copied to `../supercpe/docs/course-package.md` — `diff` is empty, the two
+  are byte-identical again. superCPE feature 006 enforces the blocks rules
+  on its side.
+- Adopting 004's rules exposed two drift bugs in `export.ts`: it wrote
+  `course_code: meta.courseCode` (which is the *lesson* package id,
+  "ASC842-PCX-01") and `position: meta.position` (the display string
+  "Lesson 1 of 4") where the contract wants the course's code and an
+  integer. Both now come from `COURSE` in `src/course.ts`, looked up by the
+  lesson's package id; export refuses a lesson with no course entry.
+- `scripts/validate-package.ts`: rule 18 (continuing from 17) — blocks
+  entries match `transcript.md`'s `## <block id>` headings in order, count
+  equals `narration_blocks`, timings contiguous and ascending, last
+  `end_seconds` within 1s of `duration_seconds`. `blocks` joins
+  `VIDEO_FIELDS`, and `course_code`/`position` join `MANIFEST_FIELDS`
+  (rule 3); their value checks need the course database and stay
+  server-side, like rule 5's ffprobe.
+- `meta.status` is now a real vocabulary, `"draft" | "reviewed"`
+  (`LessonStatus` in `src/types.ts`), replacing `""`-means-cleared. Export
+  refuses anything but `"reviewed"`, naming `drafts/<lesson>-review.md`;
+  `npm run check` warns on `"draft"` and errors on anything outside the
+  vocabulary; the human sets `"reviewed"` by hand — nothing in the tooling
+  sets it (LESSON-RUNBOOK.md step 6 rewritten accordingly). `Sheet.tsx`'s
+  watermark now blanks on `"reviewed"` — it rendered `meta.status` raw, and
+  the cleared value is no longer the empty string.
+- `src/lesson-01.ts`: `status: "reviewed"` — its review document's judgment
+  list is closed and the author signed off on 2026-08-27.
+- Standards touched: 5.01.2.1 (block timings let review questions be placed
+  throughout the program at measured points); 4.02 (export now requires a
+  recorded review).
+
+**Verified**
+- `npm run typecheck` clean; `npm run check`: 0 errors, 0 warnings.
+- `npm run export -- --lesson 01`: eight `blocks` entries, contiguous
+  (asserted programmatically), first `start_seconds` 8.000 (the title
+  sheet), last `end_seconds` 422.770 vs `duration_seconds` 423 (0.23s
+  drift); manifest carries `course_code: "ASC842-PCX"`, `position: 1`.
+- Temporarily setting `status: "draft"`: export refuses naming
+  `drafts/ASC842-PCX-01-review.md`; `check` shows the `[draft]` tag and the
+  warning. Restored `"reviewed"`.
+- Rule 18 negative-tested on a tampered manifest copy: broken contiguity, a
+  wrong block id, and a drifted last `end_seconds` each produce their error.
+
+**Known gaps**
+- Out of scope per the feature: lessons 2–4 (feature 04); no slide,
+  narration, or voice changes; no audio regenerated.
+- `COURSE.lessons[0].status` in `src/course.ts` still says `"draft"` — that
+  is the course outline's production status, a different field from
+  `meta.status`, and was not in scope. Worth reconciling when feature 04
+  touches the course record.
+- The validator cannot check "start of the first entry is the title sheet's
+  duration" (the package does not carry the title length) or that timings
+  are measured rather than estimated — both remain video-tool attestations,
+  like `duration_source`.
