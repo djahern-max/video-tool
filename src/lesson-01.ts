@@ -1,32 +1,31 @@
 /**
- * Lesson 01 — "What Makes a Waste 'Hazardous'?"
- * Course: Where Does It Actually Go? (hazardous waste, ESG/Sustainability)
+ * Lesson 01 — "The Short-Term Lease Exception"
+ * Course: ASC 842 for Private Companies: The Practical Expedients (ASC842-PCX)
  *
  * Content is data. No React, no JSX, no timing logic in this file.
  *
- * Duration resolution order: audio-meta.json first, estimatedSeconds second.
- * `estimatedSeconds` is Math.round(wordCount / 130 * 60) — 130 wpm is the
- * measured narration pace, not a guess. It exists only so a silent render has
- * a length; it is discarded the moment audio exists and must never reach a
- * credit calculation (7.02.7).
+ * Drafted from the authoritative text in sources/asc842/ — see
+ * drafts/ASC842-PCX-01-review.md for the block-by-block traceability record
+ * and every UNSOURCED flag. This lesson is UNREVIEWED and UNVOICED: a
+ * licensed CPA must work through the review document before any audio is
+ * generated.
+ *
+ * Duration resolution order: audio-meta-01.json first, estimatedSeconds
+ * second. `estimatedSeconds` is Math.round(wordCount / 130 * 60). It exists
+ * only so a silent render has a length; it is discarded the moment audio
+ * exists and must never reach a credit calculation (7.02.7).
  *
  * Reveal markers: [[r]] sits in `narration`, immediately before the WORD it
- * reveals — not at the start of the sentence. generate-audio.ts strips the
- * markers, reads their real timestamps out of the ElevenLabs alignment
- * stream, and writes them to audio-meta.json. No timing number belongs in
- * this file except as a fallback: `reveals` is a preview estimate, discarded
- * the moment audio exists.
- *
- * The number of [[r]] markers in a block MUST equal the length of that
- * block's `reveals` array. Slide components index into it positionally; a
- * mismatch renders `undefined` and the element never appears. Verify with
- * `npm run generate -- --dry-run` before spending any API credit.
- *
- * Sheet pacing: 40–75 seconds per sheet. Attention resets every 20–30
- * seconds and a new sheet is the cheapest reset available.
+ * reveals. generate-audio.ts strips the markers, reads their real timestamps
+ * out of the ElevenLabs alignment stream, and writes them to
+ * audio-meta-01.json. `reveals` is a preview estimate, discarded the moment
+ * audio exists. The number of [[r]] markers in a block MUST equal the length
+ * of that block's `reveals` array — verify with `npm run check` and
+ * `npm run generate -- --lesson 01 --dry-run` before spending any API credit.
  */
 
 import audioMeta from "./audio-meta-01.json";
+import { COURSE } from "./course";
 import type { PackageLessonMeta } from "./types";
 
 export type Figure =
@@ -65,35 +64,33 @@ export type Block = {
 
 export const meta = {
   lessonId: "01",
-  courseCode: "HAZWASTE-01",
-  courseTitle: "Where Does It Actually Go?",
-  lessonTitle: 'What Makes a Waste "Hazardous"?',
-  title: 'What Makes a Waste "Hazardous"?',
-  subtitle: "Four characteristics, four lists",
+  courseCode: COURSE.lessons[0].lessonId,
+  courseTitle: COURSE.title,
+  lessonTitle: COURSE.lessons[0].title,
+  title: COURSE.lessons[0].title,
+  subtitle: "Twelve months, measured the standard's way",
   eyebrow: "Lesson 01",
-  position: "Lesson 1 of 5",
-  deliveryMethod: "Self study",
-  fieldOfStudy: "ESG/Sustainability",
+  position: `Lesson 1 of ${COURSE.lessons.length}`,
+  deliveryMethod: COURSE.deliveryMethod,
+  fieldOfStudy: "Accounting",
   revision: "A",
-  revisionDate: "2026-08-20",
+  revisionDate: "2026-08-27",
   status: "",
 
   learningObjectives: [
-    { id: "lo-1", text: "Distinguish the two routes by which a waste becomes hazardous under RCRA: exhibiting a characteristic, or appearing on a list." },
-    { id: "lo-2", text: "Identify the four hazardous waste characteristics, their D waste codes, and the test or criteria behind each." },
-    { id: "lo-3", text: "Identify the four RCRA lists — F, K, P, and U — and the kind of waste each covers." },
-    { id: "lo-4", text: "Explain the mixture and derived-from rules and why listed status persists until formal delisting." },
+    { id: "lo-1", text: "Determine whether a lease is short-term at commencement, including the effect of renewal options the lessee is reasonably certain to exercise." },
+    { id: "lo-2", text: "Apply the short-term lease election: recognize lease payments straight-line with no right-of-use asset or lease liability, and identify the disclosure that remains." },
+    { id: "lo-3", text: "Explain that the election is an accounting policy made by class of underlying asset and applied to every qualifying lease in the class." },
+    { id: "lo-4", text: "Identify the changes in circumstances that end short-term treatment and the accounting that follows." },
   ],
-  nasbaFieldOfStudy: "Specialized Knowledge",
-  knowledgeLevel: "Basic",
-  prerequisites: "None",
-  advancePreparation: "None",
+  nasbaFieldOfStudy: COURSE.nasbaFieldOfStudy,
+  knowledgeLevel: COURSE.knowledgeLevel,
+  prerequisites: COURSE.prerequisites,
+  advancePreparation: COURSE.advancePreparation,
   sources: [
-    { citation: "40 CFR Part 261", role: "primary" },
-    { citation: "42 U.S.C. §6901 et seq. (RCRA)", role: "supporting" },
-    { citation: "40 CFR §§261.21–261.24", role: "supporting" },
-    { citation: "40 CFR §§261.31–261.33", role: "supporting" },
-    { citation: "40 CFR §261.3", role: "supporting" },
+    { citation: "ASC 842-20-25-2", role: "primary" },
+    { citation: "ASC 842 Master Glossary — Short-term lease", role: "supporting" },
+    { citation: "ASC 842-20 short-term lease reassessment guidance (paragraph number to be confirmed at review)", role: "supporting" },
   ],
   author: {
     name: "TODO: author name",
@@ -119,159 +116,160 @@ export const blocks: Block[] = [
   {
     id: "block-01",
     sheet: "S-01",
-    citation: "42 U.S.C. §6901 et seq.; 40 CFR Part 261",
+    citation: "ASC 842-20-25-2",
     slide: "Statement",
     figure: {
       kind: "statement",
       lines: [
-        "RCRA, 1976 — a legal definition, not a scientific one",
-        "40 CFR Part 261",
-        "Two doors in: characteristic, or listed",
+        "A two-year copier lease: not short-term",
+        "A month-to-month storage unit: it depends",
+        "“Short” is a defined term, not a feeling",
       ],
     },
     narration:
-      "In nineteen seventy-six Congress passed the [[r]]Resource Conservation and Recovery Act, and with it created something that had not existed before: a legal definition of hazardous waste. Not a scientific one. A legal one. That distinction is the whole subject. A drum of solvent sitting in the back of a shop is not hazardous because a chemist looked at it and felt uneasy. It is hazardous because it meets a definition written into [[r]]Title forty of the Code of Federal Regulations, Part two sixty-one. And there are exactly two ways for a waste to meet that definition. It either [[r]]exhibits one of four characteristics, or it appears by name on one of four lists.",
-    reveals: [1, 25, 49],
-    estimatedSeconds: 53,
+      "Picture a controller with two leases on her desk. The first is a [[r]]two-year lease on a copier. The second is a [[r]]month-to-month storage unit the company has rented for years. Ask which one is a short lease and instinct says both — the copier feels temporary, and the storage unit renews thirty days at a time. Under ASC eight forty-two, instinct is wrong at least once. The copier lease is not short-term, and the storage unit might not be either. [[r]]Short-term is a defined term with a precise boundary, and an election hangs on it: the one exception that lets a private company keep a lease off the balance sheet entirely. This lesson is about where that boundary actually sits.",
+    reveals: [6, 10, 37],
+    estimatedSeconds: 56,
   },
 
   {
     id: "block-02",
     sheet: "S-02",
-    citation: "40 CFR §§261.21–261.24",
-    slide: "List",
+    citation: "842-20-25-2; Glossary",
+    slide: "Statement",
     figure: {
-      kind: "list",
-      items: [
-        "Ignitability — D001",
-        "Corrosivity — D002",
-        "Reactivity — D003",
-        "Toxicity — D004 through D043",
+      kind: "statement",
+      lines: [
+        "Twelve months or less at commencement",
+        "No purchase option reasonably certain of exercise",
+        "“A lessee may elect not to apply the recognition requirements…”",
       ],
     },
     narration:
-      "Start with the first door, the characteristics. There are four of them, and they are worth memorizing because they carry the whole weight of the program for any generator who is not on a list. [[r]]Ignitability — it burns. [[r]]Corrosivity — it eats through things. [[r]]Reactivity — it is unstable, or it releases something dangerous when disturbed. And [[r]]toxicity — it leaches poison into groundwater over time. Each one carries a waste code beginning with the letter D. If your waste exhibits any one of these, it is hazardous waste, and nobody has to have written it down on a list anywhere for that to be true.",
-    reveals: [1, 15, 30, 45],
-    estimatedSeconds: 49,
+      "Start with the definition. A short-term lease is one that, at the [[r]]commencement date, has a lease term of twelve months or less — and that does not include an option to purchase the underlying asset that the lessee is [[r]]reasonably certain to exercise. Both parts matter. A nine-month lease with a bargain purchase option the lessee fully intends to take is not short-term, no matter how short the term reads. For leases that qualify, the standard says: [[r]]a lessee may elect not to apply the recognition requirements in this Subtopic to short-term leases. That one sentence is the entire exception. Everything else in this lesson is about what it includes, and what it quietly leaves out.",
+    reveals: [6, 18, 36],
+    estimatedSeconds: 54,
   },
 
   {
     id: "block-03",
     sheet: "S-03",
-    citation: "40 CFR §261.21",
+    citation: "Glossary: Lease Term",
     slide: "Facts",
     figure: {
       kind: "facts",
       rows: [
-        { label: "Waste code", value: "D001" },
-        { label: "Liquids", value: "Flash point below 140°F (60°C)" },
-        { label: "Test method", value: "Pensky-Martens or Setaflash closed cup" },
-        { label: "Also covers", value: "Oxidizers, ignitable gases, friction hazards" },
+        { label: "Stated term", value: "1 year" },
+        { label: "Renewal options", value: "4 × 1 year" },
+        { label: "Reasonably certain to renew?", value: "Yes" },
+        { label: "Lease term", value: "5 years — not short-term" },
       ],
     },
     narration:
-      "[[r]]Ignitability is code D zero zero one, and it is the one most people meet first, because it covers most solvents, most paints, and most thinners. For a liquid, the test is the [[r]]flash point: if the vapor above it will ignite below one hundred forty degrees Fahrenheit, sixty degrees Celsius, the waste is ignitable. That number is not a judgment call. It comes from a [[r]]closed-cup apparatus, either Pensky-Martens or Setaflash, run to a published method. But ignitability is broader than flammable liquids. It also captures [[r]]oxidizers, compressed gases that ignite, and solids that catch fire through friction or through absorbing moisture. A rag soaked in linseed oil belongs to this category as surely as a can of acetone does.",
-    reveals: [1, 18, 35, 52],
-    estimatedSeconds: 56,
+      "Here is the trap. The twelve months are measured against the [[r]]lease term, and the lease term is not the stated term. It includes any renewal periods the lessee is reasonably certain to exercise. So take a [[r]]one-year warehouse lease with four one-year renewal options. If the company has built racking into the space, has no alternative site, and expects to renew — those renewals are reasonably certain, and the lease term is [[r]]five years, at commencement, on day one. Reasonably certain is a high threshold, and it considers the economic factors that make renewal effectively compelled. The [[r]]month-to-month storage unit from the opening is the same question in miniature: rolling renewals the company always takes may add up to a term well past twelve months.",
+    reveals: [5, 17, 34, 45],
+    estimatedSeconds: 58,
   },
 
   {
     id: "block-04",
     sheet: "S-04",
-    citation: "40 CFR §261.22",
-    slide: "Facts",
+    citation: "842-20-25-2; 842-20-50",
+    slide: "Statement",
     figure: {
-      kind: "facts",
-      rows: [
-        { label: "Waste code", value: "D002" },
-        { label: "Aqueous", value: "pH ≤ 2.0 or pH ≥ 12.5" },
-        { label: "Liquids", value: "Corrodes SAE 1020 steel > 6.35 mm/year" },
-        { label: "Note", value: "Both ends of the scale — not just acids" },
+      kind: "statement",
+      lines: [
+        "No right-of-use asset. No lease liability.",
+        "Straight-line expense over the lease term",
+        "The disclosure does not go away",
       ],
     },
     narration:
-      "[[r]]Corrosivity is D zero zero two, and it is the cleanest of the four, because for most wastes it reduces to a single number you can read off a meter. An aqueous waste is corrosive if its [[r]]pH is two or below, or twelve and a half or above. Note that this is both ends of the scale. Sodium hydroxide drain cleaner is corrosive waste for exactly the same regulatory reason that hydrochloric acid is, and the second half of that sentence surprises people constantly. There is also a [[r]]second test for liquids that are not aqueous: if the liquid eats through steel faster than six and a third millimeters a year, it qualifies. [[r]]Both ends. Not just acids.",
-    reveals: [1, 17, 34, 51],
-    estimatedSeconds: 55,
+      "So what does the election actually buy. A lessee that elects it [[r]]recognizes no right-of-use asset and no lease liability for its short-term leases. Instead, the standard says, the lessee recognizes the lease payments in profit or loss on a [[r]]straight-line basis over the lease term, with variable payments expensed in the period the obligation is incurred. For most private companies that is the old, familiar operating-lease accounting: rent expense, evenly spread. What the election does not buy is silence. [[r]]Short-term lease cost still has to be disclosed, so the reader of the financial statements can see the expense that never touched the balance sheet. Off the balance sheet is not off the books.",
+    reveals: [6, 18, 37],
+    estimatedSeconds: 53,
   },
 
   {
     id: "block-05",
     sheet: "S-05",
-    citation: "40 CFR §261.23",
+    citation: "ASC 842-20-25-2",
     slide: "Facts",
     figure: {
       kind: "facts",
       rows: [
-        { label: "Waste code", value: "D003" },
-        { label: "Criteria", value: "Narrative — no single laboratory test" },
-        { label: "Covers", value: "Unstable, water-reactive, explosive" },
-        { label: "Also", value: "Cyanide or sulfide bearing, pH 2 to 12.5" },
+        { label: "Election made by", value: "Class of underlying asset" },
+        { label: "Kind of election", value: "Accounting policy" },
+        { label: "Within a class", value: "Every qualifying lease, or none" },
+        { label: "Example classes", value: "Vehicles · Equipment · Real estate" },
       ],
     },
     narration:
-      "[[r]]Reactivity, D zero zero three, is the awkward one, and it is awkward for an honest reason: there is [[r]]no single laboratory test for it. The criteria are narrative. A waste is reactive if it is normally unstable, if it reacts violently with water, if it forms an explosive mixture with water, or if it is capable of detonation when heated or struck. [[r]]Cyanide and sulfide bearing wastes are named specifically, because they generate toxic gases across the ordinary pH range between two and twelve and a half. Because the criteria are narrative, reactivity is where generator knowledge matters most. [[r]]You cannot send a sample out and get a yes or no back. Somebody has to know what is in the drum.",
-    reveals: [1, 18, 35, 52],
-    estimatedSeconds: 56,
+      "The election is not made lease by lease. The standard says the accounting policy election shall be made by [[r]]class of underlying asset to which the right of use relates. A class is a grouping of assets with a similar nature and use in the business — [[r]]vehicles, say, or office equipment, or real estate. Electing for a class is an [[r]]accounting policy, which means consistency: within that class, every lease that qualifies as short-term gets the election, and every lease that does not qualify goes on the balance sheet. What you cannot do is [[r]]pick favorites — take the election for the delivery van you would rather not capitalize, while recognizing the identical van leased by another branch.",
+    reveals: [9, 22, 28, 44],
+    estimatedSeconds: 55,
   },
 
   {
     id: "block-06",
     sheet: "S-06",
-    citation: "40 CFR §261.24, Table 1",
-    slide: "Facts",
+    citation: "842-20 (reassessment)",
+    slide: "Statement",
     figure: {
-      kind: "facts",
-      rows: [
-        { label: "Waste codes", value: "D004 through D043" },
-        { label: "Test method", value: "TCLP — SW-846 Method 1311" },
-        { label: "Contaminants", value: "40, each with its own regulatory level" },
-        { label: "Examples", value: "Lead 5.0 mg/L · Mercury 0.2 · Benzene 0.5" },
+      kind: "statement",
+      lines: [
+        "Extended past twelve months → no longer short-term",
+        "Purchase option becomes reasonably certain → same result",
+        "Account as if the change date were commencement",
       ],
     },
     narration:
-      "[[r]]Toxicity covers the widest ground — codes D zero zero four all the way through D zero four three — and it asks a different question from the other three. Not is this dangerous to handle today, but will this leach something dangerous into groundwater after it is buried. The test is the [[r]]Toxicity Characteristic Leaching Procedure, the T C L P, and what it does is simulate a landfill: the waste is tumbled in a mild acid for eighteen hours, and then the liquid that comes off is analyzed. There are [[r]]forty contaminants on the table, each with its own regulatory level. [[r]]Lead at five milligrams per liter. Mercury at two tenths. Benzene at half a milligram. Exceed the level for any one of them and the waste is hazardous.",
-    reveals: [1, 19, 37, 56],
-    estimatedSeconds: 60,
+      "Short-term status is not permanent. Two changes end it. If the [[r]]lease term changes so that it now extends more than twelve months past the end of the previously determined term — the six-month lease that gets an eighteen-month extension — the lease no longer meets the definition. And if a [[r]]purchase option the lessee holds becomes reasonably certain of exercise, same result. When either happens, the guidance sends you back to the beginning: the lessee applies the rest of the Topic [[r]]as if the date of the change in circumstances were the commencement date. In practice that means measuring and recognizing a right-of-use asset and lease liability on that date, using the facts as they stand then. The election defers the accounting; it cannot outrun the facts.",
+    reveals: [5, 24, 38],
+    estimatedSeconds: 59,
   },
 
   {
     id: "block-07",
     sheet: "S-07",
-    citation: "40 CFR §§261.31–261.33",
-    slide: "List",
+    citation: "ASC 842-20-25-2",
+    slide: "Calc",
     figure: {
-      kind: "list",
-      items: [
-        "F list — non-specific sources (spent solvents, plating)",
-        "K list — specific industries (refining, wood preserving)",
-        "P list — acutely hazardous discarded chemicals",
-        "U list — toxic discarded commercial chemicals",
+      kind: "calc",
+      rows: [
+        { label: "Forklift lease", value: "12 months × $2,000" },
+        { label: "Total payments", value: "$24,000" },
+        { label: "Elected — balance sheet", value: "$0", rule: true },
+        { label: "Elected — monthly expense", value: "$2,000 straight-line" },
+        { label: "Not elected — lease liability", value: "≈ $23,400 (PV at 5%)", rule: true },
+        { label: "Not elected — ROU asset", value: "≈ $23,400" },
+        { label: "Not elected — monthly lease cost", value: "$2,000" },
+        { label: "Total expense, either way", value: "$24,000", emphasis: "right", rule: true },
       ],
     },
     narration:
-      "Now the second door. A waste can be hazardous without exhibiting any characteristic at all, simply because it appears by name on a list, and there are four of those. The [[r]]F list covers wastes from non-specific sources — spent solvents and electroplating sludges, generated across many industries. The [[r]]K list is the opposite: wastes from specific industries, named one at a time, petroleum refining and wood preserving among them. Then two lists of unused commercial chemical products that have been discarded. The [[r]]P list is the acutely hazardous ones, and it carries a far lower quantity threshold — one kilogram, not one hundred. The [[r]]U list is the merely toxic ones. If your waste is on a list, it is hazardous, full stop. No test will get you out of it.",
-    reveals: [1, 19, 38, 57],
-    estimatedSeconds: 61,
+      "Now the same lease, both ways. A [[r]]forklift, leased for twelve months at two thousand dollars a month — twenty-four thousand dollars over the term, no renewal options, no purchase option. [[r]]With the election, the balance sheet shows nothing, and rent expense runs two thousand dollars a month, straight-line. [[r]]Without the election, the company discounts the payments — at, say, five percent, roughly twenty-three thousand four hundred dollars — and records that amount as both a lease liability and a right-of-use asset, which then unwind over the year. Here is the part worth remembering: for an operating lease, [[r]]total expense is twenty-four thousand dollars either way, and even the monthly pattern matches. The election does not change earnings. It spares a private company the discounting, the schedules, and the balance-sheet gross-up for a lease that will be gone in a year.",
+    reveals: [3, 14, 23, 45],
+    estimatedSeconds: 65,
   },
 
   {
     id: "block-08",
     sheet: "S-08",
-    citation: "40 CFR §261.3",
-    slide: "Statement",
+    citation: "ASC 842-20-25-2",
+    slide: "List",
     figure: {
-      kind: "statement",
-      lines: [
-        "Check both doors, every time",
-        "Mixture rule · derived-from rule",
-        "A listed waste stays listed",
+      kind: "list",
+      items: [
+        "Lease term ≤ 12 months at commencement — renewals included",
+        "No purchase option reasonably certain of exercise",
+        "Election covers the whole class of underlying asset",
       ],
     },
     narration:
-      "So the working habit is this: [[r]]check both doors, every time. Run the characteristics, and check the lists, because a waste can walk through either one and plenty walk through both. And there is one more thing that catches people, which is what happens when hazardous waste mixes with something else or gets treated. Under the [[r]]mixture rule, a listed waste mixed into non-hazardous waste makes the whole mixture a listed waste. Under the derived-from rule, whatever comes out of treating a listed waste is still that listed waste. [[r]]Listed is sticky in a way that characteristic is not — a characteristic waste stops being hazardous once it no longer exhibits the characteristic, but a listed waste carries its code until somebody formally delists it.",
-    reveals: [1, 27, 54],
-    estimatedSeconds: 58,
+      "Three things to check before calling a lease short-term. [[r]]First, the lease term: twelve months or less at commencement — counting every renewal period the lessee is reasonably certain to exercise, which is where the month-to-month arrangements and the optioned warehouses fail. [[r]]Second, purchase options: if the lessee is reasonably certain to buy the asset, the lease is not short-term at any length. [[r]]Third, the election itself: it is a policy, made by class of underlying asset, and it carries every qualifying lease in the class with it. Check all three at commencement, and keep watching afterward — because an extension or a change of heart about an option ends the exception, and the balance sheet catches up on the day the facts change.",
+    reveals: [4, 19, 29],
+    estimatedSeconds: 57,
   },
 ];
 

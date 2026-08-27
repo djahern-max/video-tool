@@ -1,209 +1,190 @@
 # Current Feature
 
-## Feature 01, Lift the pipeline and export a package
+## Feature 02, First accounting lesson, drafted from sources
 
 ## Goal
-The Remotion + ElevenLabs pipeline from `../abacadaba/video` runs in this repo
-unchanged, and `npm run export -- --lesson 01` produces a zip that superCPE's
-feature 002 accepts with a 201. After this feature the two repos have exchanged
-one real lesson.
+`src/lesson-01.ts` is the first lesson of superCPE's first course, drafted from
+the authoritative text in `sources/asc842/` rather than from memory, with a
+review document that lets a licensed CPA verify every claim against its source
+before a single ElevenLabs credit is spent. The ESG fixtures are gone.
 
-This spec names no lesson content. Whatever `../abacadaba/video` contains today
-is what gets lifted; the first lesson through the exporter is whichever lesson
-is `01` there now. Do not reach into abacadaba's git history for older content.
+After this feature the lesson renders silently, `npm run check` passes, and the
+human's next step is to read the review document, edit the narration, and run
+`npm run generate -- --lesson 01`.
+
+## The course
+Course code `ASC842-PCX`, "ASC 842 for Private Companies: The Practical
+Expedients." Four lessons; this feature builds lesson 1 and records the outline
+of 2–4 in `src/course.ts` so later features and superCPE feature 004 have it.
+
+| # | Lesson | Primary source |
+|---|---|---|
+| 1 | The short-term lease exception | 842-20-25-2 |
+| 2 | The risk-free rate election | 842-20-30-3, ASU 2021-09 |
+| 3 | Not separating lease and nonlease components | 842-10-15-37 |
+| 4 | Common control arrangements | 842-10-15-3A, 842-20-35-12A, ASU 2023-01 |
+
+Course-level metadata, the same on every lesson:
+- `nasbaFieldOfStudy`: "Accounting" (technical)
+- `knowledgeLevel`: "intermediate"
+- `prerequisites`: "Basic familiarity with ASC 842: identifying a lease,
+  classifying it, and recognizing a right-of-use asset and lease liability."
+- `advancePreparation`: "None"
+- `deliveryMethod`: whatever value the existing lessons use for self-study
+- Author fields: keep the `TODO:` placeholders. The human fills these.
 
 ## In scope
-- Copying `../abacadaba/video` into this repo's root as it exists today,
-  including every lesson, its audio, its metadata, `scripts/check-lessons.ts`,
-  and `LESSON-RUNBOOK.md`
-- Lesson metadata extended with whatever the manifest needs that it lacks
-- A questions file per lesson
-- `scripts/export.ts` with local validation mirroring the contract
-- A generic `--lesson` flag on render and export
+- Deleting the six ESG fixture lessons, their audio, metadata, and questions
+- `src/course.ts` with the course record and four-lesson outline
+- `src/lesson-01.ts`, `src/questions-01.json`, `src/audio-meta-01.json` (`{}`)
+- Text extraction of the two ASU PDFs into `sources/asc842/*.txt`
+- `drafts/ASC842-PCX-01-review.md`, the reviewer's document
+- Silent render passing `npm run check`
 
 ## Out of scope
-- Generating any audio. Nothing here spends ElevenLabs credits.
-- Changing any slide component, any narration text, or any voice setting.
-- LLM drafting of lessons or questions. Feature 02.
-- Adding `courseCode`, `position`, `deliveryMethod`, or `revision` to the
-  package contract. They stay in the lesson modules; superCPE feature 004 will
-  add them to the contract when it builds courses.
+- Generating audio. Not one block. The human does this after review.
+- Lessons 2–4 beyond their one-line outline entries. Feature 03.
+- Any change to slide components, `generate-audio.ts`, `export.ts`, or
+  `validate-package.ts`. If the lesson needs a figure kind that does not
+  exist, use the closest existing one and note the wish in the changelog.
+- Removing `HAZWASTE-01` from superCPE's database. superCPE has no delete yet;
+  note it for superCPE feature 004.
 
 ## Read first
-- `../abacadaba/video/README.md`
-- `../abacadaba/CHANGELOG.md`, the two entries titled "Video pipeline 01" and
-  "Video pipeline 02"
-- `docs/course-package.md`, all of it. The export must produce exactly this and
-  the validation rules in the "Rules superCPE enforces on ingest" and questions
-  "Rules" sections are what `export.ts` checks before zipping.
+- `LESSON-RUNBOOK.md`. It is the authoring process for this pipeline: block
+  shape, marker placement, `reveals` fallback sizing, `estimatedSeconds` at
+  the documented wpm, the sheet-window warning from `check-lessons.ts`. Follow
+  it exactly; this feature adds a sourcing discipline on top, it does not
+  replace the runbook.
+- Every file in `sources/asc842/`. The `.txt` files are Codification
+  paragraphs copied verbatim. The PDFs are ASU 2021-09 and ASU 2023-01 (each
+  with a Basis for Conclusions), a FASB project summary, and a PCC meeting
+  handout. Only the Codification paragraphs and the ASUs are authoritative;
+  the other two are context.
 
 ## Tasks
 
-### 1. Copy the pipeline
-Copy the contents of `../abacadaba/video/` to the root of this repo: `src/`,
-`scripts/`, `public/`, `package.json`, `tsconfig.json`, the Remotion config,
-`.gitignore`, `README.md`, `LESSON-RUNBOOK.md`. Copy, do not move; leave
-abacadaba untouched. Do not copy `.env`, `node_modules/`, or `out/`. Create
-`.env.example` with every var `generate-audio.ts` reads.
+### 1. Remove the fixtures
+Delete `src/lesson-0[1-6].ts`, `src/questions-0[1-6].json`,
+`src/audio-meta-0[1-6].json`, and `public/audio/0[1-6]/`. Remove their entries
+from `lessons.ts`, `questions.ts`, and `Root.tsx`. Delete any slide component
+in `slides.tsx` that only a fixture lesson used, keeping every generic
+`figure`-driven component. Remove the fixture note from README.md. The
+changelog records what was deleted; git history keeps it.
 
-Verify before going further: `npm install`; `npm run typecheck` (add the script
-if absent) clean; `npx tsx scripts/check-lessons.ts` passes if that is what it
-does; `npm run generate -- --lesson 01 --dry-run` reports every block unchanged
-and spends nothing. Record in the changelog exactly what was lifted: how many
-lessons, which have complete audio, which are drafts. If lesson 01 does not
-have audio for every narrated block, stop and report.
+### 2. Extract the ASU text
+Produce `sources/asc842/ASU_2021-09.txt` and `sources/asc842/ASU_2023-01.txt`
+from the PDFs. Use `pdftotext -layout` if present, otherwise a short Python
+script with `pypdf`; either way commit the `.txt` and leave the PDFs in place.
+Check the extraction by finding the Basis for Conclusions heading and at least
+one BC-numbered paragraph in each `.txt`. Add a `sources/asc842/INDEX.md`
+listing every file, what it is, and whether it is authoritative.
 
-Normalize the metadata filenames to `src/audio-meta-NN.json` for every lesson
-if they are not already, updating imports only.
-
-### 2. Lesson metadata
-Each lesson module exports `meta`, and its shape has grown beyond what the
-contract needs (`courseCode`, `position`, `deliveryMethod`, `revision`,
-`status`, others). Keep all of it. Add only what the manifest needs and `meta`
-lacks, using the contract's field names in camelCase:
-
-`lessonId`, `title`, `learningObjectives: {id, text}[]`, `fieldOfStudy`,
-`knowledgeLevel`, `prerequisites`, `advancePreparation`,
-`sources: {citation, role}[]`, `author: {name, credentials,
-licenseJurisdiction, licenseNumber}`, `wordCount`, `avIsAdditionalLearning`.
-
-Put the type in `src/types.ts` if there is no shared place. If `meta` already
-carries an equivalent under a different name, map it in `export.ts` rather than
-renaming the field and disturbing the slides that read it.
-
-Fill lesson 01's new fields with real values. Objectives are what its blocks
-actually teach, written as observable outcomes. `sources` are the regulations
-the narration cites. Author fields are `"TODO: ..."` placeholders; do not invent
-a license number. Other lessons get the same placeholders and objectives
-written from their blocks; if a lesson is too much of a draft to have
-objectives, say so in its `meta` rather than inventing them.
-
-**`meta.status` is the single authority on whether a lesson may ship.** Lesson
-01's file header still says `DRAFT — NOT REVIEWED` while its `meta.status` is
-cleared. Delete the stale header comment on every lesson; from now on the
-comment does not exist and the field does. Export refuses any lesson whose
-`status` is not the value the runbook uses for "ready" (read `LESSON-RUNBOOK.md`
-and `check-lessons.ts` for the vocabulary; do not add a new value).
-
-### 3. Questions
-Create `src/questions-NN.json` per lesson in exactly the contract's
-`questions.json` shape.
-
-Lesson 01: `../abacadaba/backend/scripts/` seeds questions for it in SQL. Carry
-them over, assigning `kind` (review after the block whose content they test,
-with `after_block`; assessment with none) and `objective_ids` from the new
-`meta`. Assessment questions need at least three choices; if a seeded one has
-two, add a plausible third distractor and flag it in the changelog. If the
-seed has fewer than eight questions, write more to reach five review and three
-assessment, each with feedback that states why the answer is right and which
-block to re-study.
-
-Every other lesson: `[]`. Export refuses them anyway.
-
-Add `src/questions.ts` mapping lesson id to its questions file, alongside
-`LESSONS` in `lessons.ts`.
-
-### 4. `scripts/validate-package.ts`
-A pure function `validatePackage(dir): string[]` that reads a package directory
-and returns every rule violation, using the same numbered rules and the same
-messages as the contract. It checks manifest fields, the `duration_source`
-attestation, the hash, the question rules, and the objective-id references.
-It does not run ffprobe; export does that separately because it needs the
-rendered file, not the package.
-
-This duplicates superCPE's validator by design. video-tool must be able to say
-"this will be rejected" before the human uploads. Note in the file header that
-superCPE's `backend/app/services/packages.py` is authoritative and this must
-be kept in step with it.
-
-### 5. `scripts/export.ts`
-`npm run export -- --lesson 01`. Steps, in order, each refusing with a clear
-message on failure:
-
-1. Load the lesson module and its questions.
-2. If `meta.status` is not ready: refuse, naming the status.
-3. If `usingEstimates` is true: refuse. Message names the blocks without audio
-   and says export requires measured narration under 7.02.7.
-4. Require `out/lesson-<id>.mp4` to exist. Run ffprobe on it and require the
-   duration to match `totalSeconds` within 1 second; otherwise refuse and say
-   the render is stale relative to the audio metadata.
-5. Build `dist/<lessonId>/`:
-   - `video.mp4`, copied from `out/`
-   - `transcript.md`: one `## <block id>` heading per narrated block followed by
-     `transcriptOf(block)`, markers stripped
-   - `questions.json`: verbatim from the questions file
-   - `manifest.json`: every field from the contract. `duration_seconds` is
-     ffprobe's reading rounded to the nearest integer; `duration_source` is
-     `"measured"`; `measured_at` is the latest mtime across the lesson's mp3s
-     in ISO 8601 UTC; `narration_blocks` counts blocks with non-empty
-     narration; `content_hash` is sha256 over the raw bytes of transcript.md,
-     then questions.json, then video.mp4, concatenated, lowercase hex, matching
-     the contract's definition exactly; `tts_*` fields read from the constants
-     in `generate-audio.ts`. Check `../supercpe/backend/app/services/packages.py`
-     rule 3: if it tolerates unknown manifest keys, also write `course_code`,
-     `position`, `delivery_method`, and `revision` from `meta`; if it rejects
-     them, omit them and note that in the changelog.
-6. Run `validatePackage` on the directory. If it returns anything, print every
-   message and delete the directory.
-7. Zip to `dist/<lessonId>.zip` with the directory as its single top-level
-   entry. Print the path and the duration.
-
-Use only `zlib`/`node:fs`/`node:crypto` and one small zip dependency if Node
-has no built-in; justify it in the changelog.
-
-### 6. `package.json`
-Replace the per-lesson scripts (`render`, `render:02`, `generate`,
-`generate:02`) with:
-
-```json
-"dev": "remotion studio",
-"generate": "tsx scripts/generate-audio.ts",
-"render": "tsx scripts/render.ts",
-"export": "tsx scripts/export.ts",
-"typecheck": "tsc --noEmit"
+### 3. `src/course.ts`
+```ts
+export const COURSE = {
+  courseCode: "ASC842-PCX",
+  title: "ASC 842 for Private Companies: The Practical Expedients",
+  nasbaFieldOfStudy: "Accounting",
+  knowledgeLevel: "intermediate",
+  prerequisites: "...",
+  advancePreparation: "None",
+  lessons: [
+    { position: 1, lessonId: "ASC842-PCX-01", title: "...", status: "draft" },
+    { position: 2, lessonId: "ASC842-PCX-02", title: "...", status: "planned" },
+    ...
+  ],
+} as const;
 ```
+Lesson modules import the course-level fields from here rather than repeating
+them. Adjust `PackageLessonMeta` only if that import needs it.
 
-`scripts/render.ts` takes `--lesson <id>` and runs `remotion render
-Lesson<id> out/lesson-<id>.mp4`. `generate-audio.ts` already takes
-`--lesson`; leave it.
+### 4. Draft `src/lesson-01.ts`
+Target seven to nine narrated blocks, 900–1,150 words of narration in total
+(roughly seven to nine minutes at the runbook's wpm). Suggested arc; adjust if
+the source text argues for a different one:
 
-### 7. `.gitignore` and README
-Add `dist/` to `.gitignore`. Rewrite `README.md`'s build-order section as:
-generate (human, spends credits) → render → export → upload to superCPE. Keep
-the two compliance notes at the bottom. State that every exported package is
-unreviewed content until a licensed CPA signs it off inside superCPE.
+1. The problem: a two-year copier lease and a month-to-month storage unit both
+   look like "short" leases to a controller, and only one of them is.
+2. What 842-20-25-2 actually says: twelve months or less at commencement, no
+   purchase option reasonably certain of exercise. Quote the operative
+   sentence.
+3. The trap: lease term includes renewal options reasonably certain of
+   exercise. A one-year lease with four one-year renewals the lessee expects
+   to take is a five-year lease. Where "reasonably certain" comes from.
+4. What the election gets you: no ROU asset, no liability, straight-line
+   expense. And what it does not get you: the disclosure still exists.
+5. Election by class of underlying asset. What "class" means, that it is a
+   policy election, and that it is all-or-nothing within the class.
+6. When the facts change: a short-term lease that gets extended or a purchase
+   option that becomes reasonably certain. Where the guidance sends you.
+7. A worked example with numbers (use a `Calc` figure): the same lease
+   accounted for both ways, side by side.
+8. Summary: three things to check before calling a lease short-term.
+
+Narration style: plain spoken English, numbers written as words (runbook
+convention), no bullet-reading. Paraphrase the source; quote at most one
+sentence per block, and when quoting, say so in the narration ("the standard
+says..."). Never state a rule the sources do not support without flagging it
+(task 6).
+
+Block 6 is the one most likely to need a paragraph you do not have
+(842-20-25-3 on reassessment). Draft it from general knowledge, flag it, and
+let the reviewer fetch the paragraph. Do not silently skip the topic.
+
+### 5. `src/questions-01.json`
+Five review questions and three assessment questions, contract shape.
+Review questions sit after the block whose content they test; every question
+maps to at least one objective id. Assessment questions have four choices and
+no true/false framing. Feedback is principles-based (5.01.2.2): why the right
+answer is right, what misunderstanding the wrong answers reflect, and which
+block to re-study. Each question's stem or feedback should be traceable to a
+source file; list the file in a `_source` comment key on each question if the
+contract's validator tolerates unknown keys (it does, per feature 01), else in
+the review document.
+
+### 6. `drafts/ASC842-PCX-01-review.md`
+The document a licensed CPA reads before spending credits. For every block:
+- The narration as drafted
+- The source file(s) and the specific paragraph or BC number relied on
+- Any sentence that is not traceable to a source file, marked `UNSOURCED` with
+  a one-line note on what the reviewer should verify or fetch
+- The reveal markers and what each reveals
+
+Then for every question: the same, plus which objective it tests.
+
+End with a `## Sources still needed` list. Expect at least 842-20-25-3 and the
+short-term lease disclosure paragraph in 842-20-50 to appear there.
+
+### 7. Render and check
+`npm run typecheck`, `npm run check`, `npm run render -- --lesson 01` (silent).
+Fix every checker error; warnings about sheet-window boundaries are acceptable
+only if the block genuinely needs the length and the changelog says so.
 
 ## Acceptance
-1. `npm run typecheck` clean; `check-lessons.ts` passes
-2. `npm run generate -- --lesson 01 --dry-run`: all blocks unchanged, nothing
-   spent. Same for every other lesson.
-3. `npm run render -- --lesson 01` completes. Scrub every sheet in Studio to
-   confirm reveals land on the narration; this must be unchanged from
-   abacadaba's render.
-4. `npm run export` on a lesson with no audio refuses with the `usingEstimates`
-   message; on a lesson whose `status` is not ready, refuses naming the status.
-   Neither creates anything under `dist/`.
-5. `npm run export -- --lesson 01` produces `dist/<lessonId>.zip`.
-6. Upload that zip to superCPE at http://localhost:5173/admin/packages: 201,
-   version 1, duration matching the render. Upload again: 200, not created.
-7. `git status` shows `.env`, `out/`, `dist/`, `node_modules/` ignored and every
-   `public/audio/**/*.mp3` tracked.
-
-Step 6 is the point of the feature. If superCPE rejects the package, the fix
-is in this repo unless the rejection message is itself wrong, in which case
-stop and report the discrepancy rather than editing superCPE.
+1. `ls src/` shows exactly one lesson, one questions file, one audio-meta file;
+   `public/audio/` is empty or absent
+2. `sources/asc842/` has both ASU `.txt` files and `INDEX.md`
+3. `npm run typecheck` and `npm run check` clean
+4. Silent render of lesson 01 plays every sheet with every figure element
+   visible by the end of its block
+5. `npm run export -- --lesson 01` refuses with the `usingEstimates` message
+   naming every narrated block — the correct state until the human generates
+6. `drafts/ASC842-PCX-01-review.md` exists, covers every block and question,
+   and has a non-empty `Sources still needed` section
+7. `npm run generate -- --lesson 01 --dry-run` lists every narrated block as
+   pending and spends nothing
 
 ## Do not
 - Run `npm run generate` without `--dry-run`
-- Edit any `narration` string, any slide component, or `generate-audio.ts`'s
-  voice settings
-- Touch `../abacadaba` or `../supercpe`
+- Invent a license number, an author name, or a Codification paragraph number
+  that is not in `sources/`
+- Reproduce more than one sentence of any source per block
 
 ## When done
-Append the 01 entry to `CHANGELOG.md` (create it with the same header block
-superCPE uses). Under Standards touched: 7.02.7 (export refuses estimated
-durations; measured duration and attestation written to the manifest) and
-9.02.1(8) (transcript of record exported). Under Known gaps: author fields are
-placeholders; which lessons lack audio or questions; the validator is a
-maintained duplicate of superCPE's; `courseCode`/`position` are not yet in
-the contract. Then stop.
+Append the 02 entry. Under Standards touched: 3.01 (objectives written as
+observable outcomes), 3.02.1 (intermediate level with stated prerequisites),
+4.01/4.01.1 (drafted from authoritative sources with a traceability record
+for the reviewer; not yet reviewed). Under Known gaps: the lesson is
+unreviewed and unvoiced; list every `UNSOURCED` flag count and every missing
+source. Then stop.

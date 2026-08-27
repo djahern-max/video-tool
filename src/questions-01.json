@@ -2,118 +2,126 @@
   {
     "id": "q-01",
     "kind": "review",
-    "after_block": 4,
-    "stem": "A metal finishing shop generates a rinse water with a pH of 1.4. It contains no listed chemicals. Is it hazardous waste?",
+    "after_block": 2,
+    "stem": "A company signs a nine-month lease on a packaging machine. The lease includes an option to buy the machine at a bargain price, and the company fully intends to exercise it. Can this lease be short-term?",
     "choices": [
-      { "id": "a", "text": "No — it isn't on any EPA list" },
-      { "id": "b", "text": "Yes — it exhibits the corrosivity characteristic" },
-      { "id": "c", "text": "No — pH is not a regulated property" },
-      { "id": "d", "text": "Yes — but only if it also fails the TCLP test" }
+      { "id": "a", "text": "Yes — nine months is less than twelve months" },
+      { "id": "b", "text": "No — a purchase option the lessee is reasonably certain to exercise disqualifies it, whatever the term" },
+      { "id": "c", "text": "Yes — purchase options only matter for finance lease classification" },
+      { "id": "d", "text": "No — leases of machinery can never be short-term" }
     ],
     "correct": "b",
-    "feedback": "A waste is hazardous if it's listed or if it exhibits any characteristic. A pH of 1.4 falls below the corrosivity threshold of 2.0, so the rinse water is a characteristic hazardous waste on its own. It doesn't need to appear on a list, and it doesn't need to fail any additional test. Re-study block 4 (S-04, corrosivity).",
-    "objective_ids": ["lo-2"]
+    "feedback": "The definition has two parts, and both must hold: a lease term of twelve months or less at commencement, AND no option to purchase the underlying asset that the lessee is reasonably certain to exercise. Choosing (a) applies only the first part — the common shortcut this lesson warns against. The purchase option here is reasonably certain of exercise, so the lease is not short-term at any length. Re-study block 2 (S-02, the definition).",
+    "objective_ids": ["lo-1"],
+    "_source": "Definition: ASC 842 Master Glossary 'Short-term lease' (not yet in sources/asc842 — flagged in drafts/ASC842-PCX-01-review.md); election: sources/asc842/842-20-25-2.txt"
   },
   {
     "id": "q-02",
-    "kind": "assessment",
-    "stem": "A waste liquid has a flash point of 118°F. Under RCRA it is:",
+    "kind": "review",
+    "after_block": 3,
+    "stem": "A lessee signs a one-year office lease with four one-year renewal options. It has invested heavily in the space and is reasonably certain to renew every time. For the short-term test, the lease term is:",
     "choices": [
-      { "id": "a", "text": "Non-hazardous, because the threshold is 100°F" },
-      { "id": "b", "text": "Hazardous — it exhibits the ignitability characteristic" },
-      { "id": "c", "text": "Hazardous only if it also appears on the F-list" },
-      { "id": "d", "text": "Regulated under Subtitle D as municipal solid waste" }
+      { "id": "a", "text": "One year — only the stated, noncancellable period counts" },
+      { "id": "b", "text": "Five years — renewal periods reasonably certain of exercise are part of the lease term" },
+      { "id": "c", "text": "One year, reassessed to five only if the lessee actually renews" },
+      { "id": "d", "text": "Whatever term the lessee elects as its accounting policy" }
     ],
     "correct": "b",
-    "feedback": "The ignitability threshold for liquids is a flash point below 140°F (60°C). At 118°F the waste falls under that limit and is a characteristic hazardous waste. Listing is a separate, independent route to the same result — a waste needs only one.",
-    "objective_ids": ["lo-2"]
+    "feedback": "The twelve months are measured against the lease term, which includes renewal periods the lessee is reasonably certain to exercise — judged at commencement, not retrospectively as in (c). Answer (a) reads the contract instead of the standard, and (d) confuses a measurement with an election: the policy choice is whether to apply the exception, never how long the lease is. Five years at commencement means this lease was never short-term. Re-study block 3 (S-03, the lease-term trap).",
+    "objective_ids": ["lo-1"],
+    "_source": "UNSOURCED — lease term / reasonably certain guidance (842-10-30-1 through 30-2 expected) is not in sources/asc842; flagged in drafts/ASC842-PCX-01-review.md"
   },
   {
     "id": "q-03",
-    "kind": "assessment",
-    "stem": "What does the Toxicity Characteristic Leaching Procedure simulate?",
+    "kind": "review",
+    "after_block": 4,
+    "stem": "A lessee has elected the short-term lease exception for a qualifying lease. Which of the following does it recognize and disclose?",
     "choices": [
-      { "id": "a", "text": "Combustion of waste in an incinerator" },
-      { "id": "b", "text": "Absorption of waste through human skin" },
-      { "id": "c", "text": "Conditions inside a landfill, where water percolates through buried waste" },
-      { "id": "d", "text": "Long-term atmospheric weathering of exposed waste" }
+      { "id": "a", "text": "A right-of-use asset and lease liability, but measured at undiscounted amounts" },
+      { "id": "b", "text": "Straight-line lease expense over the lease term, with short-term lease cost disclosed" },
+      { "id": "c", "text": "Nothing at all — no expense recognition and no disclosure" },
+      { "id": "d", "text": "Lease payments as incurred, with no disclosure of any kind" }
     ],
-    "correct": "c",
-    "feedback": "The TCLP recreates the acidic, wet conditions of a landfill to determine whether regulated contaminants would leach out of the waste and reach groundwater. This is why a waste can be stable, non-flammable, and pH-neutral, yet still be hazardous by the toxicity characteristic.",
-    "objective_ids": ["lo-2"]
+    "correct": "b",
+    "feedback": "The election removes the recognition requirements — no right-of-use asset, no lease liability — and replaces them with lease payments recognized in profit or loss on a straight-line basis over the lease term, variable payments as incurred. It does not remove the disclosure: short-term lease cost still appears in the notes. Answers (c) and (d) mistake relief from recognition for relief from the whole standard. Re-study block 4 (S-04, what the election gets you).",
+    "objective_ids": ["lo-2"],
+    "_source": "sources/asc842/842-20-25-2.txt (straight-line recognition); UNSOURCED — the disclosure requirement (842-20-50) is not in sources/asc842; flagged in drafts/ASC842-PCX-01-review.md"
   },
   {
     "id": "q-04",
-    "kind": "assessment",
-    "stem": "Why can't a generator dilute a listed waste to escape regulation?",
+    "kind": "review",
+    "after_block": 5,
+    "stem": "A company wants the short-term lease election for its three leased delivery vans but not for a fourth, identical van whose lease it would rather show on the balance sheet. May it?",
     "choices": [
-      { "id": "a", "text": "Dilution always raises the pH above 12.5" },
-      { "id": "b", "text": "A listed waste remains hazardous regardless of concentration" },
-      { "id": "c", "text": "Dilution is only prohibited for large quantity generators" },
-      { "id": "d", "text": "Diluted wastes automatically become P-listed" }
+      { "id": "a", "text": "Yes — the election is made lease by lease" },
+      { "id": "b", "text": "No — the election is a policy made by class of underlying asset and covers every qualifying lease in the class" },
+      { "id": "c", "text": "Yes — as long as the fourth van's lease is longer than twelve months" },
+      { "id": "d", "text": "No — the election must cover every lease the company has, of any asset" }
     ],
     "correct": "b",
-    "feedback": "The two doors into Subtitle C work differently. Characteristic wastes are defined by how the waste behaves, so treatment can in principle change that. Listed wastes are hazardous by identity, and remain so through dilution — which is precisely why the listing system exists alongside the characteristics.",
-    "objective_ids": ["lo-4"]
+    "feedback": "The standard says the accounting policy election shall be made by class of underlying asset to which the right of use relates. Within a class — here, vehicles — every lease that qualifies as short-term takes the election; picking favorites lease by lease (a) is exactly what a policy election prevents. But (d) overshoots in the other direction: the boundary is the class, not the whole entity, so a company can elect for vehicles and not for real estate. Re-study block 5 (S-05, election by class).",
+    "objective_ids": ["lo-3"],
+    "_source": "sources/asc842/842-20-25-2.txt (final sentence, election by class of underlying asset)"
   },
   {
     "id": "q-05",
     "kind": "review",
-    "after_block": 1,
-    "stem": "Under RCRA, what makes a waste legally hazardous?",
+    "after_block": 6,
+    "stem": "Ten months into a twelve-month lease accounted for under the short-term election, the lessee signs an amendment extending the lease by two more years. What happens?",
     "choices": [
-      { "id": "a", "text": "A chemist's professional judgment that it is dangerous" },
-      { "id": "b", "text": "It exhibits one of four characteristics, or it appears on one of four lists" },
-      { "id": "c", "text": "Only its appearance, by name, on an EPA list" },
-      { "id": "d", "text": "Being generated by any industrial process" }
+      { "id": "a", "text": "Nothing — short-term status is set at commencement and never revisited" },
+      { "id": "b", "text": "The lease no longer qualifies; the lessee applies the rest of the guidance as if the change date were the commencement date" },
+      { "id": "c", "text": "The lessee restates prior periods as though the lease had never been short-term" },
+      { "id": "d", "text": "The election is revoked for the entire class of underlying asset" }
     ],
     "correct": "b",
-    "feedback": "The definition is legal, not scientific: a waste is hazardous if it meets the definition in 40 CFR Part 261, and there are exactly two doors in — exhibiting a characteristic, or appearing on a list. Either one alone is enough. Re-study block 1 (S-01).",
-    "objective_ids": ["lo-1"]
+    "feedback": "When the lease term changes so that the remaining term extends more than twelve months past the end of the previously determined term, the lease stops meeting the definition, and the lessee applies the remainder of the guidance as if the date of the change in circumstances were the commencement date — recognizing a right-of-use asset and lease liability prospectively from that date. It is not retrospective (c), and it is a change in this lease's facts, not a change in the class policy (d). Re-study block 6 (S-06, when the facts change).",
+    "objective_ids": ["lo-4"],
+    "_source": "sources/asc842/842-20-30-3.txt — file content is the reassessment guidance; paragraph number in question (see INDEX.md and drafts/ASC842-PCX-01-review.md)"
   },
   {
     "id": "q-06",
-    "kind": "review",
-    "after_block": 2,
-    "stem": "Which of the following is NOT one of the four hazardous waste characteristics?",
+    "kind": "assessment",
+    "stem": "At commencement, a lessee signs a six-month equipment lease with one six-month renewal option it is reasonably certain to exercise, and no purchase option. Which statement is correct?",
     "choices": [
-      { "id": "a", "text": "Ignitability" },
-      { "id": "b", "text": "Radioactivity" },
-      { "id": "c", "text": "Reactivity" },
-      { "id": "d", "text": "Toxicity" }
+      { "id": "a", "text": "The lease term is six months, so the lease qualifies as short-term" },
+      { "id": "b", "text": "The lease term is twelve months, so the lease can qualify for the short-term election" },
+      { "id": "c", "text": "The lease term is twelve months, which exceeds the short-term boundary" },
+      { "id": "d", "text": "Renewal options always disqualify a lease from short-term treatment" }
     ],
     "correct": "b",
-    "feedback": "The four characteristics are ignitability, corrosivity, reactivity, and toxicity, carrying waste codes D001 through D043. Radioactivity is regulated under other statutes, not 40 CFR Part 261. Re-study block 2 (S-02).",
-    "objective_ids": ["lo-2"]
+    "feedback": "The lease term includes renewal periods the lessee is reasonably certain to exercise: six plus six is twelve months. The definition is twelve months OR LESS, so twelve months exactly still qualifies — (c) misplaces the boundary. Answer (a) ignores the reasonably certain renewal, and (d) turns a measurement question into a prohibition: renewal options only count when their exercise is reasonably certain. This is the commencement-date arithmetic from blocks 2 and 3.",
+    "objective_ids": ["lo-1"],
+    "_source": "Twelve-months-or-less boundary: ASC 842 Master Glossary 'Short-term lease' (not yet in sources/asc842 — flagged in drafts/ASC842-PCX-01-review.md); lease-term treatment of renewals: UNSOURCED, same flag"
   },
   {
     "id": "q-07",
-    "kind": "review",
-    "after_block": 5,
-    "stem": "Why is the reactivity characteristic (D003) harder to apply than the other three?",
+    "kind": "assessment",
+    "stem": "A private company applies the short-term election to a twelve-month operating lease at $2,000 per month. Compared with recognizing the lease on the balance sheet, the election changes:",
     "choices": [
-      { "id": "a", "text": "Its criteria are narrative — there is no single laboratory test" },
-      { "id": "b", "text": "It applies only to wastes that are also listed" },
-      { "id": "c", "text": "It requires running the TCLP twice" },
-      { "id": "d", "text": "Its flash point threshold changes with altitude" }
+      { "id": "a", "text": "Total lease expense over the term, which is lower under the election" },
+      { "id": "b", "text": "The balance sheet only — no right-of-use asset or lease liability is recorded, while straight-line expense is the same" },
+      { "id": "c", "text": "Both the balance sheet and total expense, since no discounting means more expense" },
+      { "id": "d", "text": "Nothing — the election is purely a disclosure choice" }
     ],
-    "correct": "a",
-    "feedback": "Reactivity's criteria are narrative — normally unstable, water-reactive, explosive, or cyanide/sulfide bearing — so there is no sample you can send out for a yes-or-no answer. That is why generator knowledge matters most here: somebody has to know what is in the drum. Re-study block 5 (S-05).",
-    "objective_ids": ["lo-2"]
+    "correct": "b",
+    "feedback": "For an operating lease the income statement pattern is a single straight-line lease cost either way — $2,000 a month, $24,000 over the term. What the election removes is the balance-sheet gross-up: the present-value lease liability and matching right-of-use asset, and the discounting and schedules behind them. Answers (a) and (c) reflect the misunderstanding that recognition changes the amount of expense rather than where the lease appears; (d) forgets that recognition, not disclosure, is what the election waives. This is the worked example in block 7.",
+    "objective_ids": ["lo-2"],
+    "_source": "sources/asc842/842-20-25-2.txt (straight-line recognition); the worked figures are illustrative arithmetic — flagged for reviewer verification in drafts/ASC842-PCX-01-review.md"
   },
   {
     "id": "q-08",
-    "kind": "review",
-    "after_block": 7,
-    "stem": "A discarded, unused commercial chemical is acutely hazardous. Which list carries it, and with what quantity threshold?",
+    "kind": "assessment",
+    "stem": "Which change would, by itself, end short-term treatment for a lease accounted for under the election?",
     "choices": [
-      { "id": "a", "text": "The P list, with a one-kilogram monthly threshold" },
-      { "id": "b", "text": "The U list, with the same threshold as any other waste" },
-      { "id": "c", "text": "The F list, because the source is non-specific" },
-      { "id": "d", "text": "The K list, if the generator's industry is named" }
+      { "id": "a", "text": "The lessee becomes reasonably certain it will exercise its option to purchase the underlying asset" },
+      { "id": "b", "text": "Monthly payments increase under an existing variable payment clause" },
+      { "id": "c", "text": "The lessor sells the underlying asset to another lessor" },
+      { "id": "d", "text": "The lessee elects the short-term policy for an additional asset class" }
     ],
     "correct": "a",
-    "feedback": "Discarded unused commercial chemicals go on the P list when acutely hazardous and the U list when merely toxic, and the P list carries the far lower one-kilogram threshold. The F and K lists cover process wastes, not discarded products. Re-study block 7 (S-07).",
-    "objective_ids": ["lo-3"]
+    "feedback": "Two changes end short-term status: the lease term extending more than twelve months past the end of the previously determined term, or the lessee becoming reasonably certain to exercise a purchase option. Variable payments (b) are expensed as incurred under the election and do not touch the definition; a change of lessor (c) changes the counterparty, not the lease term; widening the policy to another class (d) affects other leases, not this one. The lessee then applies the guidance as if the change date were commencement. This is block 6.",
+    "objective_ids": ["lo-4"],
+    "_source": "sources/asc842/842-20-30-3.txt — file content is the reassessment guidance; paragraph number in question (see INDEX.md and drafts/ASC842-PCX-01-review.md)"
   }
 ]

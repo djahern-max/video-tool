@@ -7,11 +7,6 @@ Local, never deployed. The package format in `docs/course-package.md` is the
 only thing this repo shares with superCPE; superCPE's copy is authoritative
 and this one is kept identical to it.
 
-The lessons currently in `src/` — the hazardous-waste course *Where Does It
-Actually Go?* and the non-CPE ocean-energy lesson — are test fixtures for the
-exporter, not superCPE content. They will be removed once the first
-accounting lesson exists.
-
 ## Setup
 
 ```bash
@@ -75,6 +70,7 @@ off inside superCPE. Export attests measurement, not correctness.
 
 ```
 src/
+  course.ts            the course record and lesson outline, imported by lesson meta
   lesson-NN.ts         one lesson, content as data — no React, no timing numbers
   lessons.ts           LessonId -> lesson module, the one place that imports a lesson by name
   questions-NN.json    one lesson's questions, in the contract's questions.json shape
@@ -83,8 +79,8 @@ src/
   types.ts             PackageLessonMeta and Question — what the manifest needs
   theme.ts             palette, type, layout tokens
   Sheet.tsx            drawing border + title block, wraps every slide
-  slides.tsx           slide components, generic (Statement, Facts, Calc, List, Compare, Title)
-                       and lesson-bespoke, all rendering from a block's data
+  slides.tsx           slide components (Title, Statement, Facts, Calc, List, Compare),
+                       all rendering from a block's data
   Lesson.tsx           sequences one lesson's blocks; no timing numbers
   Root.tsx             one composition per lesson, durations derived from content
 scripts/

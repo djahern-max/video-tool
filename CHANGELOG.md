@@ -130,3 +130,107 @@ Shipped: 2026-08-27
 - The NASBA field "Specialized Knowledge" on the fixture lessons is a
   placeholder classification; the first real accounting lesson must choose
   its field deliberately.
+
+## 02 — First accounting lesson, drafted from sources
+Shipped: 2026-08-27
+
+**What changed**
+- Deleted the six ESG fixture lessons: `src/lesson-0[1-6].ts`,
+  `questions-0[1-6].json`, `audio-meta-0[1-6].json`, and `public/audio/0[1-6]/`
+  (42 committed MP3s — git history keeps them). `lessons.ts` and `questions.ts`
+  now map only "01"; `Root.tsx` needed no change (it derives compositions from
+  `LESSONS`). Removed the fixture note from README.md. Deleted the bespoke
+  ASC 606-era slide components from `slides.tsx` (Misconception, LegacyBranch,
+  FiveSteps, Fork, Criteria, Methods, Summary, and the now-unused Heading
+  primitive) — none was reachable: `Block["slide"]` only ever admitted the six
+  generic names. Every generic figure-driven component kept.
+- `src/course.ts`: the ASC842-PCX course record ("ASC 842 for Private
+  Companies: The Practical Expedients", Accounting, Intermediate, stated
+  prerequisites) and the four-lesson outline (01 short-term lease exception —
+  draft; 02 risk-free rate; 03 not separating components; 04 common control —
+  planned). Lesson meta imports the course-level fields instead of repeating
+  them. `knowledgeLevel` is spelled "Intermediate" — the contract's 3.01.1
+  casing — where current-feature.md wrote "intermediate"; the validator
+  rejects the lowercase form.
+- `src/lesson-01.ts` — "The Short-Term Lease Exception": title sheet plus
+  eight narrated blocks, 990 words of narration, 7m45s estimated at the
+  runbook's 130 wpm, every sheet inside the 40–75s window. Follows the
+  feature's suggested arc, including the Calc worked example (forklift,
+  twelve months at $2,000, elected vs not). Reveal fallbacks computed from
+  marker word-positions at 130 wpm. `audio-meta-01.json` is `{}` —
+  `usingEstimates` true, as it must be. `src/questions-01.json`: five review
+  questions (each after the block it tests) and three assessment questions
+  (four choices, no true/false), feedback per 5.01.2.2 naming the block to
+  re-study; each question carries a `_source` comment key (rule 3 tolerates
+  unknown keys, per feature 01).
+- Text extraction of both ASU PDFs into `sources/asc842/ASU_2021-09.txt` and
+  `ASU_2023-01.txt` (pypdf; Basis for Conclusions heading and BC-numbered
+  paragraphs verified present in both), plus `sources/asc842/INDEX.md`
+  listing every file and whether it is authoritative.
+- `drafts/ASC842-PCX-01-review.md`: the reviewer's document — per block, the
+  narration as drafted, sources with paragraph/BC identification, every
+  UNSOURCED sentence flagged with what to verify, and each reveal marker's
+  target; per question, sources and the objective tested; a non-empty
+  "Sources still needed" list.
+
+**Standards touched**
+- 3.01 — the four learning objectives are written as observable outcomes
+  (determine / apply / explain / identify).
+- 3.02.1 — Intermediate level with stated prerequisites and advance
+  preparation, held in `course.ts` so every lesson states the same ones.
+- 4.01/4.01.1 — drafted from the authoritative sources in `sources/asc842/`
+  with a per-block traceability record for the reviewer; NOT yet reviewed.
+
+**Decisions**
+- Found while drafting: `sources/asc842/842-20-30-3.txt` is mislabeled. Its
+  content is the short-term lease reassessment guidance (current-feature.md
+  attributes that text to 842-20-25-3), while ASU 2021-09 — authoritative and
+  in `sources/` — quotes the real 842-20-30-3 in full: it is the
+  discount-rate paragraph carrying the risk-free rate election. Lesson 2's
+  planning table is unaffected (the citation there is right); the file needs
+  renaming after the reviewer confirms the number. Block 6 cites "842-20
+  (reassessment)" on-screen rather than asserting an unconfirmed number;
+  INDEX.md and the review document both carry the full note.
+- `meta.status` is cleared ("") rather than stamped DRAFT, so that export's
+  refusal order surfaces the `usingEstimates` message naming every narrated
+  block — the acceptance-specified state until the human generates. See
+  Known gaps for the consequence.
+- Block titles/citations kept inside the title block's ~22-character budget
+  after a frame-by-frame check of the silent render showed longer references
+  ellipsized.
+
+**Verified**
+- `npm run typecheck` clean; `npm run check`: 1 lesson, 0 errors, 0 warnings.
+- `npm run generate -- --lesson 01 --dry-run`: all eight narrated blocks
+  listed pending with marker counts (3/3/4/3/4/3/4/3), title sheet absent,
+  nothing sent, nothing written.
+- `npm run render -- --lesson 01`: 13,950 frames, 7:45.05 by ffprobe.
+  End-of-block frames extracted for all nine sheets: every statement line,
+  facts row, calc row, and list item visible by the end of its block; pink
+  emphasis on exactly one element (the Calc total).
+- `npm run export -- --lesson 01` refuses with the usingEstimates message
+  naming all eight narrated blocks; nothing created under `dist/`.
+- `ls src/`: exactly one lesson, one questions file, one audio-meta file;
+  `public/audio/` holds only `.gitkeep`.
+
+**Known gaps**
+- The lesson is UNREVIEWED and UNVOICED. Because `meta.status` is cleared to
+  let the usingEstimates refusal surface, export will no longer block on
+  review once audio exists and the render is fresh — the review gate for this
+  lesson is the human working through `drafts/ASC842-PCX-01-review.md` before
+  running generate. If sign-off will not happen before generation, re-stamp
+  `meta.status` first.
+- 13 UNSOURCED flags across the eight blocks (3 in block 1, 2 in block 2,
+  1 — the whole block — in block 3, 2 in block 4, 2 in block 5, 1 in block 6,
+  2 in block 7); questions q-01, q-02, q-03, q-06, and q-07 inherit them.
+- Sources still needed (full list in the review document): the Master
+  Glossary "Short-term lease" definition; the lease-term / reasonably-certain
+  guidance (believed 842-10-30-1 through 30-2); the short-term lease cost
+  disclosure paragraph in 842-20-50; confirmation of the reassessment
+  paragraph number (expected 842-20-25-3) and the source-file rename; the
+  operating-lease straight-line lease cost paragraph; definitional support
+  for "class of underlying asset".
+- Author fields remain `TODO:` placeholders; no license number invented.
+- `HAZWASTE-01` still exists in superCPE's database; superCPE has no package
+  delete yet — noted for superCPE feature 004, along with the course-level
+  fields `course.ts` now records.

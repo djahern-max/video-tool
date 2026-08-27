@@ -1,0 +1,789 @@
+ 
+ 
+ 
+Leases (Topic 842) 
+ 
+ 
+ 
+ 
+No. 2021-09 
+November 2021 
+Discount Rate for Lessees That Are Not  
+Public Business Entities 
+An Amendment of the FASB Accounting Standards Codification® 
+
+The FASB Accounting Standards Codification ® is the source of authoritative 
+generally accepted accounting principles  (GAAP) recognized by the FASB to be 
+applied by nongovernmental entities. An  Accounting Standards Update is not 
+authoritative; rather, it is a document that communicates how the Accounting 
+Standards Codification is being amended. It also provides other information to help 
+a user of GAAP understan d how and why GAAP is c hanging and when the 
+changes will be effective.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+For additional copies of this Account ing Standards Update and information on 
+applicable prices and discount rates contact: 
+ 
+Order Department 
+Financial Accounting Standards Board 
+401 Merritt 7 
+PO Box 5116 
+Norwalk, CT 06856-5116 
+ 
+Please ask for our Product Code No. ASU2021-09. 
+ 
+FINANCIAL ACCOUNTING SERIES (ISSN 0885-9051) is published monthly  
+with the exception of January, Marc h, July, and October by the Financial 
+Accounting Foundation, 401 Merritt 7, PO Box 5116, Norwalk, CT 06856-5116. 
+Periodicals postage paid at Norwalk, CT and at additional mailing offices. The full 
+subscription rate is $328 per year. POSTMASTER: Send address changes to 
+Financial Accounting Series, 401 Merritt 7, PO Box 5116, Norwalk, CT 06856-
+5116. | No. 511 
+  Copyright © 2021 by Financial Accounting Foundation. All rights reserved. 
+Content copyrighted by Financial Accounting Foundation may not be 
+reproduced, stored in a retrieval system, or transmitted, in any form or by any 
+means, electronic, mechanical, photocopying, recording, or otherwise, without 
+the prior written permission of the Financial Accounting Foundation. Financial 
+Accounting Foundation claims no copy right in any portion hereof that 
+constitutes a work of the United States Government. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+An Amendment of the FASB Accounting Standards Codification® 
+No. 2021-09 
+November 2021 
+Leases (Topic 842) 
+Discount Rate for Lessees That Are Not 
+Public Business Entities 
+Accounting Standards Update 
+Financial Accounting Standards Board
+
+
+  
+
+ 
+ 
+Accounting Standards Update 2021-09 
+Leases (Topic 842) 
+Discount Rate for Lessees That Are Not Public Business 
+Entities 
+November 2021 
+CONTENTS 
+Page 
+Numbers 
+ 
+Summary ........................................................................................................... 1–3 
+Amendments to the FASB Accounting Standards Codification® ..................... 5–10 
+Background Information and Basis for Conclusions ...................................... 11–19 
+Amendments to the GAAP Taxonomy ................................................................. 20
+
+
+
+ 
+1 
+Summary 
+Why Is the FASB Issuing This Accounting Standards 
+Update (Update)? 
+On February 25, 2016, the FASB issued Accounting Standards Update No. 2016-
+02, Leases (Topic 842),  to increase transparency and comparability among 
+organizations by recognizing lease assets and lease liabilities on the balance sheet 
+and disclosing key information about leasing transactions. 
+As part of the Board’s post-implementati on review of Topic 842, the Board and 
+staff continue to assist stakeholders by  responding to inquiries received and 
+proactively seeking feedback on potential implementation issues that have arisen 
+as public business entities began implement ing Topic 842. Since the issuance of 
+Update 2016-02, the Board has issued six Updates to assist stakeholders with 
+implementation issues and two Updates deferring the effective date for private 
+companies and certain not-for-profit organizations. The Board also has created a 
+dedicated section on its website for post-implementation review. The staff 
+continues to perform outreach with stak eholders to determine whether the 
+standard is accomplishing its stated objective and to evaluate the implementation 
+and continuing compliance costs and benefits related to Topic 842.   
+Additionally, in September 2020, the Board hosted two public roundtable sessions 
+to solicit feedback from a cross sect ion of stakeholder groups. During those 
+sessions, some private company st akeholders discussed the costs and 
+complexities of applying the standard. Th ose stakeholders suggested that the 
+Board amend the practical expedient that allows the use of a risk-free discount rate 
+as an accounting policy election (risk-free ra te election) for entities that are not 
+public business entities. The Board is i ssuing the amendments in this Update to 
+provide lessees that are not public busines s entities with more flexibility in how 
+they determine the discount rate for their leases and make the risk-free rate 
+election to reduce their initial adopt ion and ongoing implementation costs 
+associated with Update 2016-02.  
+Who Is Affected by the Amendments in This Update?  
+The amendments in this Update affect lessees that are not public business entities, 
+including all not-for-profit entities (whethe r or not they are conduit bond obligors) 
+and employee benefit plans (whether or not they file or furnish financial statements 
+with or to the U.S. Securities and Exchange Commission).  
+
+2 
+What Are the Main Provisions? 
+Topic 842 currently provides lessees that  are not public business entities with a 
+practical expedient that allows them to elect, as an accounting policy, to use a risk-
+free rate as the discount rate for all leases. The amendments in this Update allow 
+those lessees to make the risk-free rate  election by class of underlying asset, 
+rather than at the entity-wide level. An entity that makes the risk-free rate election 
+is required to disclose which asset classes it has elected to apply a risk-free rate. 
+The amendments require that when the ra te implicit in the lease is readily 
+determinable for any individual lease, the lessee use that rate (rather than a risk-
+free rate or an incremental borrowing rate), regardless of whether it has made the 
+risk-free rate election.  
+How Do the Main Provisions Differ from Current 
+Generally Accepted Accounting Principles (GAAP) and 
+Why Are They an Improvement? 
+Under the current guidance, a lessee that is not a public business entity that makes 
+the risk-free rate election is required to use a risk-free rate for all leases. The 
+amendments in this Update provide more fl exibility for those lessees by allowing 
+them to make the election by class of underlying asset, rather than at the entity-
+wide level.  
+Stakeholders also noted that the interaction between the risk-free rate election and 
+a lessee’s use of the rate implicit in the lease is unclear under current GAAP. The 
+amendments in this Update require that a lessee use the rate implicit in the lease 
+when it is readily determinable, instead of a risk-free rate or incremental borrowing 
+rate.  
+When Will the Amendments Be Effective and What Are 
+the Transition Requirements? 
+The effective date for this Update is different for entities that have not yet adopted 
+Topic 842 as of November 11, 2021, and those that have. Topic 842 becomes 
+effective for private companies and not-for-profit organizations that are not conduit 
+bond obligors for fiscal years beginning after December 15, 2021, and interim 
+periods within fiscal years beginning after December 15, 2022. Because earlier 
+application is permitted (and Topic 842 is already effective for certain not-for-profit 
+organizations that are conduit bond obli gors), some private companies and not-
+for-profit organizations have already adopted Topic 842. Entities that have not yet 
+adopted Topic 842 as of November 11,  2021, are required to adopt the 
+amendments in this Update at the same time that they adopt Topic 842. Those 
+entities should apply the ex isting transition provisions in paragraph 842-10-65-1. 
+
+ 
+3 
+Those provisions require t hat an entity use either of the following transition 
+methods: (1) apply the guidance to exis ting leases retrospectively with the 
+cumulative-effect adjustment from transitio n recognized at the beginning of the 
+earliest period presented or (2) apply the guidance to existing leases on a modified 
+retrospective basis with the cumulati ve-effect adjustment from transition 
+recognized in the opening balance of re tained earnings at the beginning of the 
+period of adoption.  
+For entities that have adopted Topic 842 as of November 11, 2021, the 
+amendments in this Update are effective for fiscal years beginning after December 
+15, 2021, and interim periods within fiscal years beginning after December 15, 
+2022. Earlier application is permitted. Entities are required to apply the 
+amendments on a modified retrospective basis to leases that exist at the beginning 
+of the fiscal year of adoption of a fina l Update. The adoption of the amendments 
+should not be considered an event that would cause remeasurement and 
+reallocation of the consideration in the contract (including lease payments) or 
+reassessment of lease term or classification. 
+ 
+ 
+ 
+
+
+
+ 
+5 
+Amendments to the  
+FASB Accounting Standards Codification® 
+Introduction 
+1. The Accounting Standards Codifica tion is amended as described in 
+paragraphs 2–8. Terms from the Master Glossary are in bold type. Added text is 
+underlined, and deleted text is struck out. 
+Amendments to Subtopic 842-20 
+2. Amend paragraph 842-20-30-3, with a link to transition paragraph 842-10-
+65-6, as follows:   
+Leases—Lessee 
+Initial Measurement 
+> Discount Rate for the Lease 
+842-20-30-3 A lessee should use the rate implicit in the lease whenever that rate 
+is readily determinable. If the rate implicit in the lease is not readily determinable, 
+a lessee uses its incremental borrowing rate . A lessee that is not a public 
+business entity is permitted to use a risk-free discount rate for the lease instead of 
+its incremental borrowing rate, determined using a period comparable with that of 
+the lease term, as an accounting policy election made by class of underlying asset 
+for all leases.  
+3. Amend paragraph 842-20-50-1 and add paragraph 842-20-50-10, with a link 
+to transition paragraph 842-10-65-6, as follows: 
+Disclosure 
+842-20-50-1 The objective of the disclosure requ irements is to enable users of 
+financial statements to assess the amount, timing, and uncertainty of cash flows 
+arising from leases. To achieve that objective, a lessee shall disclose qualitative 
+and quantitative information about all of the following: 
+a. Its leases (as described in par agraphs 842-20-50-3(a) through (b) and 
+842-20-50-7 through 50-1050-8) 
+
+6 
+b. The significant judgments made in applying the requirements in this Topic 
+to those leases (as described in paragraph 842-20-50-3(c)) 
+c. The amounts recognized in the fi nancial statements relating to those 
+leases (as described in paragraphs 842-20-50-4 and 842-20-50-6). 
+842-20-50-10 A lessee that makes the accounting policy election in paragraph 
+842-20-30-3 to use a risk-free rate as the discount rate shall disclose its election 
+and the class or classes of underlying assets to which the election has been 
+applied. 
+4. Amend paragraphs 842-40-50-1 throu gh 50-2, with a link to transition 
+paragraph 842-10-65-6, as follows: 
+Leases—Sale and Leaseback Transactions 
+Disclosure 
+842-40-50-1 If a seller-lessee or a buyer-lessor enters into a sale and leaseback 
+transaction that is accounted for in accordance with paragraphs 842-40-25-4 and 
+842-40-30-1 through 30-3, it shall provid e the disclosures required in paragraphs 
+842-20-50-1 through 50-1050-9 for a seller-lessee or paragraphs 842-30-50-1 
+through 50-13 for a buyer-lessor. 
+842-40-50-2 In addition to the disclosures required by paragraphs 842-20-50-1 
+through 50-1050-9, a seller-lessee that  enters into a sale and leaseback 
+transaction shall disclose both of the following: 
+a. The main terms and conditions of that transaction 
+b. Any gains or losses arising from the transaction separately from gains or 
+losses on disposal of other assets. 
+5. Amend paragraph 842-10-65-1 and it s related heading and add paragraph 
+842-10-65-6 and its related heading as follows: 
+Leases—Overall 
+Transition and Open Effective Date Information 
+> Transition Related to Accounting Standards Updates No. 2016-02, Leases 
+(Topic 842), No. 2018-01, Leases (Topic 842): Land Easement Practical 
+Expedient for Transition to Topic 842, No. 2018-10, Codification 
+Improvements to Topic 842, Leases, No. 2018-11, Leases (Topic 842): 
+Targeted Improvements, No. 2018-20, Leases (Topic 842): Narrow-Scope 
+Improvements for Lessors, No. 2019-01, Leases (Topic 842): Codification 
+Improvements, No. 2019-10, Financial Instruments—Credit Losses (Topic 
+
+ 
+7 
+326), Derivatives and Hedging (Topic 815), and Leases (Topic 842): 
+Effective Dates, and No. 2020-05, Revenue from Contracts with Customers 
+(Topic 606) and Leases (Topic 842): Effective Dates for Certain Entities, No. 
+2021-05, Leases (Topic 842): Lessors—Certa in Leases with Variable Lease 
+Payments, and No. 2021-09, Leases (Topic 842): Discount Rate for Lessees 
+That Are Not Public Business Entities   
+842-10-65-1 The following represents the transition and effective date information 
+related to Accounting Standards Updates No. 2016-02, Leases (Topic 842), No. 
+2018-01, Leases (Topic 842): Land Easement Practical Expedient for Transition 
+to Topic 842, No. 2018-10, Codification Improvements to Topic 842, Leases , No. 
+2018-11, Leases (Topic 842): Targeted Improvements , No. 2018-20, Leases 
+(Topic 842): Narrow-Scope Improvements for Lessors , No. 2019-01, Leases 
+(Topic 842): Codification Improvements , No. 2019-10, Financial Instruments—
+Credit Losses (Topic 326), Derivatives and Hedging (Topic 815), and Leases 
+(Topic 842): Effective Dates , and No. 2020-05, Revenue from Contracts with 
+Customers (Topic 606) and Leases (Topic 842): Effective Dates for Certain 
+Entities, No. 2021-05, Leases (Topic 842): Lessors—Certain Leases with Variable 
+Lease Payments , and No. 2021-09, Leases (Topic 842): Discount Rate for 
+Lessees That Are Not Public Business Entities: [Note: See paragraph 842-10-S65-
+1 for an SEC Staff Announcement on transition related to Update 2016-02.] 
+[The remainder of this paragraph is not shown here because it is 
+unchanged.] 
+> Transition Related to Accounting Standards Update No. 2021-09, Leases 
+(Topic 842): Discount Rate for Lessees That Are Not Public Business 
+Entities 
+842-10-65-6 The following represents the transition and effective date information 
+related to Accounting Standards Update No. 2021-09, Leases (Topic 842): 
+Discount Rate for Lessees That Are Not Public Business Entities: 
+a. An entity that has not yet adopted the pending content that links to 
+paragraph 842-10-65-1 as of November 11, 2021, shall apply the pending 
+content that links to this paragraph to all new and existing leases when 
+the entity first applies the pending content that links to paragraph 842-10-
+65-1. That entity shall apply the sa me transition method elected for the 
+pending content that links to paragraph 842-10-65-1.  
+b. An entity that has adopted the pending content that links to paragraph 
+842-10-65-1 as of November 11, 2021, shall: 
+1. Apply the pending cont ent that links to this paragraph for financial 
+statements issued for fiscal years beginning after December 15, 
+2021, and interim periods within fiscal years beginning after 
+
+8 
+December 15, 2022. Earlier applic ation is permitted as of the 
+beginning of the fiscal year of adoption.  
+2. Apply the pending content that links to this paragraph on a modified 
+retrospective basis to leases affected by the amendments existing 
+as of the beginning of the fiscal year of adoption by adjusting the 
+lease liability, which shall be ca lculated based on the discount rate 
+and remaining lease term at the beg inning of the fiscal year of 
+adoption.  An entity shall recognize the amount of the change in the 
+lease liability as an adjustment to the corresponding right-of-use 
+asset, unless: 
+i. The carrying amount of the right- of-use asset is reduced to zero, 
+in which case the entity shall recognize any remaining amount 
+of the adjustment to opening retained earnings at the beginning 
+of the fiscal year of adoption.  
+ii. The adjustment would increase a right-of-use asset that was 
+previously impaired, in which ca se the entity shall record the 
+adjustment to opening retained earnings at the beginning of the 
+fiscal year of adoption.  
+c. An entity within the scope of (b) sha ll not treat the adoption of the pending 
+content that links to this paragraph  as an event that would require the 
+entity to:  
+1. Remeasure and reallocate the c onsideration in the contract in 
+accordance with paragraph 842-10-15-36. 
+2. Reassess the lease term or a lessee option to purchase the 
+underlying asset in accordance with paragraph 842-10-35-1. 
+3. Remeasure the lease payments in accordance with paragraph 842-
+10-35-4. 
+4. Reassess lease classification in accordance with paragraph 842-10-
+25-1. 
+d. An entity within the scope of (b) that has a dopted the pending content 
+that links to this paragraph shall disclose the following as of the beginning 
+of the fiscal year of adopt ion (rather than at the beginning of the earliest 
+period presented):  
+1. The information required by paragraph 250-10-50-1(a) and (b)(3), if 
+applicable 
+2. The recognized amount of changes in lease liabilities and 
+corresponding right-of-use assets resulting from the transition 
+adjustment.  
+For an entity within the scope of (b), at the date of adoption of the pending content 
+that links to this paragraph, the entity may choose to app ly or discontinue using 
+the risk-free rate for any class of underlying asset.  
+  
+
+ 
+9 
+Amendments to Status Sections 
+6. Amend paragraph 842-10-00-1, by adding the following items to the table, as 
+follows:  
+842-10-00-1 The following table identifies the changes made to this Subtopic. 
+ 
+Paragraph Action 
+Accounting 
+Standards 
+Update Date 
+842-10-65-1 Amended 2021-09 11/11/2021 
+842-10-65-6 Added 2021-09 11/11/2021 
+ 
+7. Amend paragraph 842-20-00-1, by adding the following items to the table, as 
+follows:  
+842-20-00-1 The following table identifies the changes made to this Subtopic. 
+ 
+Paragraph Action 
+Accounting 
+Standards 
+Update Date 
+842-20-30-3 Amended 2021-09 11/11/2021 
+842-20-50-1 Amended 2021-09 11/11/2021 
+842-20-50-10 Added 2021-09 11/11/2021 
+ 
+8. Amend paragraph 842-40-00-1, by adding the following items to the table, as 
+follows:  
+842-40-00-1 The following table identifies the changes made to this Subtopic. 
+ 
+Paragraph Action 
+Accounting 
+Standards 
+Update Date 
+842-40-50-1 Amended 2021-09 11/11/2021 
+842-40-50-2 Amended 2021-09 11/11/2021 
+ 
+  
+
+10 
+The amendments in this Update were adopted by the unanimous vote of the seven 
+members of the Financial Accounting Standards Board: 
+Richard R. Jones, Chair 
+James L. Kroeker, Vice Chairman 
+Christine A. Botosan 
+Gary R. Buesser 
+Frederick L. Cannon 
+Susan M. Cosper 
+Marsha L. Hunt
+
+ 
+11 
+Background Information and  
+Basis for Conclusions 
+Introduction  
+BC1. The following summarizes the Board’s considerations in reaching the 
+conclusions in this Update. It includes reasons for accepting certain approaches 
+and rejecting others. Individual Board members gave greater weight to some 
+factors than to others. 
+BC2. On February 25, 2016, the Board issued Accounting Standards Update 
+No. 2016-02 , Leases (Topic 842),  to increase transparency and comparability 
+among organizations by recognizing lease assets and lease liabilities on the 
+balance sheet and disclosing key information about leasing transactions.  
+BC3. As part of the Board’s post-implem entation review of Topic 842, the Board 
+and staff continue to assist stakeholders by responding to inquiries received and 
+proactively seeking feedback on potential implementation issues that have arisen 
+as public business entities began implement ing Topic 842. Since the issuance of 
+Update 2016-02, the Board has issued six Updates to assist stakeholders with 
+implementation issues and two Updates deferring the effective date for private 
+companies and certain not-for-profit organizations. The Board also has created a 
+dedicated section on its website for post-implementation review. The staff 
+continues to perform outreach with stak eholders to determine whether the 
+standard is accomplishing its stated objective and to evaluate the implementation 
+and continuing compliance costs and benefits related to Topic 842.   
+BC4. The Board and staff also cont inue to perform outreach with various 
+stakeholders to learn about any additio nal issues that have arisen since the 
+adoption of Topic 842 by public business entities. The amendments in this Update 
+address some of the feedback received from  stakeholders through this process. 
+Specifically, the amendments allow entities that are not public business entities to, 
+as an improvement to the existing practical expedient, make the risk-free discount 
+rate accounting policy election (the risk-free rate election) by class of underlying 
+asset, rather than at the entity-wide level.  
+  
+
+12 
+Background Information 
+BC5. Topic 842 requires that a lessee discount its lease payments using the 
+rate implicit in the lease when that ra te is readily determinable. When the rate 
+implicit in the lease is not readily determinable, a lessee is required to use its 
+incremental borrowing rate. A lessee’s di scount rate directly affects lease 
+classification and the measurement of a lessee’s lease liability and corresponding 
+right-of-use asset. In an operating lease, the discount rate does not affect the 
+income statement because lease payments are recognized on a straight-line basis 
+over the lease term. In a finance lease, the discount rate does not affect total cost 
+over the lease term. However, the discoun t rate affects the amounts recognized 
+as interest and amortization and the timi ng of that recognition, which affects the 
+income statement. For entities transitioni ng to Topic 842, the discount rate is 
+determined as of the application date of the guidance in the Topic, and afterwards 
+it is determined at the co mmencement date of the lease.  Entities subsequently 
+update that rate only upon the occurrence of a lease modification not accounted 
+for as a separate contract and certain types of remeasurement events (for 
+example, changes in the lease term or the assessment of a lessee purchase 
+option). 
+BC6. Topic 842 allows, as a practical expe dient, that lessees that are not public 
+business entities use a risk-free rate as the discount rate for all leases. The Board 
+provided that election after concluding that it could be too costly for some of those 
+entities to determine their incremental borrowing rates. The election allows a 
+lessee to use a risk-free rate, calculated for a period that is comparable to the lease 
+term, as the discount rate for all of its leases. 
+BC7. During implementation of Topic 842 by public companies, and through 
+the post-implementation review proce ss, preparers and practitioners provided 
+feedback that the processes for determi ning and substantiating a lessee’s 
+incremental borrowing rate were both costly and complex to implement. They 
+indicated that those processes likely w ould be more burdensome for entities that 
+are not public business entities because those entities may not have sophisticated 
+treasury functions or readily available information (such as quoted or comparable 
+credit spreads) to use in developing their incremental borrowing rates. Because of 
+this, stakeholders noted that entities that are not public business entities may have 
+an even greater need than their public company counterparts to engage external 
+valuation experts to comply with the in cremental borrowing rate requirements in 
+Topic 842, which would disproportionately increase implementation costs for those 
+entities. For those reasons, stakeholders indicated that calculating and using an 
+incremental borrowing rate to discount all lease liabilities may not be a cost-
+effective option for many lessees that are not public business entities. 
+BC8. Although lessees t hat are not public busi ness entities may use the 
+existing risk-free rate election to avoid calculating an incremental borrowing rate, 
+some private company stakeholders expressed reluctance to use the risk-free rate 
+
+ 
+13 
+election for all leases. Those stakeholders noted that a risk-free rate (for example, 
+a U.S. Treasury rate) is low compared with the average incremental borrowing rate 
+based on public company disclosures. They expressed concern that using the risk-
+free rate election would result in recognizing lease liabilities and right-of-use assets 
+that are greater t han those recognized using the lessee’s incremental borrowing 
+rate or the rate implicit in the lease (if that rate is readily determinable). It also could 
+cause leases that otherwise would be cl assified as operating leases to be 
+classified as finance leases.  
+BC9. At the September 20 20 leases public roundtable sessions, certain 
+stakeholders proposed amending the guidance to allow a lessee to make the risk-
+free rate election by class of underlying asset, rather than at the entity-wide level. 
+Stakeholders noted that some lessees t hat are not public business entities may 
+want to use their incremental borrowing rates to calculate lease liabilities for 
+material asset classes (such as real estate) but prefer the simpler and less costly 
+option of using a risk-free rate for asset classes that have lower values or greater 
+volumes of leases (such as office eq uipment). Many stakeholders, including 
+private company preparers and practitioners, supported that alternative. 
+BC10. The Board issued proposed Accounting Standards Update, Leases (Topic 
+842): Discount Rate for Lessees That Are Not Public Business Entities, on June 
+16, 2021, and received 20 comment letters . Overall, respondents supported the 
+amendments in the proposed Update, not ing that they woul d provide greater 
+flexibility to lessees that are not public  business entities in applying the risk-free 
+rate election.  
+Benefits and Costs 
+BC11. The objective of financial reporting is  to provide information that is useful 
+to present and potential investors, cr editors, donors, and other capital market 
+participants in making rational investme nt, credit, and similar resource allocation 
+decisions. However, the benefits of prov iding information for that purpose should 
+justify the related costs. Present and potential invest ors, creditors, donors, and 
+other users of financial information be nefit from improvements in financial 
+reporting, while the costs to implemen t new guidance are borne primarily by 
+present investors. The Board’s assessment of the costs and benefits of issuing 
+new guidance is unavoidably more qualit ative than quantitative because there is 
+no method to objectively measure the costs to implement new guidance or to 
+quantify the value of improved information in financial statements. 
+BC12. Overall, the Board concluded t hat the amendments in this Update will 
+reduce the cost and complexity of implementing Topic 842 for lessees that are not 
+public business entities. The Board conc luded that amending the risk-free rate 
+election to make it an election by class of  underlying asset provides entities that 
+are not public business entities with more flexibility when making the risk-free rate 
+election. Consequently, the Board expects that more entities that are not public 
+
+14 
+business entities will make the election. Furthermore, the amendments maintain 
+the decision usefulness of information provided to present and potential investors, 
+creditors, donors, and other users. That is, the Board has already allowed the use 
+of the risk-free rate but as an entity-wide election. The amendments allow a lessee 
+making the election to use the incremental borrowing rate for some asset classes 
+and also require that a lessee use its rate implicit in the lease for a lease when that 
+rate is readily determinable. The Board believes that this results in financial 
+reporting that better reflects the econom ics of the associated lease transactions. 
+Further discussion of the costs and benefits of the amendments is provided below. 
+Basis for Conclusions  
+Scope 
+BC13. The amendments in this Update are limited to entities that are not public 
+business entities. According to the definition of public business entity in the Master 
+Glossary, not-for-profit entities (inclu ding conduit bond obligors) and employee 
+benefit plans are not public business en tities. Therefore, those entities are 
+permitted to make the risk-free rate elec tion and are within the scope of this 
+Update. 
+Increasing the Flexibility of the Risk-Free Rate Election  
+BC14. At the April 14, 2021 meeting,  the Board decided to improve the 
+application of the existing practical expedi ent by allowing a lessee that is not a 
+public business entity to make an accounting policy election to use a risk-free rate 
+as the discount rate for its leases by cla ss of underlying asset, rather than at the 
+entity-wide level. Additionally, the Board decided to requi re a lessee that is not a 
+public business entity to disclose that fa ct and the asset classes to which it has 
+elected to apply a risk-free discount rate.  
+BC15. The Board concluded that the am endments in this Update provide 
+lessees that are not public business entities with more flexibility than do the current 
+requirements. The Board acknowledged that a lessee may prefer to use its 
+incremental borrowing rate for more significant leases, such as real estate leases, 
+for which transactions may be less frequent and of higher dollar value. However, 
+the lessee may prefer to use a risk-free ra te for less significant leases, such as 
+office equipment leases, for which the transaction volume is higher and the dollar 
+value is generally lower. The Board concluded that eliminating the “all or nothing” 
+nature of the election may result in wider use of the election by entities that are not 
+public business entities, while maintaining the information provided to investors.  
+BC16. Respondents to the proposed Up date broadly supported the Board’s 
+decision to allow the risk-free rate to be elected by class of underlying asset. For 
+the reasons described above, the Board affirmed its decision to allow a lessee that 
+
+ 
+15 
+is not a public business entity to make an accounting policy election to use a risk-
+free rate as the discount rate for its leases by class of underlying asset, rather than 
+at the entity-wide level.   
+Rate Implicit in the Lease  
+BC17. The Board also considered the inte raction of the risk-free rate election 
+with the guidance on a lessee’s use of the rate implicit in the lease. During 
+outreach, several practitioners questioned whether a lessee applying the risk-free 
+rate election is required or permitted to use the rate implicit in the lease when that 
+rate is readily determinable. Those stakeholders noted that there are two 
+supportable interpretations of that gui dance. One interpretation is that the 
+guidance requires that a lessee use the rate implicit in the lease when it is readily 
+determinable, even if it has applied the risk-free rate election. Another 
+interpretation is that because the guidanc e states that the risk-free rate election 
+applies to all leases, an entity making the risk-free rate election cannot use the rate 
+implicit in the lease. 
+BC18. At the April 14, 2021 Board meetin g, the Board decided that a lessee 
+should be required to use the rate impl icit in the lease when it is readily 
+determinable, regardless of whether t he lessee has made the risk-free rate 
+election. For example, if a lessee has ap plied the risk-free rate election to its 
+equipment asset class but can readily deter mine the rate implicit in the lease for 
+an individual equipment lease, the lessee wo uld use the rate implicit in the lease 
+instead of the risk-free rate for that particu lar lease. In making that decision, the 
+Board acknowledged that the rate implicit in the lease best reflects the economics 
+of the transaction and that practice has consistently interpreted the “readily 
+determinable” threshold as a high bar. Therefore, the Board does not expect that 
+an entity would have to expend much effort substantiating that it cannot readily 
+determine the rate implicit in the lease. 
+BC19. Comment letter respondents broa dly agreed that requiring a lessee to 
+use the rate implicit in the lease when readily determinable, regardless of whether 
+it uses the risk-free rate election, is  operable and should not add costs for 
+preparers. For the reasons described abov e, the Board affirmed its decision to 
+require a lessee to use the rate implicit in the lease when it is readily determinable, 
+regardless of whether the lessee has made the risk-free rate election.  
+BC20. The amendments in this Update do not change the guidance on and are 
+not intended to change practice for a less ee’s determination of whether the rate 
+implicit in the lease is readily determinable. 
+  
+
+16 
+Discount Rate 
+BC21. Some stakeholders who provided feedback on the risk-free rate election 
+supported replacing the risk-free rate in that expedient with another specified rate. 
+At the December 2, 2020 Bo ard meeting, the Board directed the staff to perform 
+research on whether another specified rate should replace a risk-free rate. 
+BC22. The Board considered the characteri stics that make a risk-free rate an 
+operable rate, including that the rate is publicly published by a reliable source and 
+available for differing maturities (lease terms). The Board considered specifying a 
+corporate bond rate as the discount rate, noting that such rates are used in other 
+Codification Topics. However, corporate bond rates are not publicly published by 
+a reliable source. Rather, an average corporate bond rate is made up of underlying 
+data (individual bond issues) that are not aggregated in a publicly available forum. 
+The underlying data (for exam ple, general data or specif ic industry data) used to 
+calculate a corporate bond rate affect the rate. Those factors caused the Board to 
+conclude that specifying a co rporate bond rate instead of a risk-free rate would 
+add cost and complexity to the application and auditing of that rate, especially for 
+smaller entities. The Board also questioned the basis for choosing a specific credit-
+rating category (for example, low investment grade or high yield) that would apply 
+to the broad range of sizes and types of entities that are not public business 
+entities.  
+BC23. Comment letter respondents general ly agreed that using a corporate 
+bond rate would add costs for preparer s. Respondents did not suggest any 
+alternative rate that would meet the operab ility criteria considered by the Board. 
+For those reasons, the Board affirmed its dec ision to retain a ri sk-free rate in the 
+election.  
+Weighted-Average Discount Rate 
+BC24. Under Topic 842, lessees are requi red to disclose the weighted-average 
+discount rate, separately for operating and finance leases, calculated using the 
+discount rate and remaining lease payments for each lease. In the initial phases 
+of the project, stakeholders questioned whether allowing lessees that are not 
+public business entities to disclose a weighted-average discount rate that 
+combined risk-free rates with other rates (the incremental borrowing rate and the 
+rate implicit in the lease, when readily determinable) used by a lessee to discount 
+its lease liabilities would result in less decision-useful information for users of 
+financial statements. Those stakeholders questioned whether separate disclosure 
+of the weighted-average discount rate for leases that use a risk-free rate and other 
+rates would provide more decision-useful information. 
+BC25. The amendments in the proposed Update did not include a separate 
+weighted-average discount rate disclosure. However, the Board included a 
+question asking for feedback on the costs of providing such a disclosure and 
+
+ 
+17 
+whether that disclosure would provide users with more decision-useful information. 
+Most respondents to the proposed Update expressed that such a disclosure would 
+impose additional cost on preparers; ho wever, there was mixed feedback on the 
+extent of that cost.  
+BC26. Because many lessees that are not  public business entities have not yet 
+adopted Topic 842 , users of those entities’ fi nancial statements could not yet 
+provide detailed feedback on the decisi on usefulness of the weighted-average 
+discount rate disclosure. However, in ad ditional outreach, some users indicated 
+that (a) a separate weighted-average disc ount rate disclosure might not provide 
+much utility without other quantitative disclosures about the asset classes to which 
+the risk-free rate election has been applied and (b) other information may be 
+available to users of financial statements of entities that are not public business 
+entities.  
+BC27. On the basis of the feedback summarized in paragraphs BC25 and BC26, 
+the Board decided not to require disclosure of separate weighted-average discount 
+rates for leases measured using a risk-free discount rate and all other leases 
+(those using the lessee’s incremental borrowing rate or rate implicit in the lease, 
+when readily determinable, as the discount rate for the lease). However, the Board 
+directed the staff to continue to broadly monitor the disclosure needs of users of 
+financial statements as part of the ongoing post-implementation review of Topic 
+842. 
+Effective Date and Transition 
+BC28. Topic 842 will become effective fo r private companies and not-for-profit 
+entities that are not conduit bond obligors for fiscal years beginning after December 
+15, 2021, and for interim periods within fiscal years beginning after December 15, 
+2022. However, some lessees that are not public business entities have elected 
+earlier application of (or, in the case of not-for-profit organizations that are conduit 
+bond obligors and employee benefit plans that  file or furnish financial statements 
+with or to the U.S. Securities and Exchange Commission, were required to 
+undertake application of) the guidance in Topic 842. Accordingly, the Board 
+provided separate effective date and transition provisions for entities that have not 
+yet adopted Topic 842 and those that have.  
+Entities That Have Not Adopted Topic 842 
+BC29. For entities that have not adopted Topic 842 by November 11, 2021, the 
+Board decided that the amendments in th is Update are effective upon an entity’s 
+adoption of Topic 842. The Board decided that those entities should follow the 
+existing transition requirements of Topic 842 so that the entities do not need to 
+perform a separate transition to adopt the amendments. That transition is applied 
+either (a) retrospectively to existing leases  with the cumulative effect of transition 
+
+18 
+recognized at the beginning of the earli est period presented or (b) on a modified 
+retrospective basis to existing leases wit h the cumulative effect of transition 
+recognized at the beginning of the peri od of adoption. For the reasons described 
+by the Board, most comment letter respondents supported those effective date and 
+transition provisions for entities that have not adopted Topic 842.  
+Entities That Have Adopted Topic 842 
+BC30. For entities that have adopted T opic 842 by November 11, 2021, the 
+Board decided that the amen dments in this Update are effective for fiscal years 
+beginning after December 15, 2021, and interim periods within fiscal years 
+beginning after December 15, 2022. Ear lier application is permitted as of the 
+beginning of the fiscal year of adoption.   
+BC31. The Board decided to provide a modified retrospective transition method, 
+whereby an entity is required to recognize a cumulative-effect adjustment to its 
+opening balance of lease liabilities with the corresponding effect to the opening 
+balance of the entity’s right-of-use assets at the beginning of the fiscal year in 
+which the entity adopts the amendments in this Update. The cumulative-effect 
+adjustment should be calculated for leases existing as of the beginning of the fiscal 
+year of adoption using the remaining le ase term and a discount rate assessed at 
+the beginning of the fiscal year of adopt ion. Most comment letter respondents 
+supported those effective date and transit ion provisions for entities that have 
+already adopted Topic 842.  
+BC32. To simplify the transition, the Board decided to require that a lessee 
+determine the discount rate using the rema ining lease term at  the date that the 
+lessee adopts the amendments in this Updat e. This requirement is different from 
+the transition requirements in paragraph 842-10-65-1(l) for a lessee adopting Topic 
+842, which do not specify whether a lessee is required to use the remaining lease 
+term or the original lease term to determine the discount rate to be used in 
+transition. The FASB staff pr ovided an interpretation that  either the remaining or 
+original lease term would be acceptable when adopting Topic 842. The Board 
+noted that the guidance in this Update does not change the transition guidance for 
+Topic 842 and is not intended to change practice or previous interpretations in 
+applying paragraph 842-10-65-1(l) for the overall adoption of Topic 842. 
+BC33. To further simplify transition, t he Board also decided that adopting the 
+amendments in this Update should not be  considered an event that would cause 
+an entity to remeasure or reallocate the consideration in the contract (including 
+lease payments) or reassess lease payments or classification. The Board decided 
+this so that a lessee will not incur additional cost and deal with additional 
+complexity in reevaluating the inputs to its affected lease liabilities and right-of-use 
+assets when adopting the amendments.  
+BC34. The Board decided to require certain disclosures in Topic 250, 
+Accounting Changes and Error Corrections, about the nature of and the reason for 
+
+ 
+19 
+the change in accounting principle and the cumulative effect of the change on 
+retained earnings to provide users of the financial statem ents with transparency 
+about the effect of adoptin g the amendments. In response to comment letters on 
+the proposed Update, the Board added a requirement that a lessee disclose the 
+transition effect on the balances of its lease liabilities and right-of-use assets. That 
+disclosure was added to provide greater transparency for users of the financial 
+statements on the effect of adopting this Update.  
+BC35. Upon adopting this Update, an entity may choose to apply or discontinue 
+the use of a risk-free discount rate prev iously made for any class of underlying 
+asset. After adopting this Update, a change in the application of the risk-free rate 
+election would be a change in accounting policy that would need to be evaluated 
+under the appropriate guidance in Topic 250, unless that election to use or not use 
+a risk-free discount rate had been for an immaterial asset class because 
+accounting policies do not apply to immaterial transactions.   
+ 
+
+20 
+Amendments to the GAAP Taxonomy 
+The amendments to the FASB Accounting Standards Codification ® in this 
+Accounting Standards Update do not require improvements to the GAAP Financial 
+Reporting Taxonomy and the SEC Reporti ng Taxonomy because the Securities 
+and Exchange Commission requirements to  provide financial statements in 
+interactive format using eXtensible Business Reporting Language do not apply to 
+entities that are not public business entities. 
+ 
