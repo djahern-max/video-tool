@@ -178,7 +178,7 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "What happens when the music stops? The longer life is conditioned on control: the lessee amortizes over the group's useful life only [[r]]as long as it controls the use of the asset through a lease. The day it no longer does — the lease ends and is not renewed, the space is handed back — the remaining balance does not run through earnings as a loss. The standard says the improvements are [[r]]accounted for as a transfer between entities under common control, through an [[r]]adjustment to equity. The books treat it the way the family treats it: value moved from one pocket to another. Along the way, the improvements stay subject to ordinary [[r]]impairment testing under the property, plant, and equipment guidance — the longer life is not a shield for an asset that has stopped earning its keep.",
+      "What happens when the lease ends? The longer life is conditioned on control: the lessee amortizes over the group's useful life only [[r]]as long as it controls the use of the asset through a lease. The day it no longer does — the lease ends and is not renewed, the space is handed back — the remaining balance does not run through earnings as a loss. The standard says the improvements are [[r]]accounted for as a transfer between entities under common control, through an [[r]]adjustment to equity. The books treat it the way the family treats it: value moved from one pocket to another. Along the way, the improvements stay subject to ordinary [[r]]impairment testing under the property, plant, and equipment guidance — the longer life is not a shield for an asset that has stopped earning its keep.",
     reveals: [10, 33, 39, 52],
     estimatedSeconds: 64,
   },

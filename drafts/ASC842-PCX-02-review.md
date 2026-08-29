@@ -11,6 +11,23 @@ and what each reveal marker reveals. Then the same for each question. The
 lesson data lives in `src/lesson-02.ts` and `src/questions-02.json`; edit
 those files, not this one.
 
+**Status, third pass (2026-08-29) — judgment list CLOSED.** The reviewer
+worked through J2–J7 and disposed of every item (J1 closed at second
+pass): five confirmations and one softening, J4, which is the pass's only
+text change — word-count-neutral, so no timing moved. Dispositions are
+recorded against each item below and in the third-pass Resolution log.
+Nothing is UNSOURCED, no sources are outstanding, and no judgment items
+remain. The one step left is the human's alone: set `meta.status:
+"reviewed"` by hand in `src/lesson-02.ts` (it is still `"draft"`, and
+export refuses it until then). Voicing comes after that.
+
+**Status, second pass (2026-08-29).** Both `Sources still needed` items are
+now in `sources/asc842/` and cited; the block 1 UNSOURCED flag is resolved
+(J1 closed, with one narration edit) and the disclosure citation is upgraded
+to the Codification file. The Resolution log below the judgment list records
+every change. The open judgment list is J2–J7. Still unvoiced;
+`meta.status` is `"draft"`; export refuses it.
+
 **Status, first draft (2026-08-27).** Unreviewed and unvoiced. One UNSOURCED
 flag (block 1); the open judgment list (J1–J7) is at the bottom, with a
 `Sources still needed` list. `meta.status` is `"draft"`; export refuses it.
@@ -45,8 +62,9 @@ Learning objectives (from `src/lesson-02.ts`):
 > and this one goes on the balance sheet — which means discounting the
 > payments, which means picking a rate. The standard's default is the
 > company's incremental borrowing rate: roughly, what it would pay to borrow
-> a similar amount over a similar term. But the company has [[r]]no bank
-> debt, no rated paper, no borrowing history — nothing to read a rate from.
+> a similar amount, on a secured basis, over a similar term. But the company
+> has [[r]]no bank debt, no rated paper, no borrowing history — nothing to
+> read a rate from.
 > When the Board asked, preparers said building and defending an incremental
 > borrowing rate was [[r]]costly and complex, that private companies rarely
 > have treasury functions or quoted credit spreads, and that some were hiring
@@ -60,15 +78,20 @@ Learning objectives (from `src/lesson-02.ts`):
   readily available information (such as quoted or comparable credit
   spreads)"; "an even greater need … to engage external valuation experts".
   Supports the whole middle of the block nearly clause for clause.
-- **UNSOURCED** — "roughly, what it would pay to borrow a similar amount over
-  a similar term": the Master Glossary definition of *incremental borrowing
-  rate* is not in `sources/`. The gloss is hedged with "roughly" and omits
-  the definition's "on a collateralized basis". Verify against the glossary
-  and decide whether "secured" belongs in the sentence (J1).
+- `glossary-incremental-borrowing-rate.txt` — "roughly, what it would pay to
+  borrow a similar amount, on a secured basis, over a similar term" tracks
+  the definition element for element: the rate "to borrow on a collateralized
+  basis over a similar term an amount equal to the lease payments". "On a
+  secured basis" was added at second pass to carry the definition's
+  "collateralized"; "roughly" still hedges what the gloss compresses (the
+  amount is "an amount equal to the lease payments", and the definition's
+  "in a similar economic environment" is not narrated). J1 closed — see the
+  Resolution log.
 - "The standard's default is the company's incremental borrowing rate" —
   `842-20-30-3.txt` second sentence (taught fully in block 2).
 
-**Reveals** (3 markers, 3 statement lines)
+**Reveals** (3 markers, 3 statement lines; all three recomputed for the new
+text — [26, 40, 52] → [28, 42, 54]; estimatedSeconds 61 → 63)
 1. before "no bank debt" → "Nothing to read a borrowing rate from"
 2. before "costly" → "Building an IBR: costly, complex, often outsourced"
 3. before "All of that" → "All that work for one number"
@@ -82,7 +105,7 @@ Learning objectives (from `src/lesson-02.ts`):
 > The discount rate paragraph answers her in three sentences. First: a lessee
 > uses the [[r]]rate implicit in the lease whenever that rate is readily
 > determinable — and practice reads readily determinable as a high bar, so
-> most lessees never clear the first sentence. Second: when the implicit rate
+> in practice the first sentence rarely applies. Second: when the implicit rate
 > is not readily determinable, the lessee uses its [[r]]incremental borrowing
 > rate. That is the default the controller was dreading. Third, the relief.
 > The standard says: a lessee that is not a public business entity is
@@ -98,8 +121,11 @@ Learning objectives (from `src/lesson-02.ts`):
   narration inserts "the lease" reading exactly as the file does; confirm
   against the Codification, J6).
 - `ASU_2021-09.txt` BC18 — "practice has consistently interpreted the
-  'readily determinable' threshold as a high bar". The follow-on "so most
-  lessees never clear the first sentence" is an extrapolation (J4).
+  'readily determinable' threshold as a high bar". The follow-on was
+  softened at the reviewer's direction (J4): "so most lessees never clear
+  the first sentence" (a frequency claim about lessees) → "so in practice
+  the first sentence rarely applies" (a claim about practice, squarely
+  BC18's). Same word count — reveals and estimatedSeconds unchanged.
 
 **Reveals** (3 markers, 3 statement lines)
 1. before "rate implicit" → "Implicit rate — whenever readily determinable"
@@ -285,11 +311,11 @@ with the last marked one)
   entities, including all not-for-profit entities (whether or not they are
   conduit bond obligors) and employee benefit plans") and BC13 (the same,
   from the PBE definition).
-- `ASU_2021-09.txt` amendment ¶3, adding 842-20-50-10 — "shall disclose its
-  election and the class or classes of underlying assets to which the
-  election has been applied". The Codification's own 842-20-50-10 is not a
-  separate file in `sources/`; the ASU text that added it is authoritative
-  here (see Sources still needed).
+- `842-20-50-10.txt` — "shall disclose its election and the class or classes
+  of underlying assets to which the election has been applied". The
+  Codification copy is the text of record per `INDEX.md` (upgraded at second
+  pass from the ASU 2021-09 amendment ¶3 text that added the paragraph; the
+  two match word for word).
 - **Note for the reviewer (J2):** the planning arc for this block said PBEs
   *and NFP conduit bond obligors* cannot use the election. The sources say
   otherwise — conduit bond obligors are expressly in scope for ASU 2021-09
@@ -325,7 +351,7 @@ with the last marked one)
 - Summary block; each question restates an earlier block and carries that
   block's source: by-class weighing (BC9/BC15, block 4), the larger balance
   sheet (BC8, block 5), the implicit-rate exception (842-20-30-3 first
-  sentence and BC17–19, block 6), the disclosure (842-20-50-10 via ASU ¶3,
+  sentence and BC17–19, block 6), the disclosure (`842-20-50-10.txt`,
   block 7).
 - BC8 — "It also could cause leases that otherwise would be classified as
   operating leases to be classified as finance leases": the classification
@@ -391,34 +417,77 @@ BC7, BC8; figures are the block-5 arithmetic (J3).
 
 ---
 
-## Judgment list — OPEN
+## Judgment list — CLOSED (third pass, 2026-08-29)
 
-- **J1 (block 1).** The incremental-borrowing-rate gloss ("roughly, what it
-  would pay to borrow a similar amount over a similar term") is UNSOURCED —
-  the Master Glossary definition is not in `sources/` and the gloss omits
-  "on a collateralized basis". Verify, and decide whether "secured" belongs.
-- **J2 (block 7, q-05).** Scope correction versus the planning arc: the arc
-  excluded NFP conduit bond obligors from this election; ASU 2021-09's
-  Summary and BC13 include them (they are excluded only from lesson 4's
-  ASU 2023-01 expedient). Drafted per the sources, with the contrast taught
-  explicitly. Confirm the correction and the cross-lesson sentence.
-- **J3 (block 5, q-04, q-09).** Bless the illustrative arithmetic:
-  ≈ $252,500 at 7%, ≈ $271,500 at 4% (monthly in arrears, 60 × $5,000),
-  ≈ $19,000 difference; and the invented 7%/4% rates themselves.
-- **J4 (block 2).** "so most lessees never clear the first sentence"
-  extrapolates BC18's "high bar" into a frequency claim. Accept or soften.
-- **J5 (block 8).** The operating-to-finance classification warning is
-  BC8's, stated as "the Board noted". Confirm placement in a summary block.
-- **J6 (blocks 2, 6).** Both quotations are from `842-20-30-3.txt` as
-  amended. Confirm the file against the live Codification (the ASU shows
-  "for all leases" struck; the file ends at "class of underlying asset").
-- **J7 (block 1, voice).** The recurring-controller frame and "no rated
-  paper" phrasing — confirm tone matches lesson 1.
+J1 closed at second pass — see the second-pass Resolution log. J2–J7
+disposed by the reviewer at third pass:
+
+- **J2 (block 7, q-05) — CONFIRMED as drafted.** The scope correction
+  stands: NFP conduit bond obligors are in scope for the ASU 2021-09
+  election (they are excluded only from lesson 4's ASU 2023-01 expedient),
+  and the cross-lesson contrast sentence stays.
+- **J3 (block 5, q-04, q-09) — VERIFIED and blessed.** The arithmetic
+  (≈ $252,500 at 7%, ≈ $271,500 at 4%, monthly in arrears, 60 × $5,000,
+  ≈ $19,000 difference) and the invented 7%/4% rates themselves.
+- **J4 (block 2) — SOFTENED.** "so most lessees never clear the first
+  sentence" → "so in practice the first sentence rarely applies". The
+  pass's only text change; see the Resolution log.
+- **J5 (block 8) — CONFIRMED.** The operating-to-finance classification
+  warning stays in the summary block, attributed as "the Board noted"
+  (BC8).
+- **J6 (blocks 2, 6) — CONFIRMED against the Codification.**
+  `842-20-30-3.txt` matches the live paragraph as amended; both "the
+  standard says" quotations stand.
+- **J7 (block 1, voice) — CONFIRMED.** The recurring-controller frame
+  matches lesson 1's tone; "no rated paper" and the second pass's "on a
+  secured basis" both stay as drafted.
+
+## Resolution log — second pass (2026-08-29)
+
+Both `Sources still needed` items arrived in `sources/asc842/` (and
+`INDEX.md`) on 2026-08-29; the first-draft UNSOURCED flag and the interim
+citation are resolved against them:
+
+- **Block 1, cited and edited (J1 closed):** the incremental-borrowing-rate
+  gloss → `glossary-incremental-borrowing-rate.txt`. The glossary confirmed
+  what the flag suspected: the definition reads "on a collateralized basis"
+  and the gloss omitted it, so per J1's standing question, "secured" went
+  in. One narration edit: "borrow a similar amount over a similar term" →
+  "borrow a similar amount, on a secured basis, over a similar term".
+  Sheet citation `ASU 2021-09 BC7` → `ASU 2021-09 BC7; Glossary`; reveals
+  recomputed [26, 40, 52] → [28, 42, 54] (all three markers sit after the
+  inserted words); estimatedSeconds 61 → 63; `meta.sources` adds the
+  glossary as a supporting citation. "Roughly" stays — the gloss still
+  compresses "an amount equal to the lease payments" and drops "in a
+  similar economic environment".
+- **Blocks 7 and 8, citation upgraded:** the disclosure sentence →
+  `842-20-50-10.txt`, the text of record per `INDEX.md`, replacing the ASU
+  2021-09 amendment ¶3 text that added the paragraph. The two match word
+  for word, so nothing in the narration, sheets, or questions moves; the
+  lesson's on-screen citations ("842-20-30-3; 50-10" on S-07) already
+  pointed at the Codification number.
+
+## Resolution log — third pass (2026-08-29, the reviewer's dispositions)
+
+The CPA worked through J2–J7. Five items closed by confirmation with no
+text change (J2, J3, J5, J6, J7 — dispositions recorded in the judgment
+list above). One narration edit:
+
+- **Block 2, softened (J4 closed):** "so most lessees never clear the
+  first sentence" → "so in practice the first sentence rarely applies" —
+  a claim about lessees becomes a claim about practice, which is what
+  BC18 actually supports ("practice has consistently interpreted the
+  'readily determinable' threshold as a high bar"). The replacement is
+  word-for-word the same length: word count 142 either way, so reveals
+  stay [6, 26, 40] and estimatedSeconds stays 66 (recomputed and
+  confirmed; `npm run check` clean, 0 errors).
+
+The judgment list is closed. What remains is the human step this document
+cannot take: setting `meta.status: "reviewed"` in `src/lesson-02.ts`,
+then generating audio (`npm run generate -- --lesson 02` — spends
+ElevenLabs credits, the human's step).
 
 ## Sources still needed
 
-- Master Glossary, "Incremental Borrowing Rate" — behind block 1's gloss
-  (J1); wanted as `sources/asc842/glossary-incremental-borrowing-rate.txt`.
-- ASC 842-20-50-10 as a Codification copy (`842-20-50-10.txt`) — currently
-  supported by the ASU 2021-09 amendment text that added it; the
-  Codification file would be the text of record per `INDEX.md`.
+None — every claim in the lesson now traces to an authoritative file in
+`sources/asc842/`.

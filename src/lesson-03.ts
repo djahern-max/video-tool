@@ -5,13 +5,15 @@
  * Content is data. No React, no JSX, no timing logic in this file.
  *
  * DRAFT — see drafts/ASC842-PCX-03-review.md for the block-by-block
- * traceability record and the open judgment list. Second pass 2026-08-27:
- * every first-draft UNSOURCED flag is resolved — the default-separation
- * mechanics now cite 842-10-15-31 and 15-33 and the lease definition cites
- * 842-10-15-3 (all as issued in ASU_2016-02_Section_A.pdf; 15-3 confirmed
- * unamended against ASU_2023-01.txt), and block 6 was rewritten to drop the
- * lessor election of 842-10-15-42A, which post-dates ASU 2016-02 and is in
- * no source file. Unvoiced until audio-meta-03.json is populated.
+ * traceability record and the open judgment list. Third pass 2026-08-29:
+ * Codification copies of 842-10-15-3, 15-33, and 15-42A arrived in sources/
+ * (each confirmed word-for-word against Section A where it existed as
+ * issued), so the lease definition and the 15-33 allocation mechanics now
+ * cite the text of record, and block 6's lessor election — dropped at
+ * second pass for want of a source — is restored per J10, citing 15-42A
+ * for the election and both of its conditions. 15-31 and 15-38 are still
+ * cited from Section A as issued. Unvoiced until audio-meta-03.json is
+ * populated.
  *
  * Duration resolution order: audio-meta-03.json first, estimatedSeconds
  * second. `estimatedSeconds` is Math.round(wordCount / 130 * 60). It exists
@@ -55,7 +57,7 @@ export const meta = {
     { id: "lo-1", text: "Identify the lease and nonlease components bundled into a single contract payment, and state the default requirement to separate them and allocate the consideration." },
     { id: "lo-2", text: "Apply the 842-10-15-37 election: account for each lease component and its associated nonlease components as a single lease component, by class of underlying asset." },
     { id: "lo-3", text: "Explain the election's measurement effect: a larger lease liability and right-of-use asset that include the nonlease payments, with total expense over the term unchanged." },
-    { id: "lo-4", text: "Evaluate when the election is cost-effective for a lessee, and recognize that the lessor allocates under its own requirements, unaffected by the lessee's election." },
+    { id: "lo-4", text: "Evaluate when the election is cost-effective for a lessee, and recognize that the lessor allocates under its own requirements and has its own separate, conditional combination election." },
   ],
   nasbaFieldOfStudy: COURSE.nasbaFieldOfStudy,
   knowledgeLevel: COURSE.knowledgeLevel,
@@ -66,6 +68,7 @@ export const meta = {
     { citation: "ASC 842-10-15-3", role: "supporting" },
     { citation: "ASC 842-10-15-31 and 15-33", role: "supporting" },
     { citation: "ASC 842-10-15-38", role: "supporting" },
+    { citation: "ASC 842-10-15-42A", role: "supporting" },
     { citation: "ASC 842-20-25-6", role: "supporting" },
   ],
   author: {
@@ -97,15 +100,15 @@ export const blocks: Block[] = [
     figure: {
       kind: "statement",
       lines: [
-        "One payment: rent + CAM + utilities + services",
+        "One payment: rent + CAM + services",
         "The space is the lease component",
         "The services are nonlease components",
       ],
     },
     narration:
-      "Back to the controller's office lease — the actual invoice this time. One payment a month, and inside it: rent for the space, [[r]]common area maintenance for the lobby she shares, utilities, and a service contract for the building's front desk. Under ASC eight forty-two, only one of those is a lease. The [[r]]space is the lease — the right to use an identified asset. The maintenance, the utilities, the staffed desk are [[r]]services: things the landlord does, not things she controls the use of. The standard calls them nonlease components, and every bundled contract raises the same question — what is this one payment actually buying? It matters because the lease part goes on the balance sheet, and the service part does not.",
-    reveals: [11, 24, 34],
-    estimatedSeconds: 57,
+      "Back to the controller's office lease — the actual invoice this time. One payment a month, and inside it: rent for the space, [[r]]common area maintenance for the lobby she shares, and a service contract for the building's front desk. Under ASC eight forty-two, only one of those is a lease. The [[r]]space is the lease — the right to use an identified asset. The maintenance and the staffed desk are [[r]]services: things the landlord does, not things she controls the use of. The standard calls them nonlease components, and every bundled contract raises the same question — what is this one payment actually buying? It matters because the lease part goes on the balance sheet, and the service part does not.",
+    reveals: [11, 24, 33],
+    estimatedSeconds: 56,
   },
 
   {
@@ -180,7 +183,7 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "Why would a lessee take a bigger liability on purpose? Because the alternative is the [[r]]allocation, forever. Standalone prices for the space, the maintenance, the desk; estimates where no observable price exists; the whole exercise redone when the contract changes. For an office lease where the services are a [[r]]sliver of the payment, that work buys almost nothing: the liability barely moves, and the allocation cost repeats while the election's cost is a slightly larger number, once. The calculus flips when the services are [[r]]large. A payment that is one-third building and two-thirds staffed services would put real service money on the balance sheet as a debt-like liability — and there, the saved work is rarely worth what it costs. The election is by class, so a lessee can hold both positions: elect where services are trivial, separate where they are the point.",
+      "Why would a lessee take a bigger liability on purpose? Because the alternative is the [[r]]allocation, forever. Standalone prices for the space, the maintenance, the desk; estimates where no observable price exists; the whole exercise redone when the contract changes. For an office lease where the services are a [[r]]sliver of the payment, that work buys almost nothing: the liability barely moves, and the allocation cost repeats while the election's cost is a slightly larger number, once. The calculus flips when the services are [[r]]large. A payment that is one-third building and two-thirds staffed services would put real service money on the balance sheet as a debt-like liability — and there, the saved work is often not worth what it costs. The election is by class, so a lessee can hold both positions: elect where services are trivial, separate where they are the point.",
     reveals: [7, 23, 39],
     estimatedSeconds: 66,
   },
@@ -188,20 +191,21 @@ export const blocks: Block[] = [
   {
     id: "block-06",
     sheet: "S-06",
-    citation: "842-10-15-37; 15-38",
+    citation: "842-10-15-37; 15-38; 15-42A",
     slide: "Statement",
     figure: {
       kind: "statement",
       lines: [
         "The lessee election stops at the lessee",
         "Lessors: allocate under the revenue standard",
+        "Lessor election: same timing and pattern, operating lease",
         "Same contract, two right answers",
       ],
     },
     narration:
-      "One caution before the arithmetic: the lessor side of the same contract is [[r]]not a mirror. The election you just read is written for a lessee — the paragraph says a lessee may — and nothing in it reaches across the table. The lessor's own paragraphs send [[r]]allocation a different way entirely: a lessor allocates the consideration under the revenue standard's requirements, the same machinery it uses for contracts with customers. A different rule, applied by the other party, that can reach a [[r]]different answer. So a tenant that combines and a landlord that separates can both be right about the identical payment. This course teaches the lessee election; if you sit on the lessor side, read the lessor paragraphs before borrowing any of it.",
-    reveals: [6, 22, 38],
-    estimatedSeconds: 58,
+      "One caution before the arithmetic: the lessor side of the same contract is [[r]]not a mirror. The election you just read is written for a lessee — the paragraph says a lessee may. The lessor's own paragraphs send [[r]]allocation a different way entirely: a lessor allocates the consideration under the revenue standard's requirements. Lessors have their own version of this election, and it is [[r]]conditional: available only when the timing and pattern of transfer of the lease component and its associated nonlease components are the same, and when the lease component, on its own, would classify as an operating lease. A different rule and a different test, applied by the other party, that can reach a [[r]]different answer. So a tenant that combines and a landlord that separates can both be right about the identical payment. This course teaches the lessee election; if you sit on the lessor side, read the lessor paragraphs before borrowing any of it.",
+    reveals: [6, 18, 30, 54],
+    estimatedSeconds: 73,
   },
 
   {

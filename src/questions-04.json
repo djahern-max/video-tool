@@ -86,11 +86,11 @@
     "choices": [
       { "id": "a", "text": "A not-for-profit entity that is a conduit bond obligor for exchange-traded securities" },
       { "id": "b", "text": "A privately held manufacturer" },
-      { "id": "c", "text": "A not-for-profit entity that is not a conduit bond obligor" },
+      { "id": "c", "text": "A not-for-profit entity with no publicly traded securities" },
       { "id": "d", "text": "An employee benefit plan that does not file financial statements with the SEC" }
     ],
     "correct": "a",
-    "feedback": "The expedient excludes three kinds of entity: public business entities, not-for-profit conduit bond obligors, and employee benefit plans that file or furnish financial statements with the SEC. A conduit bond obligor NFP is therefore out, while ordinary private companies (b), other NFPs (c), and non-filing benefit plans (d) are in. If (a) surprised you, you may be carrying over lesson 2's scope — the risk-free rate election does admit conduit bond obligors, because its only test is not being a public business entity. The two lists differ, and this is where. Re-study block 2 (S-02, who is eligible).",
+    "feedback": "The expedient excludes three kinds of entity: public business entities, not-for-profit conduit bond obligors, and employee benefit plans that file or furnish financial statements with the SEC. A conduit bond obligor NFP is therefore out, while ordinary private companies (b), NFPs with no publicly traded securities (c), and non-filing benefit plans (d) are in. If (a) surprised you, you may be carrying over lesson 2's scope — the risk-free rate election does admit conduit bond obligors, because its only test is not being a public business entity. The two lists differ, and this is where. Re-study block 2 (S-02, who is eligible).",
     "objective_ids": ["lo-1"],
     "_source": "sources/asc842/842-10-15-3A.txt; sources/asc842/ASU_2023-01.txt Summary ('available to entities that are not…')"
   },

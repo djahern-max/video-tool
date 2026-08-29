@@ -11,6 +11,28 @@ and what each reveal marker reveals. Then the same for each question. The
 lesson data lives in `src/lesson-04.ts` and `src/questions-04.json`; edit
 those files, not this one.
 
+**Status, third pass (2026-08-29) — judgment list CLOSED.** The reviewer
+worked through J1 and J3–J8 (J2 closed at second pass). Two text changes
+came out of it — q-06's distractor (c) reworded off the 15-3A edge case
+(with J1's compression otherwise confirmed) and block 5's "when the music
+stops" replaced with "when the lease ends" (J6, tone otherwise
+confirmed); the rest closed by confirmation or blessing. Neither change
+moved any timing. Dispositions are recorded against each item below and
+in the third-pass Resolution log. No judgment items remain. The one step
+left is the human's alone: set `meta.status: "reviewed"` by hand in
+`src/lesson-04.ts` (it is still `"draft"`, and export refuses it until
+then). Voicing comes after that.
+
+**Status, second pass (2026-08-29).** J2 is closed by citation: the
+842-10-15-3A eligibility list was confirmed against the ASU 2023-01 PDF
+itself (not the `.txt` extraction), which resolves the extraction's
+ambiguity in favor of the drafted reading — so block 2's narration, the
+S-02 sheet, q-01, and q-06 all stand unchanged, and nothing was
+recomputed. The Resolution log below the judgment list records the
+confirmation, plus one nuance for the reviewer. The open judgment list is
+J1 and J3–J8. Still unvoiced; `meta.status` is `"draft"`; export refuses
+it.
+
 **Status, first draft (2026-08-27).** Unreviewed and unvoiced. **0 UNSOURCED
 flags** — every claim traces to `842-10-15-3A.txt`, `842-20-35-12A.txt`, or
 `ASU_2023-01.txt` (all authoritative; quote from the PDF where exact wording
@@ -102,12 +124,15 @@ Learning objectives (from `src/lesson-04.ts`):
   control the use of an identified asset", "shall classify and account for
   that lease on the basis of those written terms and conditions", "may elect
   the practical expedient on an arrangement-by-arrangement basis".
-- `ASU_2023-01.txt` Summary — "available to entities that are not: 1. Public
-  business entities 2. Not-for-profit conduit bond obligors 3. Employee
-  benefit plans that file or furnish financial statements with or to the
-  … SEC". The .txt extraction of 15-3A itself reads ambiguously (the "not"
-  and the semicolon list); the Summary's numbered list is the reading
-  drafted. Confirm against the PDF (J2).
+- ASU 2023-01 PDF — the eligibility reading, confirmed at second pass
+  against the PDF itself (J2 closed; see the Resolution log). The
+  paragraph as printed (p. 6) is the same single-"not" semicolon prose as
+  the `.txt` extraction, but the PDF resolves the parse twice over: the
+  Summary's numbered list (p. 3, "available to entities that are not:
+  1. Public business entities 2. Not-for-profit conduit bond obligors
+  3. Employee benefit plans that file or furnish financial statements with
+  or to the … SEC") and amendment ¶3 (p. 5), which distributes the "not"
+  in running prose. The drafted reading stands; no narration change.
 - `ASU_2023-01.txt` ¶4, 842-10-15-3B — "If no written terms or conditions
   exist, an entity shall not apply the practical expedient": behind "No
   written terms, no expedient."
@@ -219,7 +244,7 @@ Learning objectives (from `src/lesson-04.ts`):
 
 **Narration as drafted**
 
-> What happens when the music stops? The longer life is conditioned on
+> What happens when the lease ends? The longer life is conditioned on
 > control: the lessee amortizes over the group's useful life only [[r]]as
 > long as it controls the use of the asset through a lease. The day it no
 > longer does — the lease ends and is not renewed, the space is handed back —
@@ -403,8 +428,12 @@ Summary/BC47.
 **q-06 · assessment · tests lo-1.** Who may NOT elect → the NFP conduit
 bond obligor; feedback names the lesson-2 scope contrast explicitly (the
 counterpart of lesson 2's q-05, asked from the opposite side — stems
-distinct, course rule 2 checked by `npm run check`). Sources:
-`842-10-15-3A.txt`; ASU Summary.
+distinct, course rule 2 checked by `npm run check`). Third pass:
+distractor (c) reworded "A not-for-profit entity that is not a conduit
+bond obligor" → "A not-for-profit entity with no publicly traded
+securities", so the eligible-NFP distractor no longer grazes 15-3A's
+has-issued edge case recorded at second pass; feedback's (c) descriptor
+updated to match. Sources: `842-10-15-3A.txt`; ASU Summary.
 
 **q-07 · assessment · tests lo-2.** What written terms must convey → the
 practical (as opposed to enforceable) right to control the use of an
@@ -419,39 +448,108 @@ ASU ¶10; BC37.
 
 ---
 
-## Judgment list — OPEN
+## Judgment list — CLOSED (third pass, 2026-08-29)
 
-- **J1 (block 2).** The 15-3A quotation replaces the paragraph's three-part
-  eligibility list with "an entity" (eligibility taught in the next
-  sentence). Confirm the compression is acceptable inside a "the standard
-  says" framing, or restructure to paraphrase-then-quote-less.
-- **J2 (block 2, q-01, q-06).** The 15-3A `.txt` extraction's eligibility
-  list is ambiguous as extracted; the drafted reading (excluded: PBEs, NFP
-  conduit bond obligors, SEC-filing EBPs) follows the ASU Summary's
-  numbered list. Confirm against the PDF.
-- **J3 (block 2).** "The one election in this course that is not by class" —
-  confirm the cross-course absolute.
-- **J4 (blocks 3, 6).** Two compressions: the transition-documentation
-  allowance is tied to "at transition"/"at adoption" (65-7(d) is a
-  transition provision, not ongoing relief), and 65-8(c)'s three transition
-  methods are compressed to "prospectively — to new improvements, or to new
-  and existing ones — or reach back retrospectively". Confirm neither
-  misleads at this altitude.
-- **J5 (block 7, and the figures on S-07).** Bless the illustrative
-  arithmetic: $150,000, 15-year group life, 5-year lease; $30,000 vs
-  $10,000 a year; $100,000 unamortized at year five; straight-line, no
-  salvage, both unstated.
-- **J6 (voice, blocks 1, 5, 7).** The family framing ("family-shaped",
-  "the way the family treats it", "one pocket to another", "expensed three
-  times too fast", "when the music stops") — confirm tone matches the
-  course.
-- **J7 (block 4).** Accepted scope: 35-12A(a)'s cap when the lessor holds
-  the asset under a lease from outside the common control group is not
-  taught, and 15-3C (an arrangement that stops being common control) is not
-  taught. Confirm both omissions for an intermediate lesson.
-- **J8 (block 8).** The closing theme sentence ("Where it bought little, and
-  it bought least for private companies…") — confirm it as the course's
-  summary claim, given lessons 1 and 3 are not private-only elections.
+J2 closed at second pass — see the second-pass Resolution log. J1 and
+J3–J8 disposed by the reviewer at third pass:
+
+- **J1 (block 2) — compression CONFIRMED; q-06 fixed.** The 15-3A
+  quotation may compress the eligibility list to "an entity" inside the
+  "the standard says" framing, with eligibility taught in the next
+  sentence. The second-pass nuance that rode with this call is resolved
+  by rewording q-06's distractor (c): "A not-for-profit entity that is
+  not a conduit bond obligor" → "A not-for-profit entity with no publicly
+  traded securities", which no longer grazes the has-issued edge case.
+  See the Resolution log.
+- **J3 (block 2) — CONFIRMED.** "The one election in this course that is
+  not by class" stands as a cross-course absolute.
+- **J4 (blocks 3, 6) — CONFIRMED.** Both compressions stand as drafted,
+  on the narrower "at adoption" reading: the transition-documentation
+  allowance stays tied to "at transition"/"at adoption", and 65-8(c)'s
+  three methods stay compressed to "prospectively — to new improvements,
+  or to new and existing ones — or reach back retrospectively".
+- **J5 (block 7, S-07 figures) — VERIFIED and blessed.** $150,000,
+  15-year group life, 5-year lease; $30,000 vs $10,000 a year; $100,000
+  unamortized at year five; straight-line and no salvage, both unstated.
+- **J6 (voice, blocks 1, 5, 7) — CONFIRMED, one exception.** The family
+  framing stands ("family-shaped", "the way the family treats it", "one
+  pocket to another", "expensed three times too fast"), except "when the
+  music stops" → "when the lease ends" (block 5). See the Resolution log.
+- **J7 (block 4) — CONFIRMED.** Both omissions stand for an intermediate
+  lesson: 35-12A(a)'s outside-the-group cap and 15-3C.
+- **J8 (block 8) — CONFIRMED.** The closing theme sentence stands as the
+  course's summary claim.
+
+## Resolution log — second pass (2026-08-29)
+
+- **J2 closed by citation; nothing changed.** The 842-10-15-3A eligibility
+  list was confirmed against the ASU 2023-01 PDF (pypdf extraction of the
+  PDF's own pages, per `INDEX.md`'s quote-from-the-PDF rule). The
+  paragraph as printed (p. 6) carries the same single-"not" semicolon
+  prose as `ASU_2023-01.txt` — the ambiguity is the paragraph's, not an
+  extraction artifact — but the PDF settles the parse twice over: the
+  Summary (p. 3) lists "available to entities that are not: 1. Public
+  business entities 2. Not-for-profit conduit bond obligors 3. Employee
+  benefit plans that file or furnish financial statements with or to the
+  [SEC]", and amendment ¶3 (p. 5) distributes the "not" in running prose
+  ("entities that are not public business entities, not-for-profit bond
+  obligors, or employee benefit plans that file or furnish…"). Excluded,
+  as the paragraph states them: (1) a public business entity; (2) a
+  not-for-profit entity that has issued or is a conduit bond obligor for
+  securities that are traded, listed, or quoted on an exchange or an
+  over-the-counter market; (3) an employee benefit plan that files or
+  furnishes financial statements with or to the U.S. Securities and
+  Exchange Commission. That is the drafted reading, so everything stands
+  as written: block 2's narration ("not public business entities, not
+  conduit bond obligor not-for-profits, and not employee benefit plans
+  that file with the S-E-C"), the S-02 sheet line ("Eligible: not a PBE,
+  NFP conduit obligor, or SEC-filing EBP"), q-01's feedback, and q-06's
+  answer and feedback. No narration change, no recompute of
+  estimatedSeconds or reveals, no edits to `src/lesson-04.ts` or
+  `src/questions-04.json`.
+- **Nuance recorded for the reviewer (rides with J1's compression call):**
+  the paragraph's NFP arm is wider than "conduit bond obligor" alone — it
+  also excludes a not-for-profit that has itself **issued** securities
+  traded, listed, or quoted on an exchange or an over-the-counter market.
+  The lesson's "conduit bond obligor not-for-profits" follows the ASU's
+  own compressions (the Summary's "Not-for-profit conduit bond obligors";
+  ¶3's "not-for-profit bond obligors"). Where it grazes: q-06's
+  distractor (c), "A not-for-profit entity that is not a conduit bond
+  obligor", is explained as eligible — true for the ordinary NFP the
+  choice describes, but not for the rare NFP that issued traded
+  securities directly. Accept the Board's own shorthand, or tighten
+  q-06's feedback — a call adjacent to J1, left with it.
+
+## Resolution log — third pass (2026-08-29, the reviewer's dispositions)
+
+The CPA worked through J1 and J3–J8. Five items closed with no text
+change (J3, J4, J5, J7, J8 — dispositions in the judgment list above).
+Two edits:
+
+- **q-06, distractor (c) reworded (with J1's confirmation):** "A
+  not-for-profit entity that is not a conduit bond obligor" → "A
+  not-for-profit entity with no publicly traded securities", and the
+  feedback's matching descriptor "other NFPs (c)" → "NFPs with no
+  publicly traded securities (c)". This retires the second-pass nuance:
+  the old (c) was explained as eligible, which failed for the rare NFP
+  that issued traded securities directly; the new (c) is cleanly inside
+  15-3A's scope on every arm. Stem, answer, and the other choices
+  unchanged; no narration or timing involved.
+- **Block 5, one phrase (J6 closed):** "What happens when the music
+  stops?" → "What happens when the lease ends?" — the reviewer's wording.
+  (The disposition arrived labeled "block-7", but the phrase exists only
+  in block 5, where J6 always placed it; block 7 contains no such text
+  and is untouched.) Word-for-word the same length (139 words either
+  way), and the phrase precedes the first marker: reveals stay
+  [10, 33, 39, 52] and estimatedSeconds stays 64 (recomputed and
+  confirmed).
+
+Nothing else moved: no reveals, no estimatedSeconds, no sheet lines,
+lesson total still 8m51s (`npm run check`, 0 errors). The judgment list
+is closed. What remains is the human step this document cannot take:
+setting `meta.status: "reviewed"` in `src/lesson-04.ts`, then generating
+audio (`npm run generate -- --lesson 04` — spends ElevenLabs credits,
+the human's step).
 
 ## Sources still needed
 

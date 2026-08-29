@@ -60,6 +60,7 @@ export const meta = {
     { citation: "ASC 842-20-30-3", role: "primary" },
     { citation: "ASU 2021-09 (incl. Basis for Conclusions)", role: "supporting" },
     { citation: "ASC 842-20-50-10", role: "supporting" },
+    { citation: "ASC 842 Master Glossary — Incremental Borrowing Rate", role: "supporting" },
   ],
   author: {
     name: "Daniel J. Ahern",
@@ -85,7 +86,7 @@ export const blocks: Block[] = [
   {
     id: "block-01",
     sheet: "S-01",
-    citation: "ASU 2021-09 BC7",
+    citation: "ASU 2021-09 BC7; Glossary",
     slide: "Statement",
     figure: {
       kind: "statement",
@@ -96,9 +97,9 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "Same controller, new problem. Her company signs a five-year office lease, and this one goes on the balance sheet — which means discounting the payments, which means picking a rate. The standard's default is the company's incremental borrowing rate: roughly, what it would pay to borrow a similar amount over a similar term. But the company has [[r]]no bank debt, no rated paper, no borrowing history — nothing to read a rate from. When the Board asked, preparers said building and defending an incremental borrowing rate was [[r]]costly and complex, that private companies rarely have treasury functions or quoted credit spreads, and that some were hiring valuation experts to produce this one input. [[r]]All of that, for a single number in a present value formula. This lesson is about the way out.",
-    reveals: [26, 40, 52],
-    estimatedSeconds: 61,
+      "Same controller, new problem. Her company signs a five-year office lease, and this one goes on the balance sheet — which means discounting the payments, which means picking a rate. The standard's default is the company's incremental borrowing rate: roughly, what it would pay to borrow a similar amount, on a secured basis, over a similar term. But the company has [[r]]no bank debt, no rated paper, no borrowing history — nothing to read a rate from. When the Board asked, preparers said building and defending an incremental borrowing rate was [[r]]costly and complex, that private companies rarely have treasury functions or quoted credit spreads, and that some were hiring valuation experts to produce this one input. [[r]]All of that, for a single number in a present value formula. This lesson is about the way out.",
+    reveals: [28, 42, 54],
+    estimatedSeconds: 63,
   },
 
   {
@@ -115,7 +116,7 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "The discount rate paragraph answers her in three sentences. First: a lessee uses the [[r]]rate implicit in the lease whenever that rate is readily determinable — and practice reads readily determinable as a high bar, so most lessees never clear the first sentence. Second: when the implicit rate is not readily determinable, the lessee uses its [[r]]incremental borrowing rate. That is the default the controller was dreading. Third, the relief. The standard says: a lessee that is not a public business entity is permitted to use a [[r]]risk-free discount rate for the lease instead of its incremental borrowing rate, determined using a period comparable with that of the lease term, as an accounting policy election made by class of underlying asset. Who may elect, what rate, and how the election is made — the rest of this lesson takes those in turn.",
+      "The discount rate paragraph answers her in three sentences. First: a lessee uses the [[r]]rate implicit in the lease whenever that rate is readily determinable — and practice reads readily determinable as a high bar, so in practice the first sentence rarely applies. Second: when the implicit rate is not readily determinable, the lessee uses its [[r]]incremental borrowing rate. That is the default the controller was dreading. Third, the relief. The standard says: a lessee that is not a public business entity is permitted to use a [[r]]risk-free discount rate for the lease instead of its incremental borrowing rate, determined using a period comparable with that of the lease term, as an accounting policy election made by class of underlying asset. Who may elect, what rate, and how the election is made — the rest of this lesson takes those in turn.",
     reveals: [6, 26, 40],
     estimatedSeconds: 66,
   },

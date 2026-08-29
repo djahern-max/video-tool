@@ -1,0 +1,5 @@
+
+
+The consideration in the contract for a lessee includes all of the payments described in paragraph 842-10-30-5, as well as all of the following payments that will be made during the lease term:
+aAny fixed payments (for example, monthly service charges) or in substance fixed payments, less any incentives paid or payable to the lessee, other than those included in paragraph 842-10-30-5
+bAny other variable payments that depend on an index or a rate, initially measured using the index or rate at the commencement date.
