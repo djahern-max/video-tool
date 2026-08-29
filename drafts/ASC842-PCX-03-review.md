@@ -11,13 +11,32 @@ and what each reveal marker reveals. Then the same for each question. The
 lesson data lives in `src/lesson-03.ts` and `src/questions-03.json`; edit
 those files, not this one.
 
-**Status, first draft (2026-08-27).** Unreviewed and unvoiced. This is the
-thinnest-sourced lesson in the course: the only authoritative paragraph on
-point in `sources/asc842` is `842-10-15-37.txt`, so the default-separation
-mechanics and the lessor side carry **4 UNSOURCED flags** (blocks 1, 2, 6),
-which questions q-01 and q-04 inherit. The open judgment list (J1–J9) and
-the `Sources still needed` list are at the bottom. `meta.status` is
-`"draft"`; export refuses it.
+**Status, second pass (2026-08-27) — 0 UNSOURCED flags.** Unreviewed and
+unvoiced. The source set is complete: `ASU_2016-02_Section_A.pdf` supplies
+842-10-15-28 through 15-42 as issued (the separation and allocation
+guidance the first draft could not cite), and all four first-draft
+UNSOURCED flags are resolved — three by citation (block 1's lease
+definition, block 2's two allocation claims) and one by rewrite (block 6,
+whose lessor-election conditions came from 842-10-15-42A, a paragraph
+added by ASU 2018-11 that exists in **no** file in `sources/`; the block
+now teaches only the sourced contrast — the election is written for a
+lessee, and the lessor allocates under 842-10-15-38). The Resolution log
+below the judgment list records every change, including what was removed.
+The open judgment list (J1, J4–J7, J9, and the new J10) is at the bottom;
+J2, J3, and J8 are closed. `meta.status` is `"draft"`; export refuses it.
+
+Citation caveat for the reviewer: the Section A citations are the ASU
+2016-02 text **as issued**, not Codification copies. 842-10-15-3 is
+confirmed unamended (it reappears word-for-word as context in
+`ASU_2023-01.txt`); 15-31, 15-33, and 15-38 have no such cross-check in
+`sources/`. Codification copies would upgrade these to text-of-record per
+`INDEX.md`'s convention — listed under `Sources still needed` as optional
+upgrades, not blockers.
+
+**Status, first draft (2026-08-27).** The only authoritative paragraph on
+point was `842-10-15-37.txt`, so the default-separation mechanics and the
+lessor side carried 4 UNSOURCED flags (blocks 1, 2, 6), inherited by q-01
+and q-04.
 
 Learning objectives (from `src/lesson-03.ts`):
 
@@ -31,7 +50,10 @@ Learning objectives (from `src/lesson-03.ts`):
   liability and right-of-use asset that include the nonlease payments, with
   total expense over the term unchanged.
 - **lo-4** — Evaluate when the election is cost-effective for a lessee, and
-  recognize that the lessor's election is separate and conditional.
+  recognize that the lessor allocates under its own requirements, unaffected
+  by the lessee's election. *(Reworded in the second pass — the first draft
+  said "the lessor's election is separate and conditional", which rested on
+  the unsourced 842-10-15-42A.)*
 
 ---
 
@@ -53,16 +75,21 @@ Learning objectives (from `src/lesson-03.ts`):
 **Sources**
 - `842-10-15-37.txt` — "nonlease components" and "lease components" as the
   operative terms.
-- **UNSOURCED** — "the right to use an identified asset": this is
-  842-10-15-3's lease definition, which is in `sources/` only as an
-  unamended context paragraph reproduced inside `ASU_2023-01.txt`
-  (amendment ¶4 prints 15-2 and 15-3 before the added 15-3A). Decide whether
-  citing a context reproduction is acceptable, or fetch `842-10-15-3.txt`
-  (J1; Sources still needed).
+- ASC 842-10-15-3, as issued in `ASU_2016-02_Section_A.pdf` p. 13 — "the
+  right to control the use of identified property, plant, or equipment (an
+  identified asset)", behind "the right to use an identified asset".
+  Confirmed current: `ASU_2023-01.txt` reproduces the paragraph word-for-word
+  as unamended context (amendment ¶4 prints 15-2 and 15-3 before the added
+  15-3A). *(Resolved the first draft's UNSOURCED flag.)*
 - The classification of CAM/utilities/front-desk as nonlease components is
   application; whether utilities are a nonlease component or a
-  non-component (a cost that transfers no good or service) is a known
-  practice nuance the block deliberately does not open (also J1).
+  non-component is now a **sharper** question than the first draft could
+  make it: 842-10-15-30 (Section A p. 18–19) says reimbursement or payment
+  of the lessor's costs "does not transfer a good or service to the lessee"
+  and receives **no allocation at all**. Utilities billed as a pass-through
+  of the landlord's costs would be a non-component, not a nonlease
+  component. The block deliberately does not open this; decide whether the
+  simplification stands or utilities come out of the example (J1).
 
 **Reveals** (3 markers, 3 statement lines)
 1. before "common area maintenance" → "One payment: rent + CAM + utilities + services"
@@ -81,24 +108,34 @@ Learning objectives (from `src/lesson-03.ts`):
 > component and accounts for them apart. Separating takes an [[r]]allocation:
 > the single payment is split across the components in proportion to their
 > standalone prices — what the space alone would rent for, what the services
-> alone would cost. Where observable prices do not exist, the lessee
-> [[r]]estimates them. That is real work, on every bundled contract, for as
+> alone would cost. Where observable prices are not readily available, the
+> lessee [[r]]estimates them. That is real work, on every bundled contract, for as
 > long as the contracts keep changing. Keep the shape of that work in mind,
 > because it is exactly what the election is priced against.
 
 **Sources**
-- `842-10-15-37.txt` (framing) — the paragraph offers a choice "not to
-  separate nonlease components from lease components", which entails that
-  separation is the default. Per the feature: the default is stated from
-  15-37's own framing, since the 15-28 to 15-36 range is not in `sources/`.
-- **UNSOURCED** — "split across the components in proportion to their
-  standalone prices": believed ASC 842-10-15-33(a) (allocation on a relative
-  standalone price basis). Verify the paragraph number and wording (J2).
-- **UNSOURCED** — "Where observable prices do not exist, the lessee
-  estimates them": believed ASC 842-10-15-33/-35 (estimate standalone
-  prices, maximizing observable information). Verify (J3).
+- ASC 842-10-15-31, as issued in `ASU_2016-02_Section_A.pdf` p. 19 — "An
+  entity shall account for each separate lease component separately from
+  the nonlease components of the contract (that is, unless a lessee makes
+  the accounting policy election described in paragraph 842-10-15-37)" —
+  the default rule stated directly, no longer inferred from 15-37's
+  framing. The sheet citation is now `842-10-15-31; 15-33`.
+- ASC 842-10-15-33(b), Section A p. 19 — "allocate the consideration in the
+  contract on a relative standalone price basis", behind "split across the
+  components in proportion to their standalone prices". *(Resolved the
+  first draft's UNSOURCED flag; closes J2.)*
+- ASC 842-10-15-33(a), Section A p. 19 — "If observable standalone prices
+  are not readily available, the lessee shall estimate the standalone
+  prices, maximizing the use of observable information", behind the
+  estimation sentence. The narration was tightened in the second pass:
+  "Where observable prices do not exist" → "Where observable prices are not
+  readily available", matching the paragraph's actual trigger. *(Resolved
+  the flag; closes J3 — the estimation language is 15-33(a), not 15-35,
+  which defines what the consideration in the contract includes.)*
+- `842-10-15-37.txt` — the election that switches the default off.
 
-**Reveals** (3 markers, 3 statement lines)
+**Reveals** (3 markers, 3 statement lines; reveal 3 recomputed to 39s for
+the two added words)
 1. before "not to separate" → "Default: separate lease from nonlease components"
 2. before "allocation" → "Allocate the payment on relative standalone prices"
 3. before "estimates" → "No observable price? Estimate one"
@@ -213,33 +250,46 @@ pairing reads wrong on screen.
 
 ## Block 6 — S-06 — Statement — the lessor is not a mirror
 
-**Narration as drafted**
+**Narration as rewritten (second pass)**
 
 > One caution before the arithmetic: the lessor side of the same contract is
-> [[r]]not a mirror. Lessors have their own version of this election, and it
-> is conditional — broadly, it is available only when the [[r]]timing and
-> pattern of transfer of the combined components line up, and the combination
-> has to produce an operating lease — a different test, run by the other
-> party, that can reach a [[r]]different answer. So a tenant that combines
-> and a landlord that separates can both be right about the identical
-> payment. This course teaches the lessee election; if you sit on the lessor
-> side, read the lessor paragraphs before borrowing any of it.
+> [[r]]not a mirror. The election you just read is written for a lessee —
+> the paragraph says a lessee may — and nothing in it reaches across the
+> table. The lessor's own paragraphs send [[r]]allocation a different way
+> entirely: a lessor allocates the consideration under the revenue
+> standard's requirements, the same machinery it uses for contracts with
+> customers. A different rule, applied by the other party, that can reach a
+> [[r]]different answer. So a tenant that combines and a landlord that
+> separates can both be right about the identical payment. This course
+> teaches the lessee election; if you sit on the lessor side, read the
+> lessor paragraphs before borrowing any of it.
 
 **Sources**
-- **UNSOURCED — the whole block's substance.** The lessor election and its
-  conditions (timing and pattern of transfer; operating-lease outcome) are
-  believed ASC 842-10-15-42A, which is not in `sources/`. Per the feature,
-  the lessor side gets one substantive claim and a flag; the block hedges
-  with "broadly" and sends lessors to the paragraphs rather than teaching
-  them. Verify 15-42A's number and conditions before generation, or cut the
-  conditions sentence to pure "different, conditional election" (J8).
-- Sheet citation reads "842-10 (lessor)" — deliberately un-numbered until
-  the paragraph is confirmed, following lesson 1's "842-20 (reassessment)"
-  precedent.
+- `842-10-15-37.txt` — "a **lessee** may, as an accounting policy election"
+  — the election's own words confine it to the lessee, behind "written for
+  a lessee … nothing in it reaches across the table".
+- ASC 842-10-15-38, as issued in `ASU_2016-02_Section_A.pdf` p. 20 — "A
+  lessor shall allocate the consideration in the contract to the separate
+  lease components and the nonlease components using the requirements in
+  paragraphs 606-10-32-28 through 32-41" (Topic 606, revenue from contracts
+  with customers — named in 15-39 on the same page), behind the allocation
+  sentence. Sheet citation is now `842-10-15-37; 15-38`, replacing the
+  un-numbered "842-10 (lessor)".
+- **Resolved by rewrite (closes J8).** The first draft taught the lessor's
+  own conditional election — "available only when the timing and pattern of
+  transfer of the combined components line up, and the combination has to
+  produce an operating lease" — believed 842-10-15-42A. That paragraph was
+  added by **ASU 2018-11**, which is not in `sources/`: Section A as issued
+  runs 15-42 → 15-43 with no 15-42A, and neither ASU 2021-09 nor ASU
+  2023-01 reproduces it. Everything resting on it was removed (see the
+  Resolution log); the block now teaches only the sourced contrast. If the
+  CPA wants the lessor election taught, fetch `842-10-15-42A.txt` and
+  restore — that is a source acquisition, not a judgment call.
 
-**Reveals** (3 markers, 3 statement lines)
-1. before "not a mirror" → "The lessor election is separate"
-2. before "timing" → "Different test: timing and pattern of transfer"
+**Reveals** (3 markers, 3 statement lines; all three recomputed for the new
+text — [6, 22, 38]; estimatedSeconds 51 → 58)
+1. before "not a mirror" → "The lessee election stops at the lessee"
+2. before "allocation" → "Lessors: allocate under the revenue standard"
 3. before "different answer" → "Same contract, two right answers"
 
 ---
@@ -264,8 +314,9 @@ pairing reads wrong on screen.
 
 **Sources**
 - `842-10-15-37.txt` — the elected side (single lease component).
-- Blocks 2's default (allocation) on the separated side — inherits block 2's
-  UNSOURCED status for the allocation mechanics (J2).
+- Block 2's default (allocation) on the separated side — now carried by
+  842-10-15-31 and 15-33 (Section A pp. 19–20); the inherited UNSOURCED
+  status is resolved with block 2's.
 - The arithmetic is illustrative: $5,000 and $6,000 × 36 monthly in arrears
   at 5%/12 → ≈ $166,824 and ≈ $200,188 (narrated "roughly $166,800" /
   "roughly $200,200"), difference ≈ $33,364 (narrated "about $33,400");
@@ -305,8 +356,12 @@ with the last marked one)
 
 **Sources**
 - Summary block; every claim restates an earlier block and carries that
-  block's source (and, for the default-allocation line, block 2's UNSOURCED
-  flags).
+  block's source — the default-allocation line now rides on block 2's
+  842-10-15-31/15-33 citations, and the closing "the landlord plays by a
+  different rule — the lessee election stops at the lessee" on block 6's
+  15-37/15-38. No narration change was needed: the summary's landlord
+  sentence never claimed the lessor election, so the block 6 rewrite leaves
+  it accurate as drafted.
 
 **Reveals** (3 markers, 3 list items)
 1. before "First" → item "Default: separate, and allocate on standalone prices"
@@ -323,8 +378,10 @@ questions (four choices each, one per learning objective — course rule 1).
 Feedback follows 5.01.2.2. Each question carries a `_source` comment key.
 
 **q-01 · review · after block 2 · tests lo-1.** Bundled payment under the
-default → separate and allocate on relative standalone prices. Inherits
-block 2's UNSOURCED allocation mechanics (J2) — the `_source` key says so.
+default → separate and allocate on relative standalone prices. Sources:
+842-10-15-31 and 15-33 (Section A pp. 19–20); `_source` updated, and the
+feedback's estimation trigger aligned to 15-33(a)'s "not readily
+available". *(Inherited flag resolved with block 2's.)*
 
 **q-02 · review · after block 3 · tests lo-2.** How the election is made →
 policy by class, associated components combined. Source:
@@ -336,16 +393,22 @@ ROU asset, total expense unchanged. Sources: `842-10-15-37.txt`,
 matching the block (J6).
 
 **q-04 · review · after block 6 · tests lo-4.** Lessor accounting does not
-follow the tenant's election. UNSOURCED like its block (J8); `_source` says
-so explicitly.
+follow the tenant's election. Rewritten with its block: choice (a) and the
+feedback now rest on 15-37's "a lessee may" and 15-38's lessor allocation
+rule instead of the unsourced lessor election; distractor (d) ("lessors are
+prohibited from ever combining") was replaced with a consent-based
+distractor, because explaining why the old (d) was wrong required 15-42A.
+*(Inherited flag resolved by the block 6 rewrite.)*
 
 **q-05 · review · after block 7 · tests lo-3.** Which figure the worked
 example changed → the liability/asset, by ≈ $33,400. Illustrative
 arithmetic (J9-arith, see judgment list).
 
 **q-06 · assessment · tests lo-1.** Clinic building bundle → janitorial and
-monitoring are the nonlease components. Application of block 1's framing —
-inherits J1's identified-asset sourcing caveat.
+monitoring are the nonlease components. Application of block 1's framing;
+the identified-asset language now cites 842-10-15-3 (Section A p. 13,
+confirmed unamended in `ASU_2023-01.txt`). The utilities nuance of J1 does
+not touch this question — janitorial and monitoring transfer services.
 
 **q-07 · assessment · tests lo-2.** Elected vehicle class, van plus
 maintenance plan → single lease component; no contract-by-contract choice.
@@ -357,22 +420,27 @@ Distinct framing from review q-03 (rule 2 checked by `npm run check`).
 
 **q-09 · assessment · tests lo-4.** Most cost-effective where services are a
 small slice and standalone prices would need estimating. The cost-benefit
-reasoning is block 5's (J7).
+reasoning is block 5's (J7). Second pass: distractor (d) and its feedback
+reworded to drop the reference to the lessor's election (was "a class the
+lessor has also elected to combine"; now consent-based, wrong for the
+sourced reason that the election is the lessee's unilateral policy).
 
 ---
 
 ## Judgment list — OPEN
 
-- **J1 (block 1, q-06).** "The right to use an identified asset" cites
-  842-10-15-3 only as reproduced context inside `ASU_2023-01.txt`. Decide
-  whether that suffices or fetch `842-10-15-3.txt`. Also: utilities are
-  presented as a nonlease component; in practice utilities are often a
-  non-component (no transferred good or service). Confirm or swap the
-  example.
-- **J2 (blocks 2, 7; q-01).** Allocation "in proportion to their standalone
-  prices" — believed 842-10-15-33(a), not in `sources/`. Verify and cite.
-- **J3 (block 2).** "Where observable prices do not exist, the lessee
-  estimates them" — believed 842-10-15-33/-35. Verify and cite.
+These are the items that need a CPA's call rather than a lookup; every
+lookup item from the first draft (J2, J3, J8, and J1's sourcing half) is
+closed in the Resolution log below.
+
+- **J1 (block 1).** Utilities are presented as a nonlease component. Under
+  842-10-15-30 (Section A pp. 18–19, now in `sources/`), a payment that
+  merely reimburses the lessor's costs transfers no good or service and is
+  a **non-component** receiving no allocation — which is what office-lease
+  utilities often are in practice. The block deliberately keeps the
+  three-way example simple. Accept the simplification, or swap utilities
+  out of the example (q-06 is unaffected either way — janitorial and
+  monitoring are clean nonlease components).
 - **J4 (block 3, q-07).** The by-class consistency reading ("every contract
   in an elected class follows it") — the same interpretation lesson 1's
   reviewer confirmed as J7 there; confirm it transfers to 15-37.
@@ -385,23 +453,62 @@ reasoning is block 5's (J7).
 - **J7 (block 5, q-09).** "The saved work is rarely worth what it costs" and
   the general cost-benefit framing — reasoning, not sourced practice.
   Accept or soften.
-- **J8 (block 6, q-04).** The lessor election's conditions are UNSOURCED
-  (believed 842-10-15-42A). Verify the paragraph before generation, or trim
-  the conditions sentence.
 - **J9 (arithmetic, blocks 7; q-05).** Bless ≈ $166,800 / ≈ $200,200 /
   ≈ $33,400 (36 × $5,000 and $6,000, monthly in arrears at 5%) and the
   $216,000 total, plus the invented 5% rate and the $5,000/$1,000 standalone
   split.
+- **J10 (block 6, new).** The rewritten block teaches the lessor side only
+  as "allocates under the revenue standard's requirements" and stays silent
+  on the lessor's own combination election (842-10-15-42A, added by ASU
+  2018-11 — in no source file). Silence is accurate but incomplete: a
+  practitioner-listener might infer lessors can never combine. Accept the
+  scoped-out treatment, or have `842-10-15-42A.txt` fetched and the
+  conditions sentence restored (that restoration is a lookup, but whether
+  the lesson should carry it is the call).
+
+## Resolution log — second pass (2026-08-27)
+
+All four first-draft UNSOURCED flags resolved against the completed source
+set — citation where a paragraph supports the sentence, rewrite where none
+did:
+
+- **Block 1, cited:** "the right to use an identified asset" →
+  842-10-15-3, as issued in `ASU_2016-02_Section_A.pdf` p. 13 and
+  reproduced word-for-word (unamended) in `ASU_2023-01.txt`. No narration
+  change. J1's sourcing half closed; its utilities half stays open above.
+- **Block 2, cited:** allocation "in proportion to their standalone prices"
+  → 842-10-15-33(b) (relative standalone price basis); estimation →
+  842-10-15-33(a). J2 and J3 closed — and J3's open question answered: the
+  estimation language is 15-33(a); 15-35 defines the consideration in the
+  contract, not estimation. One narration edit: "Where observable prices do
+  not exist" → "Where observable prices are not readily available"
+  (15-33(a)'s trigger). Sheet citation `842-10-15-37` → `842-10-15-31;
+  15-33`; reveal 3 recomputed 38 → 39.
+- **Block 6, rewritten (J8 closed):** 842-10-15-42A post-dates every ASU in
+  `sources/` (added by ASU 2018-11; Section A as issued runs 15-42 →
+  15-43). **Removed:** "Lessors have their own version of this election";
+  that it is conditional; the timing-and-pattern-of-transfer condition; the
+  operating-lease-outcome condition. **Replaced with** the sourced
+  contrast: 15-37 is written for "a lessee", and 15-38 sends the lessor's
+  allocation to Topic 606. Slide lines 1–2, sheet citation, reveals
+  ([6, 17, 32] → [6, 22, 38]), and estimatedSeconds (51 → 58) updated; the
+  "same contract, two right answers" close survives on the new footing.
+- **Ripples:** lo-4 reworded (no longer claims a conditional lessor
+  election); q-04 choice (a), distractor (d), feedback, and `_source`
+  rewritten; q-09 distractor (d) and feedback reworded; q-01 and q-06
+  `_source` keys point at the real paragraphs; `meta.sources` lists 15-3,
+  15-31/15-33, and 15-38 as supporting citations; lesson total re-estimated
+  7m50s → 7m57s (`npm run check`).
 
 ## Sources still needed
 
-- ASC 842-10-15-33 (allocation of consideration on a relative standalone
-  price basis) — behind blocks 2 and 7 and q-01 (J2).
-- ASC 842-10-15-35 (estimating standalone prices where observable prices
-  are unavailable) — behind block 2 (J3); confirm which of 15-33/15-35
-  carries the estimation language.
-- ASC 842-10-15-42A (the lessor's conditional election) — behind block 6 and
-  q-04 (J8).
-- ASC 842-10-15-3 as its own Codification copy (`842-10-15-3.txt`) — behind
-  block 1's "identified asset" gloss (J1); currently only reproduced as
-  context inside `ASU_2023-01.txt`.
+None block the review — every claim in the lesson now traces to an
+authoritative file. Optional upgrades:
+
+- Codification copies of 842-10-15-31, 15-33, and 15-38 (`.txt`) — cited
+  today from ASU 2016-02 Section A **as issued**; the Codification files
+  would be the text of record per `INDEX.md` and would confirm no
+  post-2016 amendment touched the cited wording. (842-10-15-3 already has
+  that confirmation via its unamended reproduction in `ASU_2023-01.txt`.)
+- ASC 842-10-15-42A (`842-10-15-42A.txt`) — only if the CPA wants the
+  lessor's combination election taught rather than scoped out (J10).

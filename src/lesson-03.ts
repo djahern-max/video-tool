@@ -5,10 +5,13 @@
  * Content is data. No React, no JSX, no timing logic in this file.
  *
  * DRAFT — see drafts/ASC842-PCX-03-review.md for the block-by-block
- * traceability record, the UNSOURCED flags, and the open judgment list.
- * The only authoritative source on point in sources/asc842 is 842-10-15-37;
- * the default-separation and lessor-side blocks carry UNSOURCED flags and a
- * "Sources still needed" list. Unvoiced until audio-meta-03.json is populated.
+ * traceability record and the open judgment list. Second pass 2026-08-27:
+ * every first-draft UNSOURCED flag is resolved — the default-separation
+ * mechanics now cite 842-10-15-31 and 15-33 and the lease definition cites
+ * 842-10-15-3 (all as issued in ASU_2016-02_Section_A.pdf; 15-3 confirmed
+ * unamended against ASU_2023-01.txt), and block 6 was rewritten to drop the
+ * lessor election of 842-10-15-42A, which post-dates ASU 2016-02 and is in
+ * no source file. Unvoiced until audio-meta-03.json is populated.
  *
  * Duration resolution order: audio-meta-03.json first, estimatedSeconds
  * second. `estimatedSeconds` is Math.round(wordCount / 130 * 60). It exists
@@ -52,7 +55,7 @@ export const meta = {
     { id: "lo-1", text: "Identify the lease and nonlease components bundled into a single contract payment, and state the default requirement to separate them and allocate the consideration." },
     { id: "lo-2", text: "Apply the 842-10-15-37 election: account for each lease component and its associated nonlease components as a single lease component, by class of underlying asset." },
     { id: "lo-3", text: "Explain the election's measurement effect: a larger lease liability and right-of-use asset that include the nonlease payments, with total expense over the term unchanged." },
-    { id: "lo-4", text: "Evaluate when the election is cost-effective for a lessee, and recognize that the lessor's election is separate and conditional." },
+    { id: "lo-4", text: "Evaluate when the election is cost-effective for a lessee, and recognize that the lessor allocates under its own requirements, unaffected by the lessee's election." },
   ],
   nasbaFieldOfStudy: COURSE.nasbaFieldOfStudy,
   knowledgeLevel: COURSE.knowledgeLevel,
@@ -60,6 +63,9 @@ export const meta = {
   advancePreparation: COURSE.advancePreparation,
   sources: [
     { citation: "ASC 842-10-15-37", role: "primary" },
+    { citation: "ASC 842-10-15-3", role: "supporting" },
+    { citation: "ASC 842-10-15-31 and 15-33", role: "supporting" },
+    { citation: "ASC 842-10-15-38", role: "supporting" },
     { citation: "ASC 842-20-25-6", role: "supporting" },
   ],
   author: {
@@ -105,7 +111,7 @@ export const blocks: Block[] = [
   {
     id: "block-02",
     sheet: "S-02",
-    citation: "842-10-15-37",
+    citation: "842-10-15-31; 15-33",
     slide: "Statement",
     figure: {
       kind: "statement",
@@ -116,8 +122,8 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "The default rule is separation. The election we are about to meet is written as a choice [[r]]not to separate — which tells you what the baseline is: a lessee identifies each lease component and each nonlease component and accounts for them apart. Separating takes an [[r]]allocation: the single payment is split across the components in proportion to their standalone prices — what the space alone would rent for, what the services alone would cost. Where observable prices do not exist, the lessee [[r]]estimates them. That is real work, on every bundled contract, for as long as the contracts keep changing. Keep the shape of that work in mind, because it is exactly what the election is priced against.",
-    reveals: [8, 21, 38],
+      "The default rule is separation. The election we are about to meet is written as a choice [[r]]not to separate — which tells you what the baseline is: a lessee identifies each lease component and each nonlease component and accounts for them apart. Separating takes an [[r]]allocation: the single payment is split across the components in proportion to their standalone prices — what the space alone would rent for, what the services alone would cost. Where observable prices are not readily available, the lessee [[r]]estimates them. That is real work, on every bundled contract, for as long as the contracts keep changing. Keep the shape of that work in mind, because it is exactly what the election is priced against.",
+    reveals: [8, 21, 39],
     estimatedSeconds: 55,
   },
 
@@ -182,20 +188,20 @@ export const blocks: Block[] = [
   {
     id: "block-06",
     sheet: "S-06",
-    citation: "842-10 (lessor)",
+    citation: "842-10-15-37; 15-38",
     slide: "Statement",
     figure: {
       kind: "statement",
       lines: [
-        "The lessor election is separate",
-        "Different test: timing and pattern of transfer",
+        "The lessee election stops at the lessee",
+        "Lessors: allocate under the revenue standard",
         "Same contract, two right answers",
       ],
     },
     narration:
-      "One caution before the arithmetic: the lessor side of the same contract is [[r]]not a mirror. Lessors have their own version of this election, and it is conditional — broadly, it is available only when the [[r]]timing and pattern of transfer of the combined components line up, and the combination has to produce an operating lease — a different test, run by the other party, that can reach a [[r]]different answer. So a tenant that combines and a landlord that separates can both be right about the identical payment. This course teaches the lessee election; if you sit on the lessor side, read the lessor paragraphs before borrowing any of it.",
-    reveals: [6, 17, 32],
-    estimatedSeconds: 51,
+      "One caution before the arithmetic: the lessor side of the same contract is [[r]]not a mirror. The election you just read is written for a lessee — the paragraph says a lessee may — and nothing in it reaches across the table. The lessor's own paragraphs send [[r]]allocation a different way entirely: a lessor allocates the consideration under the revenue standard's requirements, the same machinery it uses for contracts with customers. A different rule, applied by the other party, that can reach a [[r]]different answer. So a tenant that combines and a landlord that separates can both be right about the identical payment. This course teaches the lessee election; if you sit on the lessor side, read the lessor paragraphs before borrowing any of it.",
+    reveals: [6, 22, 38],
+    estimatedSeconds: 58,
   },
 
   {

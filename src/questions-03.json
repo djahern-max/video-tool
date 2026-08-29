@@ -11,9 +11,9 @@
       { "id": "d", "text": "Capitalize the whole payment as part of the right-of-use asset" }
     ],
     "correct": "a",
-    "feedback": "By default, the lease component — the right to use the space — is separated from the nonlease components — the maintenance and services — and the consideration is allocated across them in proportion to standalone prices, with estimates where observable prices do not exist. Answer (b) describes the elected treatment of 842-10-15-37, not the default; (c) gives up on an allocation the standard requires the lessee to make or estimate; (d) confuses the asset with the payment stream. Re-study block 2 (S-02, the default).",
+    "feedback": "By default, the lease component — the right to use the space — is separated from the nonlease components — the maintenance and services — and the consideration is allocated across them in proportion to standalone prices, with estimates where observable standalone prices are not readily available. Answer (b) describes the elected treatment of 842-10-15-37, not the default; (c) gives up on an allocation the standard requires the lessee to make or estimate; (d) confuses the asset with the payment stream. Re-study block 2 (S-02, the default).",
     "objective_ids": ["lo-1"],
-    "_source": "Default inferred from sources/asc842/842-10-15-37.txt's framing ('choose not to separate'); the relative-standalone-price mechanics are UNSOURCED — believed 842-10-15-33, see drafts/ASC842-PCX-03-review.md"
+    "_source": "ASC 842-10-15-31 (default separation) and 842-10-15-33(a)-(b) (relative standalone price allocation; estimation where observable prices are not readily available), as issued in sources/asc842/ASU_2016-02_Section_A.pdf pp. 19-20; sources/asc842/842-10-15-37.txt for the election that switches the default off"
   },
   {
     "id": "q-02",
@@ -53,15 +53,15 @@
     "after_block": 6,
     "stem": "A landlord and tenant sign the same bundled office lease. The tenant elects not to separate nonlease components. Does the landlord's accounting follow?",
     "choices": [
-      { "id": "a", "text": "No — the lessor has its own conditional election, and each party decides independently" },
+      { "id": "a", "text": "No — the election is written for the lessee, and the lessor allocates the consideration under its own requirements" },
       { "id": "b", "text": "Yes — the components of one contract must be classified the same way by both parties" },
       { "id": "c", "text": "Yes — the lessee's election binds the lessor once disclosed" },
-      { "id": "d", "text": "No — lessors are prohibited from ever combining lease and nonlease components" }
+      { "id": "d", "text": "No — but only because the landlord did not consent to the tenant's election" }
     ],
     "correct": "a",
-    "feedback": "The lessee election in 842-10-15-37 stops at the lessee. Lessors have a separate election with conditions the lessee version does not carry — broadly, alignment of the timing and pattern of transfer, and an operating-lease outcome — so the two sides of one contract can properly account for it differently. Answers (b) and (c) assume a symmetry the standard does not impose; (d) turns a conditional election into a prohibition. Re-study block 6 (S-06, the lessor caution).",
+    "feedback": "The election in 842-10-15-37 is written for a lessee — 'a lessee may, as an accounting policy election' — and nothing in it reaches the other side of the contract: the lessor allocates the consideration to the lease and nonlease components under its own requirements, which 842-10-15-38 takes from the revenue standard. So the two sides of one contract can properly account for it differently. Answers (b) and (c) assume a symmetry the standard does not impose; (d) reaches the right answer by an invented mechanism — the election is a unilateral accounting policy, not something a counterparty consents to. Re-study block 6 (S-06, the lessor caution).",
     "objective_ids": ["lo-4"],
-    "_source": "UNSOURCED — the lessor conditions are believed 842-10-15-42A, not yet in sources/; see drafts/ASC842-PCX-03-review.md"
+    "_source": "sources/asc842/842-10-15-37.txt ('a lessee may'); ASC 842-10-15-38 (lessor allocation under Topic 606), as issued in sources/asc842/ASU_2016-02_Section_A.pdf p. 20"
   },
   {
     "id": "q-05",
@@ -92,7 +92,7 @@
     "correct": "a",
     "feedback": "The lease component is the right to use the identified asset — the building. Janitorial and monitoring services are things the supplier does rather than assets whose use the customer controls, which makes them nonlease components: separated and allocated by default, or folded into the lease component only under an 842-10-15-37 election. Answer (b) inverts the analysis; (c) throws out a lease that plainly exists; (d) is the assumption the default separation requirement exists to correct. Re-study block 1 (S-01, what the payment buys).",
     "objective_ids": ["lo-1"],
-    "_source": "sources/asc842/842-10-15-37.txt (lease vs nonlease components); the identified-asset framing is discussed in drafts/ASC842-PCX-03-review.md"
+    "_source": "sources/asc842/842-10-15-37.txt (lease vs nonlease components); ASC 842-10-15-3 (a lease conveys the right to control the use of an identified asset), as issued in sources/asc842/ASU_2016-02_Section_A.pdf p. 13 and reproduced unamended in sources/asc842/ASU_2023-01.txt"
   },
   {
     "id": "q-07",
@@ -132,10 +132,10 @@
       { "id": "a", "text": "A class where nonlease services are a small slice of each payment and standalone prices would have to be estimated" },
       { "id": "b", "text": "A class where bundled service components make up most of each payment" },
       { "id": "c", "text": "Any class, since the election never affects the balance sheet" },
-      { "id": "d", "text": "A class the lessor has also elected to combine" }
+      { "id": "d", "text": "A class where the lessor consents to combining the components" }
     ],
     "correct": "a",
-    "feedback": "The election trades a larger liability for the end of the allocation work, so it pays best where the liability cost is trivial — services a sliver of the payment — and the allocation cost is real, as when standalone prices must be estimated. Answer (b) picks the class where electing would put the most service money on the balance sheet as a debt-like liability, the case for keeping separation; (c) forgets the liability grows at all; (d) ties the lessee's policy to the lessor's separate, conditional election. Re-study block 5 (S-05, when to elect).",
+    "feedback": "The election trades a larger liability for the end of the allocation work, so it pays best where the liability cost is trivial — services a sliver of the payment — and the allocation cost is real, as when standalone prices must be estimated. Answer (b) picks the class where electing would put the most service money on the balance sheet as a debt-like liability, the case for keeping separation; (c) forgets the liability grows at all; (d) invents a counterparty condition — the election is the lessee's own accounting policy, and the lessor's allocation is governed by the lessor's own requirements. Re-study block 5 (S-05, when to elect).",
     "objective_ids": ["lo-4"],
     "_source": "sources/asc842/842-10-15-37.txt (by-class election); the cost-benefit reasoning is application — see drafts/ASC842-PCX-03-review.md"
   }
