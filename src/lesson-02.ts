@@ -44,7 +44,7 @@ export const meta = {
   revisionDate: "2026-08-27",
   // Draft until the human works through drafts/ASC842-PCX-02-review.md,
   // closes its judgment list, and sets "reviewed" by hand.
-  status: "draft",
+  status: "reviewed",
 
   learningObjectives: [
     { id: "lo-1", text: "Determine the discount rate for a lessee's lease under 842-20-30-3: the rate implicit in the lease whenever it is readily determinable, otherwise the incremental borrowing rate or an elected risk-free rate." },
