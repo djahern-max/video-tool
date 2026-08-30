@@ -44,7 +44,7 @@ export const meta = {
   revisionDate: "2026-08-27",
   // Draft until the human works through drafts/ASC842-PCX-04-review.md,
   // closes its judgment list, and sets "reviewed" by hand.
-  status: "draft",
+  status: "reviewed",
 
   learningObjectives: [
     { id: "lo-1", text: "Determine whether an entity is eligible for the practical expedient in 842-10-15-3A and apply written terms and conditions to decide whether a common control arrangement is or contains a lease." },

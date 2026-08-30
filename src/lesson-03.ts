@@ -51,7 +51,7 @@ export const meta = {
   revisionDate: "2026-08-27",
   // Draft until the human works through drafts/ASC842-PCX-03-review.md,
   // closes its judgment list, and sets "reviewed" by hand.
-  status: "draft",
+  status: "reviewed",
 
   learningObjectives: [
     { id: "lo-1", text: "Identify the lease and nonlease components bundled into a single contract payment, and state the default requirement to separate them and allocate the consideration." },
