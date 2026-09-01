@@ -1,0 +1,129 @@
+[
+  {
+    "id": "q-01",
+    "kind": "review",
+    "after_section": "sec-01",
+    "stem": "Counsel advises that the chance of losing a pending suit is \"more than slight, but we would not call it likely.\" On the ASC 450 likelihood scale, this loss contingency is:",
+    "choices": [
+      { "id": "a", "text": "Probable" },
+      { "id": "b", "text": "Reasonably possible" },
+      { "id": "c", "text": "Remote" }
+    ],
+    "correct": "b",
+    "feedback": "Reasonably possible is defined as more than remote but less than likely — exactly the band counsel described. Probable sits at \"likely,\" higher than general usage suggests, and remote means the chance is slight. Placement on this three-point scale drives everything that follows; re-read The Likelihood Scale if the boundaries feel soft.",
+    "objective_ids": ["lo-1"]
+  },
+  {
+    "id": "q-02",
+    "kind": "review",
+    "after_section": "sec-02",
+    "stem": "A loss from pending litigation is judged probable, but no amount within the possible outcomes can yet be reasonably estimated. Under ASC 450-20-25-2 the company should:",
+    "choices": [
+      { "id": "a", "text": "Accrue its best guess anyway; probable losses must always be accrued" },
+      { "id": "b", "text": "Accrue nothing and disclose nothing until an estimate exists" },
+      { "id": "c", "text": "Accrue nothing, because both recognition conditions are not met, and move to the disclosure analysis" }
+    ],
+    "correct": "c",
+    "feedback": "The two conditions are conjunctive: probable AND reasonably estimable. Failing either one means no accrual — but it never means silence, because the disclosure requirements pick up contingencies the accrual test lets through. Choice (b) is the trap: disclosure of the nature of the contingency, with a statement that an estimate cannot be made, is still required. See When a Loss Is Accrued.",
+    "objective_ids": ["lo-2"]
+  },
+  {
+    "id": "q-03",
+    "kind": "review",
+    "after_section": "sec-03",
+    "stem": "A probable loss is reasonably estimated at $2 million to $9 million, and no amount within the range is a better estimate than any other. The accrual under ASC 450-20-30-1 is:",
+    "choices": [
+      { "id": "a", "text": "$2 million, the minimum of the range" },
+      { "id": "b", "text": "$5.5 million, the midpoint of the range" },
+      { "id": "c", "text": "Zero, because the estimate is too imprecise to record" },
+      { "id": "d", "text": "$9 million, the maximum exposure" }
+    ],
+    "correct": "a",
+    "feedback": "When no amount in the range is better than any other, the minimum is accrued — not the midpoint, not an expected value, and never zero, because a range means the \"reasonably estimated\" condition is met. The $7 million of exposure above the accrual is communicated through disclosure, not accrual. See Measuring Within a Range.",
+    "objective_ids": ["lo-3"]
+  },
+  {
+    "id": "q-04",
+    "kind": "review",
+    "after_section": "sec-04",
+    "stem": "A company accrues $2 million for a probable loss whose range runs to $9 million. What do ASC 450-20-50-3 and 50-4 require in the notes?",
+    "choices": [
+      { "id": "a", "text": "Nothing further; the accrual fully reflects the contingency" },
+      { "id": "b", "text": "The nature of the contingency and an estimate of the additional possible loss up to $9 million, or a statement that an estimate cannot be made" },
+      { "id": "c", "text": "Only a statement that litigation exists, to avoid prejudicing the case" }
+    ],
+    "correct": "b",
+    "feedback": "Disclosure is required when there is at least a reasonable possibility of loss beyond the amount accrued: the nature of the contingency plus an estimate of the possible loss or range — and if no estimate can be made, the notes must say so. An accrual at the minimum of a range never ends the analysis. See What Must Be Disclosed.",
+    "objective_ids": ["lo-4"]
+  },
+  {
+    "id": "q-05",
+    "kind": "review",
+    "after_section": "sec-05",
+    "stem": "The company is the plaintiff, and counsel believes recovery of $3 million is probable. Before the case resolves, the company should:",
+    "choices": [
+      { "id": "a", "text": "Record a $3 million receivable, since recovery is probable" },
+      { "id": "b", "text": "Record the minimum of counsel's estimated recovery range" },
+      { "id": "c", "text": "Record nothing, and take care that any disclosure avoids misleading implications about the likelihood of realization" }
+    ],
+    "correct": "c",
+    "feedback": "Gain contingencies are not reflected in the financial statements before realization — probability is not enough (ASC 450-30-25-1). Disclosure is permitted, but ASC 450-30-50-1 requires it to avoid misleading implications about realization. The asymmetry with loss accrual is deliberate conservatism. See Gain Contingencies Wait.",
+    "objective_ids": ["lo-4"]
+  },
+  {
+    "id": "q-06",
+    "kind": "assessment",
+    "stem": "Which statement correctly orders the ASC 450 likelihood terms from most likely to least likely?",
+    "choices": [
+      { "id": "a", "text": "Probable, reasonably possible, remote" },
+      { "id": "b", "text": "Reasonably possible, probable, remote" },
+      { "id": "c", "text": "Probable, remote, reasonably possible" },
+      { "id": "d", "text": "Reasonably possible, remote, probable" }
+    ],
+    "correct": "a",
+    "feedback": "The scale runs probable (likely to occur), then reasonably possible (more than remote but less than likely), then remote (slight). These are defined terms, and every recognition and disclosure decision in ASC 450 begins by placing the contingency on this scale.",
+    "objective_ids": ["lo-1"]
+  },
+  {
+    "id": "q-07",
+    "kind": "assessment",
+    "stem": "In February, before its December 31 financial statements are issued, a company learns that a customer sued it in January over a product delivered in November. Deciding whether to accrue at December 31 turns on whether it is probable that:",
+    "choices": [
+      { "id": "a", "text": "A liability had been incurred as of December 31 and the loss can be reasonably estimated" },
+      { "id": "b", "text": "The suit will be resolved before the next reporting date" },
+      { "id": "c", "text": "The customer's claim exceeds a materiality threshold set by policy" },
+      { "id": "d", "text": "Insurance will fail to cover the claim in full" }
+    ],
+    "correct": "a",
+    "feedback": "ASC 450-20-25-2 uses all information available before issuance, but what it tests is the state of affairs at the date of the financial statements: was a liability probably incurred then, and is the loss reasonably estimable? Here the underlying event (the November delivery) predates year end, so the January suit is information about a year-end condition. Timing of resolution, materiality policy, and insurance recovery are separate questions.",
+    "objective_ids": ["lo-2"]
+  },
+  {
+    "id": "q-08",
+    "kind": "assessment",
+    "stem": "A probable environmental remediation loss is estimated between $4 million and $10 million, and engineering studies make $6 million a better estimate than any other amount. The company accrues:",
+    "choices": [
+      { "id": "a", "text": "$4 million, because the minimum of a range is always accrued" },
+      { "id": "b", "text": "$6 million, the better estimate within the range" },
+      { "id": "c", "text": "$7 million, the midpoint of the range" },
+      { "id": "d", "text": "$10 million, to be conservative" }
+    ],
+    "correct": "b",
+    "feedback": "The minimum-of-the-range rule applies only when no amount within the range is a better estimate than any other. When one amount is better — here, the $6 million the studies support — that amount is accrued (ASC 450-20-30-1). Neither the midpoint nor the maximum has any standing in the measurement.",
+    "objective_ids": ["lo-3"]
+  },
+  {
+    "id": "q-09",
+    "kind": "assessment",
+    "stem": "A company facing a reasonably possible loss it cannot estimate, and a probable gain from a suit it expects to win, should report:",
+    "choices": [
+      { "id": "a", "text": "No accrual and no disclosure for either item until amounts are known" },
+      { "id": "b", "text": "An accrual for the gain, since it is probable, and nothing for the loss" },
+      { "id": "c", "text": "Disclosure of the loss contingency's nature with a statement that no estimate can be made, and no recognition of the gain before realization" },
+      { "id": "d", "text": "Offsetting of the expected gain against the possible loss in a single net note" }
+    ],
+    "correct": "c",
+    "feedback": "The reasonably possible loss requires disclosure of its nature plus an estimate of the possible loss or a statement that none can be made (ASC 450-20-50-3 and 50-4). The gain, however probable, is not recognized before realization, and any disclosure of it must avoid misleading implications (ASC 450-30). The two regimes are asymmetric by design and are never netted.",
+    "objective_ids": ["lo-4"]
+  }
+]

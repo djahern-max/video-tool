@@ -1,0 +1,142 @@
+[
+  {
+    "id": "q-01",
+    "kind": "review",
+    "after_block": 2,
+    "stem": "A company signs a nine-month lease on a packaging machine. The lease includes an option to buy the machine at a bargain price, and the company fully intends to exercise it. Can this lease be short-term?",
+    "choices": [
+      { "id": "a", "text": "Yes — nine months is less than twelve months" },
+      { "id": "b", "text": "No — a purchase option the lessee is reasonably certain to exercise disqualifies it, whatever the term" },
+      { "id": "c", "text": "Yes — purchase options only matter for finance lease classification" },
+      { "id": "d", "text": "No — leases of machinery can never be short-term" }
+    ],
+    "correct": "b",
+    "feedback": "The definition has two parts, and both must hold: a lease term of twelve months or less at commencement, AND no option to purchase the underlying asset that the lessee is reasonably certain to exercise. Choosing (a) applies only the first part — the common shortcut this lesson warns against. The purchase option here is reasonably certain of exercise, so the lease is not short-term at any length. Re-study block 2 (S-02, the definition).",
+    "objective_ids": ["lo-1"],
+    "_source": "sources/asc842/glossary-short-term-lease.txt (both parts of the definition); sources/asc842/842-20-25-2.txt (the election)"
+  },
+  {
+    "id": "q-02",
+    "kind": "review",
+    "after_block": 3,
+    "stem": "A lessee signs a one-year office lease with four one-year renewal options. It has invested heavily in the space and is reasonably certain to renew every time. For the short-term test, the lease term is:",
+    "choices": [
+      { "id": "a", "text": "One year — only the stated, noncancellable period counts" },
+      { "id": "b", "text": "Five years — renewal periods reasonably certain of exercise are part of the lease term" },
+      { "id": "c", "text": "One year, reassessed to five only if the lessee actually renews" },
+      { "id": "d", "text": "Whatever term the lessee elects as its accounting policy" }
+    ],
+    "correct": "b",
+    "feedback": "The twelve months are measured against the lease term, which includes renewal periods the lessee is reasonably certain to exercise — judged at commencement, not retrospectively as in (c). Answer (a) reads the contract instead of the standard, and (d) confuses a measurement with an election: the policy choice is whether to apply the exception, never how long the lease is. Five years at commencement means this lease was never short-term. Re-study block 3 (S-03, the lease-term trap).",
+    "objective_ids": ["lo-1"],
+    "_source": "sources/asc842/842-10-30-1.txt (lease term includes reasonably certain extension periods); sources/asc842/842-10-30-2.txt (assessed at commencement)"
+  },
+  {
+    "id": "q-03",
+    "kind": "review",
+    "after_block": 4,
+    "stem": "A lessee has elected the short-term lease exception for a qualifying lease. Which of the following does it recognize and disclose?",
+    "choices": [
+      { "id": "a", "text": "A right-of-use asset and lease liability, but measured at undiscounted amounts" },
+      { "id": "b", "text": "Straight-line lease expense over the lease term, with short-term lease cost disclosed" },
+      { "id": "c", "text": "Nothing at all — no expense recognition and no disclosure" },
+      { "id": "d", "text": "Lease payments as incurred, with no disclosure of any kind" }
+    ],
+    "correct": "b",
+    "feedback": "The election removes the recognition requirements — no right-of-use asset, no lease liability — and replaces them with lease payments recognized in profit or loss on a straight-line basis over the lease term, variable payments as incurred. It does not remove the disclosure: short-term lease cost still appears in the notes. Answers (c) and (d) mistake relief from recognition for relief from the whole standard. Re-study block 4 (S-04, what the election gets you).",
+    "objective_ids": ["lo-2"],
+    "_source": "sources/asc842/842-20-25-2.txt (straight-line recognition); sources/asc842/842-20-50-4.txt item (c) (short-term lease cost disclosure)"
+  },
+  {
+    "id": "q-04",
+    "kind": "review",
+    "after_block": 5,
+    "stem": "A company wants the short-term lease election for its three leased delivery vans but not for a fourth, identical van whose lease it would rather show on the balance sheet. May it?",
+    "choices": [
+      { "id": "a", "text": "Yes — the election is made lease by lease" },
+      { "id": "b", "text": "No — the election is a policy made by class of underlying asset and covers every qualifying lease in the class" },
+      { "id": "c", "text": "Yes — as long as the fourth van's lease is longer than twelve months" },
+      { "id": "d", "text": "No — the election must cover every lease the company has, of any asset" }
+    ],
+    "correct": "b",
+    "feedback": "The standard says the accounting policy election shall be made by class of underlying asset to which the right of use relates. Within a class — here, vehicles — every lease that qualifies as short-term takes the election; picking favorites lease by lease (a) is exactly what a policy election prevents. But (d) overshoots in the other direction: the boundary is the class, not the whole entity, so a company can elect for vehicles and not for real estate. Re-study block 5 (S-05, election by class).",
+    "objective_ids": ["lo-3"],
+    "_source": "sources/asc842/842-20-25-2.txt (final sentence, election by class of underlying asset)"
+  },
+  {
+    "id": "q-05",
+    "kind": "review",
+    "after_block": 6,
+    "stem": "Ten months into a twelve-month lease accounted for under the short-term election, the lessee signs an amendment extending the lease by two more years. What happens?",
+    "choices": [
+      { "id": "a", "text": "Nothing — short-term status is set at commencement and never revisited" },
+      { "id": "b", "text": "The lease no longer qualifies; the lessee applies the rest of the guidance as if the change date were the commencement date" },
+      { "id": "c", "text": "The lessee restates prior periods as though the lease had never been short-term" },
+      { "id": "d", "text": "The election is revoked for the entire class of underlying asset" }
+    ],
+    "correct": "b",
+    "feedback": "When the lease term changes so that the remaining term extends more than twelve months past the end of the previously determined term, the lease stops meeting the definition, and the lessee applies the remainder of the guidance as if the date of the change in circumstances were the commencement date — recognizing a right-of-use asset and lease liability prospectively from that date. It is not retrospective (c), and it is a change in this lease's facts, not a change in the class policy (d). Re-study block 6 (S-06, when the facts change).",
+    "objective_ids": ["lo-4"],
+    "_source": "sources/asc842/842-20-25-3.txt"
+  },
+  {
+    "id": "q-06",
+    "kind": "assessment",
+    "stem": "At commencement, a lessee signs a six-month equipment lease with one six-month renewal option it is reasonably certain to exercise, and no purchase option. Which statement is correct?",
+    "choices": [
+      { "id": "a", "text": "The lease term is six months, so the lease qualifies as short-term" },
+      { "id": "b", "text": "The lease term is twelve months, so the lease can qualify for the short-term election" },
+      { "id": "c", "text": "The lease term is twelve months, which exceeds the short-term boundary" },
+      { "id": "d", "text": "Renewal options always disqualify a lease from short-term treatment" }
+    ],
+    "correct": "b",
+    "feedback": "The lease term includes renewal periods the lessee is reasonably certain to exercise: six plus six is twelve months. The definition is twelve months OR LESS, so twelve months exactly still qualifies — (c) misplaces the boundary. Answer (a) ignores the reasonably certain renewal, and (d) turns a measurement question into a prohibition: renewal options only count when their exercise is reasonably certain. This is the commencement-date arithmetic from blocks 2 and 3.",
+    "objective_ids": ["lo-1"],
+    "_source": "sources/asc842/glossary-short-term-lease.txt ('12 months or less' — twelve exactly qualifies); sources/asc842/842-10-30-1.txt (renewal counted when reasonably certain)"
+  },
+  {
+    "id": "q-07",
+    "kind": "assessment",
+    "stem": "A private company applies the short-term election to a twelve-month operating lease at $2,000 per month. Compared with recognizing the lease on the balance sheet, the election changes:",
+    "choices": [
+      { "id": "a", "text": "Total lease expense over the term, which is lower under the election" },
+      { "id": "b", "text": "The balance sheet only — no right-of-use asset or lease liability is recorded, while straight-line expense is the same" },
+      { "id": "c", "text": "Both the balance sheet and total expense, since no discounting means more expense" },
+      { "id": "d", "text": "Nothing — the election is purely a disclosure choice" }
+    ],
+    "correct": "b",
+    "feedback": "For an operating lease the income statement pattern is a single straight-line lease cost either way — $2,000 a month, $24,000 over the term. What the election removes is the balance-sheet gross-up: the present-value lease liability and matching right-of-use asset, and the discounting and schedules behind them. Answers (a) and (c) reflect the misunderstanding that recognition changes the amount of expense rather than where the lease appears; (d) forgets that recognition, not disclosure, is what the election waives. This is the worked example in block 7.",
+    "objective_ids": ["lo-2"],
+    "_source": "sources/asc842/842-20-25-2.txt (elected side); sources/asc842/842-20-25-6.txt item (a) (single straight-line lease cost when not elected); figures are illustrative arithmetic — see drafts/ASC842-PCX-01-review.md"
+  },
+  {
+    "id": "q-08",
+    "kind": "assessment",
+    "stem": "Which change would, by itself, end short-term treatment for a lease accounted for under the election?",
+    "choices": [
+      { "id": "a", "text": "The lessee becomes reasonably certain it will exercise its option to purchase the underlying asset" },
+      { "id": "b", "text": "Monthly payments increase under an existing variable payment clause" },
+      { "id": "c", "text": "The lessor sells the underlying asset to another lessor" },
+      { "id": "d", "text": "The lessee elects the short-term policy for an additional asset class" }
+    ],
+    "correct": "a",
+    "feedback": "Two changes end short-term status: the lease term extending more than twelve months past the end of the previously determined term, or the lessee becoming reasonably certain to exercise a purchase option. Variable payments (b) are expensed as incurred under the election and do not touch the definition; a change of lessor (c) changes the counterparty, not the lease term; widening the policy to another class (d) affects other leases, not this one. The lessee then applies the guidance as if the change date were commencement. This is block 6.",
+    "objective_ids": ["lo-4"],
+    "_source": "sources/asc842/842-20-25-3.txt"
+  },
+  {
+    "id": "q-09",
+    "kind": "assessment",
+    "stem": "A lessee makes the short-term lease election for its office-equipment class but not for its real-estate class. Within the office-equipment class, how does the election apply?",
+    "choices": [
+      { "id": "a", "text": "To every office-equipment lease that meets the short-term definition — the election is an accounting policy for the whole class" },
+      { "id": "b", "text": "Only to the office-equipment leases the lessee designates, one lease at a time" },
+      { "id": "c", "text": "To every office-equipment lease, including those with lease terms over twelve months" },
+      { "id": "d", "text": "It is invalid — the election must cover real estate as well" }
+    ],
+    "correct": "a",
+    "feedback": "The final sentence of 842-20-25-2 makes this an accounting policy election by class of underlying asset: within an elected class, every lease that qualifies as short-term takes the election, and electing one class commits no other — vehicles-yes, real-estate-no is a permitted pair of policies. Answer (b) is the lease-by-lease designation a policy election exists to prevent; (c) forgets the election only ever reaches leases that meet the twelve-month definition — it widens nothing; (d) inflates a by-class choice into an entity-wide one. This is block 5 (S-05, election by class).",
+    "objective_ids": ["lo-3"],
+    "_source": "sources/asc842/842-20-25-2.txt (final sentence — accounting policy by class); the every-qualifying-lease reading is the reviewer-confirmed J7 interpretation"
+  }
+]
