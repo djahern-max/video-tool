@@ -34,19 +34,19 @@ export const COURSE = {
       position: 2,
       lessonId: "ASC842-PCX-02",
       title: "The Risk-Free Rate Election",
-      status: "draft",
+      status: "reviewed",
     },
     {
       position: 3,
       lessonId: "ASC842-PCX-03",
       title: "Not Separating Lease and Nonlease Components",
-      status: "draft",
+      status: "reviewed",
     },
     {
       position: 4,
       lessonId: "ASC842-PCX-04",
       title: "Common Control Arrangements",
-      status: "draft",
+      status: "reviewed",
     },
   ],
 } as const;
