@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition } from "remotion";
 import { Lesson } from "./Lesson";
-import { LESSONS, LessonId } from "./lessons";
+import { isTextLesson, LESSONS, LessonId } from "./lessons";
 import { FPS, WIDTH, HEIGHT, seconds } from "./theme";
 
 // Sum the frames the same way Lesson.tsx does, so a composition's length can
@@ -26,16 +26,25 @@ const warnIfEstimated = (
   );
 };
 
-const IDS = Object.keys(LESSONS) as LessonId[];
+// A text lesson is a study guide with no composition to register; only
+// video lessons reach Remotion at all.
+type VideoLessonModule = {
+  blocks: { id: string }[];
+  durationOf: (b: never) => number;
+  usingEstimates: boolean;
+  totalSeconds: number;
+};
+const IDS = (Object.keys(LESSONS) as LessonId[]).filter((id) => !isTextLesson(id));
+const videoLesson = (id: LessonId) => LESSONS[id] as unknown as VideoLessonModule;
 
 IDS.forEach((id) =>
-  warnIfEstimated(`Lesson${id}`, LESSONS[id].usingEstimates, LESSONS[id].totalSeconds)
+  warnIfEstimated(`Lesson${id}`, videoLesson(id).usingEstimates, videoLesson(id).totalSeconds)
 );
 
 export const RemotionRoot: React.FC = () => (
   <>
     {IDS.map((id) => {
-      const lesson = LESSONS[id];
+      const lesson = videoLesson(id);
       return (
         <Composition
           key={id}

@@ -13,7 +13,7 @@ import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { LESSONS } from "../src/lessons";
+import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -25,6 +25,14 @@ if (!lessonId || !(lessonId in LESSONS)) {
   console.error(
     `\n  Usage: npm run render -- --lesson <id>` +
       `\n  Ids: ${Object.keys(LESSONS).sort().join(", ")}\n`
+  );
+  process.exit(1);
+}
+
+if (isTextLesson(lessonId as LessonId)) {
+  console.error(
+    `\n  Lesson ${lessonId} is a text lesson — a study guide with no ` +
+      `composition to render. Export it directly: npm run export -- --lesson ${lessonId}\n`
   );
   process.exit(1);
 }

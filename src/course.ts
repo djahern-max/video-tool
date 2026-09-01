@@ -1,5 +1,5 @@
 /**
- * The course record for ASC842-PCX and the four-lesson outline.
+ * The course records and their lesson outlines.
  *
  * Course-level metadata lives here once; lesson modules import these fields
  * into their `meta` rather than repeating them, so the course cannot drift
@@ -50,3 +50,36 @@ export const COURSE = {
     },
   ],
 } as const;
+
+/**
+ * The first text-first course (video-tool feature 05; strategy in
+ * supercpe's docs/decisions/2026-09-01-text-first.md). One minimal but
+ * genuine lesson, authored as the round-trip proof of the text-package
+ * pipeline.
+ */
+export const COURSE_ASC450 = {
+  courseCode: "ASC450-LC",
+  title: "Loss Contingencies Under ASC 450",
+  nasbaFieldOfStudy: "Accounting",
+  knowledgeLevel: "Intermediate",
+  prerequisites:
+    "Basic familiarity with accrual accounting and the recognition of " +
+    "liabilities under U.S. GAAP.",
+  advancePreparation: "None",
+  deliveryMethod: "Self study",
+  lessons: [
+    {
+      position: 1,
+      lessonId: "ASC450-LC-01",
+      title: "Recognizing, Measuring, and Disclosing Loss Contingencies",
+      status: "draft",
+    },
+  ],
+} as const;
+
+/**
+ * Every course this repo exports for. export.ts and check-lessons.ts look
+ * a lesson's package id up across all of them; lesson modules import their
+ * own course const directly, as before.
+ */
+export const COURSES = [COURSE, COURSE_ASC450] as const;

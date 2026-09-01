@@ -475,3 +475,136 @@ Shipped: 2026-08-27
 - The lesson-2/4 worked-example arithmetic (7%/4% office lease; $150,000
   roof) and lesson 3's ($5,000/$1,000 split at 5%) are illustrative figures
   awaiting the reviewer's blessing, like lesson 1's ≈$23,400 was.
+
+## 05 — Text-package authoring and export
+Shipped: 2026-09-01
+
+Part C of superCPE feature 023 (the strategy is supercpe's
+`docs/decisions/2026-09-01-text-first.md`): video-tool learns to author
+and export a `kind: "text"` course package — a study guide whose markdown
+sections are the program.
+
+**What changed**
+- `docs/course-package.md` mirrored byte-identically from supercpe
+  (acceptance 10 of supercpe 023 closes; `diff` is empty). Copied from
+  supercpe commit `0af49b5` **plus its uncommitted 023a working tree** —
+  023a (manifest joins the content hash) was implemented there but not
+  yet committed or changelogged when this shipped; the supercpe side
+  should commit it so this record can point at a real commit.
+- The text-lesson authoring shape, inside the existing conventions:
+  `src/lesson-05.ts` exports one `meta` with `kind: "text"`, a `sections`
+  array (`{id, file, role, title}`, files under `guide/<lessonId>/` as
+  plain markdown), `glossaryTerms`, and optional `media` (clips, each
+  with `placement.afterSection` and a per-item `avIsAdditionalLearning`
+  claim). Registered in `lessons.ts`/`questions.ts` like any lesson.
+  There is deliberately no `wordCount` field on `TextLessonMeta` —
+  superCPE computes it — and export refuses a module that smuggles one
+  in. `questions-05.json` places review questions by `after_section`.
+- A text lesson with no clips never touches Remotion, ElevenLabs, or
+  ffprobe of a render: `Root.tsx` registers no composition for it, and
+  `render`/`generate` refuse it by name, pointing at export.
+- `scripts/export.ts` gained the text branch: builds `manifest.json` +
+  `guide/*.md` (copied verbatim) + optional `media/*` + `questions.json`,
+  ffprobes each clip (truncating down), validates with the mirrored
+  rules, zips. Refusals — each before anything is created under `dist/`:
+  a media item not claiming additional learning (quoting 7.02.7's test),
+  a declared word count, no `body` section, no `front_matter` section, a
+  question or clip placed on a section id that does not exist.
+- **content_hash per 023a, both kinds**: the parsed manifest, serialized
+  canonically (sorted keys, no separator spaces, UTF-8, `content_hash`
+  key absent), is hashed first, then the kind's files. The video branch
+  now computes the digest after building the manifest and writes the file
+  second. `dist/ASC842-PCX-01.zip` was re-exported under the new
+  definition (same content bytes, new manifest hash) and revalidated; no
+  audio was spent and no render re-run anywhere in this feature.
+- `scripts/validate-package.ts` gained the kind peek, the text layout
+  rule, and the text rules with packages.py's rule numbers and messages
+  (rule 2 identity, 3 fields, 6 hash, 8–12 descriptors, 13–17 questions
+  with `after_section`, sections/media/glossary checks). Also fixed a
+  latent crash: `pyType(undefined)` fell through to `"dict"`, so
+  validating questions with no `video` object dereferenced undefined.
+- `scripts/word-count.ts`: the 7.02.5 counting rules ported regex-for-
+  regex from supercpe's `word_count.py`; verified identical on 14 edge
+  cases (fences, links, autolinks, images, tables, HTML, unicode) against
+  the Python implementation directly.
+- `scripts/text-preview.ts`: the per-section table (section, role, words,
+  counted/excluded) and the estimate line
+  `(counted ÷ 180 + clip min + questions × 1.85) ÷ 50`, labelled an
+  estimate, printed at export and under `npm run check`.
+- `scripts/check-lessons.ts` checks text lessons (roles, files exist and
+  non-blank, body+front matter present, glossary, media claims) and
+  extends the course-wide question rules: five review questions on five
+  distinct real sections via `after_section`, no placements on
+  assessments; the duplicate-stem check now runs **per course** (rule 2
+  is a within-course rule, and the repo now holds two courses:
+  `COURSE_ASC450` joined `src/course.ts`, with `COURSES` for lookups).
+- One real lesson: ASC450-LC-01, "Recognizing, Measuring, and Disclosing
+  Loss Contingencies" — front matter from the template, five short body
+  sections, five-term glossary, an appendix reproducing 450-20-25-2, 5
+  review + 4 assessment questions, no clip (none was convenient; the
+  media path was exercised with a temporary entry instead — ffprobe,
+  manifest, hash, and zip all verified, then removed).
+
+**Standards touched**
+- 7.02.5 — the counting rules and exclusions implemented at authoring
+  time, matching the server: only `body` sections are counted, the
+  exclusion list is a role, and the export preview shows shipped vs
+  counted per section so the author sees superCPE's number first.
+- 7.02.7 — the additional-learning claim is required per clip at export,
+  refusing with the paragraph's own test quoted; a clip that narrates
+  the text does not belong in a text package.
+- 5.01.2.1 — review questions placed by `after_section` on distinct real
+  sections, enforced at check and export before superCPE ever sees them.
+
+**Verified**
+- `npm run typecheck` clean; `npm run check`: 5 lessons, 45 questions, 0
+  errors, 4 warnings (lesson 05's by-design `[draft]`; the 02–04
+  status-mirror warnings pre-exist this feature — those modules say
+  "reviewed" while `course.ts` still says "draft").
+- All five named refusals fired with nothing created under `dist/`.
+- Word counts: the glossary section hand-counted to 113 and matched; a
+  word added to the appendix moved shipped 1397→1398 while counted held
+  at 865; both exported zips validate against supercpe's own
+  `packages.py` (the authority, not just the local mirror), with
+  identical hashes and identical per-section counts.
+- Round trip against a local supercpe (uvicorn + dev Postgres, a
+  throwaway admin created and removed): upload → **201**, version 1,
+  `word_count 865 (computed)`; package summary matched the export
+  preview section by section (865/1397, roles 256/865/113/163, 5+4
+  questions); course credit computed raw 0.429 against the preview's
+  ≈0.43; reader preview returned all 8 sections' markdown; a one-word
+  edit re-exported and re-ingested as **201, version 2** with no manual
+  bookkeeping (023a), and re-uploading the original content deduped as a
+  200 no-op against version 1's hash. Draft course, both package
+  versions, and the throwaway admin all deleted; dev DB left with no
+  packages and no courses.
+- **Round-trip time, the Stage 1 number: 0.31s** — 0.29s from "edit one
+  sentence in a section file" to re-exported, 0.02s to re-ingested.
+
+**Decisions**
+- Lesson 05 ships as `status: "draft"`: the round trip ran with the flag
+  temporarily set, but no CPA review has happened, and
+  `drafts/ASC450-LC-01-review.md` now carries the traceability record
+  and an open judgment list (J1–J6) — including that the ASC 450
+  citations were written from working knowledge with no `sources/`
+  extractions yet. Setting "reviewed" stays the human's step.
+- `meta.sections[].file` is the bare filename inside `guide/<lessonId>/`;
+  export prefixes `guide/` in the manifest, so the contract path exists
+  in exactly one place.
+- `media[].file` points at a rendered artifact relative to the repo root
+  (normally `out/…`), since clips come from the existing pipeline.
+
+**Known gaps**
+- `validate-package.ts` picked up the new duplicated text rules that must
+  track supercpe's `packages.py` by hand — the standing known gap, now
+  larger, and `word-count.ts` joins it as a second maintained duplicate
+  (of `word_count.py`).
+- `check-lessons.ts`'s estimate line counts clip minutes as 0 for a clip
+  not yet rendered (export measures for real and refuses on a missing
+  file).
+- The supercpe commit for the mirrored contract is `0af49b5` + an
+  uncommitted 023a working tree; re-verify the diff is still empty after
+  023a lands over there.
+- LESSON-RUNBOOK.md still describes only the video workflow; a text
+  lesson's runbook (author sections → check → review doc → export) is a
+  documentation follow-up.

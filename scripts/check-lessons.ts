@@ -24,9 +24,17 @@
  * ever reach a credit calculation (7.02.7).
  */
 
-import { COURSE } from "../src/course";
-import { LESSONS, type LessonId } from "../src/lessons";
+import { existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+import { COURSES } from "../src/course";
+import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
 import { QUESTIONS } from "../src/questions";
+import type { TextLessonMeta } from "../src/types";
+import { printTextPreview, sectionWordCounts } from "./text-preview";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 /* ------------------------------------------------------------------ */
 /* Configuration                                                       */
@@ -274,24 +282,131 @@ function checkLesson(mod: LessonModule): Finding[] {
   }
 
   /* --- course-record mirror ----------------------------------------- */
-  /* COURSE.lessons[].status mirrors meta.status (the module is the       */
-  /* authority — it gates export); a disagreement means course.ts was     */
-  /* not updated when the lesson's status changed, or vice versa.         */
 
-  const courseLesson = COURSE.lessons.find((l) => l.lessonId === mod.meta.courseCode);
+  findings.push(...courseMirrorFindings(mod.meta.courseCode, status));
+
+  return findings;
+}
+
+/**
+ * COURSES[].lessons[].status mirrors meta.status (the module is the
+ * authority — it gates export); a disagreement means course.ts was not
+ * updated when the lesson's status changed, or vice versa.
+ */
+function courseMirrorFindings(packageId: string, status: string): Finding[] {
+  const courseLesson = COURSES.flatMap((c) => c.lessons as readonly { lessonId: string; status: string }[])
+    .find((l) => l.lessonId === packageId);
   if (!courseLesson) {
-    findings.push({
+    return [{
       level: "WARN",
       block: "meta",
-      message: `no COURSE.lessons entry for "${mod.meta.courseCode}" in src/course.ts — export will refuse this lesson (course_code/position come from the course record)`,
-    });
-  } else if (courseLesson.status !== status) {
-    findings.push({
-      level: "WARN",
-      block: "meta",
-      message: `COURSE.lessons[].status is "${courseLesson.status}" but meta.status is "${status}" — src/course.ts mirrors the module and one of them is stale`,
-    });
+      message: `no COURSES lessons entry for "${packageId}" in src/course.ts — export will refuse this lesson (course_code/position come from the course record)`,
+    }];
   }
+  if (courseLesson.status !== status) {
+    return [{
+      level: "WARN",
+      block: "meta",
+      message: `the course record's status is "${courseLesson.status}" but meta.status is "${status}" — src/course.ts mirrors the module and one of them is stale`,
+    }];
+  }
+  return [];
+}
+
+/* ------------------------------------------------------------------ */
+/* Text lessons (feature 05)                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The invariants a text lesson's export and ingest depend on, checked over
+ * the committed guide files. ERROR means export or superCPE will refuse
+ * it; WARN means it ships but the course will not publish (or a clip is
+ * simply not rendered yet — out/ is reproducible and gitignored).
+ */
+function checkTextLesson(meta: TextLessonMeta): Finding[] {
+  const findings: Finding[] = [];
+  const err = (block: string, message: string) =>
+    findings.push({ level: "ERROR", block, message });
+  const warn = (block: string, message: string) =>
+    findings.push({ level: "WARN", block, message });
+
+  const guideDir = join(root, "guide", meta.lessonId);
+
+  for (const k of ["courseCode", "title", "revision", "revisionDate", "deliveryMethod"] as const) {
+    if (!meta[k]) {
+      err("meta", `meta.${k} is missing or empty`);
+    }
+  }
+
+  /* --- sections ---------------------------------------------------- */
+
+  if (meta.sections.length === 0) {
+    err("sections", "sections is empty — a text package with nothing to read is not a program");
+  }
+  const seen = new Set<string>();
+  for (const s of meta.sections) {
+    if (seen.has(s.id)) {
+      err(s.id, `duplicate section id — superCPE rejects it, and after_section placement becomes ambiguous`);
+    }
+    seen.add(s.id);
+    if (!["front_matter", "body", "glossary", "appendix"].includes(s.role)) {
+      err(s.id, `role "${s.role}" is not one of the contract's four — only body sections enter the word count (7.02.5)`);
+    }
+    const path = join(guideDir, s.file);
+    if (!existsSync(path)) {
+      err(s.id, `guide/${meta.lessonId}/${s.file} does not exist — sections are committed markdown files`);
+    }
+  }
+  const roles = meta.sections.map((s) => s.role);
+  if (!roles.includes("body")) {
+    err("sections", `no "body" section — nothing would be counted as required reading (7.02.5) and export refuses`);
+  }
+  if (!roles.includes("front_matter")) {
+    err("sections", `no "front_matter" section — 4.05.3 item 4 requires the "How this course works" block and export refuses`);
+  }
+
+  /* --- glossary ----------------------------------------------------- */
+
+  if (meta.glossaryTerms.length === 0) {
+    warn("glossary", `glossaryTerms is empty — superCPE ingests with a warning and refuses to publish the course (4.05.3 item 3)`);
+  }
+  const terms = new Set<string>();
+  for (const t of meta.glossaryTerms) {
+    if (!t.term.trim() || !t.definition.trim()) {
+      err("glossary", `a glossary term or definition is blank — superCPE rejects it`);
+    }
+    if (terms.has(t.term.trim())) {
+      err("glossary", `duplicate glossary term "${t.term}" — superCPE rejects it`);
+    }
+    terms.add(t.term.trim());
+    if (t.sectionId !== undefined && !seen.has(t.sectionId)) {
+      err("glossary", `term "${t.term}" points at section "${t.sectionId}", which does not exist`);
+    }
+  }
+
+  /* --- media -------------------------------------------------------- */
+
+  for (const m of meta.media ?? []) {
+    if (m.avIsAdditionalLearning !== true) {
+      err(m.id, `avIsAdditionalLearning is not true — 7.02.7's test: a clip that narrates the text does not belong in a text package; export refuses`);
+    }
+    if (!seen.has(m.placement.afterSection)) {
+      err(m.id, `placed after_section "${m.placement.afterSection}", which is not a section id — export refuses`);
+    }
+    if (!existsSync(join(root, m.file))) {
+      warn(m.id, `${m.file} does not exist — render the clip before exporting (out/ is reproducible)`);
+    }
+  }
+
+  /* --- review gate and course mirror -------------------------------- */
+
+  const status = meta.status as string;
+  if (status !== "draft" && status !== "reviewed") {
+    err("meta", `meta.status must be "draft" or "reviewed", got "${status}" — export gates on this value`);
+  } else if (status === "draft") {
+    warn("meta", `status is "draft" — export will refuse it until the human works through drafts/${meta.courseCode}-review.md and sets status: "reviewed" by hand`);
+  }
+  findings.push(...courseMirrorFindings(meta.courseCode, status));
 
   return findings;
 }
@@ -345,7 +460,7 @@ function checkCourseQuestions(ids: LessonId[]): Finding[] {
   for (const id of ids) {
     const mod = LESSONS[id] as unknown as LessonModule;
     const questions = QUESTIONS[id];
-    const narrated = mod.blocks.filter((b) => b.narration.trim().length > 0).length;
+    const text = isTextLesson(id);
     const objectiveIds = (
       (mod.meta as unknown as { learningObjectives: { id: string }[] }).learningObjectives ?? []
     ).map((o) => o.id);
@@ -361,28 +476,65 @@ function checkCourseQuestions(ids: LessonId[]): Finding[] {
       err(`${id} questions`, `${assessment.length} assessment question(s), rule 1 requires ${ASSESSMENT_PER_LESSON}`);
     }
 
-    // Rule 4: review placement — on a real narrated block, one per block.
-    const blocksUsed = new Map<number, string>();
-    for (const q of review) {
-      const where = `${id} ${q.id}`;
-      if (q.after_block === undefined) {
-        err(where, `review question has no after_block — superCPE cannot place it (5.01.2.1)`);
-        continue;
+    // Rule 4: review placement, in the lesson's own medium (5.01.2.1) —
+    // a video lesson places by narrated block, a text lesson by section
+    // id, and in both never two review questions on the same spot.
+    if (text) {
+      const meta = mod.meta as unknown as TextLessonMeta;
+      const sectionIds = new Set(meta.sections.map((s) => s.id));
+      const sectionsUsed = new Map<string, string>();
+      for (const q of review) {
+        const where = `${id} ${q.id}`;
+        if (q.after_block !== undefined) {
+          err(where, `review question carries after_block — a text lesson places by after_section`);
+        }
+        if (q.after_section === undefined) {
+          err(where, `review question has no after_section — superCPE cannot place it (5.01.2.1)`);
+          continue;
+        }
+        if (!sectionIds.has(q.after_section)) {
+          err(where, `after_section "${q.after_section}" is not a section id of the lesson`);
+          continue;
+        }
+        const already = sectionsUsed.get(q.after_section);
+        if (already) {
+          err(where, `after_section "${q.after_section}" already carries ${already} — never two review questions on the same section (rule 4)`);
+        } else {
+          sectionsUsed.set(q.after_section, q.id);
+        }
       }
-      if (!Number.isInteger(q.after_block) || q.after_block < 1 || q.after_block > narrated) {
-        err(where, `after_block ${q.after_block} is outside 1..${narrated} (the lesson's narrated blocks)`);
-        continue;
+      for (const q of assessment) {
+        if (q.after_block !== undefined || q.after_section !== undefined) {
+          err(`${id} ${q.id}`, `assessment question carries a placement — placement is for review questions only`);
+        }
       }
-      const already = blocksUsed.get(q.after_block);
-      if (already) {
-        err(where, `after_block ${q.after_block} already carries ${already} — never two review questions on the same block (rule 4)`);
-      } else {
-        blocksUsed.set(q.after_block, q.id);
+    } else {
+      const narrated = mod.blocks.filter((b) => b.narration.trim().length > 0).length;
+      const blocksUsed = new Map<number, string>();
+      for (const q of review) {
+        const where = `${id} ${q.id}`;
+        if (q.after_section !== undefined) {
+          err(where, `review question carries after_section — a video lesson places by after_block`);
+        }
+        if (q.after_block === undefined) {
+          err(where, `review question has no after_block — superCPE cannot place it (5.01.2.1)`);
+          continue;
+        }
+        if (!Number.isInteger(q.after_block) || q.after_block < 1 || q.after_block > narrated) {
+          err(where, `after_block ${q.after_block} is outside 1..${narrated} (the lesson's narrated blocks)`);
+          continue;
+        }
+        const already = blocksUsed.get(q.after_block);
+        if (already) {
+          err(where, `after_block ${q.after_block} already carries ${already} — never two review questions on the same block (rule 4)`);
+        } else {
+          blocksUsed.set(q.after_block, q.id);
+        }
       }
-    }
-    for (const q of assessment) {
-      if (q.after_block !== undefined) {
-        err(`${id} ${q.id}`, `assessment question carries after_block — placement is for review questions only`);
+      for (const q of assessment) {
+        if (q.after_block !== undefined || q.after_section !== undefined) {
+          err(`${id} ${q.id}`, `assessment question carries a placement — placement is for review questions only`);
+        }
       }
     }
 
@@ -462,6 +614,35 @@ function main() {
   let warnings = 0;
 
   for (const id of ids) {
+    if (isTextLesson(id)) {
+      const meta = LESSONS[id].meta as TextLessonMeta;
+      const findings = checkTextLesson(meta);
+      errors += findings.filter((f) => f.level === "ERROR").length;
+      warnings += findings.filter((f) => f.level === "WARN").length;
+
+      const draft = meta.status === "reviewed" ? "" : `  [${meta.status}]`;
+      console.log(`\nLESSON ${id}  ${meta.title}${draft}`);
+      console.log(`  text · ${meta.sections.length} sections · ${(meta.media ?? []).length} clip(s)`);
+
+      for (const f of findings) {
+        const tag = f.level === "ERROR" ? "  ERROR" : "  warn ";
+        console.log(`${tag} ${f.block.padEnd(14)} ${f.message}`);
+      }
+      if (findings.length === 0) console.log(`  ok`);
+
+      // Task 5: the 7.02.5 accounting, printed whenever the files exist.
+      // Clip minutes use only clips already rendered; export measures for
+      // real and refuses on a missing file.
+      if (meta.sections.every((s) => existsSync(join(root, "guide", meta.lessonId, s.file)))) {
+        printTextPreview(
+          sectionWordCounts(meta, join(root, "guide", meta.lessonId)),
+          QUESTIONS[id].length,
+          0
+        );
+      }
+      continue;
+    }
+
     const mod = LESSONS[id] as unknown as LessonModule;
     const findings = checkLesson(mod);
     errors += findings.filter((f) => f.level === "ERROR").length;
@@ -485,23 +666,32 @@ function main() {
     }
   }
 
-  // The course-wide question rules always run over every registered lesson —
-  // duplicate stems are a cross-lesson property, so a --lesson filter cannot
-  // scope them.
+  // The course-wide question rules always run over every registered lesson
+  // of a course — duplicate stems are a cross-lesson property, so a
+  // --lesson filter cannot scope them. With two courses in the repo the
+  // rules run per course: superCPE's rule 2 forbids stem collisions within
+  // a course, not across the catalog.
   const allIds = (Object.keys(LESSONS) as LessonId[]).sort();
-  const courseFindings = checkCourseQuestions(allIds);
-  errors += courseFindings.filter((f) => f.level === "ERROR").length;
-  warnings += courseFindings.filter((f) => f.level === "WARN").length;
+  for (const course of COURSES) {
+    const packageIds = new Set<string>(course.lessons.map((l) => l.lessonId));
+    const courseIds = allIds.filter((id) =>
+      packageIds.has((LESSONS[id].meta as { courseCode: string }).courseCode)
+    );
+    if (courseIds.length === 0) continue;
+    const courseFindings = checkCourseQuestions(courseIds);
+    errors += courseFindings.filter((f) => f.level === "ERROR").length;
+    warnings += courseFindings.filter((f) => f.level === "WARN").length;
 
-  const questionCount = allIds.reduce((sum, id) => sum + QUESTIONS[id].length, 0);
-  console.log(`\nCOURSE ${COURSE.courseCode}  ${COURSE.title}`);
-  console.log(`  ${allIds.length} lessons · ${questionCount} questions`);
-  if (courseFindings.length === 0) {
-    console.log(`  ok`);
-  } else {
-    for (const f of courseFindings) {
-      const tag = f.level === "ERROR" ? "  ERROR" : "  warn ";
-      console.log(`${tag} ${f.block.padEnd(14)} ${f.message}`);
+    const questionCount = courseIds.reduce((sum, id) => sum + QUESTIONS[id].length, 0);
+    console.log(`\nCOURSE ${course.courseCode}  ${course.title}`);
+    console.log(`  ${courseIds.length} lesson(s) · ${questionCount} questions`);
+    if (courseFindings.length === 0) {
+      console.log(`  ok`);
+    } else {
+      for (const f of courseFindings) {
+        const tag = f.level === "ERROR" ? "  ERROR" : "  warn ";
+        console.log(`${tag} ${f.block.padEnd(14)} ${f.message}`);
+      }
     }
   }
 

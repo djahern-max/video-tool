@@ -53,13 +53,90 @@ export type Choice = { id: string; text: string };
 export type Question = {
   id: string;
   kind: "review" | "assessment";
-  /** Review only: the narrated block (1-based) the question follows. */
+  /** Review in a video lesson: the narrated block (1-based) it follows. */
   after_block?: number;
+  /** Review in a text lesson: the id of the section it follows. */
+  after_section?: string;
   stem: string;
   choices: Choice[];
   correct: string;
   feedback: string;
   objective_ids: string[];
+};
+
+/** The contract's four section roles. Only `body` enters the word count
+ * (7.02.5); the exclusion list is structural, never author honesty. */
+export type SectionRole = "front_matter" | "body" | "glossary" | "appendix";
+
+/**
+ * One guide section of a text lesson. `file` is the bare filename inside
+ * this lesson's authoring directory, guide/<meta.lessonId>/; export copies
+ * it to the package as guide/<file> and writes that path in the manifest.
+ */
+export type TextSection = {
+  id: string;
+  file: string;
+  role: SectionRole;
+  title: string;
+};
+
+/** Exported to the manifest's glossary_terms (4.05.3 item 3). */
+export type GlossaryTerm = {
+  term: string;
+  definition: string;
+  /** The section holding the definition — normally the glossary section. */
+  sectionId?: string;
+};
+
+/**
+ * One optional supplemental clip, produced by the existing video pipeline.
+ * `file` is a path relative to the repo root (a rendered artifact, e.g.
+ * "out/clip-….mp4"); export ffprobes it, copies it to media/<basename>,
+ * and writes that path in the manifest.
+ */
+export type MediaItem = {
+  id: string;
+  file: string;
+  placement: { afterSection: string };
+  /**
+   * Must be true on every item — 7.02.7's test: a clip that narrates the
+   * text does not belong in a text package. Export refuses otherwise.
+   */
+  avIsAdditionalLearning: boolean;
+};
+
+/**
+ * The `meta` of a `kind: "text"` lesson module. A text lesson is a study
+ * guide: markdown sections under guide/<lessonId>/ are the program, and
+ * there are no blocks, no narration, and no Remotion composition — a text
+ * lesson with no clips never touches Remotion, ElevenLabs, or ffprobe of
+ * a render. The descriptor fields carry exactly the meanings they carry
+ * on PackageLessonMeta.
+ */
+export type TextLessonMeta = {
+  kind: "text";
+  /** Module selector ("05") — also the guide/<lessonId>/ directory. */
+  lessonId: string;
+  /** The manifest lesson_id — the globally unique package code. */
+  courseCode: string;
+  status: LessonStatus;
+  title: string;
+
+  sections: TextSection[];
+  glossaryTerms: GlossaryTerm[];
+  /** Optional supplemental clips; absent or empty is the common case. */
+  media?: MediaItem[];
+
+  learningObjectives: LearningObjective[];
+  nasbaFieldOfStudy: string;
+  knowledgeLevel: KnowledgeLevel;
+  prerequisites: string;
+  advancePreparation: string;
+  sources: Source[];
+  author: Author;
+  deliveryMethod: string;
+  revision: string;
+  revisionDate: string;
 };
 
 export type PackageLessonMeta = LessonMeta & {

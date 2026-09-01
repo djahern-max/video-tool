@@ -32,7 +32,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { LESSONS, type LessonId } from "../src/lessons";
+import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
 
 type Block = {
   id: string;
@@ -285,7 +285,18 @@ const main = async () => {
   if (!(lessonId in LESSONS)) {
     fail(`No lesson "${lessonId}". Ids: ${Object.keys(LESSONS).join(", ")}`);
   }
-  const lesson = LESSONS[lessonId];
+  if (isTextLesson(lessonId)) {
+    fail(
+      `Lesson ${lessonId} is a text lesson — a study guide with no narration ` +
+        `to generate. Export it directly: npm run export -- --lesson ${lessonId}`
+    );
+  }
+  const lesson = LESSONS[lessonId] as unknown as {
+    blocks: unknown;
+    meta: Record<string, string>;
+    transcriptOf: unknown;
+    speechOf: unknown;
+  };
   const blocks = lesson.blocks as unknown as Block[];
   const meta = lesson.meta;
   const transcriptOf = lesson.transcriptOf as unknown as (b: Block) => string;

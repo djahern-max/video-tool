@@ -9,6 +9,18 @@
  * an unreviewed lesson, estimated durations, a stale render, or any contract
  * violation validate-package.ts can see.
  *
+ * Two branches on `meta.kind` (023): a video lesson packages its rendered
+ * mp4, transcript, and questions as always; a `kind: "text"` lesson
+ * packages manifest.json + guide/*.md + optional media/* + questions.json,
+ * prints the 7.02.5 word-count preview and the credit estimate, and never
+ * touches Remotion or a render. In every refusal case nothing is created
+ * under dist/: the named refusals all run before the package directory is
+ * built, and a validate-package failure removes what was built.
+ *
+ * content_hash (023a, both kinds): the manifest is hashed first, in
+ * canonical form with the content_hash key absent, so the digest is
+ * computed before the finished manifest.json is written.
+ *
  * The zip is written by the minimal writer at the bottom of this file
  * (node:zlib deflate + a hand-assembled PKZIP container) rather than a
  * dependency: the format is three record types, and every package is
@@ -26,16 +38,22 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { deflateRawSync } from "node:zlib";
 
-import { COURSE } from "../src/course";
-import { LESSONS, type LessonId } from "../src/lessons";
-import type { PackageLessonMeta, Question } from "../src/types";
+import { COURSES } from "../src/course";
+import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
+import type { PackageLessonMeta, Question, TextLessonMeta } from "../src/types";
 import { QUESTIONS_FILE } from "../src/questions";
 import { MODEL_ID, TTS_PROVIDER } from "./generate-audio";
-import { computeContentHash, validatePackage } from "./validate-package";
+import { printTextPreview, sectionWordCounts } from "./text-preview";
+import {
+  ADDITIONAL_LEARNING_SENTENCE,
+  computeContentHash,
+  computeTextContentHash,
+  validatePackage,
+} from "./validate-package";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -107,6 +125,18 @@ const ffprobeSeconds = (path: string): number => {
   return parsed;
 };
 
+/** The course record holding this package id, and the lesson's row in it. */
+const courseFor = (packageId: string) => {
+  for (const course of COURSES) {
+    const courseLesson = course.lessons.find((l) => l.lessonId === packageId);
+    if (courseLesson) return { course, courseLesson };
+  }
+  return refuse(
+    `lesson_id ${packageId} has no entry in any COURSES record (src/course.ts). ` +
+      `The manifest's course_code and position are read from the course record.`
+  );
+};
+
 const main = () => {
   const args = process.argv.slice(2);
   const at = args.indexOf("--lesson");
@@ -120,12 +150,18 @@ const main = () => {
     process.exit(1);
   }
 
-  // 1. The lesson module and its questions.
-  const lesson = LESSONS[lessonId] as unknown as LessonModule;
-  const meta = lesson.meta;
   const questionsPath = join(root, "src", QUESTIONS_FILE[lessonId]);
   const questionsBytes = readFileSync(questionsPath);
   const questions = JSON.parse(questionsBytes.toString("utf8")) as Question[];
+
+  if (isTextLesson(lessonId)) {
+    exportTextLesson(lessonId, questionsBytes, questions);
+    return;
+  }
+
+  // 1. The lesson module and its questions.
+  const lesson = LESSONS[lessonId] as unknown as LessonModule;
+  const meta = lesson.meta;
 
   // 2. meta.status is the single authority on whether a lesson may ship.
   if (meta.status !== "reviewed") {
@@ -171,12 +207,7 @@ const main = () => {
   // 5. Build dist/<lesson_id>/. The manifest lesson_id is meta.courseCode —
   // the globally unique code — not meta.lessonId, the module selector.
   const packageId = meta.courseCode;
-  const courseLesson =
-    COURSE.lessons.find((l) => l.lessonId === packageId) ??
-    refuse(
-      `lesson_id ${packageId} has no entry in COURSE.lessons (src/course.ts). ` +
-        `The manifest's course_code and position are read from the course record.`
-    );
+  const { course, courseLesson } = courseFor(packageId);
   const packageDir = join(root, "dist", packageId);
   rmSync(packageDir, { recursive: true, force: true });
   mkdirSync(packageDir, { recursive: true });
@@ -199,12 +230,6 @@ const main = () => {
   );
   const measuredAt = new Date(measuredAtMs).toISOString().replace(/\.\d{3}Z$/, "Z");
 
-  const contentHash = computeContentHash(
-    Buffer.from(transcript),
-    questionsBytes,
-    readFileSync(join(packageDir, "video.mp4"))
-  );
-
   // Where each narrated block starts and ends, measured, so superCPE can
   // pause the video for review questions at the right second. The cursor
   // walks every block in playback order; the title sheet (the only
@@ -223,11 +248,15 @@ const main = () => {
     }
   }
 
+  // The hash cannot cover its own field (023a): the manifest is built
+  // first, hashed in canonical form with content_hash absent, and the
+  // finished manifest.json is written second. The placeholder below is
+  // dropped by manifestHashBytes before hashing either way.
   const manifest = {
     package_version: 1,
     lesson_id: packageId,
     title: meta.title,
-    content_hash: contentHash,
+    content_hash: "",
 
     video: {
       duration_seconds: Math.round(measuredSeconds),
@@ -262,11 +291,17 @@ const main = () => {
     // string). delivery_method and revision are not (yet) in the contract:
     // packages.py rule 3 checks required fields only and tolerates unknown
     // keys, so they ride along under their eventual names.
-    course_code: COURSE.courseCode,
+    course_code: course.courseCode,
     position: courseLesson.position,
     delivery_method: meta.deliveryMethod,
     revision: meta.revision,
   };
+  manifest.content_hash = computeContentHash(
+    manifest,
+    Buffer.from(transcript),
+    questionsBytes,
+    readFileSync(join(packageDir, "video.mp4"))
+  );
   writeFileSync(join(packageDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
   // 6. The same rules superCPE will run, before anything leaves this machine.
@@ -298,6 +333,250 @@ const main = () => {
       `${narrated.length} narrated blocks · ${questions.length} questions\n`
   );
 };
+
+/* ------------------------------------------------------------------ */
+/* Text packages (023)                                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Export a `kind: "text"` lesson: manifest.json + guide/*.md + optional
+ * media/* + questions.json. Every refusal below runs before anything is
+ * created under dist/; the post-build validatePackage pass removes the
+ * directory if it fails, exactly as the video branch does.
+ */
+function exportTextLesson(
+  lessonId: LessonId,
+  questionsBytes: Buffer,
+  questions: Question[]
+): void {
+  const meta = LESSONS[lessonId].meta as TextLessonMeta;
+  const packageId = meta.courseCode;
+  const guideDir = join(root, "guide", lessonId);
+
+  // meta.status keeps its authority, same as the video branch (step 2).
+  if (meta.status !== "reviewed") {
+    refuse(
+      `lesson ${lessonId}'s meta.status is "${meta.status}". Only "reviewed" ` +
+        `exports (4.01.1, 4.02): work through drafts/${meta.courseCode}-review.md, ` +
+        `then set status: "reviewed" by hand — LESSON-RUNBOOK.md step 6. ` +
+        `Nothing in the tooling sets it.`
+    );
+  }
+
+  // The contract forbids word_count on a text package: superCPE computes
+  // it from the shipped body sections (7.02.5). A module that smuggles one
+  // in is asking for a trusted number where a computed one is the point.
+  if ("wordCount" in meta) {
+    refuse(
+      `lesson ${lessonId} carries a wordCount, and a text package's manifest ` +
+        `must not declare word_count — superCPE computes it from the body ` +
+        `sections' markdown (7.02.5). Remove the field from meta.`
+    );
+  }
+
+  // 7.02.5's structure: a guide with nothing to read is not a program, and
+  // 4.05.3 item 4 requires the front-matter block.
+  const roles = meta.sections.map((s) => s.role);
+  if (!roles.includes("body")) {
+    refuse(
+      `lesson ${lessonId} has no "body" section. Only body sections are ` +
+        `counted as required reading (7.02.5); a text package without one ` +
+        `measures zero words and superCPE will not publish it.`
+    );
+  }
+  if (!roles.includes("front_matter")) {
+    refuse(
+      `lesson ${lessonId} has no "front_matter" section. 4.05.3 item 4 ` +
+        `requires the "How this course works" block; start from the template ` +
+        `in docs/course-package.md and list the file with role "front_matter".`
+    );
+  }
+
+  // 7.02.7's test, per clip, before anything is measured or copied.
+  const media = meta.media ?? [];
+  for (const item of media) {
+    if (item.avIsAdditionalLearning !== true) {
+      refuse(
+        `media item ${item.id} does not claim avIsAdditionalLearning: true. ` +
+          ADDITIONAL_LEARNING_SENTENCE
+      );
+    }
+  }
+  const sectionIds = new Set(meta.sections.map((s) => s.id));
+  for (const item of media) {
+    if (!sectionIds.has(item.placement.afterSection)) {
+      refuse(
+        `media item ${item.id} is placed after_section "${item.placement.afterSection}", ` +
+          `which is not a section id of lesson ${lessonId}.`
+      );
+    }
+  }
+
+  // Review placement (5.01.2.1): every after_section must name a real
+  // section. Assessment questions carry no placement.
+  for (const q of questions) {
+    if (q.kind === "review") {
+      if (!q.after_section || !sectionIds.has(q.after_section)) {
+        refuse(
+          `question ${q.id} is placed after_section ` +
+            `${JSON.stringify(q.after_section ?? null)}, which is not a section id of ` +
+            `lesson ${lessonId}. Review questions in a text lesson are placed ` +
+            `on real sections (5.01.2.1).`
+        );
+      }
+    } else if (q.after_section !== undefined) {
+      refuse(`question ${q.id} is an assessment question and must not carry after_section.`);
+    }
+  }
+
+  // The authored files, before any dist/ write.
+  const sectionBytes: Buffer[] = [];
+  for (const s of meta.sections) {
+    const path = join(guideDir, s.file);
+    if (!existsSync(path)) {
+      refuse(
+        `section ${s.id}'s file ${path} does not exist. A text lesson's ` +
+          `sections live under guide/${lessonId}/ as plain markdown.`
+      );
+    }
+    sectionBytes.push(readFileSync(path));
+  }
+
+  // Clips are rendered artifacts; ffprobe each one, truncating down so a
+  // term of the formula may understate, never overstate (7.02.6).
+  const measuredMedia = media.map((item) => {
+    const sourcePath = join(root, item.file);
+    if (!existsSync(sourcePath)) {
+      refuse(
+        `media item ${item.id}'s file ${sourcePath} does not exist. Clips are ` +
+          `produced by the existing pipeline and referenced from the repo root.`
+      );
+    }
+    const seconds = Math.trunc(ffprobeSeconds(sourcePath));
+    if (seconds < 1) {
+      refuse(
+        `media item ${item.id}: ffprobe measured under one second; a ` +
+          `supplemental clip that short contributes no countable ` +
+          `audio/video duration time (7.02.7).`
+      );
+    }
+    return { item, sourcePath, seconds };
+  });
+
+  const { course, courseLesson } = courseFor(packageId);
+
+  // The manifest, hashed with content_hash absent (023a), written after.
+  const manifest: Record<string, unknown> = {
+    package_version: 1,
+    kind: "text",
+    lesson_id: packageId,
+    title: meta.title,
+    content_hash: "",
+
+    learning_objectives: meta.learningObjectives,
+    field_of_study: meta.nasbaFieldOfStudy,
+    knowledge_level: meta.knowledgeLevel,
+    prerequisites: meta.prerequisites,
+    advance_preparation: meta.advancePreparation,
+
+    sections: meta.sections.map((s) => ({
+      id: s.id,
+      file: `guide/${s.file}`,
+      role: s.role,
+      title: s.title,
+    })),
+    media: measuredMedia.map(({ item, seconds }) => ({
+      id: item.id,
+      file: `media/${basename(item.file)}`,
+      placement: { after_section: item.placement.afterSection },
+      av_is_additional_learning: true,
+      duration_seconds: seconds,
+    })),
+    glossary_terms: meta.glossaryTerms.map((t) => ({
+      term: t.term,
+      definition: t.definition,
+      ...(t.sectionId !== undefined ? { section_id: t.sectionId } : {}),
+    })),
+
+    sources: meta.sources,
+    author: {
+      name: meta.author.name,
+      credentials: meta.author.credentials,
+      license_jurisdiction: meta.author.licenseJurisdiction,
+      license_number: meta.author.licenseNumber,
+    },
+    course_code: course.courseCode,
+    position: courseLesson.position,
+    delivery_method: meta.deliveryMethod,
+    revision: meta.revision,
+  };
+  manifest.content_hash = computeTextContentHash(
+    manifest,
+    sectionBytes,
+    questionsBytes,
+    measuredMedia.map(({ sourcePath }) => readFileSync(sourcePath))
+  );
+
+  // Nothing above wrote a byte; everything below builds dist/<packageId>/.
+  const packageDir = join(root, "dist", packageId);
+  rmSync(packageDir, { recursive: true, force: true });
+  mkdirSync(join(packageDir, "guide"), { recursive: true });
+  writeFileSync(join(packageDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
+  meta.sections.forEach((s, i) => {
+    writeFileSync(join(packageDir, "guide", s.file), sectionBytes[i]);
+  });
+  // Verbatim bytes: the content hash is over the file, not a re-serialization.
+  writeFileSync(join(packageDir, "questions.json"), questionsBytes);
+  if (measuredMedia.length > 0) {
+    mkdirSync(join(packageDir, "media"), { recursive: true });
+    for (const { item, sourcePath } of measuredMedia) {
+      copyFileSync(sourcePath, join(packageDir, "media", basename(item.file)));
+    }
+  }
+
+  // The same rules superCPE will run, before anything leaves this machine.
+  const violations = validatePackage(packageDir);
+  if (violations.length > 0) {
+    console.error(`\n  export refused: the package fails ${violations.length} contract rule(s):\n`);
+    for (const message of violations) console.error(`    ${message}`);
+    console.error("");
+    rmSync(packageDir, { recursive: true, force: true });
+    process.exit(1);
+  }
+  if (meta.glossaryTerms.length === 0) {
+    // packages.py's one ingest warning; the publish gate refuses (4.05.3).
+    console.warn(
+      "\n  warning: glossary_terms is empty — superCPE ingests with a warning " +
+        "and refuses to publish a course whose text lessons define no key terms (4.05.3)."
+    );
+  }
+
+  // Task 5: the per-section 7.02.5 accounting and the credit estimate.
+  const clipSeconds = measuredMedia.reduce((sum, m) => sum + m.seconds, 0);
+  printTextPreview(sectionWordCounts(meta, guideDir), questions.length, clipSeconds);
+
+  // Zip, with the package directory as the single top-level entry.
+  const zipPath = join(root, "dist", `${packageId}.zip`);
+  const files = [
+    "manifest.json",
+    ...meta.sections.map((s) => `guide/${s.file}`),
+    "questions.json",
+    ...measuredMedia.map(({ item }) => `media/${basename(item.file)}`),
+  ];
+  writeZip(
+    zipPath,
+    files.map((name) => ({
+      name: `${packageId}/${name}`,
+      data: readFileSync(join(packageDir, name)),
+    }))
+  );
+
+  console.log(`\n  ${zipPath}`);
+  console.log(
+    `  ${packageId} · text · ${meta.sections.length} sections · ` +
+      `${measuredMedia.length} clip(s) · ${questions.length} questions\n`
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /* Minimal PKZIP writer                                                */
