@@ -1,4 +1,0 @@
-
-As a practical expedient, a lessor may, as an accounting policy election, by class of underlying asset, choose to not separate nonlease components from lease components and, instead, to account for each separate lease component and the nonlease components associated with that lease component as a single component if the nonlease components otherwise would be accounted for under Topic 606 on revenue from contracts with customers and both of the following are met:
-aThe timing and pattern of transfer for the lease component and nonlease components associated with that lease component are the same.
-bThe lease component, if accounted for separately, would be classified as an operating lease in accordance with paragraphs 842-10-25-2 through 25-3A.

@@ -1,3 +1,0 @@
-Leasehold improvements associated with a lease between entities under common control shall be:
-aAmortized over the useful life of those improvements to the common control group as long as the lessee controls the use of the underlying asset through a lease. If the lessor obtained the right to control the use of the underlying asset through a lease with another entity not within the same common control group, the amortization period shall not exceed the amortization period of the common control group determined in accordance with paragraph 842-20-35-12.
-bAccounted for as a transfer between entities under common control through an adjustment to equity (net assets for a not-for-profit entity) when the lessee no longer controls the use of the underlying asset.

@@ -1,2 +1,0 @@
-
-A lessee should use the rate implicit in the lease whenever that rate is readily determinable. If the rate implicit in the lease is not readily determinable, a lessee uses its incremental borrowing rate. A lessee that is not a public business entity is permitted to use a risk-free discount rate for the lease instead of its incremental borrowing rate, determined using a period comparable with that of the lease term, as an accounting policy election made by class of underlying asset.

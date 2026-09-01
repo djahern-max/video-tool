@@ -1,5 +1,0 @@
-
-After the commencement date, a lessee shall recognize all of the following in profit or loss, unless the costs are included in the carrying amount of another asset in accordance with other Topics:
-aA single lease cost, calculated so that the remaining cost of the lease (as described in paragraph 842-20-25-8) is allocated over the remaining lease term on a straight-line basis unless another systematic and rational basis is more representative of the pattern in which benefit is expected to be derived from the right to use the underlying asset (see paragraph 842-20-55-3), unless the right-of-use asset has been impaired in accordance with paragraph 842-20-35-9, in which case the single lease cost is calculated in accordance with paragraph 842-20-25-7
-bVariable lease payments not included in the lease liability in the period in which the obligation for those payments is incurred (see paragraphs 842-20-55-1 through 55-2)
-cAny impairment of the right-of-use asset determined in accordance with paragraph 842-20-35-9.

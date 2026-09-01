@@ -1,7 +1,0 @@
-
-
-
-A lessee shall allocate (that is, unless the lessee makes the accounting policy election described in paragraph 842-10-15-37) the consideration in the contract to the separate lease components determined in accordance with paragraphs 842-10-15-28 through 15-31 and the nonlease components as follows:
-aThe lessee shall determine the relative standalone price of the separate lease components and the nonlease components on the basis of their observable standalone prices. If observable standalone prices are not readily available, the lessee shall estimate the standalone prices, maximizing the use of observable information. A residual estimation approach may be appropriate if the standalone price for a component is highly variable or uncertain.
-bThe lessee shall allocate the consideration in the contract on a relative standalone price basis to the separate lease components and the nonlease components of the contract.
-Initial direct costs should be allocated to the separate lease components on the same basis as the lease payments.

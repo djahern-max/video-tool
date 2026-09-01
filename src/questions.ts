@@ -14,6 +14,7 @@ import questions02 from "./questions-02.json";
 import questions03 from "./questions-03.json";
 import questions04 from "./questions-04.json";
 import questions05 from "./questions-05.json";
+import questions06 from "./questions-06.json";
 
 export const QUESTIONS: Record<LessonId, Question[]> = {
   "01": questions01 as Question[],
@@ -21,6 +22,7 @@ export const QUESTIONS: Record<LessonId, Question[]> = {
   "03": questions03 as Question[],
   "04": questions04 as Question[],
   "05": questions05 as Question[],
+  "06": questions06 as Question[],
 };
 
 /** The file behind each entry, relative to src/. */
@@ -30,4 +32,5 @@ export const QUESTIONS_FILE: Record<LessonId, string> = {
   "03": "questions-03.json",
   "04": "questions-04.json",
   "05": "questions-05.json",
+  "06": "questions-06.json",
 };
