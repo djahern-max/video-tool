@@ -1,0 +1,8 @@
+node_modules/
+out/
+dist/
+.env
+.DS_Store
+
+
+public/audio/99/
