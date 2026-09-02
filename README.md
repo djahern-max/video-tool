@@ -20,6 +20,21 @@ npm run dev             # Remotion Studio at localhost:3000
 The order matters, and it is not the obvious one. Every command takes
 `-- --lesson <id>`.
 
+**0. Scaffold the lesson.**
+
+```bash
+npm run new -- --lesson 07 --code ASC842-PCX-07 --title "..."
+npm run new -- --lesson 07 --code ASC450-LC-02 --title "..." --kind text
+```
+
+Writes the module, an empty `questions-NN.json`, an empty
+`audio-meta-NN.json`, and a review document in `drafts/`, and makes the two
+registry edits. Every descriptor field lands as a `TODO:` and `meta.status`
+is `"draft"` — the tool writes no content and never sets status. It writes
+no `COURSE.lessons` entry either: which course a lesson belongs to, and
+where in it, is an authoring decision, and export refuses a lesson with no
+course entry.
+
 **1. Render silent, and judge the slides.** Block durations start as
 word-count estimates at 130 wpm, so you can see the whole lesson before
 spending a single ElevenLabs credit. Scrub through Studio. Fix what reads
@@ -63,6 +78,29 @@ under a single `<lesson_id>/` directory.
 same validation on ingest; if it rejects a package this tool exported, the
 bug is here.
 
+**6. Retire the lesson**, once its package is uploaded and accepted — or at
+any point, to clear the workspace.
+
+```bash
+npm run retire -- --lesson 01 --dry-run   # print the removal set, change nothing
+npm run retire -- --lesson 01
+npm run retire -- --all                   # clear the workspace
+```
+
+Deletes the lesson's files and unwires it from all three registries. It
+refuses an unknown id, a working tree with uncommitted changes under the
+removal set, and any MP3 git does not already track — git history is the
+archive here, and `--force` does not waive that last one. It never touches
+`drafts/` or `sources/`: the review document is the evidence a licensed CPA
+signed the lesson off, and the source extractions are what the narration
+cites. Both are program-development records; it prints where they are and
+leaves them.
+
+This is the only supported way to delete narration audio, because it removes
+`public/audio/NN/` and `src/audio-meta-NN.json` in one operation. Deleting
+one without the other leaves a lesson rendering silent while still claiming
+measured timings.
+
 Every exported package is unreviewed content until a licensed CPA signs it
 off inside superCPE. Export attests measurement, not correctness.
 
@@ -76,6 +114,7 @@ src/
   questions-NN.json    one lesson's questions, in the contract's questions.json shape
   questions.ts         LessonId -> questions, alongside LESSONS
   audio-meta-NN.json   measured durations and reveals, written by npm run generate
+  blocks.ts            Block and Figure — the render side's shape, not any lesson's
   types.ts             PackageLessonMeta and Question — what the manifest needs
   theme.ts             palette, type, layout tokens
   Sheet.tsx            drawing border + title block, wraps every slide
@@ -84,11 +123,17 @@ src/
   Lesson.tsx           sequences one lesson's blocks; no timing numbers
   Root.tsx             one composition per lesson, durations derived from content
 scripts/
+  new-lesson.ts        --lesson <id> --code <lessonId> --title; scaffolds and registers
+  retire.ts            --lesson <id> | --all; deletes a lesson and unwires it
+  registry.ts          the registry edits new and retire share
   generate-audio.ts    --lesson <id>; TTS with character-level alignment
   render.ts            --lesson <id>; wraps remotion render
   export.ts            --lesson <id>; builds, validates, and zips the package
   validate-package.ts  local mirror of superCPE's ingest rules (packages.py is authoritative)
   check-lessons.ts     offline invariants: markers, reveals, figures, pacing
+guide/<id>/            a text lesson's markdown sections — the program itself
+drafts/                per-lesson review documents; retire never deletes these
+sources/               the authoritative extractions the narration cites
 public/audio/<id>/     narration, one file per block — committed; regenerating
                        costs money and gives a different take
 docs/                  course-package.md, kept identical to superCPE's copy

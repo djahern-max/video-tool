@@ -5,6 +5,8 @@
   "description": "Remotion compositions for abacadaba CPE lesson videos",
   "scripts": {
     "dev": "remotion studio",
+    "new": "tsx scripts/new-lesson.ts",
+    "retire": "tsx scripts/retire.ts",
     "generate": "tsx scripts/generate-audio.ts",
     "render": "tsx scripts/render.ts",
     "export": "tsx scripts/export.ts",

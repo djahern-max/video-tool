@@ -2,7 +2,7 @@ import React from "react";
 import { useCurrentFrame } from "remotion";
 import { theme } from "./theme";
 import { revealAt } from "./reveal";
-import type { Figure } from "./lesson-01";
+import type { Figure } from "./blocks";
 
 export type LessonMeta = {
   courseCode: string;

@@ -3,8 +3,8 @@
 How to take a lesson from nothing to a published video with recorded credit.
 Written after producing lessons 01 and 02 of *Where Does It Actually Go?*
 
-Everything happens on the Mac. The droplet only ever receives the finished
-MP4, through the admin UI.
+Everything happens on the Mac. superCPE only ever receives the finished
+course package, through its admin packages page (step 9).
 
 ---
 
@@ -13,30 +13,41 @@ MP4, through the admin UI.
 Know these three things about the lesson you are building:
 
 - **Lesson number** — `02`, `03`, and so on. Two digits, always.
-- **Lesson slug** — read it from the database, do not guess. See step 8.
+- **Package id** — the globally unique `lesson_id` the manifest carries
+  (`ASC842-PCX-03`). Reusing one re-ingests downstream as a new *version* of
+  that lesson; `npm run new` refuses a code already in use.
 - **Which learning objective it maps to** — the narration has to actually
   teach that objective, because assessment questions are tied to it.
 
 ---
 
-## 1. Write the lesson module
-
-Copy an existing one and edit it. `lesson-02.ts` is the better template
-because it imports its types instead of defining them.
+## 0. Scaffold it
 
 ```bash
-cd ~/projects/abacadaba/video
-cp src/lesson-02.ts src/lesson-03.ts
-echo '{}' > src/audio-meta-03.json
+npm run new -- --lesson 03 --code ASC842-PCX-03 --title "..."
+npm run new -- --lesson 03 --code ASC450-LC-02 --title "..." --kind text
 ```
 
-In the new file, change:
+Writes `src/lesson-03.ts`, `src/questions-03.json`, `src/audio-meta-03.json`
+(`{}`), `drafts/<code>-review.md`, and — for `--kind text` — `guide/03/` with
+a front-matter and a body section. It makes both registry edits for you
+(step 2), so there is nothing to copy and nothing to wire.
 
-- The header comment (lesson number, title)
-- `import audioMeta from "./audio-meta-03.json"`
-- Every field in `meta` — `lessonId`, `courseCode`, `lessonTitle`, `title`,
-  `subtitle`, `eyebrow`
-- All the blocks
+What it deliberately does not write:
+
+- **Content.** Every descriptor field lands as a `TODO:`. Fill them in.
+- **`meta.status`.** It is `"draft"` and only a human changes it (step 6).
+- **A `COURSE.lessons` entry.** Which course this lesson belongs to and at
+  what position is an authoring decision. Add it to `src/course.ts` by hand
+  before exporting — export refuses a lesson with no course entry, and
+  `npm run check` warns until it is there.
+
+---
+
+## 1. Write the lesson module
+
+Edit the module step 0 wrote. Replace every `TODO:` in `meta`, then replace
+the placeholder block with the real ones.
 
 **Block anatomy.** Each block is one sheet on screen plus the narration read
 over it:
@@ -74,16 +85,17 @@ over it:
 
 ## 2. Register the lesson
 
-Add one import line and one map entry:
+`npm run new` already did this — an import and an entry in `src/lessons.ts`,
+an import and two entries in `src/questions.ts`. This is what it wrote, in
+case you are reading a lesson that predates the command:
 
 ```ts
 // src/lessons.ts
-import * as lesson01 from "./lesson-01";
-import * as lesson02 from "./lesson-02";
 import * as lesson03 from "./lesson-03";
 
-export const LESSONS = { "01": lesson01, "02": lesson02, "03": lesson03 } as const;
-export type LessonId = keyof typeof LESSONS;
+const REGISTRY = {
+  "03": lesson03,
+} as const;
 ```
 
 `Root.tsx` loops over `LESSONS`, so the composition appears automatically.
@@ -200,7 +212,8 @@ This is the step that was skipped once and cost a morning. The original ASC
 606 lesson modules were never committed and existed only in a git stash.
 
 ```bash
-git add src/lesson-03.ts src/lessons.ts src/audio-meta-03.json public/audio/03/
+git add src/lesson-03.ts src/lessons.ts src/questions.ts src/questions-03.json \
+        src/audio-meta-03.json public/audio/03/ drafts/ASC842-PCX-03-review.md
 git commit -m "video: lesson 03 narration and module"
 ```
 
@@ -211,31 +224,11 @@ take. The MP4 is not.
 
 ## 9. Upload
 
-`backend/scripts/upload_video.py` **does not work on production.** It
-authenticates with email and password, and every account on the deployed
-system is Google-only with a null `password_hash`. Use the admin UI.
+The admin **packages** page. Upload `dist/<lesson_id>.zip`; superCPE re-runs
+this repo's validation on ingest, computes the word count itself, and
+versions the package if that id has been ingested before.
 
-1. Sign in as the admin account
-2. Open the course → the lesson → the video field
-3. Upload `video/out/lesson-03.mp4`
-4. Duration auto-fills from the video. Confirm it matches `ffprobe`.
-5. Add a description
-6. Save
-
-To confirm the lesson slug from the database:
-
-```bash
-ssh deploy@134.209.77.184
-cd /srv/abacadaba
-docker compose -f docker-compose.prod.yml exec -T db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"' <<'SQL'
-SELECT l.position, l.slug, l.title FROM lessons l
-JOIN courses c ON c.id = l.course_id
-WHERE c.title = 'Where Does It Actually Go?'
-ORDER BY l.position;
-SQL
-```
-
-The `-T` flag is required when piping a script to `docker compose exec`.
+If it rejects a package this tool exported, the bug is here, not there.
 
 ---
 
@@ -252,6 +245,46 @@ rounds **down** to the nearest one-fifth. It never rounds up.
 Expect the number to climb as each lesson lands. Five lessons at ~6:20 is
 about 31 minutes of A/V; with 15 questions contributing 27.75 minutes, the
 course should reach roughly 1.0 credit once all five are in.
+
+---
+
+## 11. Retire the lesson
+
+Once the package is uploaded and accepted, the exported package — not this
+repo — is the record downstream. `transcript.md` (9.02.1(8)) is retained by
+superCPE inside it. At that point the workspace can be cleared:
+
+```bash
+npm run retire -- --lesson 03 --dry-run   # the removal set, changing nothing
+npm run retire -- --lesson 03
+npm run retire -- --all                   # every registered lesson
+```
+
+It deletes the module, the questions, the audio metadata, `public/audio/03/`,
+`guide/03/`, the render, and the exported package, and unwires the lesson from
+`lessons.ts`, `questions.ts`, and `course.ts`.
+
+Three things it refuses, each naming what is wrong and removing nothing:
+
+- an unknown lesson id;
+- a working tree with uncommitted changes under anything it would remove —
+  that is why step 8 exists, and `--force` waives this one;
+- an MP3 git does not already track. **`--force` does not waive that one.**
+  The MP3s are committed source; history is the only archive.
+
+It warns, without blocking, when a `"reviewed"` lesson has no
+`dist/<lesson_id>.zip` on disk: if that package was never exported and
+ingested, retiring the lesson leaves git history as the only copy of the
+transcript of record.
+
+It never touches `drafts/` or `sources/`. The review document is the evidence
+a licensed CPA signed the lesson off, and the extractions are what the
+narration cited; both are program-development records under 9.02.1. It prints
+where they are and leaves them for you to decide about.
+
+Retiring leaves a gap in the surviving `COURSE.lessons[].position` values. It
+says so and does not renumber them — superCPE ordered the course by those
+numbers, so closing a gap is a content decision.
 
 ---
 
@@ -285,7 +318,7 @@ not fail readiness on arrival.
 | Symptom | Cause |
 |---|---|
 | `generate` says "unchanged, skipped" on a fresh block | The run already happened. Check `public/audio/<id>/` before assuming failure. |
-| Composition has audio timings but no sound | `audio-meta*.json` has entries whose MP3s were deleted. Reset the JSON to `{}`. |
+| Composition has audio timings but no sound | `audio-meta*.json` has entries whose MP3s were deleted. Reset the JSON to `{}`. `npm run retire` removes both together so this cannot happen; do not `rm` audio by hand. |
 | Estimated-duration warning never fires | Same cause. `usingEstimates` is reading stale measurements. |
 | `KeyError` on an env var in a one-line-per-variable command | Trailing whitespace after a `\`. Put it on one line. |
 | A list item never appears on screen | Marker count ≠ `reveals` length. |

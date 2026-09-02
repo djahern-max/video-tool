@@ -7,8 +7,33 @@
  *
  * `knowledgeLevel` uses the contract's spelling ("Intermediate", 3.01.1) —
  * the manifest validator rejects any other casing.
+ *
+ * `npm run retire` removes a lesson's entry from the `lessons` array of
+ * whichever course claims its package id, and leaves the remaining
+ * `position` values alone. `npm run new` writes no entry here at all:
+ * which course a lesson belongs to, and where in it, is an authoring
+ * decision.
  */
 
+import type { LessonStatus } from "./types";
+
+/**
+ * One lesson's place in a course outline. Named rather than inferred so the
+ * array survives being empty: under `as const` an inline `[]` types its
+ * elements as `never`, and everything that maps over `course.lessons` stops
+ * compiling the moment the last lesson is retired.
+ */
+export type CourseLesson = {
+  position: number;
+  lessonId: string;
+  title: string;
+  status: LessonStatus;
+};
+
+// Each entry's `status` mirrors that lesson module's `meta.status` — the
+// module is authoritative (it gates export); this copy exists so the course
+// outline can be read without loading every module. `npm run check` warns
+// when the two disagree (scripts/check-lessons.ts).
 export const COURSE = {
   courseCode: "ASC842-PCX",
   title: "ASC 842 for Private Companies: The Practical Expedients",
@@ -19,36 +44,7 @@ export const COURSE = {
     "and recognizing a right-of-use asset and lease liability.",
   advancePreparation: "None",
   deliveryMethod: "Self study",
-  // Each entry's `status` mirrors that lesson module's `meta.status` — the
-  // module is authoritative (it gates export); this copy exists so the course
-  // outline can be read without loading every module. `npm run check` warns
-  // when the two disagree (scripts/check-lessons.ts).
-  lessons: [
-    {
-      position: 1,
-      lessonId: "ASC842-PCX-01",
-      title: "The Short-Term Lease Exception",
-      status: "reviewed",
-    },
-    {
-      position: 2,
-      lessonId: "ASC842-PCX-02",
-      title: "The Risk-Free Rate Election",
-      status: "reviewed",
-    },
-    {
-      position: 3,
-      lessonId: "ASC842-PCX-03",
-      title: "Not Separating Lease and Nonlease Components",
-      status: "reviewed",
-    },
-    {
-      position: 4,
-      lessonId: "ASC842-PCX-04",
-      title: "Common Control Arrangements",
-      status: "reviewed",
-    },
-  ],
+  lessons: [] as CourseLesson[],
 } as const;
 
 /**
@@ -67,14 +63,7 @@ export const COURSE_ASC450 = {
     "liabilities under U.S. GAAP.",
   advancePreparation: "None",
   deliveryMethod: "Self study",
-  lessons: [
-    {
-      position: 1,
-      lessonId: "ASC450-LC-01",
-      title: "Recognizing, Measuring, and Disclosing Loss Contingencies",
-      status: "reviewed",
-    },
-  ],
+  lessons: [] as CourseLesson[],
 } as const;
 
 /**

@@ -64,7 +64,8 @@ cannot carry live in the package and nowhere else:
 
     src/                lesson data, slides, Remotion root
     guide/<lessonId>/   text-lesson markdown sections
-    scripts/            generate-audio.ts, export.ts, validate-package.ts
+    scripts/            new-lesson.ts, retire.ts, generate-audio.ts, export.ts,
+                        validate-package.ts
     public/audio/NN/    generated narration, committed (unreproducible = source)
     drafts/             per-lesson review documents, the reviewer's surface
     sources/            authoritative extractions the narration cites
@@ -94,6 +95,11 @@ cannot carry live in the package and nowhere else:
   Deleting one means resetting the matching `audio-meta-NN.json` to `{}` in the
   same commit, or the lesson renders silent while still claiming measured
   timings.
+- `npm run retire` is the only supported way to delete audio. It removes
+  `public/audio/NN/` and `src/audio-meta-NN.json` in one operation, so they
+  cannot come apart, and it refuses any MP3 git does not already track —
+  history is the archive, and `--force` does not waive that. Do not `rm` audio
+  by hand.
 
 ## Maintained duplicates
 
@@ -106,6 +112,9 @@ their originals, the originals win.
 ## Commands
 
     npm run dev                      Remotion Studio
+    npm run new -- --lesson 07 --code ASC842-PCX-07 --title "..."
+    npm run retire -- --lesson 07 [--dry-run] [--force]
+    npm run retire -- --all
     npm run generate -- --lesson 01 --dry-run
     npm run render -- --lesson 01
     npm run export -- --lesson 01

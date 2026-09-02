@@ -608,3 +608,175 @@ sections are the program.
 - LESSON-RUNBOOK.md still describes only the video workflow; a text
   lesson's runbook (author sections → check → review doc → export) is a
   documentation follow-up.
+
+## 06 — Retire a lesson, and scaffold the next one
+Shipped: 2026-09-02
+
+**What changed**
+- `npm run retire -- --lesson NN` (`scripts/retire.ts`): deletes
+  `src/lesson-NN.ts`, `src/questions-NN.json`, `src/audio-meta-NN.json`,
+  `public/audio/NN/`, `guide/NN/`, `out/lesson-NN.mp4`, and `dist/<code>*`,
+  and makes all three registry edits — the import and entry in `lessons.ts`,
+  the import and two entries in `questions.ts`, and the `COURSE.lessons`
+  entry in `course.ts`. `Root.tsx` needed no change; it derives compositions
+  from `LESSONS`. `--all` does the whole workspace under one confirmation.
+  `--dry-run` prints the same removal set and exits 0. Otherwise it prints
+  the set and requires a typed `y`, which `--force` skips.
+- Three refusals, in order, each naming what is wrong and creating nothing:
+  an unknown lesson id, listing the registered ids the way `render.ts` does;
+  a working tree with uncommitted changes under the removal set, printing
+  the `git status --porcelain` lines; and any `public/audio/NN/*.mp3` git
+  does not track, named file by file. `--force` waives the second and the
+  confirmation. It does not waive the third. A `git` invocation that fails
+  at all (not a repository, for instance) is itself a refusal — every
+  question this command asks is a question about history.
+- One warning that does not block: a `"reviewed"` lesson with no
+  `dist/<lesson_id>.zip` on disk prints that the transcript of record leaves
+  this repo only inside an exported package (9.02.1(8)), then continues to
+  the confirmation.
+- The audio directory and its measured timings are one removal, so they
+  cannot come apart — the failure mode the old hand procedure had to
+  remember (delete an MP3, reset `audio-meta-NN.json` to `{}` in the same
+  commit) is now structural rather than remembered.
+- `npm run new -- --lesson NN --code <lessonId> --title "..."`
+  (`scripts/new-lesson.ts`), with `--kind text|video` defaulting to video.
+  Writes the module from the shape `lesson-02.ts` had — types imported,
+  course-level fields read from `src/course.ts` — with a title sheet and one
+  placeholder narrated block, every descriptor field a `TODO:`, and
+  `status: "draft"`. Also `questions-NN.json` as `[]`, `audio-meta-NN.json`
+  as `{}` (so `usingEstimates` is true from the first moment), `guide/NN/`
+  with a front-matter and a body section for `--kind text`, an empty
+  `drafts/<code>-review.md`, and the entries in both registries. It refuses
+  an id already registered, an id whose module file exists unregistered, an
+  id that is not two digits, and a `--code` any registered lesson already
+  uses — a reused package id re-ingests downstream as a new *version* of
+  that lesson and marks the course's credit and review stale.
+- It writes no `COURSE.lessons` entry, and prints that one is needed before
+  export. Which course a lesson belongs to and at what position is an
+  authoring decision.
+- `scripts/registry.ts`: the registry edits both commands share, so they
+  cannot disagree about the shape of what they write and remove. Line
+  oriented, not an AST rewrite — these files are hand-read, and preserving
+  their comments and spacing matters more than tolerating arbitrary
+  formatting. Both registry files now carry a comment saying to keep one
+  import and one entry per line, which is that module's contract.
+- Three structural repairs the empty-registry state required, none of which
+  changes what a package contains or attests:
+  - `src/blocks.ts` is new and holds `Block` and `Figure`, which lived in
+    `src/lesson-01.ts` with every other lesson re-exporting them from there.
+    That made lesson 01 undeletable: retiring it took `slides.tsx` and every
+    sibling with it. They are the render side's shape, not any one lesson's
+    content.
+  - `LESSONS`, `QUESTIONS`, and `QUESTIONS_FILE` are declared through a
+    string index instead of `Record<LessonId, …>`. With no lesson
+    registered `LessonId` is `never`, which made `LESSONS[id]` itself
+    `never` and stopped every caller reading `.meta` from compiling.
+    `LessonId` still derives from the registry, so `--lesson` stays checked,
+    and a `satisfies Record<LessonId, …>` on the underlying literals keeps
+    the exhaustiveness check in `questions.ts`.
+  - `COURSE.lessons` is typed `CourseLesson[]`. Under `as const` an inline
+    `[]` types its elements as `never`, and everything mapping over
+    `course.lessons` stops compiling the moment the last lesson is retired.
+- `scripts/remove-lesson.sh` deleted. It was the hand-rolled predecessor:
+  dry-run by default, but it refused a `"reviewed"` lesson rather than the
+  things that actually cannot be recovered, said nothing about
+  `audio-meta-NN.json`, left `course.ts` to a "leftover mentions" grep, and
+  contradicted the new CLAUDE.md line that `retire` is the only supported
+  way to delete audio.
+- Documentation: README gains step 0 (`new`) and step 6 (`retire`) in build
+  order, plus the new files in Structure. CLAUDE.md lists both commands and
+  gains a line under "Costs and secrets" that `retire` is the only supported
+  way to delete audio, because it enforces the audio-meta invariant.
+  LESSON-RUNBOOK.md gains step 0 and step 11, step 2 now records that `new`
+  already did the registration, and step 9's upload is the admin packages
+  page — the `~/projects/abacadaba/video` paths, the `upload_video.py`
+  note, and the SSH-plus-`docker compose exec` slug lookup are gone.
+
+**Standards touched**
+- 9.02.1 — retire deliberately does not delete `drafts/` or `sources/`. The
+  review document is the 4.02 evidence that a licensed CPA signed the lesson
+  off, and the source extractions are what the narration cites; both are
+  program-development records. It prints where they are and leaves them, and
+  deleting them stays a human decision made by hand. The exported package,
+  not this repo, is the retention artifact: `transcript.md` leaves here
+  inside a package and is retained by superCPE under 9.02.1(8), which is why
+  retiring a `"reviewed"` lesson with no package on disk warns and says so.
+- 4.02 — nothing in either command sets, clears, or downgrades
+  `meta.status`. `new` always writes `"draft"`; `retire` removes a lesson
+  rather than un-reviewing one, and its refusals are about recoverability,
+  not review state (which is where the old shell script drew the line).
+
+**Verified**
+- `npm run typecheck` and `npm run check` clean with zero lessons registered
+  (0 lessons, 0 errors, 0 warnings), and `npm run dev` starts Studio and
+  builds with no compositions and no errors.
+- The `new` round trip, spending no credits and running no render:
+  `npm run new -- --lesson 07 --code TEST-07 --title "T"` → typecheck clean;
+  `check` 0 errors, 3 warnings (the `[draft]` gate, the missing course entry,
+  and the placeholder block's 18s pacing); `generate -- --lesson 07
+  --dry-run` listed `block-01` with its 3 reveals, title sheet absent,
+  nothing sent; `export -- --lesson 07` refused on status first with nothing
+  under `dist/`; `retire -- --lesson 07 --force` returned `git status` to
+  clean apart from `drafts/TEST-07-review.md`.
+- All three refusals fired and created nothing: an unknown id (`--lesson
+  99`); a dirty tree, naming the three untracked files; an untracked MP3,
+  named, and still refusing under `--force`.
+- `--dry-run` changed nothing — `git status --porcelain` captured before and
+  after was byte-identical.
+- The rest was exercised in a throwaway clone (git history is what several
+  of these turn on, and nothing here should be committed for a test): a
+  reviewed video lesson with two committed MP3s and a `COURSE.lessons`
+  entry at position 2 of 1–3, and a text lesson in the other course. The
+  reviewed-but-unexported warning fired and named 9.02.1(8) without
+  blocking; `n` at the prompt left `git status` clean; `y` removed the four
+  paths, both registry entries, and the course entry, and reported
+  "positions are now 1, 3 — position 2 is a gap" without renumbering.
+  `drafts/` and `sources/` were untouched. `git log` and `git show` still
+  resolved the retired module and both MP3 blobs at the prior commit.
+  `retire --all` then emptied both registries and both course outlines, with
+  typecheck and check clean at 0 lessons.
+- `new`'s refusals: duplicate id, duplicate `--code` (naming the lesson that
+  holds it), a non-two-digit id, and an invalid `--kind`, each creating
+  nothing.
+- The text scaffold checks clean at 0 errors, with the one honest warning
+  that `glossaryTerms` is empty (4.05.3 item 3).
+
+**Decisions**
+- Git history is the archive. That is why a dirty working tree and an
+  untracked MP3 are refusals rather than warnings: the MP3s are committed
+  source that cannot be regenerated identically and cost credits to
+  regenerate, and a file with no history has nowhere to be recovered from.
+  `--force` is for the ordinary case of retiring something never committed
+  (a scaffold, a test lesson), so it waives the dirty-tree refusal — and
+  deliberately does not waive the untracked-audio one.
+- `retire` does not refuse a `"reviewed"` lesson, which is where the shell
+  script it replaces drew its line. Review state is not a recoverability
+  question, and treating it as one taught the wrong lesson about what is
+  actually irreversible here; the reviewed-but-unexported case is a warning
+  naming 9.02.1(8) instead.
+- The hand deletion that emptied the registry left `questions.ts` importing
+  seven deleted JSON files and `course.ts` describing five lessons that no
+  longer existed — `npm run typecheck` and `npm run check` were both broken
+  on arrival, which is precisely the failure this feature exists to prevent.
+  That deletion is finished here so the empty state is real; the course
+  records remain in git.
+- `new` writes `audio-meta-NN.json` only for a video lesson. Its stated
+  reason is `usingEstimates`, which a text lesson does not have — an unused
+  JSON file would be exactly the debris this feature removes. `retire` still
+  removes the file for any lesson that has one.
+- The runbook's retire step is 11, not 10: the file already had a step 10
+  (Recompute credit), and retiring comes after it.
+
+**Known gaps**
+- Retiring a lesson leaves a gap in the surviving `COURSE.lessons[].position`
+  values. The command says so and does not renumber: superCPE ordered the
+  course by those numbers, so closing a gap is a content decision a human
+  makes.
+- The registry edits are line-oriented text edits. They depend on the two
+  registry files keeping one import and one entry per line — stated in a
+  comment at the head of each — and would need rewriting as an AST pass if
+  those files are ever reformatted by a tool.
+- `new` scaffolds against `COURSE`, the first course record. A lesson
+  belonging to another course needs its `import { COURSE }` switched by
+  hand, alongside the `COURSE.lessons` entry the command already says to
+  write.

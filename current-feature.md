@@ -1,137 +1,178 @@
-# Feature 05 — Text-package authoring and export
+# Retire a lesson, and scaffold the next one
 
-superCPE shipped feature 023 Parts A and B on 2026-09-01: the contract now
-defines a text package (`kind: "text"`), and superCPE ingests, counts,
-reads, and gates them. This feature is Part C — video-tool learns to author
-and export one. **Prerequisite: superCPE 023a** (manifest.json joins the
-content hash) ships first, so the contract mirrored here is final.
+The tool has no way to finish with a lesson. Every lesson ever authored stays
+registered forever: `src/lesson-NN.ts`, `questions-NN.json`,
+`audio-meta-NN.json`, `public/audio/NN/`, an entry in `lessons.ts`, an entry in
+`questions.ts`, an entry in `COURSE.lessons`, a review document in `drafts/`.
+Nothing removes any of it, so `npm run check` keeps validating dead lessons,
+`Root.tsx` keeps registering dead compositions, and the cross-lesson
+duplicate-stem check keeps comparing new work against lessons that shipped
+months ago.
 
-The strategy is in supercpe's `docs/decisions/2026-09-01-text-first.md`:
-the study guide is the program, clips are supplements. Read it once.
+It has been done twice by hand already — feature 02 deleted the six ESG fixture
+lessons and their 42 committed MP3s file by file, and the registry is empty
+again today. Both times the hand edit had to get the same three things right:
+the two registries, the course record, and the rule that deleting an MP3 means
+resetting the matching `audio-meta-NN.json` to `{}` in the same commit.
 
-## In scope
-- Mirror the contract (completes supercpe 023 acceptance 10)
-- A text-lesson authoring shape inside the existing conventions
-- Export of a text package; `validate-package.ts` and `check-lessons.ts`
-  extended to the new kind
-- Export-time word-count preview and credit estimate
-- One minimal real text lesson through the full round trip
+This feature makes that a command, and gives the opposite command — scaffolding
+a new lesson — the same treatment, because "start fresh" is both halves.
 
-## Out of scope
-- Any supercpe change (023a is its own, prior feature there)
-- Generating audio or touching any existing lesson, slide, or voice setting
-- Authoring the first full text course (that is content work, not tooling)
-- ASC842-PCX
+**It is a workspace feature. It changes nothing about what a package contains,
+how it is validated, or what it attests.** No change to `export.ts`,
+`validate-package.ts`, `word-count.ts`, `docs/course-package.md`, any lesson's
+content, or any voice/model setting. No audio generated. No renders run.
 
-## Read first
-- `docs/course-package.md` — after task 1, the mirrored copy: the text
-  layout, section roles, the 7.02.5 exclusion list and word-count rules,
-  the 7.02.7 test, the front-matter template, the (post-023a) hash
-  definition
-- supercpe `CHANGELOG.md` entry 023 — what the server does with what you
-  export, including the ingest warnings and the three text publish gates
+## Invariants it must not break
 
-## Tasks
+1. **Nothing in the tooling touches `meta.status`** (rule 4; 4.01.1, 4.02).
+   Retiring removes a lesson; it never downgrades `"reviewed"` to `"draft"`,
+   and scaffolding always writes `"draft"`.
+2. **An MP3 and its measured timings die together.** `public/audio/NN/` and
+   `src/audio-meta-NN.json` are removed in the same operation, never
+   separately — otherwise a lesson renders silent while still claiming measured
+   durations (CLAUDE.md, "Costs and secrets"; rule 2).
+3. **The MP3s are committed source, not build output.** They cannot be
+   regenerated identically and regenerating spends credits. Git history is the
+   only archive, so retire refuses to delete audio that git is not already
+   tracking.
+4. **Retire never touches `drafts/` or `sources/`.** The review document is the
+   4.02 evidence that a licensed CPA signed the lesson off, and the source
+   extractions are what the narration cites; both are program-development
+   records under 9.02.1. Deleting them is a human decision made by hand, not a
+   side effect of clearing a workspace. Print where they are and leave them.
+5. **The exported package is the record downstream, not this repo.**
+   `transcript.md` (9.02.1(8)) leaves here inside the package and is retained
+   by superCPE. Retiring a lesson whose package was never exported and ingested
+   destroys the only copy of its transcript — see task 1's warning.
 
-### 1. Mirror the contract
-Copy supercpe's `docs/course-package.md` here byte-identically. Acceptance:
-`diff` is empty. Record the supercpe commit copied from in the changelog.
+## 1. `npm run retire -- --lesson NN`
 
-### 2. Text-lesson authoring shape
-Stay inside the existing per-lesson-module convention — one `meta` export,
-registered in `lessons.ts`/`questions.ts`; do not invent a second config
-system:
+`scripts/retire.ts`, registered in `package.json` alongside the existing
+scripts. Takes `--lesson <id>`, plus `--dry-run` and `--force`.
 
-- `src/lesson-NN.ts` exports `meta` with `kind: "text"` and a `sections`
-  array: `{id, file, role, title}` in order, files living under
-  `guide/<lessonId>/` as plain markdown. Roles per the contract
-  (`front_matter | body | glossary | appendix`).
-- `glossaryTerms` on `meta`: term/definition pairs, exported to the
-  manifest's `glossary_terms`.
-- The front-matter file starts from the contract's "How this course works"
-  template; keep it a file the author edits, not a generated string.
-- Clips are optional. When present: produced by the existing pipeline,
-  listed on `meta.media` with `placement.after_section` and
-  `avIsAdditionalLearning: true` per item. A text lesson with no clips
-  never touches Remotion, ElevenLabs, or ffprobe-of-a-render.
-- `src/questions-NN.json` unchanged in shape except review questions carry
-  `after_section` (a real section id) instead of `after_block`.
-- `meta.status` keeps its authority: export refuses a lesson whose status
-  is not the cleared value, same as today.
+**Refusals, in this order, each naming what is wrong and creating nothing:**
 
-### 3. Export
-Extend `scripts/export.ts` with the text branch:
+- unknown lesson id, listing the registered ids as `render.ts` does;
+- the working tree has uncommitted changes under any path this command would
+  remove (`git status --porcelain` over the removal set) — git history is the
+  archive, and an uncommitted file has no history;
+- any `public/audio/NN/*.mp3` is untracked by git, named file by file
+  (invariant 3). `--force` does not override this one.
 
-- Build `dist/<lessonId>/` per the contract: `manifest.json`,
-  `guide/*.md` (copied as authored), optional `media/*`, `questions.json`.
-- `content_hash` per the post-023a definition: manifest.json (with the
-  `content_hash` key absent) first, then sections in manifest order,
-  questions.json, media in manifest order.
-- ffprobe each clip for `duration_seconds`, as the video branch does.
-- Refuse, each with a clear message:
-  - any media item not claiming `av_is_additional_learning: true`, quoting
-    7.02.7's test (a clip that narrates the text does not belong in a text
-    package)
-  - a `word_count` key in the manifest (the contract forbids it; superCPE
-    computes)
-  - no `body` section, or no `front_matter` section
-  - a question placed `after_section` on a section id that does not exist
-- Zip and print, as today.
+**Warning, not a refusal:** if `meta.status` is `"reviewed"` and no
+`dist/<courseCode>.zip` exists, print that the lesson was reviewed but has no
+exported package on disk, and that the transcript of record leaves this repo
+only inside a package (9.02.1(8)). Continue after the confirmation prompt.
 
-### 4. validate-package.ts and check-lessons.ts
-- `validate-package.ts` gains the text-package rules with the contract's
-  rule numbers, keeping its header note that supercpe's `packages.py` is
-  authoritative and this is a maintained duplicate.
-- `check-lessons.ts` extends its course-wide question rules to text
-  lessons (`after_section` placement on distinct real sections; the
-  duplicate-stem check is already cross-lesson and picks these up).
+**Then confirm** — print the removal set and require a typed `y`, unless
+`--force`. `--dry-run` prints the same set and exits 0 having changed nothing.
 
-### 5. Word-count preview and credit estimate
-At export (and under `npm run check` for a text lesson), print a
-per-section table — section, role, words, **counted or excluded (7.02.5)**
-— using exactly the counting rules the contract spells out (fences, HTML,
-images, link URLs stripped; headings, link text, inline code kept; a token
-counts if it holds a letter or digit). Then one estimate line:
-`(counted words ÷ 180 + clip minutes + questions × 1.85) ÷ 50`, labelled
-an estimate — superCPE's computation is authoritative and rounding is
-course-level (7.01), not lesson-level.
+**The removal set:**
 
-Acceptance: hand-count one short section and match; a word added to the
-appendix moves "shipped" and not "counted"; the counted total for the
-round-trip lesson (task 6) equals the number superCPE's package summary
-shows for it, exactly.
+    src/lesson-NN.ts
+    src/questions-NN.json
+    src/audio-meta-NN.json
+    public/audio/NN/
+    guide/NN/                     (text lessons)
+    out/lesson-NN.mp4             (gitignored, reproducible)
+    dist/<courseCode>*            (gitignored, reproducible)
 
-### 6. One real lesson, full round trip
-Author a minimal but genuine text lesson — a few short body sections on a
-real topic, a small glossary, front matter from the template, one clip if
-convenient, 5 review + 4 assessment questions — not a copy of supercpe's
-test fixture. Then: export → upload to a local supercpe → package summary
-matches the export preview section by section → open the reader preview →
-delete the draft.
+**And the registry edits**, which are the part that is easy to get wrong by
+hand:
 
-Record in the changelog the round-trip time from "edit one sentence in a
-section file" to "re-exported and re-ingested." That number was the
-2026-09-01 walkthrough's Stage 1 question; for the format the catalog will
-be built in, it is the authoring loop's speed limit, and 023a means the
-re-upload auto-versions with no manual bookkeeping.
+- `src/lessons.ts` — remove the import and the `LESSONS` entry.
+- `src/questions.ts` — remove the import and the entry.
+- `src/course.ts` — remove the lesson's entry from `COURSE.lessons` and print
+  that the remaining `position` values may now have a gap, without renumbering
+  them (position is what superCPE ordered the course by; renumbering silently
+  is a content decision, not a cleanup).
+- `Root.tsx` needs no edit — it derives compositions from `LESSONS`.
+
+Print a closing summary: what was removed, that git history keeps the audio and
+the retired lesson file, and the paths under `drafts/` and `sources/` that were
+deliberately left behind.
+
+## 2. `npm run retire -- --all`
+
+The clear-the-workspace command. Same guards applied across every registered
+lesson, one confirmation for the whole set. On success the repo is back to the
+state it is in right now: `LESSONS` empty, `QUESTIONS` empty, `COURSE.lessons`
+empty, no `lesson-NN.ts`, no audio.
+
+Acceptance: with zero lessons registered, `npm run typecheck` is clean,
+`npm run check` reports zero lessons and zero errors, and `npm run dev` starts
+Studio with no compositions. `LessonId` narrowing to `never` must not break any
+file that walks `LESSONS`.
+
+## 3. `npm run new -- --lesson NN --code <lessonId> --title "..."`
+
+`scripts/new-lesson.ts`. Optional `--kind text|video`, defaulting to `video`.
+Refuses an id already in `LESSONS`, and refuses a `--code` already used by any
+registered lesson (a reused package id re-ingests as a *new version* of that
+lesson downstream and marks the course's credit and review stale — that is a
+deliberate re-export, not a new lesson).
+
+Writes, from the shape of `src/lesson-02.ts`:
+
+- `src/lesson-NN.ts` — a title sheet and one placeholder narrated block, all
+  descriptor fields present with `TODO:` values, `status: "draft"`, course-level
+  fields imported from `src/course.ts` rather than repeated;
+- `src/questions-NN.json` — `[]`;
+- `src/audio-meta-NN.json` — `{}`, so `usingEstimates` is true from the first
+  moment, as it must be;
+- `guide/NN/` with a front-matter and a body section, for `--kind text`;
+- `drafts/<code>-review.md` — the review document's headings only, empty;
+- the entries in `lessons.ts` and `questions.ts`.
+
+It does **not** write a `COURSE.lessons` entry: which course a lesson belongs to
+and at what position is an authoring decision. Print that the entry is needed
+before export, since export refuses a lesson with no course entry.
+
+Acceptance: `npm run new -- --lesson 07 --code TEST-07 --title "T"` followed by
+`npm run typecheck` and `npm run check` is clean, `check` shows the `[draft]`
+warning, `npm run generate -- --lesson 07 --dry-run` lists the placeholder block
+as pending and sends nothing, and `npm run export -- --lesson 07` refuses on
+status first. Then `npm run retire -- --lesson 07 --force` returns the tree to
+`git status` clean apart from `drafts/TEST-07-review.md`.
+
+## 4. Documentation
+
+- `README.md` — the two commands in build order: `new` before step 1, `retire`
+  after step 5.
+- `CLAUDE.md` — both in the Commands list; a line under "Costs and secrets"
+  that `retire` is the only supported way to delete audio, because it enforces
+  the audio-meta invariant.
+- `LESSON-RUNBOOK.md` — a step 0 (`new`) and a step 10 (`retire`, after the
+  package is uploaded and accepted). While in the file, delete the stale
+  `~/projects/abacadaba/video` paths and the SSH/database upload steps in step
+  9; the upload is the admin packages page and has been since feature 01.
 
 ## Acceptance
-1. Contract diff empty against supercpe's copy; commit recorded.
-2. `npm run typecheck` and `npm run check` clean over the new lesson;
-   existing lessons and their exports untouched (no audio spent, no
-   renders re-run).
-3. Export refusals fire for: missing `av_is_additional_learning`, a
-   manifest `word_count`, no body section, no front matter, a bad
-   `after_section` — nothing created under `dist/` in any refusal case.
-4. Task 5's three word-count checks pass.
-5. Task 6's round trip completes; superCPE accepts with 201, the summary
-   matches the preview, reader renders, draft deleted; round-trip time
-   recorded.
+
+1. `retire --lesson NN` removes exactly the set above, edits all three
+   registries, leaves `drafts/` and `sources/` intact, and leaves
+   `npm run typecheck` and `npm run check` clean.
+2. All three refusals fire and create nothing: unknown id; a dirty working tree
+   naming the file; an untracked MP3 naming the file, still refusing under
+   `--force`.
+3. The reviewed-but-unexported warning fires, names 9.02.1(8), and does not
+   block.
+4. `--dry-run` changes nothing, verified by `git status` before and after.
+5. `retire --all` leaves the empty-registry state of task 2, all three checks
+   passing.
+6. `new` → typecheck → check → dry-run generate → export refusal → `retire`
+   round trip of task 3 completes, spending no credits and running no render.
+7. `git log` still resolves a retired lesson's MP3s and lesson file at the
+   commit before the retire.
 
 ## When done
-Changelog entry per the format. Under Standards touched: 7.02.5 (the
-counting rules and exclusions implemented at authoring time, matching the
-server), 7.02.7 (the additional-learning claim required per clip at
-export), 5.01.2.1 (`after_section` placement). Note explicitly that
-`validate-package.ts` picked up new duplicated rules that must track
-`packages.py` by hand — the standing known gap, now larger.
+
+Changelog entry per the format. Under **Standards touched**: 9.02.1 — the
+records this command deliberately does not delete (`drafts/`, `sources/`) and
+why the exported package, not this repo, is the retention artifact; 4.02 —
+nothing in the tooling sets, clears, or downgrades `meta.status`. Under
+**Decisions**: that git history is the archive, which is why a dirty working
+tree and untracked audio are refusals rather than warnings. Under **Known
+gaps**: retiring a lesson leaves a gap in `COURSE.lessons[].position` that a
+human must reconcile.
