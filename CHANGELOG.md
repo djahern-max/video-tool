@@ -780,3 +780,157 @@ Shipped: 2026-09-02
   belonging to another course needs its `import { COURSE }` switched by
   hand, alongside the `COURSE.lessons` entry the command already says to
   write.
+
+## 07 — The course-wide question counts were unsourced
+Shipped: 2026-09-03
+
+**What changed**
+Nothing in the code. This entry records a defect in an earlier one.
+
+`REVIEW_PER_LESSON = 5` and `ASSESSMENT_PER_LESSON = 4` in
+`scripts/check-lessons.ts` entered the repo in feature 04, stated as two of
+five "course-level question rules" in `current-feature-004.md` and copied
+verbatim into the code comment, `LESSON-RUNBOOK.md`'s Questions section, and
+entry 04 of this file. None of the four texts derives either number.
+
+- The 4 has a stated rationale that is not a count: one assessment question per
+  objective, because ASC842-PCX lessons each have four objectives. It is that
+  course's objective count frozen as a constant. A lesson with a different
+  number of objectives fails a rule that was never about counts.
+- The 5 has no recorded rationale anywhere. Entry 04 cites 5.01.2.1 under
+  Standards touched, but 5.01.2.1 is the placement-and-count paragraph and
+  nothing in it produces 5.
+- The four-choice assessment minimum has no recorded rationale either, and
+  contradicts `validate-package.ts`'s `ASSESSMENT_MIN_CHOICES = 3` — the file
+  that is a recorded mirror of superCPE's `packages.py` — and this project's
+  policy that three-or-more is a policy choice, the Standards prohibiting
+  forced choice rather than prescribing an option count. Two files in this
+  repo, both presented as reflecting superCPE, disagreed on one rule, and the
+  stricter one was the unrecorded copy.
+
+The claim that superCPE enforces these is circular. "superCPE feature 007
+enforces these across the whole course on ingest" appears in the feature
+document that invented the rules, in the code comment copied from it, and in
+the runbook section copied from that. There is no source outside video-tool.
+`check-lessons.ts` was never listed in CLAUDE.md's maintained duplicates, so
+unlike `validate-package.ts` it had no recorded original to lose step with.
+
+Downstream consequence, recorded because it is in a shipped package:
+ASC842-PCX lesson 01's `q-09` was added in feature 04 to bring that lesson to
+four assessment questions. It is a real, sourced question and the objective it
+covers (`lo-3`) was genuinely unmeasured before it. But the reason it was
+written was a number nobody derived, and it changed the lesson's content hash
+and produced version 3 on upload.
+
+**Known gaps**
+- Whether superCPE's readiness code enforces anything resembling these counts
+  is unverified and was never verified. Nothing in this repo can answer it.
+
+## 08 — The course-wide question counts come out, and export gates on what remains
+Shipped: 2026-09-03
+
+**What changed**
+- `scripts/check-lessons.ts`: removed `REVIEW_PER_LESSON`,
+  `ASSESSMENT_PER_LESSON`, and the two count checks. Question-count minimums
+  are 5.01.2.1's three review questions per CPE credit and 6.01.2's five
+  assessment questions per credit — both functions of credit, which superCPE
+  computes and this repo does not. Adding a question moves credit by 1.85/50,
+  so the minimum is not even a static function of the content. Question-count
+  minimums and readiness findings are superCPE's; these rules crossed that
+  boundary on the day they were written.
+- Rule 1 keeps its coverage half (every objective carries at least one
+  assessment question) and loses its uniqueness half (no two assessment
+  questions on one objective). The uniqueness half existed only because four
+  questions against four objectives forced a bijection; it is the count rule
+  restated.
+- Rule 3: assessment choice minimum 4 → 3, matching `validate-package.ts`.
+  Review stays at 3, now with its basis recorded: 5.01.2.1 does not count
+  true/false review questions toward the required number.
+- Rule 4 (review questions on distinct blocks or sections) is unchanged and is
+  what the removed 5 was standing in for. 5.01.2.1 asks for distribution at
+  sufficient intervals, which is a placement property, decidable from the
+  module alone.
+- The header comment no longer claims superCPE enforces these rules.
+- `scripts/export.ts` now runs the lesson check and refuses on ERROR, in both
+  branches, after the status and `usingEstimates` refusals and before the
+  render-exists check, creating nothing under `dist/`. Previously export never
+  called `check-lessons.ts`, so a lesson could fail `npm run check` and export
+  cleanly — the gate that would otherwise have caught a bad package before a
+  Registry application.
+- The course-wide question rules still run over every registered lesson;
+  export acts only on findings naming the lesson being exported. The asymmetry
+  is documented at the call site.
+- `Finding` gained a `lessons: LessonId[]` field, and export filters on it
+  rather than on a `block` string prefix — `block` is a display label
+  ("b-03 S-02", "meta", "01 q-07") and parsing it would be guessing.
+- **A duplicate-stem finding now names both lessons, not only the second.**
+  It previously carried one label, the later of the two questions, so
+  exporting the *earlier* lesson of a colliding pair passed the filter and
+  shipped. A collision is a property of the pair: both packages carry a
+  question asking the same thing, and both are now refused. The printed
+  message and `block` label are unchanged, so `npm run check`'s output did not
+  move.
+- `check-lessons.ts` is now importable: `main()` runs behind the
+  `process.argv[1]` guard `generate-audio.ts` already uses, so importing the
+  seam does not run the report.
+- WARN findings are printed and do not block. Their levels were calibrated for
+  a voluntarily run script and are reassessed in this feature's inventory; no
+  level was changed here.
+- `LESSON-RUNBOOK.md` and `CLAUDE.md` updated. `CLAUDE.md` records
+  `check-lessons.ts` as video-tool's own authoring discipline and explicitly
+  not a maintained duplicate.
+
+**Standards touched**
+- 5.01.2.1, 6.01.2 — the per-credit minimums, named as superCPE's to evaluate
+  rather than restated here as per-lesson constants.
+- 6.01.2 — objective coverage retained: one assessment question per objective
+  satisfies the 75 percent floor from the manifest alone.
+- 4.01.1, 4.02 — export's review gate now runs the authoring checks it always
+  claimed were run before a package shipped.
+
+**Verified**
+The repo has no registered lessons: feature 06 retired them and the working
+tree carries an empty `REGISTRY`. `npm run check` reports "0 lesson(s)
+checked" against the repo as it stands, so the acceptance runs that name
+lesson 01 could not be run as written. Everything below was verified against
+throwaway lessons scaffolded with `npm run new`, removed afterwards; the
+working tree is back to only this feature's five files, with no untracked
+leftovers.
+
+- `npm run typecheck` clean. `npm run check` clean, exit 0.
+- Scratch video lessons 91 and 92, each with four 3-choice assessment
+  questions and *one* review question, check clean — 0 errors. Under the
+  removed rules that shape was two errors per lesson (one review question, not
+  five; three choices, not four). This is the removal, observed.
+- Negative tests, each applied and reverted: a 2-choice assessment question
+  errors; two assessment questions on one objective do not; an objective with
+  no assessment question still errors; two review questions on one
+  `after_block` still error; a stem duplicated across two lessons still
+  errors; a removed `feedback` still errors.
+- Export gate, exercised on a scratch **text** lesson: a broken question in
+  the exported lesson refuses with the finding, creates nothing under `dist/`,
+  and exits 1; the same breakage in a *different* registered lesson does not
+  block, and the export succeeds and exits 0.
+- Both directions of a stem collision refuse. Exporting the lesson holding the
+  *first* of the two colliding stems is refused by a finding whose `block`
+  label names the other lesson — the case that passed the filter before the
+  `lessons` field existed.
+
+**Known gaps**
+- The video branch's gate was not exercised end to end. `usingEstimates`
+  refuses before it, by design, and clearing that refusal means generating
+  audio, which spends ElevenLabs credits and is the human's step. Its
+  placement was verified by reading; the gate function itself is shared with
+  the text branch and was exercised there.
+- Acceptance items 4 and 5 as written — export lesson 01 and confirm its
+  `content_hash` is unchanged — could not be run: lesson 01 does not exist in
+  this repo. Nothing in this feature touches manifest construction or hashing,
+  so no package content should move, but that is reasoning, not a measurement,
+  and the first real export after this change should be compared against its
+  predecessor.
+- ASC842-PCX's questions were not inspected: no `src/questions-NN.json`
+  remains in the tree. The 5 review + 4 assessment shape described in entry 07
+  is recorded from history, not read from disk.
+- The ERROR/WARN levels are unchanged from when they were set for a voluntary
+  script. The inventory produced in this feature lists the ones worth
+  revisiting now that ERROR blocks an export.

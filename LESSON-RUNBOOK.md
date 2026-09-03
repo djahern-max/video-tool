@@ -290,26 +290,42 @@ numbers, so closing a gap is a content decision.
 
 ## Questions
 
-Course-level rules, applied when writing any lesson's `questions-NN.json`.
-superCPE (feature 007) enforces them across the whole course on ingest;
-`npm run check` runs the same rules here first, as ERRORs, so a course does
-not fail readiness on arrival.
+video-tool's own authoring rules, applied when writing any lesson's
+`questions-NN.json`. They mirror no superCPE code. `npm run check` runs them
+across every registered lesson, and `npm run export` refuses on any ERROR
+naming the lesson it is packaging.
 
-1. **Assessment questions per lesson: four**, each mapped to a *different*
-   one of the lesson's four objectives, so every objective in the course is
-   measured (6.01.2 requires 75 percent; four-of-four per lesson makes it
-   100 and removes the question from readiness).
+Every rule below is decidable from one lesson's module and its questions
+file. That is the test for belonging here.
+
+1. **Every objective carries at least one assessment question.** 6.01.2
+   requires a qualified assessment to measure 75 percent or more of the
+   program's objectives; one question per objective makes it 100, and the
+   module states its own objectives, so it is decidable here.
 2. **No assessment stem may duplicate a review stem** anywhere in the
    course, including across lessons. Compare after lowercasing, collapsing
    whitespace, and stripping trailing punctuation. A question that tests
    the same fact must ask it differently.
-3. **Assessment questions have four choices; review questions at least
-   three.** Two-choice review questions do not count toward the minimum, so
-   do not write any.
-4. **Review questions: five per lesson**, each with `after_block` on the
-   block it tests, never two on the same block.
-5. Feedback on every question: why the right answer is right, which
-   misunderstanding each wrong answer reflects, and which block to re-study.
+3. **Every question carries at least three choices**, assessment and review
+   alike. This matches `validate-package.ts`'s `ASSESSMENT_MIN_CHOICES`.
+   The Standards prohibit forced choice rather than prescribing an option
+   count; review questions are held to three rather than two because
+   5.01.2.1 does not count true/false review questions toward the required
+   number, so a two-choice review question is one that does not count.
+4. **Review questions sit on distinct places**, each with `after_block` on
+   the narrated block it tests (video) or `after_section` on the section
+   (text), never two on the same one. 5.01.2.1 asks for distribution at
+   sufficient intervals, which is a placement property.
+5. Feedback and an objective mapping on every question: why the right answer
+   is right, which misunderstanding each wrong answer reflects, and which
+   block to re-study.
+
+**How many questions a lesson needs is not decided here, and no rule above
+states a count.** 5.01.2.1 is three review questions per CPE credit and
+6.01.2 is five assessment questions per credit — both per *credit*, and
+credit is superCPE's to compute. Adding a question also moves credit by
+1.85/50, so the minimum is not even a static function of the content. A
+count written down here would be one course's shape frozen as a rule.
 
 ---
 

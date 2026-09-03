@@ -16,6 +16,10 @@
  *
  * Exit code is 1 if any ERROR fired, 0 otherwise. Warnings never fail the run.
  *
+ * Also imported. `scripts/export.ts` calls the exported seam below and refuses
+ * an export on any ERROR naming the lesson it is packaging, so these rules are
+ * no longer only advisory — see "The seam".
+ *
  * ERROR vs WARN is the difference between a wrong video and a wrong preview.
  * An ERROR means the rendered MP4 is defective: an element that never appears,
  * a blank sheet, audio that no longer matches its narration. A WARN means only
@@ -26,7 +30,7 @@
 
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { COURSES } from "../src/course";
 import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
@@ -96,7 +100,19 @@ type LessonModule = {
   totalSeconds: number;
 };
 
-type Finding = { level: "ERROR" | "WARN"; block: string; message: string };
+/**
+ * `lessons` is how `scripts/export.ts` decides whether a finding is about the
+ * lesson it is exporting. It is a list rather than one id because a duplicate
+ * stem is a property of a PAIR: both lessons carry a colliding question, so
+ * both must be refused. `block` is a display label and is not parseable —
+ * export filters on this field, never on a string prefix.
+ */
+export type Finding = {
+  level: "ERROR" | "WARN";
+  block: string;
+  message: string;
+  lessons: LessonId[];
+};
 
 /**
  * Label a finding by id AND sheet. Duplicate ids are one of the things being
@@ -132,12 +148,12 @@ const mmss = (seconds: number) =>
 /* The checks                                                          */
 /* ------------------------------------------------------------------ */
 
-function checkLesson(mod: LessonModule): Finding[] {
+function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
   const findings: Finding[] = [];
   const err = (b: AnyBlock, message: string) =>
-    findings.push({ level: "ERROR", block: label(b), message });
+    findings.push({ level: "ERROR", block: label(b), message, lessons: [id] });
   const warn = (b: AnyBlock, message: string) =>
-    findings.push({ level: "WARN", block: label(b), message });
+    findings.push({ level: "WARN", block: label(b), message, lessons: [id] });
 
   const seen = new Set<string>();
 
@@ -258,6 +274,7 @@ function checkLesson(mod: LessonModule): Finding[] {
         level: "ERROR",
         block: "meta",
         message: `meta.${k} is missing or empty — it renders as undefined on the sheet`,
+        lessons: [id],
       });
     }
   }
@@ -270,6 +287,7 @@ function checkLesson(mod: LessonModule): Finding[] {
       level: "ERROR",
       block: "meta",
       message: `meta.status must be "draft" or "reviewed", got "${status}" — export gates on this value`,
+      lessons: [id],
     });
   } else if (status === "draft") {
     // A warning, not an error: a draft renders fine, it just cannot ship.
@@ -278,12 +296,13 @@ function checkLesson(mod: LessonModule): Finding[] {
       level: "WARN",
       block: "meta",
       message: `status is "draft" — export will refuse it until the human works through drafts/${mod.meta.courseCode}-review.md and sets status: "reviewed" by hand`,
+      lessons: [id],
     });
   }
 
   /* --- course-record mirror ----------------------------------------- */
 
-  findings.push(...courseMirrorFindings(mod.meta.courseCode, status));
+  findings.push(...courseMirrorFindings(id, mod.meta.courseCode, status));
 
   return findings;
 }
@@ -293,7 +312,7 @@ function checkLesson(mod: LessonModule): Finding[] {
  * authority — it gates export); a disagreement means course.ts was not
  * updated when the lesson's status changed, or vice versa.
  */
-function courseMirrorFindings(packageId: string, status: string): Finding[] {
+function courseMirrorFindings(id: LessonId, packageId: string, status: string): Finding[] {
   const courseLesson = COURSES.flatMap((c) => c.lessons as readonly { lessonId: string; status: string }[])
     .find((l) => l.lessonId === packageId);
   if (!courseLesson) {
@@ -301,6 +320,7 @@ function courseMirrorFindings(packageId: string, status: string): Finding[] {
       level: "WARN",
       block: "meta",
       message: `no COURSES lessons entry for "${packageId}" in src/course.ts — export will refuse this lesson (course_code/position come from the course record)`,
+      lessons: [id],
     }];
   }
   if (courseLesson.status !== status) {
@@ -308,6 +328,7 @@ function courseMirrorFindings(packageId: string, status: string): Finding[] {
       level: "WARN",
       block: "meta",
       message: `the course record's status is "${courseLesson.status}" but meta.status is "${status}" — src/course.ts mirrors the module and one of them is stale`,
+      lessons: [id],
     }];
   }
   return [];
@@ -323,12 +344,12 @@ function courseMirrorFindings(packageId: string, status: string): Finding[] {
  * it; WARN means it ships but the course will not publish (or a clip is
  * simply not rendered yet — out/ is reproducible and gitignored).
  */
-function checkTextLesson(meta: TextLessonMeta): Finding[] {
+function checkTextLesson(id: LessonId, meta: TextLessonMeta): Finding[] {
   const findings: Finding[] = [];
   const err = (block: string, message: string) =>
-    findings.push({ level: "ERROR", block, message });
+    findings.push({ level: "ERROR", block, message, lessons: [id] });
   const warn = (block: string, message: string) =>
-    findings.push({ level: "WARN", block, message });
+    findings.push({ level: "WARN", block, message, lessons: [id] });
 
   const guideDir = join(root, "guide", meta.lessonId);
 
@@ -406,7 +427,7 @@ function checkTextLesson(meta: TextLessonMeta): Finding[] {
   } else if (status === "draft") {
     warn("meta", `status is "draft" — export will refuse it until the human works through drafts/${meta.courseCode}-review.md and sets status: "reviewed" by hand`);
   }
-  findings.push(...courseMirrorFindings(meta.courseCode, status));
+  findings.push(...courseMirrorFindings(id, meta.courseCode, status));
 
   return findings;
 }
@@ -415,49 +436,64 @@ function checkTextLesson(meta: TextLessonMeta): Finding[] {
 /* Course-wide question rules                                          */
 /* ------------------------------------------------------------------ */
 /*
- * superCPE feature 007 enforces these across the whole course on ingest;
- * they are applied here first so a course does not fail readiness on
- * arrival. All ERRORs: a violation is something superCPE will refuse.
+ * video-tool's own authoring discipline. These are not a mirror of any
+ * superCPE rule and must not be described as one — an earlier version of this
+ * comment claimed superCPE enforced them, sourced only to the feature document
+ * that invented them (see CHANGELOG entry 07).
  *
- *   1. Four assessment questions per lesson, each mapped to a different
- *      one of the lesson's objectives, so every objective is measured.
- *   2. No assessment stem duplicates a review stem anywhere in the course
- *      (compared lowercased, whitespace collapsed, trailing punctuation
- *      stripped). Checked here as: no two stems anywhere may collide.
- *   3. Assessment questions have four choices; review questions at least
- *      three (two-choice review questions do not count toward the minimum).
- *   4. Five review questions per lesson, each with `after_block` on the
- *      narrated block it tests, never two on the same block.
- *   5. Feedback on every question.
+ * Every rule here is decidable from a single lesson's module and questions
+ * file. Question-count minimums are not: 5.01.2.1 is three review questions
+ * per CPE credit and 6.01.2 is five assessment questions per credit, both
+ * functions of credit, which superCPE computes. Adding a question also moves
+ * credit by 1.85/50, so the minimum is not even a static function of the
+ * content. Do not reintroduce a per-lesson count here.
+ *
+ *   1. Every objective carries at least one assessment question (6.01.2's 75
+ *      percent floor; one-per-objective gives 100).
+ *   2. No assessment stem duplicates a review stem anywhere in the course.
+ *   3. Assessment and review questions carry at least three choices.
+ *   4. Review questions are placed on distinct narrated blocks or sections,
+ *      never two on the same one (5.01.2.1's "sufficient intervals").
+ *   5. Feedback and an objective mapping on every question.
  */
-
-const REVIEW_PER_LESSON = 5;
-const ASSESSMENT_PER_LESSON = 4;
 
 const normalizeStem = (stem: string): string =>
   stem.toLowerCase().replace(/\s+/g, " ").trim().replace(/[.?!…:;,]+$/, "");
 
-function checkCourseQuestions(ids: LessonId[]): Finding[] {
+export function checkCourseQuestions(ids: LessonId[]): Finding[] {
   const findings: Finding[] = [];
-  const err = (block: string, message: string) =>
-    findings.push({ level: "ERROR", block, message });
 
   // Rule 2: duplicate stems anywhere in the course, review and assessment.
-  const seenStems = new Map<string, string>(); // normalized stem -> "lesson id q-id"
+  //
+  // The finding names BOTH lessons, not just the second one to use the stem.
+  // A collision is a property of the pair: both packages carry a question
+  // asking the same thing, so exporting either of them must be refused, and
+  // attributing the finding only to the later lesson would let the earlier
+  // one export clean. `block` still labels the later of the two, which is
+  // the one a reader goes and edits.
+  const seenStems = new Map<string, { where: string; lesson: LessonId }>();
   for (const id of ids) {
     for (const q of QUESTIONS[id]) {
       const where = `${id} ${q.id}`;
       const norm = normalizeStem(q.stem);
       const first = seenStems.get(norm);
       if (first) {
-        err(where, `stem duplicates ${first} after normalization — a question testing the same fact must ask it differently (course rule 2)`);
+        findings.push({
+          level: "ERROR",
+          block: where,
+          message: `stem duplicates ${first.where} after normalization — a question testing the same fact must ask it differently (course rule 2)`,
+          lessons: first.lesson === id ? [id] : [first.lesson, id],
+        });
       } else {
-        seenStems.set(norm, where);
+        seenStems.set(norm, { where, lesson: id });
       }
     }
   }
 
   for (const id of ids) {
+    const err = (block: string, message: string) =>
+      findings.push({ level: "ERROR", block, message, lessons: [id] });
+
     const mod = LESSONS[id] as unknown as LessonModule;
     const questions = QUESTIONS[id];
     const text = isTextLesson(id);
@@ -467,14 +503,6 @@ function checkCourseQuestions(ids: LessonId[]): Finding[] {
 
     const review = questions.filter((q) => q.kind === "review");
     const assessment = questions.filter((q) => q.kind === "assessment");
-
-    // Rules 1 and 4: the counts.
-    if (review.length !== REVIEW_PER_LESSON) {
-      err(`${id} questions`, `${review.length} review question(s), rule 4 requires ${REVIEW_PER_LESSON}`);
-    }
-    if (assessment.length !== ASSESSMENT_PER_LESSON) {
-      err(`${id} questions`, `${assessment.length} assessment question(s), rule 1 requires ${ASSESSMENT_PER_LESSON}`);
-    }
 
     // Rule 4: review placement, in the lesson's own medium (5.01.2.1) —
     // a video lesson places by narrated block, a text lesson by section
@@ -540,9 +568,16 @@ function checkCourseQuestions(ids: LessonId[]): Finding[] {
 
     // Rule 3: choice counts.
     for (const q of questions) {
-      const min = q.kind === "assessment" ? 4 : 3;
+      // Assessment: 3, matching validate-package.ts's ASSESSMENT_MIN_CHOICES
+      // and the Standards, which prohibit forced choice rather than
+      // prescribing an option count. The 4 was unrecorded and stricter than
+      // this repo's own mirror of packages.py.
+      // Review: 3, deliberately stricter than the mirror's 2 — 5.01.2.1 does
+      // not count true/false review questions toward the required number, so
+      // a two-choice review question is one that does not count.
+      const min = 3;
       if (q.choices.length < min) {
-        err(`${id} ${q.id}`, `${q.choices.length} choices — ${q.kind} questions need at least ${min} (rule 3)`);
+        err(`${id} ${q.id}`, `${q.choices.length} choices — every question needs at least ${min} (rule 3)`);
       }
       if (!q.choices.some((c) => c.id === q.correct)) {
         err(`${id} ${q.id}`, `correct answer "${q.correct}" is not among the choice ids`);
@@ -565,27 +600,68 @@ function checkCourseQuestions(ids: LessonId[]): Finding[] {
       }
     }
 
-    // Rule 1: assessment coverage — each question a different objective,
-    // every objective measured.
-    const coveredBy = new Map<string, string>();
+    // Rule 1: assessment coverage.
+    // 6.01.2 requires a qualified assessment to measure 75 percent or more of
+    // the program's objectives. One question per objective gives 100 and is
+    // decidable from the module alone. How MANY questions is a function of
+    // credit, which superCPE computes — not checked here.
+    const covered = new Set<string>();
     for (const q of assessment) {
-      for (const lo of q.objective_ids ?? []) {
-        const already = coveredBy.get(lo);
-        if (already) {
-          err(`${id} ${q.id}`, `objective ${lo} is already assessed by ${already} — each assessment question maps to a different objective (rule 1)`);
-        } else {
-          coveredBy.set(lo, q.id);
-        }
-      }
+      for (const lo of q.objective_ids ?? []) covered.add(lo);
     }
     for (const lo of objectiveIds) {
-      if (!coveredBy.has(lo)) {
+      if (!covered.has(lo)) {
         err(`${id} questions`, `objective ${lo} has no assessment question — every objective must be measured (rule 1, 6.01.2)`);
       }
     }
   }
 
   return findings;
+}
+
+/* ------------------------------------------------------------------ */
+/* The seam                                                            */
+/* ------------------------------------------------------------------ */
+/*
+ * Two exported, pure functions — no printing, no exit code, no process
+ * state — so `main()` below and `scripts/export.ts` run the same checks.
+ * They are two rather than one because the rules split that way: a module's
+ * own invariants are decidable from that module, and the question rules are
+ * not. Export calls both and filters; `main()` calls both and prints them
+ * under separate headings, as it always has.
+ */
+
+/** The registered ids of one course, in the order the report lists them. */
+const idsOfCourse = (course: (typeof COURSES)[number]): LessonId[] => {
+  const packageIds = new Set<string>(course.lessons.map((l) => l.lessonId));
+  return (Object.keys(LESSONS) as LessonId[])
+    .sort()
+    .filter((id) => packageIds.has((LESSONS[id].meta as { courseCode: string }).courseCode));
+};
+
+/**
+ * One lesson's own findings — the video checks or the text checks, whichever
+ * kind it is. The course-wide question rules are deliberately not in here:
+ * see `courseScopeOf`.
+ */
+export function checkLessonById(id: LessonId): Finding[] {
+  return isTextLesson(id)
+    ? checkTextLesson(id, LESSONS[id].meta as TextLessonMeta)
+    : checkLesson(id, LESSONS[id] as unknown as LessonModule);
+}
+
+/**
+ * The scope `checkCourseQuestions` must run over to decide anything about
+ * `id`: every registered lesson of the course that claims its package id.
+ * A lesson no course record claims is its own scope — the per-lesson question
+ * rules still apply to it, and the missing record is reported separately.
+ */
+export function courseScopeOf(id: LessonId): LessonId[] {
+  const packageId = (LESSONS[id].meta as { courseCode: string }).courseCode;
+  for (const course of COURSES) {
+    if (course.lessons.some((l) => l.lessonId === packageId)) return idsOfCourse(course);
+  }
+  return [id];
 }
 
 /* ------------------------------------------------------------------ */
@@ -616,7 +692,7 @@ function main() {
   for (const id of ids) {
     if (isTextLesson(id)) {
       const meta = LESSONS[id].meta as TextLessonMeta;
-      const findings = checkTextLesson(meta);
+      const findings = checkLessonById(id);
       errors += findings.filter((f) => f.level === "ERROR").length;
       warnings += findings.filter((f) => f.level === "WARN").length;
 
@@ -644,7 +720,7 @@ function main() {
     }
 
     const mod = LESSONS[id] as unknown as LessonModule;
-    const findings = checkLesson(mod);
+    const findings = checkLessonById(id);
     errors += findings.filter((f) => f.level === "ERROR").length;
     warnings += findings.filter((f) => f.level === "WARN").length;
 
@@ -671,12 +747,8 @@ function main() {
   // --lesson filter cannot scope them. With two courses in the repo the
   // rules run per course: superCPE's rule 2 forbids stem collisions within
   // a course, not across the catalog.
-  const allIds = (Object.keys(LESSONS) as LessonId[]).sort();
   for (const course of COURSES) {
-    const packageIds = new Set<string>(course.lessons.map((l) => l.lessonId));
-    const courseIds = allIds.filter((id) =>
-      packageIds.has((LESSONS[id].meta as { courseCode: string }).courseCode)
-    );
+    const courseIds = idsOfCourse(course);
     if (courseIds.length === 0) continue;
     const courseFindings = checkCourseQuestions(courseIds);
     errors += courseFindings.filter((f) => f.level === "ERROR").length;
@@ -709,4 +781,8 @@ function main() {
   process.exit(errors > 0 ? 1 : 0);
 }
 
-main();
+// Importable: scripts/export.ts pulls the seam above in, and importing a
+// module must not run its report. Same guard generate-audio.ts uses.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}

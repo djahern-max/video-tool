@@ -6,8 +6,9 @@
  *
  * Produces dist/<lesson_id>.zip in exactly the shape docs/course-package.md
  * describes, refusing — with the reason — anything superCPE would reject:
- * an unreviewed lesson, estimated durations, a stale render, or any contract
- * violation validate-package.ts can see.
+ * an unreviewed lesson, estimated durations, a stale render, an ERROR from
+ * check-lessons.ts's authoring rules, or any contract violation
+ * validate-package.ts can see.
  *
  * Two branches on `meta.kind` (023): a video lesson packages its rendered
  * mp4, transcript, and questions as always; a `kind: "text"` lesson
@@ -46,6 +47,12 @@ import { COURSES } from "../src/course";
 import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
 import type { PackageLessonMeta, Question, TextLessonMeta } from "../src/types";
 import { QUESTIONS_FILE } from "../src/questions";
+import {
+  checkCourseQuestions,
+  checkLessonById,
+  courseScopeOf,
+  type Finding,
+} from "./check-lessons";
 import { MODEL_ID, TTS_PROVIDER } from "./generate-audio";
 import { printTextPreview, sectionWordCounts } from "./text-preview";
 import {
@@ -76,6 +83,50 @@ type LessonModule = {
 const refuse = (message: string): never => {
   console.error(`\n  export refused: ${message}\n`);
   process.exit(1);
+};
+
+/**
+ * `npm run check`'s rules, run as an export gate.
+ *
+ * Until this existed, export never called check-lessons.ts, so a lesson could
+ * fail `npm run check` and still export a clean-looking package — the gate
+ * that would otherwise catch a defective package before it reached a NASBA
+ * Registry application. ERROR refuses; WARN prints and ships.
+ *
+ * WARN levels were calibrated for a script an author ran voluntarily, where
+ * "look at this" was the whole meaning. At a gate, WARN means "we shipped it."
+ * No level was changed here; the reassessment is a separate decision.
+ */
+const gateOnLessonChecks = (lessonId: LessonId): void => {
+  // The course-wide question rules run over every registered lesson —
+  // duplicate stems are cross-lesson and cannot be checked from one package.
+  // Export acts only on the findings naming this lesson: a collision
+  // involving it names it, so it still fires, while an unrelated draft
+  // lesson's breakage does not block a finished one. Course-wide check,
+  // lesson-scoped action.
+  //
+  // A finding's lesson is `Finding.lessons`, an explicit field on the finding
+  // itself. `Finding.block` is a display label — "b-03 S-02", "meta",
+  // "01 q-07" — and matching a prefix against it would be guessing.
+  const findings: Finding[] = [
+    ...checkLessonById(lessonId),
+    ...checkCourseQuestions(courseScopeOf(lessonId)),
+  ].filter((f) => f.lessons.includes(lessonId));
+
+  for (const f of findings.filter((f) => f.level === "WARN")) {
+    console.warn(`  warn  ${f.block}  ${f.message}`);
+  }
+
+  const errors = findings.filter((f) => f.level === "ERROR");
+  if (errors.length > 0) {
+    console.error(
+      `\n  export refused: lesson ${lessonId} fails ${errors.length} authoring ` +
+        `check(s) — the same rules \`npm run check\` runs:\n`
+    );
+    for (const f of errors) console.error(`    ${f.block}  ${f.message}`);
+    console.error("");
+    process.exit(1);
+  }
 };
 
 /** ELEVENLABS_VOICE_ID from .env (same file generate-audio.ts reads). */
@@ -186,7 +237,12 @@ const main = () => {
     );
   }
 
-  // 4. The render must exist and agree with the audio metadata.
+  // 4. The authoring checks, before the author is told to go and render:
+  // being sent back to Remotion only to be told the questions are wrong is
+  // the wrong order to learn it in.
+  gateOnLessonChecks(lessonId);
+
+  // 5. The render must exist and agree with the audio metadata.
   const videoSource = join(root, "out", `lesson-${lessonId}.mp4`);
   if (!existsSync(videoSource)) {
     refuse(
@@ -204,7 +260,7 @@ const main = () => {
     );
   }
 
-  // 5. Build dist/<lesson_id>/. The manifest lesson_id is meta.courseCode —
+  // 6. Build dist/<lesson_id>/. The manifest lesson_id is meta.courseCode —
   // the globally unique code — not meta.lessonId, the module selector.
   const packageId = meta.courseCode;
   const { course, courseLesson } = courseFor(packageId);
@@ -304,7 +360,7 @@ const main = () => {
   );
   writeFileSync(join(packageDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
-  // 6. The same rules superCPE will run, before anything leaves this machine.
+  // 7. The same rules superCPE will run, before anything leaves this machine.
   const violations = validatePackage(packageDir);
   if (violations.length > 0) {
     console.error(`\n  export refused: the package fails ${violations.length} contract rule(s):\n`);
@@ -314,7 +370,7 @@ const main = () => {
     process.exit(1);
   }
 
-  // 7. Zip, with the package directory as the single top-level entry.
+  // 8. Zip, with the package directory as the single top-level entry.
   const zipPath = join(root, "dist", `${packageId}.zip`);
   const files = ["manifest.json", "video.mp4", "transcript.md", "questions.json"];
   writeZip(
@@ -362,6 +418,8 @@ function exportTextLesson(
         `Nothing in the tooling sets it.`
     );
   }
+
+  gateOnLessonChecks(lessonId);
 
   // The contract forbids word_count on a text package: superCPE computes
   // it from the shipped body sections (7.02.5). A module that smuggles one
