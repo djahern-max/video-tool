@@ -1,343 +1,186 @@
-# Lesson video runbook
+# Lesson runbook
 
-How to take a lesson from nothing to a published video with recorded credit.
-Written after producing lessons 01 and 02 of *Where Does It Actually Go?*
+The only file in this repo you need to read to build a lesson.
 
-Everything happens on the Mac. superCPE only ever receives the finished
-course package, through its admin packages page (step 9).
-
----
-
-## Before you start
-
-Know these three things about the lesson you are building:
-
-- **Lesson number** — `02`, `03`, and so on. Two digits, always.
-- **Package id** — the globally unique `lesson_id` the manifest carries
-  (`ASC842-PCX-03`). Reusing one re-ingests downstream as a new *version* of
-  that lesson; `npm run new` refuses a code already in use.
-- **Which learning objective it maps to** — the narration has to actually
-  teach that objective, because assessment questions are tied to it.
+Text lessons are the default. The video path is at the bottom and is the
+same steps plus two.
 
 ---
 
-## 0. Scaffold it
+## Pick two things first
 
-```bash
-npm run new -- --lesson 03 --code ASC842-PCX-03 --title "..."
-npm run new -- --lesson 03 --code ASC450-LC-02 --title "..." --kind text
-```
+- **Lesson number** — two digits. Just an id; it names the files
+  (`src/lesson-01.ts`, `guide/01/`). Any unregistered number works.
+- **Package id** — the permanent, globally unique code the package ships
+  under (`ASC450-LC-01`). Reusing one means "new version of that lesson"
+  downstream, not "new lesson." `new` refuses a code already in use.
 
-Writes `src/lesson-03.ts`, `src/questions-03.json`, `src/audio-meta-03.json`
-(`{}`), `drafts/<code>-review.md`, and — for `--kind text` — `guide/03/` with
-a front-matter and a body section. It makes both registry edits for you
-(step 2), so there is nothing to copy and nothing to wire.
-
-What it deliberately does not write:
-
-- **Content.** Every descriptor field lands as a `TODO:`. Fill them in.
-- **`meta.status`.** It is `"draft"` and only a human changes it (step 6).
-- **A `COURSE.lessons` entry.** Which course this lesson belongs to and at
-  what position is an authoring decision. Add it to `src/course.ts` by hand
-  before exporting — export refuses a lesson with no course entry, and
-  `npm run check` warns until it is there.
+Check `ls drafts/` before you pick a code. `retire` leaves review documents
+behind, so a stale `drafts/<code>-review.md` can survive a retired lesson,
+and `new` will leave it untouched rather than replace it.
 
 ---
 
-## 1. Write the lesson module
+## 1. Scaffold
 
-Edit the module step 0 wrote. Replace every `TODO:` in `meta`, then replace
-the placeholder block with the real ones.
+    npm run new -- --lesson 01 --code ASC450-LC-01 --title "..." --kind text \
+      --course-code ASC450-LC --course-title "Loss Contingencies Under ASC 450"
 
-**Block anatomy.** Each block is one sheet on screen plus the narration read
-over it:
+Writes:
 
-```ts
-{
-  id: "block-01",          // unique within the lesson; drives the mp3 filename
-  sheet: "S-01",           // printed in the sheet's corner
-  citation: "40 CFR §262.13",
-  slide: "Statement",      // Title | Statement | Facts | List | Compare | Calc
-  figure: { kind: "statement", lines: ["...", "...", "..."] },
-  narration: "Text with [[r]] markers before the word each item appears on.",
-  reveals: [1, 25, 49],    // FALLBACK ONLY — discarded once audio exists
-  estimatedSeconds: 55,
-}
-```
+    src/lesson-01.ts            the module: metadata, section list
+    src/questions-01.json       []
+    guide/01/00-front-matter.md
+    guide/01/01-body.md
+    drafts/ASC450-LC-01-review.md
 
-**Rules that will bite you if you break them:**
+and registers the lesson in `src/lessons.ts`, `src/questions.ts`, and
+`src/course.ts`.
 
-1. **Marker count must equal `reveals` length.** Slide components index into
-   `reveals` positionally. A mismatch reads `undefined` and the element never
-   appears on screen. The dry run in step 3 checks this.
-2. **Figure items should be ≥ marker count.** Extra items reveal alongside the
-   last marked one. Fewer items than markers means wasted markers.
-3. **Mark the word, not the sentence.** `[[r]]` goes immediately before the
-   word the item corresponds to, mid-sentence if that is where it falls.
-4. **Never type a timing number anywhere else.** `reveals` and
-   `estimatedSeconds` are the only permitted numbers, and both are fallbacks.
-   `estimatedSeconds = Math.round(wordCount / 130 * 60)`.
-5. **Aim for 40–75 seconds per sheet.** Attention resets every 20–30 seconds
-   and a new sheet is the cheapest reset available. Eight blocks of ~120 words
-   lands around 6 minutes.
+`--course-code` is what places the lesson in a course. It joins the record
+with that code, or creates one when nothing matches — in which case
+`--course-title` is required and the new record's `nasbaFieldOfStudy`,
+`prerequisites` and `advancePreparation` land as `TODO:` strings you must
+fill in before export. Passing `--course-title` for a course that already
+exists under a different title is a refusal: one course code is one course.
 
----
+Position is the next one in that course. A gap left by a retired lesson is
+not reused — that number was that lesson's place in the sequence.
 
-## 2. Register the lesson
+## 2. Name the course, or don't
 
-`npm run new` already did this — an import and an entry in `src/lessons.ts`,
-an import and two entries in `src/questions.ts`. This is what it wrote, in
-case you are reading a lesson that predates the command:
+Leave both course flags off and no course entry is written. That is still
+deliberate: with no course named there is nothing to infer, and the command
+refuses to guess rather than picking one for you.
 
-```ts
-// src/lessons.ts
-import * as lesson03 from "./lesson-03";
+Export refuses a lesson with no course entry — that record is where
+`course_code` and `position` come from. `npm run check` warns until it's
+there, and you either re-run `new` with `--course-code` or add the entry by
+hand.
 
-const REGISTRY = {
-  "03": lesson03,
-} as const;
-```
+## 3. Fill in the module
 
-`Root.tsx` loops over `LESSONS`, so the composition appears automatically.
-Nothing else to edit.
+Open `src/lesson-01.ts`. Every descriptor field is `TODO:`. Fill in
+objectives, field of study, knowledge level, prerequisites, advance
+preparation, author, sources, glossary terms.
 
----
+The field that does the real work is `meta.sections`: your markdown files
+and each one's `role`.
 
-## 3. Typecheck and dry run
+    front_matter    excluded from the word count. Required.
+    body            counted. At least one required.
+    glossary        excluded.
+    appendix        excluded.
 
-Neither spends money. Do not skip.
+Put words in the right file and the roles handle the rest. Nothing is
+counted or excluded by remembering to do it.
 
-```bash
-npx tsc --noEmit
-npm run generate -- --lesson 03 --dry-run
-```
+Two that will bite at publish time: a `front_matter` section is required,
+and `glossary_terms` must not be empty.
 
-The dry run must show every narrated block with its marker count, and the
-title sheet must be **absent** — it has no narration by design.
+## 4. Write the content
 
-If `tsc` errors on `meta`, you missed a field the sheet chrome reads. The
-error names it.
+Plain markdown under `guide/01/`. Add as many files as you like; list each
+one in `meta.sections`.
 
----
+## 5. Write the questions
 
-## 4. Preview silent
+`src/questions-01.json`.
 
-```bash
-npm run dev
-```
+    review       carries "after_section": "sec-02". At least 2 choices.
+    assessment   carries no placement. At least 3 choices.
 
-Open `Lesson03` in Studio and scrub every sheet. Check:
+Every question needs `objective_ids` pointing at real objective ids.
 
-- Title sheet renders real text, not blanks
-- Every `Facts` row and `List` item is visible by the end of its block
-- Console shows the estimated-duration warning — it **should** fire, no audio
-  exists yet
+## 6. Check
 
-This is the last free review. After generation, fixing narration means
-regenerating a block, and a regenerated block is a different take.
+    npm run typecheck && npm run check
 
----
+`check` prints a per-section word count table marking each section counted
+or excluded, then a credit estimate. This is the loop that matters — run it
+after every content change. Exit code 1 on any ERROR.
 
-## 5. Generate narration
+`check` runs across all lessons, so a finding naming a different lesson is
+not your problem.
 
-**This spends ElevenLabs credits.** It is the first irreversible step.
+## 7. Mark it reviewed
 
-```bash
-npm run generate -- --lesson 03
-```
+Work through `drafts/<code>-review.md`, then edit `meta.status` from
+`"draft"` to `"reviewed"` by hand. Nothing in the tooling sets this and
+nothing should.
 
-The script sends each block's narration to ElevenLabs, strips the `[[r]]`
-markers, reads their real timestamps out of the character-level alignment
-data, and writes duration + measured reveals + a content hash to
-`audio-meta-03.json`. MP3s land in `public/audio/03/`.
+## 8. Export
 
-**Blocks are cached by content hash.** Re-running skips anything unchanged, so
-a second run costs nothing. If you edit one block's narration, only that block
-regenerates.
+    npm run export -- --lesson 01
 
-Useful flags:
-
-| Flag | Effect |
-|---|---|
-| `--dry-run` | Report only, send nothing |
-| `--only block-04` | One block, for a pronunciation test |
-| `--force` | Regenerate even if the hash matches |
-
-The output line reports total runtime and how many blocks are still
-estimated. **It should say zero.**
-
-Ignore the 7.02.7 sanity check it prints. That is this segment alone through
-the formula, which is not how credit works — credit attaches to the course,
-summing all lessons and all questions, divided once.
-
----
-
-## 6. Review, then clear the draft stamp
-
-Listen straight through. Two things: reveals landing as the narrator names
-each item, and no sheet sounding tonally different from its neighbors.
-
-`meta.status` is `"draft"` or `"reviewed"`, nothing else, and export refuses
-`"draft"`. Work through the lesson's review document,
-`drafts/<lesson>-review.md`, until its judgment list is closed and the
-reviewer signs off. Then set `status: "reviewed"` in `meta` **by hand** —
-nothing in the tooling sets it; the status is the record that a human did
-this step — and re-render. **Clearing the stamp does not require
-regenerating audio** — it is a re-render only, and free.
-
----
-
-## 7. Render
-
-```bash
-npx remotion render Lesson03 out/lesson-03.mp4
-ffprobe -i out/lesson-03.mp4 2>&1 | grep Duration
-```
-
-A few minutes. The MP3s are pulled in automatically — the output has audio,
-no separate mux step.
-
-**That `ffprobe` duration is the number that matters.** It is measured off the
-artifact, and it is the only figure permitted to reach the credit calculation
-(7.02.7).
-
-`video/out/` is gitignored. Do not commit the MP4 — it is reproducible from
-what is committed.
-
----
-
-## 8. Commit before uploading
-
-This is the step that was skipped once and cost a morning. The original ASC
-606 lesson modules were never committed and existed only in a git stash.
-
-```bash
-git add src/lesson-03.ts src/lessons.ts src/questions.ts src/questions-03.json \
-        src/audio-meta-03.json public/audio/03/ drafts/ASC842-PCX-03-review.md
-git commit -m "video: lesson 03 narration and module"
-```
-
-The MP3s are worth tracking — regenerating costs money and gives a different
-take. The MP4 is not.
-
----
+Produces `dist/<code>.zip`. On any refusal nothing is created under
+`dist/` — there is no half-built package to clean up.
 
 ## 9. Upload
 
-The admin **packages** page. Upload `dist/<lesson_id>.zip`; superCPE re-runs
-this repo's validation on ingest, computes the word count itself, and
-versions the package if that id has been ingested before.
+The zip goes to superCPE's admin packages page.
 
-If it rejects a package this tool exported, the bug is here, not there.
+    FILL IN: the production URL and login. Local development was
+    localhost:5173/admin/packages.
 
----
-
-## 10. Recompute credit
-
-Course editor → **Recompute credit**.
-
-Credit is stale — and the course cannot publish — whenever the course changes
-after the last computation. Adding a video is such a change.
-
-The formula sums total A/V runtime plus questions × 1.85, divides by 50, and
-rounds **down** to the nearest one-fifth. It never rounds up.
-
-Expect the number to climb as each lesson lands. Five lessons at ~6:20 is
-about 31 minutes of A/V; with 15 questions contributing 27.75 minutes, the
-course should reach roughly 1.0 credit once all five are in.
+Re-uploading the identical zip is a no-op. A changed zip creates a new
+version of the lesson.
 
 ---
 
-## 11. Retire the lesson
+## When export refuses
 
-Once the package is uploaded and accepted, the exported package — not this
-repo — is the record downstream. `transcript.md` (9.02.1(8)) is retained by
-superCPE inside it. At that point the workspace can be cleared:
+Each refusal names what is wrong. The common ones:
 
-```bash
-npm run retire -- --lesson 03 --dry-run   # the removal set, changing nothing
-npm run retire -- --lesson 03
-npm run retire -- --all                   # every registered lesson
-```
-
-It deletes the module, the questions, the audio metadata, `public/audio/03/`,
-`guide/03/`, the render, and the exported package, and unwires the lesson from
-`lessons.ts`, `questions.ts`, and `course.ts`.
-
-Three things it refuses, each naming what is wrong and removing nothing:
-
-- an unknown lesson id;
-- a working tree with uncommitted changes under anything it would remove —
-  that is why step 8 exists, and `--force` waives this one;
-- an MP3 git does not already track. **`--force` does not waive that one.**
-  The MP3s are committed source; history is the only archive.
-
-It warns, without blocking, when a `"reviewed"` lesson has no
-`dist/<lesson_id>.zip` on disk: if that package was never exported and
-ingested, retiring the lesson leaves git history as the only copy of the
-transcript of record.
-
-It never touches `drafts/` or `sources/`. The review document is the evidence
-a licensed CPA signed the lesson off, and the extractions are what the
-narration cited; both are program-development records under 9.02.1. It prints
-where they are and leaves them for you to decide about.
-
-Retiring leaves a gap in the surviving `COURSE.lessons[].position` values. It
-says so and does not renumber them — superCPE ordered the course by those
-numbers, so closing a gap is a content decision.
-
----
-
-## Questions
-
-video-tool's own authoring rules, applied when writing any lesson's
-`questions-NN.json`. They mirror no superCPE code. `npm run check` runs them
-across every registered lesson, and `npm run export` refuses on any ERROR
-naming the lesson it is packaging.
-
-Every rule below is decidable from one lesson's module and its questions
-file. That is the test for belonging here.
-
-1. **Every objective carries at least one assessment question.** 6.01.2
-   requires a qualified assessment to measure 75 percent or more of the
-   program's objectives; one question per objective makes it 100, and the
-   module states its own objectives, so it is decidable here.
-2. **No assessment stem may duplicate a review stem** anywhere in the
-   course, including across lessons. Compare after lowercasing, collapsing
-   whitespace, and stripping trailing punctuation. A question that tests
-   the same fact must ask it differently.
-3. **Every question carries at least three choices**, assessment and review
-   alike. This matches `validate-package.ts`'s `ASSESSMENT_MIN_CHOICES`.
-   The Standards prohibit forced choice rather than prescribing an option
-   count; review questions are held to three rather than two because
-   5.01.2.1 does not count true/false review questions toward the required
-   number, so a two-choice review question is one that does not count.
-4. **Review questions sit on distinct places**, each with `after_block` on
-   the narrated block it tests (video) or `after_section` on the section
-   (text), never two on the same one. 5.01.2.1 asks for distribution at
-   sufficient intervals, which is a placement property.
-5. Feedback and an objective mapping on every question: why the right answer
-   is right, which misunderstanding each wrong answer reflects, and which
-   block to re-study.
-
-**How many questions a lesson needs is not decided here, and no rule above
-states a count.** 5.01.2.1 is three review questions per CPE credit and
-6.01.2 is five assessment questions per credit — both per *credit*, and
-credit is superCPE's to compute. Adding a question also moves credit by
-1.85/50, so the minimum is not even a static function of the content. A
-count written down here would be one course's shape frozen as a rule.
-
----
-
-## Traps, collected
-
-| Symptom | Cause |
+| Message mentions | Fix |
 |---|---|
-| `generate` says "unchanged, skipped" on a fresh block | The run already happened. Check `public/audio/<id>/` before assuming failure. |
-| Composition has audio timings but no sound | `audio-meta*.json` has entries whose MP3s were deleted. Reset the JSON to `{}`. `npm run retire` removes both together so this cannot happen; do not `rm` audio by hand. |
-| Estimated-duration warning never fires | Same cause. `usingEstimates` is reading stale measurements. |
-| `KeyError` on an env var in a one-line-per-variable command | Trailing whitespace after a `\`. Put it on one line. |
-| A list item never appears on screen | Marker count ≠ `reveals` length. |
-| Reveals land seconds off the words | You are on estimates, not measured audio. |
-| CORS error in the browser | Often a 500 surfacing through Starlette middleware ordering. Check server logs first. |
-| File missing that "definitely existed" | It was never committed. Commit before you need it. |
+| lesson id not registered | wrong `--lesson` number |
+| no COURSES entry | re-run `new` with `--course-code`; see step 2 |
+| status "draft" | step 7 |
+| an ERROR from check | run `npm run check` and read it |
+| after_section is not a section id | review question points at a section that doesn't exist |
+| assessment question must not carry after_section | remove the placement |
+| section file does not exist | `meta.sections` names a file not on disk |
+| media item file does not exist | render the clip first |
+
+---
+
+## The fast loop
+
+Edit markdown → `npm run check` → `npm run export` → upload.
+
+Seconds. No rendering, no audio, no waiting. Run it as often as you like.
+
+---
+
+## Video lessons
+
+Same spine, two extra steps. Use `--kind video` (the default) at step 1.
+Instead of `guide/` markdown you write narrated blocks in the module, then
+between steps 7 and 8:
+
+    npm run generate -- --lesson 01 --dry-run    free; lists what would change
+    npm run generate -- --lesson 01              spends ElevenLabs credits
+    npm run dev                                  Studio, to scrub the sheets
+    npm run render -- --lesson 01                writes out/lesson-01.mp4
+
+Export refuses while any narrated block lacks generated audio, and refuses
+a render that is stale relative to the audio. Durations are measured off
+the rendered file; nothing is ever typed.
+
+Block rules that cause silent defects, so `check` enforces them: the number
+of `[[r]]` markers in the narration must equal the length of `reveals`, and
+a slide's `figure.kind` must match its `slide` type or the sheet renders
+blank.
+
+---
+
+## Deleting a lesson
+
+    npm run retire -- --lesson 01 --dry-run
+    npm run retire -- --lesson 01
+
+Removes the module, questions, audio, guide, render, and dist artifacts,
+and unwires all three registries. It refuses if the working tree is dirty
+or if any audio file is untracked by git. It leaves `drafts/` and
+`sources/` alone.

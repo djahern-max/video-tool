@@ -5,17 +5,20 @@
  * into their `meta` rather than repeating them, so the course cannot drift
  * across lessons. superCPE feature 004 formalizes the course side.
  *
- * `knowledgeLevel` uses the contract's spelling ("Intermediate", 3.01.1) —
- * the manifest validator rejects any other casing.
+ * `knowledgeLevel` uses the contract's spelling ("Basic", "Intermediate",
+ * "Advanced" — 3.01.1); the manifest validator rejects any other casing.
  *
- * `npm run retire` removes a lesson's entry from the `lessons` array of
- * whichever course claims its package id, and leaves the remaining
- * `position` values alone. `npm run new` writes no entry here at all:
- * which course a lesson belongs to, and where in it, is an authoring
- * decision.
+ * This file is written by `npm run new` and `npm run retire`, not by hand.
+ * `new --course-code` appends a lesson to a course, or creates the course
+ * record when nothing matches; `retire` removes the entry and drops the
+ * record when it loses its last lesson. Both edit this file line by line, so
+ * the shape below is a contract: a course record is an optional `/** *\/`
+ * doc comment, then `export const NAME = {` through `} as const;`, and its
+ * outline is either `lessons: [] as CourseLesson[],` on one line or entries
+ * of exactly the form written here.
  */
 
-import type { LessonStatus } from "./types";
+import type { KnowledgeLevel, LessonStatus } from "./types";
 
 /**
  * One lesson's place in a course outline. Named rather than inferred so the
@@ -30,40 +33,49 @@ export type CourseLesson = {
   status: LessonStatus;
 };
 
-// Each entry's `status` mirrors that lesson module's `meta.status` — the
-// module is authoritative (it gates export); this copy exists so the course
-// outline can be read without loading every module. `npm run check` warns
-// when the two disagree (scripts/check-lessons.ts).
-export const COURSE = {
-  courseCode: "ASC842-PCX",
-  title: "ASC 842 for Private Companies: The Practical Expedients",
-  nasbaFieldOfStudy: "Accounting",
-  knowledgeLevel: "Intermediate",
-  prerequisites:
-    "Basic familiarity with ASC 842: identifying a lease, classifying it, " +
-    "and recognizing a right-of-use asset and lease liability.",
-  advancePreparation: "None",
-  deliveryMethod: "Self study",
-  lessons: [] as CourseLesson[],
-} as const;
+/**
+ * One course record. Named for the same reason `CourseLesson` is: `COURSES`
+ * is now reachable at length zero — `npm run retire --all` empties it — and
+ * an inline `[] as const` would type its elements `never`, breaking every
+ * consumer that maps over it. The annotation on `COURSES` below is what
+ * keeps a courseless repo compiling; leaving a placeholder record behind
+ * would be the wrong fix.
+ */
+export type Course = {
+  courseCode: string;
+  title: string;
+  nasbaFieldOfStudy: string;
+  knowledgeLevel: KnowledgeLevel;
+  prerequisites: string;
+  advancePreparation: string;
+  deliveryMethod: string;
+  lessons: CourseLesson[];
+};
+
+// Each outline entry's `status` mirrors that lesson module's `meta.status` —
+// the module is authoritative (it gates export); this copy exists so the
+// course outline can be read without loading every module. `npm run check`
+// warns when the two disagree (scripts/check-lessons.ts).
 
 /**
- * The first text-first course (video-tool feature 05; strategy in
- * supercpe's docs/decisions/2026-09-01-text-first.md). One minimal but
- * genuine lesson, authored as the round-trip proof of the text-package
- * pipeline.
+ * TODO: one line saying what GUM is and who it is for.
  */
-export const COURSE_ASC450 = {
-  courseCode: "ASC450-LC",
-  title: "Loss Contingencies Under ASC 450",
-  nasbaFieldOfStudy: "Accounting",
-  knowledgeLevel: "Intermediate",
-  prerequisites:
-    "Basic familiarity with accrual accounting and the recognition of " +
-    "liabilities under U.S. GAAP.",
-  advancePreparation: "None",
+export const COURSE_GUM = {
+  courseCode: "GUM",
+  title: "How to Chew Bubble Gum",
+  nasbaFieldOfStudy: "TODO: a value from docs/2024-Fields-of-Study",
+  knowledgeLevel: "Basic",
+  prerequisites: "TODO: what a participant must already know — 3.02.1 wants None stated, not blank",
+  advancePreparation: "TODO: what a participant must do beforehand, or None",
   deliveryMethod: "Self study",
-  lessons: [] as CourseLesson[],
+  lessons: [
+    {
+      position: 1,
+      lessonId: "GUM-01",
+      title: "How to Chew Bubble Gum",
+      status: "draft",
+    },
+  ] as CourseLesson[],
 } as const;
 
 /**
@@ -71,4 +83,4 @@ export const COURSE_ASC450 = {
  * a lesson's package id up across all of them; lesson modules import their
  * own course const directly, as before.
  */
-export const COURSES = [COURSE, COURSE_ASC450] as const;
+export const COURSES: readonly Course[] = [COURSE_GUM];

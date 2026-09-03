@@ -200,7 +200,8 @@ advise.
 ## Commands
 
     npm run dev                      Remotion Studio
-    npm run new -- --lesson 07 --code ASC842-PCX-07 --title "..."
+    npm run new -- --lesson 07 --code GUM-07 --title "..."
+                       [--kind text] [--course-code GUM [--course-title "..."]]
     npm run retire -- --lesson 07 [--dry-run] [--force]
     npm run retire -- --all
     npm run generate -- --lesson 01 --dry-run

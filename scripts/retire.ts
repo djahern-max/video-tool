@@ -14,6 +14,12 @@
  * apart, so a lesson can never render silent while still claiming measured
  * durations.
  *
+ * A course record that loses its last lesson goes with it. An empty course
+ * record is not a course: it exports nothing, it names nothing, and leaving
+ * one behind is exactly the hand cleanup these commands exist to remove.
+ * `--all` therefore leaves `COURSES` empty, which is why `src/course.ts`
+ * annotates it rather than inferring its element type.
+ *
  * This is a workspace command. It changes nothing about what a package
  * contains, how it is validated, or what it attests, and it never touches
  * `meta.status` (4.02): it removes a lesson, it does not un-review one.
@@ -47,6 +53,8 @@ import {
   COURSE_TS,
   LESSONS_TS,
   QUESTIONS_TS,
+  readCourses,
+  unregisterCourse,
   unregisterCourseLesson,
   unregisterLesson,
   unregisterQuestions,
@@ -226,6 +234,14 @@ const main = async () => {
 
   const plans = ids.map(planFor);
 
+  /* Which course records lose their last lesson in this run. Computed from
+     the file as it stands, before anything is removed, so --dry-run can name
+     them alongside the file removals. */
+  const retiring = new Set(plans.map((p) => p.packageId));
+  const emptied = readCourses(root).filter(
+    (c) => c.lessonIds.length > 0 && c.lessonIds.every((l) => retiring.has(l))
+  );
+
   /* Refusal 2: uncommitted work under anything about to be removed. */
   if (!force) {
     const paths = plans.flatMap((p) => p.versioned);
@@ -265,6 +281,13 @@ const main = async () => {
     if (p.versioned.length + p.ignored.length === 0) console.log(`    (no files on disk)`);
     console.log(`    edit ${LESSONS_TS}, ${QUESTIONS_TS}, ${COURSE_TS}`);
     console.log("");
+  }
+
+  for (const c of emptied) {
+    console.log(
+      `  COURSE ${c.courseCode}  ${c.title}\n` +
+        `    rm  ${c.constName} in ${COURSE_TS}   (loses its last lesson)\n`
+    );
   }
 
   /* ---- the warning, which does not block ------------------------ */
@@ -333,7 +356,14 @@ const main = async () => {
           ` (was position ${course.position})`
       );
       if (course.remaining.length === 0) {
-        console.log(`  ${course.courseConst}.lessons is now empty.`);
+        // An empty course record is not a course. It goes in the same
+        // operation, so the two cannot come apart.
+        if (unregisterCourse(root, course.courseConst)) {
+          console.log(
+            `  removed course ${course.courseConst} from ${COURSE_TS} — it lost ` +
+              `its last lesson`
+          );
+        }
       } else {
         console.log(
           `  NOTE: ${course.courseConst}.lessons positions are now ` +
@@ -360,6 +390,12 @@ const main = async () => {
     `  Each lesson's audio directory and its audio-meta-NN.json were removed\n` +
       `  together, so nothing is left claiming measured timings it cannot play.`
   );
+  if (emptied.length > 0) {
+    console.log(
+      `  Course record(s) removed with their last lesson: ` +
+        `${emptied.map((c) => c.constName).join(", ")}.`
+    );
+  }
   if (leftBehind.length + sources.length > 0) {
     console.log(`  Left in place: ${[...leftBehind, ...sources].join(", ")}`);
   }

@@ -2,20 +2,29 @@
 /**
  * Scaffold a new lesson and register it.
  *
- *   npm run new -- --lesson 07 --code ASC842-PCX-07 --title "..."
- *   npm run new -- --lesson 07 --code ASC450-LC-02 --title "..." --kind text
+ *   npm run new -- --lesson 07 --code GUM-07 --title "..."
+ *   npm run new -- --lesson 07 --code GUM-07 --title "..." --kind text
+ *   npm run new -- --lesson 07 --code GUM-07 --title "..." \\
+ *     --course-code GUM --course-title "How to Chew Bubble Gum"
  *
  * The opposite of `npm run retire`. It writes the files a lesson needs and
- * makes the two registry edits that were easy to get wrong by hand, and it
+ * makes the registry edits that were easy to get wrong by hand, and it
  * writes nothing that is a human's to write: every descriptor field lands as
  * a `TODO:`, `meta.status` is `"draft"` (rule 4 — nothing in the tooling
  * ever sets it to anything else), and `audio-meta-NN.json` is `{}` so
  * `usingEstimates` is true from the first moment, as it must be.
  *
- * It deliberately writes no `COURSE.lessons` entry. Which course a lesson
- * belongs to and at what position is an authoring decision, and export reads
- * the manifest's course_code and position from that record — so the command
- * prints that the entry is still needed.
+ * With no `--course-code` it still writes no `lessons` entry, and that is
+ * deliberate and unchanged: which course a lesson belongs to and at what
+ * position is an authoring decision, export reads the manifest's course_code
+ * and position from that record, and the command has nothing to go on — so
+ * it prints that the entry is still needed rather than guessing.
+ *
+ * `--course-code` is how the author states the decision instead of making it
+ * by hand afterwards. Once the course is named there is nothing left to
+ * infer: the record is joined if it exists and created if it does not, and
+ * the position is the next one in that course. The refusal above survives
+ * for the case it was written for; what goes away is the guessing.
  *
  * Nothing here spends money or runs a render.
  */
@@ -25,7 +34,16 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { LESSONS } from "../src/lessons";
-import { COURSE_TS, LESSONS_TS, QUESTIONS_TS, registerLesson, registerQuestions } from "./registry";
+import {
+  COURSE_TS,
+  LESSONS_TS,
+  QUESTIONS_TS,
+  courseConstName,
+  readCourses,
+  registerCourseLesson,
+  registerLesson,
+  registerQuestions,
+} from "./registry";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -46,12 +64,37 @@ const today = () => new Date().toISOString().slice(0, 10);
 /* ------------------------------------------------------------------ */
 
 /**
+ * Which course const the generated module reads its course-level fields
+ * from, and the `position` line that goes with it. Two shapes, because a
+ * lesson placed in a course knows its position and one that is not does
+ * not — see `resolveCourse`.
+ */
+type CourseBinding = { constName: string; positionField: string };
+
+/** `meta.position` for a lesson this command placed in a course. */
+const placedPosition = (constName: string, position: number) =>
+  `  // Display only. The manifest's position is read from ${constName}.lessons\n` +
+  `  // by export.ts; this is the string the title sheet renders.\n` +
+  "  position: `Lesson " +
+  position +
+  " of ${" +
+  constName +
+  ".lessons.length}`,";
+
+/** `meta.position` for a lesson with no course entry — still the author's. */
+const unplacedPosition = (constName: string) =>
+  `  // TODO: this lesson has no ${constName}.lessons entry yet. Write one —\n` +
+  `  // \`npm run new --course-code\` does it — then say\n` +
+  `  // \`Lesson N of \${${constName}.lessons.length}\` here.\n` +
+  `  position: "TODO: Lesson N of M",`;
+
+/**
  * The video module, in the shape `src/lesson-02.ts` had: types imported
  * rather than declared, course-level fields read from `src/course.ts` so the
  * course cannot drift across lessons, and the seven accessors at the bottom
  * that resolve duration and reveals from measured audio first.
  */
-const videoModule = (id: string, code: string, title: string) => `/**
+const videoModule = (id: string, code: string, title: string, course: CourseBinding) => `/**
  * Lesson ${id} — "${title}"
  *
  * Content is data. No React, no JSX, no timing logic in this file.
@@ -76,7 +119,7 @@ const videoModule = (id: string, code: string, title: string) => `/**
 
 import audioMeta from "./audio-meta-${id}.json";
 import type { Block, BlockMeta } from "./blocks";
-import { COURSE } from "./course";
+import { ${course.constName} } from "./course";
 import type { PackageLessonMeta } from "./types";
 
 export type { Block, Figure } from "./blocks";
@@ -86,15 +129,13 @@ export const meta = {
   // The manifest's lesson_id — the globally unique package code, not the
   // module selector above.
   courseCode: "${code}",
-  courseTitle: COURSE.title,
+  courseTitle: ${course.constName}.title,
   lessonTitle: "${title}",
   title: "${title}",
   subtitle: "TODO: the subtitle on the title sheet",
   eyebrow: "Lesson ${id}",
-  // TODO: this lesson has no COURSE.lessons entry yet; write one, then say
-  // \`Lesson N of \${COURSE.lessons.length}\` here.
-  position: "TODO: Lesson N of M",
-  deliveryMethod: COURSE.deliveryMethod,
+${course.positionField}
+  deliveryMethod: ${course.constName}.deliveryMethod,
   fieldOfStudy: "TODO: the display field of study on the sheet",
   revision: "A",
   revisionDate: "${today()}",
@@ -109,10 +150,10 @@ export const meta = {
     { id: "lo-3", text: "TODO: an objective this lesson actually teaches" },
     { id: "lo-4", text: "TODO: an objective this lesson actually teaches" },
   ],
-  nasbaFieldOfStudy: COURSE.nasbaFieldOfStudy,
-  knowledgeLevel: COURSE.knowledgeLevel,
-  prerequisites: COURSE.prerequisites,
-  advancePreparation: COURSE.advancePreparation,
+  nasbaFieldOfStudy: ${course.constName}.nasbaFieldOfStudy,
+  knowledgeLevel: ${course.constName}.knowledgeLevel,
+  prerequisites: ${course.constName}.prerequisites,
+  advancePreparation: ${course.constName}.advancePreparation,
   sources: [
     { citation: "TODO: the paragraph this lesson is built on", role: "primary" },
   ],
@@ -195,7 +236,7 @@ export const totalSeconds = blocks.reduce((sum, b) => sum + durationOf(b), 0);
  * narration, and superCPE counts the body sections' words itself (7.02.5) —
  * which is why no `wordCount` field appears anywhere in it.
  */
-const textModule = (id: string, code: string, title: string) => `/**
+const textModule = (id: string, code: string, title: string, course: CourseBinding) => `/**
  * Lesson ${id} — "${title}"
  *
  * A text lesson: the content is markdown under guide/${id}/, not narrated
@@ -215,7 +256,7 @@ const textModule = (id: string, code: string, title: string) => `/**
  * drafts/${code}-review.md is where the reviewer's record goes.
  */
 
-import { COURSE } from "./course";
+import { ${course.constName} } from "./course";
 import type { TextLessonMeta } from "./types";
 
 export const meta = {
@@ -244,10 +285,10 @@ export const meta = {
     { id: "lo-3", text: "TODO: an objective this guide actually teaches" },
     { id: "lo-4", text: "TODO: an objective this guide actually teaches" },
   ],
-  nasbaFieldOfStudy: COURSE.nasbaFieldOfStudy,
-  knowledgeLevel: COURSE.knowledgeLevel,
-  prerequisites: COURSE.prerequisites,
-  advancePreparation: COURSE.advancePreparation,
+  nasbaFieldOfStudy: ${course.constName}.nasbaFieldOfStudy,
+  knowledgeLevel: ${course.constName}.knowledgeLevel,
+  prerequisites: ${course.constName}.prerequisites,
+  advancePreparation: ${course.constName}.advancePreparation,
   sources: [
     { citation: "TODO: the paragraph this guide is built on", role: "primary" },
   ],
@@ -257,7 +298,7 @@ export const meta = {
     licenseJurisdiction: "TODO: jurisdiction",
     licenseNumber: "TODO: license number",
   },
-  deliveryMethod: COURSE.deliveryMethod,
+  deliveryMethod: ${course.constName}.deliveryMethod,
   revision: "A",
   revisionDate: "${today()}",
 } satisfies TextLessonMeta;
@@ -360,12 +401,18 @@ const main = () => {
   const code = flag(args, "--code");
   const title = flag(args, "--title");
   const kind = flag(args, "--kind") ?? "video";
+  const courseCode = flag(args, "--course-code");
+  const courseTitle = flag(args, "--course-title");
 
   if (!id || !code || !title) {
     console.error(
       `\n  Usage: npm run new -- --lesson <id> --code <lessonId> --title "..."` +
-        `\n  Flags: --kind text|video   (default video)` +
-        `\n  Registered ids: ${Object.keys(LESSONS).sort().join(", ") || "(none)"}\n`
+        `\n  Flags: --kind text|video     (default video)` +
+        `\n         --course-code <code>  place the lesson in this course,` +
+        `\n                               creating the record if it is new` +
+        `\n         --course-title "..."  required when the course is new` +
+        `\n  Registered ids: ${Object.keys(LESSONS).sort().join(", ") || "(none)"}` +
+        `\n  Courses: ${readCourses(root).map((c) => c.courseCode).join(", ") || "(none)"}\n`
     );
     process.exit(1);
   }
@@ -409,7 +456,94 @@ const main = () => {
     );
   }
 
+  /* ---- the course decision --------------------------------------- */
+
+  const courses = readCourses(root);
+  const existingCourse = courses.find((c) => c.courseCode === courseCode);
+
+  if (courseTitle !== undefined && courseCode === undefined) {
+    refuse(
+      `--course-title "${courseTitle}" was given with no --course-code. A title ` +
+        `alone does not say which course this lesson joins, and the command ` +
+        `will not guess. Name the course with --course-code.`
+    );
+  }
+
+  if (courseCode !== undefined) {
+    if (!/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(courseCode)) {
+      refuse(
+        `--course-code "${courseCode}" is not a usable course code. It becomes ` +
+          `both a manifest course_code and the \`${courseConstName("X")}\`-style ` +
+          `const in ${COURSE_TS}, so it must start alphanumeric and hold only ` +
+          `letters, digits, ".", "-" and "_".`
+      );
+    }
+
+    if (existingCourse && courseTitle !== undefined && courseTitle !== existingCourse.title) {
+      refuse(
+        `--course-title "${courseTitle}" disagrees with the existing ` +
+          `${existingCourse.constName} record, which is titled ` +
+          `"${existingCourse.title}". One course code is one course: retitling ` +
+          `it here would silently give two lessons two different course titles. ` +
+          `Drop --course-title to join the course as it stands, or edit the ` +
+          `record deliberately.`
+      );
+    }
+
+    if (!existingCourse && courseTitle === undefined) {
+      refuse(
+        `no course record has courseCode "${courseCode}", so this lesson would ` +
+          `create one — and a course record needs a title. Pass ` +
+          `--course-title "...", or use an existing code: ` +
+          `${courses.map((c) => c.courseCode).join(", ") || "(none yet)"}.`
+      );
+    }
+
+    if (!existingCourse && courses.some((c) => c.constName === courseConstName(courseCode))) {
+      refuse(
+        `course code "${courseCode}" would be declared as ` +
+          `\`${courseConstName(courseCode)}\`, which ${COURSE_TS} already uses ` +
+          `for another course. Two course codes cannot share one const: retire ` +
+          `finds a record by its const name. Pick a different code.`
+      );
+    }
+  }
+
+  /* No course named: the command has nothing to go on, and inventing a
+     placement is exactly what it must not do. The module still needs SOME
+     course const for its descriptor fields, as it always has — the first
+     record in the file — and the report says the entry is still missing. */
+  const inheritFrom = courses[0];
+  if (courseCode === undefined && !inheritFrom) {
+    refuse(
+      `${COURSE_TS} declares no courses, so there is nothing for this lesson's ` +
+        `descriptor fields to read. Name the course it belongs to: ` +
+        `--course-code <code> --course-title "...".`
+    );
+  }
+
   /* ---- write ----------------------------------------------------- */
+
+  /* The course entry goes first, because the module template prints the
+     position it was given. Everything that could refuse has refused by now. */
+  const placed =
+    courseCode !== undefined
+      ? registerCourseLesson(
+          root,
+          { courseCode, title: courseTitle ?? existingCourse!.title },
+          { lessonId: code, title }
+        )
+      : null;
+
+  const course: CourseBinding = placed
+    ? {
+        constName: placed.courseConst,
+        positionField: placedPosition(placed.courseConst, placed.position),
+      }
+    : {
+        constName: inheritFrom!.constName,
+        positionField: unplacedPosition(inheritFrom!.constName),
+      };
 
   const written: string[] = [];
   const put = (rel: string, contents: string) => {
@@ -420,7 +554,9 @@ const main = () => {
 
   put(
     modulePath,
-    kind === "text" ? textModule(id, code, title) : videoModule(id, code, title)
+    kind === "text"
+      ? textModule(id, code, title, course)
+      : videoModule(id, code, title, course)
   );
   put(`src/questions-${id}.json`, "[]\n");
 
@@ -450,14 +586,37 @@ const main = () => {
   for (const f of written) console.log(`    wrote  ${f}`);
   console.log(`    edit   ${LESSONS_TS}`);
   console.log(`    edit   ${QUESTIONS_TS}`);
+  if (placed) console.log(`    edit   ${COURSE_TS}`);
   console.log("");
-  console.log(
-    `  No ${COURSE_TS} entry was written. Which course this lesson belongs to,\n` +
-      `  and at what position, is an authoring decision — and export refuses a\n` +
-      `  lesson with no course entry, because the manifest's course_code and\n` +
-      `  position are read from that record. Add an entry to the right course's\n` +
-      `  \`lessons\` array before exporting. \`npm run check\` warns until you do.`
-  );
+
+  if (placed?.created) {
+    console.log(
+      `  Created course ${courseCode} as \`${placed.courseConst}\` in ${COURSE_TS},\n` +
+        `  with this lesson at position ${placed.position}.\n\n` +
+        `  Its knowledgeLevel is "Basic" and deliveryMethod "Self study" — valid\n` +
+        `  values, not researched ones — and nasbaFieldOfStudy, prerequisites and\n` +
+        `  advancePreparation are TODO strings. Every lesson of this course reads\n` +
+        `  those four fields, and export validates them. Fill them in first.`
+    );
+  } else if (placed) {
+    console.log(
+      `  Added this lesson to \`${placed.courseConst}\` in ${COURSE_TS} at position\n` +
+        `  ${placed.position} — the next one in that course, not the lowest free\n` +
+        `  number: a gap left by a retired lesson is that lesson's place in the\n` +
+        `  sequence, and this one does not take it over.`
+    );
+  } else {
+    console.log(
+      `  No ${COURSE_TS} entry was written. Which course this lesson belongs to,\n` +
+        `  and at what position, is an authoring decision — and export refuses a\n` +
+        `  lesson with no course entry, because the manifest's course_code and\n` +
+        `  position are read from that record. Re-run with --course-code, or add\n` +
+        `  an entry to the right course's \`lessons\` array before exporting.\n` +
+        `  \`npm run check\` warns until you do.\n\n` +
+        `  Its descriptor fields read \`${course.constName}\`, the first record in\n` +
+        `  the file. If that is not this lesson's course, the import is wrong too.`
+    );
+  }
   console.log("");
   console.log(
     `  meta.status is "draft" and stays that way until a human sets it.\n` +

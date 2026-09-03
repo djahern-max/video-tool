@@ -1,0 +1,42 @@
+{
+  "block-01": {
+    "durationSeconds": 46.668,
+    "reveals": [
+      7.465,
+      17.984,
+      23.754,
+      28.27
+    ],
+    "hash": "c696f7b52487",
+    "generatedAt": "2026-09-03T23:16:33.838Z"
+  },
+  "block-02": {
+    "durationSeconds": 40.864,
+    "reveals": [
+      3.866,
+      10.101,
+      19.645
+    ],
+    "hash": "d20a9cb2e91b",
+    "generatedAt": "2026-09-03T23:16:40.616Z"
+  },
+  "block-03": {
+    "durationSeconds": 38.727,
+    "reveals": [
+      4.307,
+      14.024,
+      21.362
+    ],
+    "hash": "53a8d4c54756",
+    "generatedAt": "2026-09-03T23:16:47.209Z"
+  },
+  "block-04": {
+    "durationSeconds": 35.43,
+    "reveals": [
+      3.216,
+      15.407
+    ],
+    "hash": "b3cf555014f2",
+    "generatedAt": "2026-09-03T23:16:53.152Z"
+  }
+}

@@ -934,3 +934,98 @@ leftovers.
 - The ERROR/WARN levels are unchanged from when they were set for a voluntary
   script. The inventory produced in this feature lists the ones worth
   revisiting now that ERROR blocks an export.
+
+---
+
+## 09 — `new` and `retire` own the course record
+Shipped: 2026-09-03
+
+**What changed**
+- `npm run new` takes `--course-code` and `--course-title`. Naming a course
+  places the lesson in it: the record is joined when the code matches one,
+  and created — const, `COURSES` entry, doc comment — when it does not. The
+  outline entry is appended at the next position. Hand-editing
+  `src/course.ts` is no longer a step in the authoring loop.
+- With no `--course-code`, `new` behaves exactly as it did: no course record,
+  no `lessons` entry, and the same printed explanation that export will
+  refuse until one exists.
+- `npm run retire` removes a course record when it loses its last lesson, in
+  the same operation that removes the lesson's outline entry, so the two
+  cannot come apart. `--dry-run` names the records it would drop alongside
+  the file removals. `--all` now leaves `COURSES` empty.
+- `src/course.ts` gained an exported `Course` type, and `COURSES` is
+  annotated `readonly Course[]`.
+- `scripts/registry.ts` gained `readCourses`, `registerCourseLesson`,
+  `unregisterCourse`, and `courseConstName`.
+- `src/lesson-NN.ts`'s scaffolded `meta.position` is written out when the
+  lesson was placed in a course (`` `Lesson 3 of ${COURSE_X.lessons.length}` ``)
+  and stays a `TODO:` when it was not. It is a display string only; the
+  manifest's `position` still comes from the course record, as before.
+- Command lines updated in `LESSON-RUNBOOK.md`, `README.md`, `CLAUDE.md`.
+
+**Standards touched**
+- None. This is authoring ergonomics. The export gates, the review gate
+  (`meta.status`, untouched by both commands), the manifest, `word_count`,
+  and the package contract are all unchanged, and no paragraph of the 2026
+  Statement was read for this entry — citing one would be decoration.
+
+**Decisions**
+- The refusal in `new-lesson.ts` — that the tool will not write a `lessons`
+  entry — was kept, not deleted, and its comment now says why it survives.
+  What this feature removes is the *guessing*: when the author names the
+  course on the command line, nothing is left to infer. With no course named
+  there still is, and the command still refuses.
+- Position is the highest in the course plus one, never the lowest unused
+  integer. `retire` deliberately leaves a gap when a lesson is retired from
+  the middle of a course, because superCPE ordered the course by those
+  numbers; a later unrelated lesson filling that gap would silently take over
+  the retired lesson's place in the sequence. Rejected: compacting, and
+  reusing the lowest free number.
+- An emptied course record is removed rather than kept as a placeholder. The
+  typing problem that creates — `COURSES` reachable at length zero, where an
+  inline `[] as const` types its elements `never` — is solved the way
+  `CourseLesson` already solved it for `lessons`: a named exported type and
+  an explicit annotation. Rejected: leaving one record behind to keep the
+  array non-empty, which is the hand cleanup these commands exist to remove.
+- A created course record gets `knowledgeLevel: "Basic"` and
+  `deliveryMethod: "Self study"` because those fields must hold values the
+  validator accepts; `nasbaFieldOfStudy`, `prerequisites` and
+  `advancePreparation` land as `TODO:` strings, matching how the lesson
+  module's descriptor fields already scaffold. The command prints that all
+  four need filling in before export. It does not research them.
+- The course const name is derived from the course code
+  (`GUM` → `COURSE_GUM`) rather than asked for as a flag. `retire` finds a
+  record by walking back to the nearest `export const`, so the name has to be
+  recoverable from the code alone; two names for one course is a drift the
+  file cannot survive. Two course codes that would collapse to one identifier
+  are a refusal.
+- Refusals added, each naming what is wrong and creating nothing:
+  `--course-title` disagreeing with an existing record's title;
+  a new course code with no `--course-title`; `--course-title` with no
+  `--course-code`; a course code that is not a usable identifier stem; a
+  const-name collision. One more not in the spec: `new` with no course flags
+  against a `src/course.ts` that declares no courses at all, which is newly
+  reachable now that `retire --all` empties the file — the generated module
+  reads its descriptor fields from a course const, and with none in the file
+  there is nothing for it to import.
+- `src/course.ts`'s header now states the shape both commands depend on
+  (a record is an optional doc comment, then `export const NAME = {` through
+  `} as const;`), because these are line-oriented text edits, not an AST
+  rewrite, and that shape is a contract rather than formatting.
+
+**Known gaps**
+- `npm run check` exits 1 in this tree, on four pre-existing ERRORs about
+  lesson 01's four scaffolded objectives having no assessment question. They
+  are unchanged by this feature — they are scratch lesson content, which the
+  feature excluded — and the output is byte-identical before and after. The
+  feature is verified against them, not over them.
+- `--course-title` cannot retitle an existing course; it only refuses on
+  disagreement. Retitling a course is still a hand edit, and deliberately so:
+  it changes the `courseTitle` every lesson of that course renders.
+- Nothing renumbers positions, so a course whose middle lesson was retired
+  keeps its gap and the next `new` lands past it. That is the decision above,
+  not an oversight, but it means positions are not dense and nothing warns.
+- The acceptance run was done in a throwaway copy of the repo under the
+  scratch directory, because `retire --all` and repeated `new` runs destroy
+  and rebuild the tree. The real tree was left holding lesson 01 and
+  `COURSE_GUM` exactly as it started.

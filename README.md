@@ -23,17 +23,21 @@ The order matters, and it is not the obvious one. Every command takes
 **0. Scaffold the lesson.**
 
 ```bash
-npm run new -- --lesson 07 --code ASC842-PCX-07 --title "..."
-npm run new -- --lesson 07 --code ASC450-LC-02 --title "..." --kind text
+npm run new -- --lesson 07 --code GUM-07 --title "..." --course-code GUM
+npm run new -- --lesson 07 --code GUM-07 --title "..." --kind text \
+  --course-code GUM --course-title "How to Chew Bubble Gum"
 ```
 
 Writes the module, an empty `questions-NN.json`, an empty
-`audio-meta-NN.json`, and a review document in `drafts/`, and makes the two
+`audio-meta-NN.json`, and a review document in `drafts/`, and makes the
 registry edits. Every descriptor field lands as a `TODO:` and `meta.status`
-is `"draft"` — the tool writes no content and never sets status. It writes
-no `COURSE.lessons` entry either: which course a lesson belongs to, and
-where in it, is an authoring decision, and export refuses a lesson with no
-course entry.
+is `"draft"` — the tool writes no content and never sets status.
+
+`--course-code` places the lesson in a course, joining that record or
+creating it (`--course-title` required when it is new) and appending the
+outline entry at the next position. Leave the course flags off and no
+`lessons` entry is written: with no course named there is nothing to infer,
+and export refuses a lesson with no course entry.
 
 **1. Render silent, and judge the slides.** Block durations start as
 word-count estimates at 130 wpm, so you can see the whole lesson before
