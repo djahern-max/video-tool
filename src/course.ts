@@ -58,29 +58,8 @@ export type Course = {
 // warns when the two disagree (scripts/check-lessons.ts).
 
 /**
- * TODO: one line saying what GUM is and who it is for.
- */
-export const COURSE_GUM = {
-  courseCode: "GUM",
-  title: "How to Chew Bubble Gum",
-  nasbaFieldOfStudy: "TODO: a value from docs/2024-Fields-of-Study",
-  knowledgeLevel: "Basic",
-  prerequisites: "TODO: what a participant must already know — 3.02.1 wants None stated, not blank",
-  advancePreparation: "TODO: what a participant must do beforehand, or None",
-  deliveryMethod: "Self study",
-  lessons: [
-    {
-      position: 1,
-      lessonId: "GUM-91",
-      title: "Blowing a Bubble",
-      status: "draft",
-    },
-  ] as CourseLesson[],
-} as const;
-
-/**
  * Every course this repo exports for. export.ts and check-lessons.ts look
  * a lesson's package id up across all of them; lesson modules import their
  * own course const directly, as before.
  */
-export const COURSES: readonly Course[] = [COURSE_GUM];
+export const COURSES: readonly Course[] = [];

@@ -13,14 +13,12 @@
 import type { LessonId } from "./lessons";
 import type { Question } from "./types";
 
-import questions91 from "./questions-91.json";
-
 const BY_ID = {
-  "91": questions91 as Question[],
+
 } satisfies Record<LessonId, Question[]>;
 
 const FILE_BY_ID = {
-  "91": "questions-91.json",
+
 } satisfies Record<LessonId, string>;
 
 /**
