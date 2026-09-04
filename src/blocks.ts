@@ -30,13 +30,22 @@ export type Figure =
         rows: { label: string; value: string }[];
         emphasis?: "wrong" | "right";
       }[];
-    };
+    }
+  /**
+   * A real image on the sheet, rather than typeset data.
+   *
+   * `src` is a path relative to `public/`, loaded with Remotion's
+   * `staticFile()`. `alt` is required rather than optional: it is the only
+   * description of the image that survives into the transcript of record,
+   * and it is what a reviewer reads when they are not watching the render.
+   */
+  | { kind: "image"; src: string; alt: string; caption?: string };
 
 export type Block = {
   id: string;
   sheet: string;
   citation: string;
-  slide: "Title" | "Statement" | "Facts" | "Calc" | "List" | "Compare";
+  slide: "Title" | "Statement" | "Facts" | "Calc" | "List" | "Compare" | "Image";
   figure?: Figure;
   narration: string; // transcript of record, may contain [[r]] markers
   reveals: number[]; // fallback seconds from block start, used until measured

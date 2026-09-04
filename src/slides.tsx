@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentFrame } from "remotion";
+import { Img, staticFile, useCurrentFrame } from "remotion";
 import { theme } from "./theme";
 import { revealAt } from "./reveal";
 import type { Figure } from "./blocks";
@@ -308,6 +308,78 @@ export const Compare: React.FC<SlideProps> = ({ reveals, figure }) => {
   );
 };
 
+/**
+ * A photograph, diagram, or screenshot, one per sheet.
+ *
+ * The theme is a construction drawing set and a full-bleed image fights it,
+ * so the image sits inside the same `Panel` the Compare columns use and
+ * carries the same hairline border and vellum-edge fill. It is contained,
+ * never cropped: the panel is capped by the sheet's drawing area and the
+ * image is capped by the panel, so a wide screenshot and a tall photograph
+ * both land whole, each in a panel that hugs it.
+ *
+ * `theme.color.flag` is deliberately absent. The flag marks the one thing
+ * under discussion, and on this sheet that is the whole image.
+ *
+ * Reveals: the image is element 0 and the caption element 1, so one marker
+ * brings up the image alone and two bring up the image and then the caption.
+ * `revealTimeFor` means a block with one marker and a caption still renders
+ * both, the way the row-based slides do.
+ */
+export const Image: React.FC<SlideProps> = ({ reveals, figure }) => {
+  const frame = useCurrentFrame();
+  if (!figure || figure.kind !== "image") return null;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <div
+        style={{
+          ...revealAt(frame, revealTimeFor(0, reveals)),
+          display: "flex",
+          flex: 1,
+          minHeight: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* The panel shrink-wraps the image rather than filling the sheet, so
+            a portrait photograph does not sit in a wide band of panel fill.
+            The caps are percentages of the row, which flex has already given a
+            definite height — no dimension is typed here, the way no duration
+            is typed anywhere else. */}
+        <Panel style={{ maxWidth: "100%", height: "100%", display: "flex" }}>
+          <Img
+            src={staticFile(figure.src)}
+            alt={figure.alt}
+            style={{
+              width: "auto",
+              height: "auto",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+              display: "block",
+              margin: "auto",
+            }}
+          />
+        </Panel>
+      </div>
+      {figure.caption ? (
+        <div
+          style={{
+            ...revealAt(frame, revealTimeFor(1, reveals)),
+            marginTop: 22,
+            fontFamily: theme.font.mono,
+            fontSize: theme.size.caption,
+            color: theme.color.slate,
+          }}
+        >
+          {figure.caption}
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
 export const SLIDES = {
   Title,
   Statement,
@@ -315,4 +387,5 @@ export const SLIDES = {
   Calc,
   List,
   Compare,
+  Image,
 } as const;

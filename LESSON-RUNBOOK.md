@@ -173,6 +173,16 @@ of `[[r]]` markers in the narration must equal the length of `reveals`, and
 a slide's `figure.kind` must match its `slide` type or the sheet renders
 blank.
 
+A block with `slide: "Image"` puts a real image on the sheet. Put the file
+under `public/images/<lesson id>/` and set `figure.src` to its path relative
+to `public/` — `"images/07/gum-line.png"`, not `"public/images/…"` and not an
+absolute path. Commit it: like the narration MP3s these are source, not build
+output. `check` errors on a `src` that is not there and on a blank `alt`, both
+before you spend any narration credit. The image is reveal element 0 and the
+optional `caption` element 1, so one marker brings up the image alone and two
+bring up the image and then the caption. Clearing an image for use is yours,
+not the tooling's: nothing here checks licensing.
+
 ---
 
 ## Deleting a lesson

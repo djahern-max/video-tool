@@ -61,7 +61,7 @@ const SHEET_MAX_SECONDS = 75;
  *
  * This is a second copy of a mapping that lives in slides.tsx, and it is
  * deliberate: importing slides.tsx would pull React, Remotion, and
- * @remotion/google-fonts into a plain node script for the sake of five strings.
+ * @remotion/google-fonts into a plain node script for the sake of six strings.
  * The `Block["slide"]` union already stops a misspelled component name at
  * compile time, so what is duplicated here is only the pairing.
  */
@@ -71,6 +71,7 @@ const FIGURE_KIND_FOR: Record<string, string> = {
   Calc: "calc",
   List: "list",
   Compare: "compare",
+  Image: "image",
 };
 
 /* ------------------------------------------------------------------ */
@@ -134,6 +135,11 @@ const expectedSeconds = (words: number) => Math.round((words / WPM) * 60);
 /** The revealable elements in a figure, whichever key this kind uses. */
 const figureElements = (figure: Record<string, unknown> | undefined): number | null => {
   if (!figure) return null;
+  // An image figure carries no array to count. Its elements are positional:
+  // the image is 0 and the caption, when there is one, is 1. Returning a
+  // number rather than falling through to null keeps the markers-exceed-
+  // elements check below live on these blocks instead of silently skipping.
+  if (figure.kind === "image") return figure.caption ? 2 : 1;
   for (const key of ["lines", "rows", "items", "columns"]) {
     const v = figure[key];
     if (Array.isArray(v)) return v.length;
@@ -194,6 +200,20 @@ function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
         err(b, `slide "${b.slide}" has no figure — the component returns null and the sheet renders blank for the whole block`);
       } else if (b.figure.kind !== wanted) {
         err(b, `slide "${b.slide}" wants figure.kind "${wanted}" but got "${String(b.figure.kind)}" — the component returns null and the sheet renders blank for the whole block`);
+      } else if (b.figure.kind === "image") {
+        // A src that resolves to nothing renders the same defect the pairing
+        // check above exists to catch — a blank sheet for the whole block —
+        // and it is free to detect here, before the narration is generated.
+        const src = typeof b.figure.src === "string" ? b.figure.src.trim() : "";
+        if (!src) {
+          err(b, `figure.src is blank — staticFile() has nothing to resolve and the sheet renders blank for the whole block`);
+        } else if (!existsSync(join(root, "public", src))) {
+          err(b, `figure.src "${src}" does not exist at public/${src} — src is relative to public/, and a missing file renders a blank sheet for the whole block`);
+        }
+        const alt = typeof b.figure.alt === "string" ? b.figure.alt.trim() : "";
+        if (!alt) {
+          err(b, `figure.alt is blank — alt is the only description of this image that reaches the transcript of record, and it is what a reviewer reads`);
+        }
       }
     }
 

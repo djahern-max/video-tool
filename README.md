@@ -122,8 +122,8 @@ src/
   types.ts             PackageLessonMeta and Question — what the manifest needs
   theme.ts             palette, type, layout tokens
   Sheet.tsx            drawing border + title block, wraps every slide
-  slides.tsx           slide components (Title, Statement, Facts, Calc, List, Compare),
-                       all rendering from a block's data
+  slides.tsx           slide components (Title, Statement, Facts, Calc, List, Compare,
+                       Image), all rendering from a block's data
   Lesson.tsx           sequences one lesson's blocks; no timing numbers
   Root.tsx             one composition per lesson, durations derived from content
 scripts/
@@ -140,6 +140,8 @@ drafts/                per-lesson review documents; retire never deletes these
 sources/               the authoritative extractions the narration cites
 public/audio/<id>/     narration, one file per block — committed; regenerating
                        costs money and gives a different take
+public/images/<id>/    what an Image block renders — committed source, not
+                       build output
 docs/                  course-package.md, kept identical to superCPE's copy
 out/                   rendered MP4s, gitignored, reproducible
 dist/                  exported packages, gitignored, reproducible
@@ -151,6 +153,17 @@ Narration text may contain `[[r]]` markers, one per element in that block's
 the character-level alignment ElevenLabs returns to record the exact second
 each marker was spoken. Until a block has been generated, its hand-written
 `reveals` array is the fallback.
+
+An `Image` block puts a photograph, diagram, or screenshot on the sheet
+instead of typeset data. Its `figure.src` is a path relative to `public/`,
+loaded with Remotion's `staticFile()`, and the convention is
+`public/images/<lesson id>/`. Those files are committed source the way the
+narration MP3s are — nothing regenerates them — and `npm run check` errors when
+`src` names a file that is not there, because a missing image renders a blank
+sheet for the block's whole length. `alt` is required rather than optional: it
+is the only description of the image that reaches the transcript of record,
+and it is what a reviewer reads. Whether an image may be used at all is an
+authoring decision — no script checks licensing.
 
 ## Design notes
 

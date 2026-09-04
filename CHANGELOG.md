@@ -1029,3 +1029,74 @@ Shipped: 2026-09-03
   scratch directory, because `retire --all` and repeated `new` runs destroy
   and rebuild the tree. The real tree was left holding lesson 01 and
   `COURSE_GUM` exactly as it started.
+
+## 10 — An `Image` slide
+Shipped: 2026-09-03
+
+**What changed**
+- `src/blocks.ts` gains a sixth `Figure` variant,
+  `{ kind: "image"; src: string; alt: string; caption?: string }`, and
+  `"Image"` joins `Block["slide"]`. `src` is a path relative to `public/`,
+  loaded with `staticFile()`.
+- `src/slides.tsx` gains the `Image` component and its `SLIDES` entry. It
+  follows the shape of the other five: early-return `null` on a kind it does
+  not recognise, `useCurrentFrame()`, `revealAt`, `revealTimeFor`. The image
+  is reveal element 0 and the caption element 1, so one marker brings up the
+  image alone and two bring up the image and then the caption.
+- `scripts/check-lessons.ts`: `Image: "image"` joins `FIGURE_KIND_FOR`, so a
+  mismatched `figure.kind` errors the way the other five do. `figureElements`
+  returns 2 for an image figure with a caption and 1 without, instead of
+  falling through to `null`. Two new ERRORs: a `figure.src` that names no file
+  under `public/` (and a blank one), and a blank `alt`.
+- `README.md` and `LESSON-RUNBOOK.md` say where image files live
+  (`public/images/<lesson id>/`), that they are committed source rather than
+  build output, and that licensing is the author's problem.
+
+**Standards touched**
+- None. This is a render-side slide type. `alt` and `caption` are narration
+  sheet, not participant reading material, so `meta.wordCount` stays 0 for an
+  all-video lesson and nothing here reaches a credit calculation.
+
+**Decisions**
+- The image sits inside the existing `Panel`, carrying the same hairline
+  border and vellum-edge fill as the Compare columns, rather than going
+  full-bleed. `theme.color.flag` is absent: the flag marks the one thing under
+  discussion and on this sheet that is the whole image.
+- The panel shrink-wraps the image rather than filling the sheet. The first
+  attempt filled it, which left a portrait photograph sitting in a wide band
+  of panel fill. Getting the panel to hug required driving its height from the
+  row (`height: "100%"` on the panel, `width/height: auto` plus percentage
+  caps on the image) — with the image absolutely filling the panel instead,
+  the panel's shrink-to-fit width came from the image's *intrinsic* width,
+  not its scaled width, and the panel came out 1260px wide around an 880px
+  image. Both caps are percentages of a row flex has already measured, so no
+  dimension is typed here, matching how no duration is typed anywhere else.
+- `alt` is required, not optional. It is the only description of the image
+  that survives into the transcript of record, and it is what a reviewer
+  reads instead of the render.
+- `figureElements` returns a number for an image figure rather than `null`.
+  `null` is the "cannot count this" signal that skips the
+  markers-exceed-elements check, and an image figure's element count is
+  perfectly well known — it is just positional rather than an array length.
+- The missing-`src` check is an ERROR, not a WARN, on the rule the file
+  already uses: it produces a blank sheet for the block's whole length, which
+  is the same defect the figure-kind pairing exists to catch, and it is
+  decidable from the lesson's own module. So `npm run export` gates on it.
+- Image licensing is an authoring responsibility and is **not** checked by any
+  script. Nothing in this repo can tell a licensed photograph from an
+  unlicensed one, and a check that pretended to would be worse than none.
+
+**Known gaps**
+- The `public/images/<lesson id>/` layout is a documented convention only.
+  `check` verifies that `src` resolves under `public/`, not that it sits in
+  that directory, so an image parked anywhere under `public/` passes.
+- One image per sheet. Galleries, multiple images per block, and video-in-
+  video were out of scope and remain unbuilt.
+- Nothing verifies that `alt` actually describes the image, only that it is
+  not blank — the same limit `check` has on every other authored string.
+- Acceptance was run against a scratch lesson 99 (`IMG-99`) created with
+  `npm run new`, verified with `remotion still` at 1200x800 and 600x1400, and
+  removed with `npm run retire -- --lesson 99 --force`. `--force` was needed
+  only because the scratch files were never committed, which is the one case
+  the dirty-tree refusal has nothing to protect. The tree is back to an empty
+  registry, as it started.
