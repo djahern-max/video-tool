@@ -1,0 +1,75 @@
+[
+    {
+        "id": "q-1",
+        "kind": "review",
+        "after_block": 1,
+        "stem": "According to the lesson, what makes chewed gum stretch instead of tear?",
+        "choices": [
+            {
+                "id": "a",
+                "text": "It has been warmed and the sugar has been worked out of it"
+            },
+            {
+                "id": "b",
+                "text": "It has been chilled to firm up the resin"
+            },
+            {
+                "id": "c",
+                "text": "It has absorbed saliva and increased in volume"
+            }
+        ],
+        "correct": "a",
+        "objective_ids": [
+            "lo-1"
+        ],
+        "feedback": "Correct. Warming softens the base and losing the sugar crystals is what changes the material. Re-study S-01."
+    },
+    {
+        "id": "q-2",
+        "kind": "assessment",
+        "stem": "Which pair of changes does chewing make to gum before a bubble is possible?",
+        "choices": [
+            {
+                "id": "a",
+                "text": "It cools the base and adds sugar"
+            },
+            {
+                "id": "b",
+                "text": "It warms the base and works the sugar out"
+            },
+            {
+                "id": "c",
+                "text": "It dries the base and hardens the resin"
+            }
+        ],
+        "correct": "b",
+        "objective_ids": [
+            "lo-1"
+        ],
+        "feedback": "Correct. Those are the two changes named on S-01; a grainy feel means neither is finished."
+    },
+    {
+        "id": "q-3",
+        "kind": "assessment",
+        "stem": "What does the lesson identify as the key to inflating the bubble once a pocket is open?",
+        "choices": [
+            {
+                "id": "a",
+                "text": "Blowing as hard as possible to expand it quickly"
+            },
+            {
+                "id": "b",
+                "text": "Blowing steadily at an even pressure"
+            },
+            {
+                "id": "c",
+                "text": "Alternating short bursts of air"
+            }
+        ],
+        "correct": "b",
+        "objective_ids": [
+            "lo-2"
+        ],
+        "feedback": "Correct. Steady pressure, not force, is what S-02 calls the whole trick."
+    }
+]

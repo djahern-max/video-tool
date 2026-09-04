@@ -1,0 +1,22 @@
+{
+  "block-01": {
+    "durationSeconds": 38.263,
+    "reveals": [
+      5.399,
+      18.576,
+      33.599
+    ],
+    "hash": "5b793a133fbd",
+    "generatedAt": "2026-09-04T07:59:42.080Z"
+  },
+  "block-02": {
+    "durationSeconds": 30.739,
+    "reveals": [
+      7.605,
+      16.904,
+      28.363
+    ],
+    "hash": "52e2b53002b5",
+    "generatedAt": "2026-09-04T07:59:47.507Z"
+  }
+}
