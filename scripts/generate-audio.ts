@@ -22,16 +22,23 @@
  *
  * Writes:
  *   public/audio/<lesson-id>/<block-id>.mp3
- *   src/audio-meta-<id>.json     durations, measured reveals, text hash, per lesson
+ *   src/audio-meta-<id>.json     durations, measured reveals, text hash, and the
+ *                                voice and model used, per lesson
+ *
+ * A block is regenerated when its spoken text changes OR when the voice or the
+ * model changes. The configuration is part of the cache key because it is part
+ * of what the audio is: the same words in a different voice are a different
+ * recording, and CLAUDE.md's rule that changing either means regenerating every
+ * block of every lesson is now enforced rather than remembered.
  *
  * Requires ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID in video/.env
  */
 
-import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
+import { audioHashOf, hashOf, parseMarkers } from "../src/audio-identity";
 import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
 
 type Block = {
@@ -120,36 +127,12 @@ const fail = (message: string): never => {
 /* Marker handling                                                     */
 /* ------------------------------------------------------------------ */
 
-const MARKER = /\[\[r\]\]/g;
-
-/**
- * Split narration into the text actually sent to the API and the character
- * offsets at which reveals should fire.
- *
- * The offsets are into the stripped text, because that is what the alignment
- * data describes.
+/*
+ * `parseMarkers`, `hashOf` and `audioHashOf` live in `src/audio-identity.ts`,
+ * not here. The lesson modules' accessors call the same functions to decide
+ * whether an `audio-meta` entry describes the block it is filed under, and a
+ * hash computed two ways is a defect waiting for a whitespace change.
  */
-const parseMarkers = (narration: string) => {
-  let text = "";
-  let cursor = 0;
-  const offsets: number[] = [];
-
-  MARKER.lastIndex = 0;
-  let match: RegExpExecArray | null;
-  while ((match = MARKER.exec(narration)) !== null) {
-    text += narration.slice(cursor, match.index);
-    // Collapse whitespace that surrounded the marker so the sent text reads
-    // naturally. The marker is punctuation for us, not for the model.
-    text = text.replace(/\s+$/, "");
-    if (text.length > 0) text += " ";
-    offsets.push(text.length);
-    cursor = match.index + match[0].length;
-    while (narration[cursor] === " ") cursor += 1;
-  }
-  text += narration.slice(cursor);
-
-  return { text: text.trim(), offsets };
-};
 
 /**
  * Turn character offsets into seconds using the alignment ElevenLabs returns.
@@ -193,11 +176,10 @@ type BlockMeta = {
   durationSeconds: number;
   reveals: number[];
   hash: string;
+  voice: string;
+  model: string;
   generatedAt: string;
 };
-
-const hashOf = (text: string) =>
-  createHash("sha256").update(text).digest("hex").slice(0, 12);
 
 // Set by main() once the --lesson argument is parsed and the module resolved.
 let audioDir: string;
@@ -263,8 +245,53 @@ const generate = async (
     durationSeconds: Number((spoken + TAIL_SECONDS).toFixed(3)),
     reveals,
     hash: hashOf(text),
+    voice: voiceId,
+    model: MODEL_ID,
     generatedAt: new Date().toISOString(),
   };
+};
+
+/**
+ * An entry as read back off disk. `voice` and `model` are optional here and
+ * required on what `generate` writes: metadata produced before those fields
+ * existed does not carry them, and the reader has to cope with that rather
+ * than pretend.
+ */
+type StoredMeta = Omit<BlockMeta, "voice" | "model"> & {
+  voice?: string;
+  model?: string;
+};
+
+/**
+ * Why this block would be sent, or null if the audio on disk still stands for it.
+ *
+ * The cache key is the spoken text *and* the configuration that spoke it. A
+ * voice change used to be invisible here: the hash matched, every block
+ * reported "unchanged, skipped", and the MP3s stayed in the old narrator's
+ * voice while the manifest's `tts_voice_id` claimed the new one. Only
+ * `--force` reconciled them, and nothing said so.
+ *
+ * The reason is returned rather than a boolean because the two kinds of miss
+ * cost the same credit and mean different things. An edit is a miss the author
+ * made deliberately, to one block. A configuration change is one the tooling
+ * made for them, to every block of every lesson. An author reading a dry run
+ * needs to know which they are about to pay for.
+ */
+const missReason = (
+  block: Block,
+  entry: StoredMeta | undefined,
+  voiceId: string,
+  audioExists: boolean
+): string | null => {
+  if (!entry) return "no audio yet";
+  if (!audioExists) return "mp3 missing from public/audio";
+  if (entry.hash !== audioHashOf(speechOf(block))) return "narration changed";
+  if (entry.voice === undefined || entry.model === undefined) {
+    return "generated before the voice and model were recorded";
+  }
+  if (entry.voice !== voiceId) return `voice changed: ${entry.voice} to ${voiceId}`;
+  if (entry.model !== MODEL_ID) return `model changed: ${entry.model} to ${MODEL_ID}`;
+  return null;
 };
 
 /* ------------------------------------------------------------------ */
@@ -308,9 +335,17 @@ const main = async () => {
   const apiKey = process.env.ELEVENLABS_API_KEY;
   const voiceId = process.env.ELEVENLABS_VOICE_ID;
   if (!dryRun && !apiKey) fail("ELEVENLABS_API_KEY is not set in video/.env");
-  if (!dryRun && !voiceId) fail("ELEVENLABS_VOICE_ID is not set in video/.env");
+  // Required for a dry run too, now that the voice is part of the cache key:
+  // without it the report could not say whether a block is a hit or a miss.
+  if (!voiceId) {
+    fail(
+      "ELEVENLABS_VOICE_ID is not set in video/.env. The voice is part of the " +
+        "cache key, so even a dry run needs to know which voice the audio on " +
+        "disk was generated under."
+    );
+  }
 
-  const existing: Record<string, BlockMeta> = existsSync(metaPath)
+  const existing: Record<string, StoredMeta> = existsSync(metaPath)
     ? JSON.parse(readFileSync(metaPath, "utf8"))
     : {};
 
@@ -323,27 +358,28 @@ const main = async () => {
   }
 
   console.log(`\n  ${meta.courseCode} — ${meta.lessonTitle}`);
-  console.log(`  voice ${voiceId ?? "(dry run)"}  model ${MODEL_ID}\n`);
+  console.log(`  voice ${voiceId}  model ${MODEL_ID}\n`);
 
-  const result = { ...existing };
+  const result: Record<string, StoredMeta> = { ...existing };
   let generated = 0;
   let skipped = 0;
 
   for (const block of targets) {
-    const { text } = parseMarkers(speechOf(block));
-    const hash = hashOf(text);
     const audioExists = existsSync(join(audioDir, `${block.id}.mp3`));
-    const unchanged = existing[block.id]?.hash === hash && audioExists;
+    const reason = missReason(block, existing[block.id], voiceId!, audioExists);
 
-    if (unchanged && !force) {
+    if (reason === null && !force) {
       console.log(`  ${block.sheet}  ${block.id.padEnd(9)} unchanged, skipped`);
       skipped += 1;
       continue;
     }
 
     if (dryRun) {
-      const { offsets } = parseMarkers(speechOf(block));
-      console.log(`  ${block.sheet}  ${block.id.padEnd(9)} ${text.length} chars, ${offsets.length} reveals`);
+      const { text, offsets } = parseMarkers(speechOf(block));
+      console.log(
+        `  ${block.sheet}  ${block.id.padEnd(9)} ${text.length} chars, ` +
+        `${offsets.length} reveals  — ${reason ?? "forced"}`
+      );
       continue;
     }
 
@@ -369,6 +405,18 @@ const main = async () => {
   }
 
   if (dryRun) {
+    const config = targets.filter((b) => {
+      const r = missReason(b, existing[b.id], voiceId!, existsSync(join(audioDir, `${b.id}.mp3`)));
+      return r !== null && (r.startsWith("voice changed") || r.startsWith("model changed") ||
+        r.startsWith("generated before"));
+    }).length;
+    if (config > 0) {
+      console.log(
+        `\n  ${config} of ${targets.length} block(s) would be resent over the voice or the ` +
+        `model,\n  not because their narration changed. Either one invalidates every block ` +
+        `of\n  every lesson — that is the point of hashing them, and it is not free.`
+      );
+    }
     console.log("\n  Dry run. Nothing sent, nothing written.\n");
     return;
   }

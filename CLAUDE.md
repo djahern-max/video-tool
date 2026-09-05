@@ -171,7 +171,12 @@ renumber and this repo cannot see them.
 ## Costs and secrets
 
 - ElevenLabs key in `.env`, gitignored. Voice and model are frozen; changing
-  them means regenerating every block of every lesson for consistency.
+  them means regenerating every block of every lesson for consistency. The
+  generate cache enforces that rather than trusting anyone to remember
+  `--force`: `audio-meta-NN.json` records the voice and model each block was
+  generated under, and a block whose configuration no longer matches misses
+  the cache. Run `--dry-run` first — the report separates a miss caused by an
+  edit from one caused by the configuration.
 - Voice settings are recorded in `scripts/generate-audio.ts`. Do not change
   them inside a feature; that is a separate decision.
 - The MP3s under `public/audio/` are committed **source, not build output**.

@@ -180,6 +180,24 @@ Export refuses while any narrated block lacks generated audio, and refuses
 a render that is stale relative to the audio. Durations are measured off
 the rendered file; nothing is ever typed.
 
+**Edit a block's narration and that block loses its audio.** Not the mp3 —
+the claim that the mp3 describes it. The measured duration and the measured
+reveal seconds were timed against the old words, so the block falls back to
+`estimatedSeconds` and its hand-written `reveals` until you regenerate it,
+`check` errors naming the block, and export refuses the lesson. Regenerate
+just that one:
+
+    npm run generate -- --lesson 01 --only block-07
+
+The same thing happens when you reuse a block id for different narration,
+which is what renumbering a lesson under revision does. That case used to
+render the old timings onto the new sheet with nothing said — a sheet blank
+for eighteen seconds because it inherited a reveal written for other words.
+
+Changing the voice or the model in `.env` invalidates every block of every
+lesson, deliberately: the same words in a different voice are a different
+recording. Dry-run first and read the reasons before paying for it.
+
 Block rules that cause silent defects, so `check` enforces them: the number
 of `[[r]]` markers in the narration must equal the length of `reveals`, and
 a slide's `figure.kind` must match its `slide` type or the sheet renders

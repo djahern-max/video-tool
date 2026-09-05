@@ -56,8 +56,21 @@ sends one API call per block — one file per block, so correcting one sentence
 regenerates one block, not the lesson. Unchanged blocks are skipped by
 content hash; `-- --only <block-id>` forces a single block, `-- --force`
 regenerates everything. Writes `public/audio/<id>/<block-id>.mp3` and
-`src/audio-meta-<id>.json`: measured duration and measured reveal seconds,
-per block.
+`src/audio-meta-<id>.json`: measured duration, measured reveal seconds, the
+hash of the words spoken, and the voice and model that spoke them, per block.
+
+The voice and the model are part of that hash. Change either and every block
+of every lesson misses the cache, because the same words in a different voice
+are a different recording — the dry run says which blocks are being resent
+over a configuration change rather than an edit, so you can see what it costs
+before you pay it.
+
+The hash is also read back. A block whose `narration` you edit without
+regenerating has metadata that describes different words, so `hasAudio` is
+false for it, its duration and reveals fall back to the estimates, and `check`
+errors naming the block. Reusing a block id for new narration — renumbering a
+lesson under revision — is the same case, and used to render the old timings
+onto the new sheet in silence.
 
 **3. Render.**
 

@@ -2,7 +2,7 @@
   {
     "id": "q-01",
     "kind": "review",
-    "after_block": 2,
+    "after_block": 3,
     "stem": "According to Archimedes' principle, the upward force on a balloon equals the weight of what?",
     "choices": [
       { "id": "a", "text": "The helium inside the balloon" },
@@ -11,13 +11,13 @@
       { "id": "d", "text": "The balloon and its string together" }
     ],
     "correct": "b",
-    "feedback": "The upward force equals the weight of the fluid displaced — here, the air the balloon pushes aside. Choice a inverts the relationship: the helium's weight is subtracted from the lift, it is not the source of it. Choice c names dead weight the balloon has to carry. Choice d describes no physical quantity in the principle. Re-study block-02.",
+    "feedback": "The upward force equals the weight of the fluid displaced — here, the air the balloon pushes aside. Choice a inverts the relationship: the helium's weight is subtracted from the lift, it is not the source of it. Choice c names dead weight the balloon has to carry. Choice d describes no quantity in the principle. Re-study block-03.",
     "objective_ids": ["lo-1"]
   },
   {
     "id": "q-02",
     "kind": "review",
-    "after_block": 3,
+    "after_block": 5,
     "stem": "Of the four figures on the facts sheet, which one is the one most often left out of a lift calculation?",
     "choices": [
       { "id": "a", "text": "The density of dry air" },
@@ -26,13 +26,13 @@
       { "id": "d", "text": "The mass of the latex envelope" }
     ],
     "correct": "d",
-    "feedback": "The envelope weighs about 2.8 grams and it is dead weight the balloon carries before it lifts anything of yours — roughly a quarter of the gross lift of an 11-inch balloon. Choices a, b and c are all routinely included; forgetting any of them makes the calculation impossible rather than merely optimistic. Re-study block-03.",
+    "feedback": "The envelope weighs about 2.8 grams and the balloon lifts that before it lifts anything of yours — roughly a quarter of its gross lift. Choices a, b and c are all routinely included; forgetting any of them makes the calculation impossible rather than merely optimistic. Re-study block-05.",
     "objective_ids": ["lo-2"]
   },
   {
     "id": "q-03",
     "kind": "review",
-    "after_block": 4,
+    "after_block": 6,
     "stem": "One cubic metre of helium at sea level provides about how much net lift?",
     "choices": [
       { "id": "a", "text": "0.179 kg" },
@@ -41,13 +41,13 @@
       { "id": "d", "text": "1.404 kg" }
     ],
     "correct": "b",
-    "feedback": "1.225 minus 0.179 is 1.046 kg. Choice a is the weight of the helium alone. Choice c is the weight of the displaced air before the helium is subtracted, which is gross lift rather than net. Choice d adds the two densities instead of subtracting. Re-study block-04.",
+    "feedback": "1.225 minus 0.179 is 1.046 kg. Choice a is the weight of the helium alone. Choice c is the weight of the displaced air before the helium is subtracted, which is gross lift rather than net. Choice d adds the two densities instead of subtracting. Re-study block-06.",
     "objective_ids": ["lo-2"]
   },
   {
     "id": "q-04",
     "kind": "review",
-    "after_block": 6,
+    "after_block": 9,
     "stem": "Why does the lesson use the excavator's operating weight rather than its shipping weight?",
     "choices": [
       { "id": "a", "text": "Operating weight is the easier figure to find" },
@@ -56,13 +56,13 @@
       { "id": "d", "text": "The two figures are identical for this machine" }
     ],
     "correct": "b",
-    "feedback": "Operating weight includes the boom, stick, bucket, fuel and operator — the machine as it actually sits. Choosing the lighter figure would make the answer look better without making it more true, and picking the assumption that favours your result is the habit this lesson is trying to break. Choice c is false; shipping weight includes the tracks. Re-study block-06.",
+    "feedback": "Operating weight includes the boom, bucket, fuel and operator — the machine as it actually sits. Choosing the lighter figure would make the answer look better without making it more true, and picking the assumption that favours your result is the habit this lesson is trying to break. Choice c is false; shipping weight includes the tracks. Re-study block-09.",
     "objective_ids": ["lo-3"]
   },
   {
     "id": "q-05",
     "kind": "review",
-    "after_block": 7,
+    "after_block": 11,
     "stem": "Dividing 22,000 kg by 0.0092 kg of lift per balloon gives a result closest to which figure?",
     "choices": [
       { "id": "a", "text": "24,000" },
@@ -71,7 +71,7 @@
       { "id": "d", "text": "24,000,000" }
     ],
     "correct": "c",
-    "feedback": "22,000 divided by 0.0092 is about 2.39 million. The other three choices are the same division off by a factor of ten in one direction or another, which is the single most common error in a calculation like this one. Writing the units beside each number is what catches it. Re-study block-07.",
+    "feedback": "22,000 divided by 0.0092 is about 2.39 million. The other three choices are the same division off by a factor of ten in one direction or another, which is the single most common error in a calculation like this one. Writing the units beside each number is what catches it. Re-study block-11.",
     "objective_ids": ["lo-3"]
   },
   {
@@ -85,7 +85,7 @@
       { "id": "d", "text": "Helium is drawn upward by a force that does not act on air" }
     ],
     "correct": "c",
-    "feedback": "Buoyant force depends only on the volume of air displaced, so it is identical for two balloons of the same size. What differs is the weight hanging from that force: helium weighs roughly a seventh of the air it replaces, while the air-filled balloon carries exactly what it displaced and nets nothing. Choice a misstates displacement, which is set by volume alone. Choice b puts the difference in the force rather than the load. Choice d invents a force that does not exist. Re-study block-02.",
+    "feedback": "Buoyant force depends only on the volume of air displaced, so it is identical for two balloons of the same size. What differs is the weight hanging from that force: helium weighs roughly a seventh of the air it replaces, while the air-filled balloon carries exactly what it displaced and nets nothing. Choice a misstates displacement, which is set by volume alone. Choice b puts the difference in the force rather than the load. Choice d invents a force that does not exist. Re-study block-03.",
     "objective_ids": ["lo-1"]
   },
   {
@@ -99,7 +99,7 @@
       { "id": "d", "text": "About 29 grams" }
     ],
     "correct": "b",
-    "feedback": "0.023 m³ multiplied by 1.046 kg/m³ is about 24 grams of gross lift; subtracting the 5-gram envelope leaves about 19 grams usable. Choice c stops before paying for the envelope. Choice d adds the envelope mass instead of subtracting it. Choice a reports the envelope mass itself rather than the lift. Re-study block-04.",
+    "feedback": "0.023 m³ multiplied by 1.046 kg/m³ is about 24 grams of gross lift; subtracting the 5-gram envelope leaves about 19 grams usable. Choice c stops before paying for the envelope. Choice d adds the envelope mass instead of subtracting it. Choice a reports the envelope mass itself rather than the lift. Re-study block-06.",
     "objective_ids": ["lo-2"]
   },
   {
@@ -113,7 +113,7 @@
       { "id": "d", "text": "About 5,400,000" }
     ],
     "correct": "b",
-    "feedback": "500 kg divided by 0.0092 kg per balloon is about 54,000. Applying a per-unit figure to a payload is always this same division, and the risk is always the decimal point: the other three choices are this answer moved one or more places. Converting grams to kilograms before dividing, rather than during, is what keeps it straight. Re-study block-07.",
+    "feedback": "500 kg divided by 0.0092 kg per balloon is about 54,000. Applying a per-unit figure to a payload is always this same division, and the risk is always the decimal point: the other three choices are this answer moved one or more places. Converting grams to kilograms before dividing, rather than during, is what keeps it straight. Re-study block-11.",
     "objective_ids": ["lo-3"]
   },
   {
@@ -127,7 +127,7 @@
       { "id": "d", "text": "Air density increases with altitude, reducing lift as the load rises" }
     ],
     "correct": "b",
-    "feedback": "Every string and every net needed to connect 2.4 million balloons to one machine has mass, that mass demands more balloons, and those balloons demand more rigging — the requirement chases itself upward. Choice a would push the answer down, not up. Choice c is backwards: balloons in the interior of a cluster are shielded and the whole mass must be lifted as one shape. Choice d states the altitude effect backwards — air thins as you climb, which is why lift falls off. Re-study block-08.",
+    "feedback": "Every string and every net needed to connect 2.4 million balloons to one machine has mass, that mass demands more balloons, and those balloons demand more rigging — the requirement chases itself upward. Choice a would push the answer down, not up. Choice c is backwards: balloons in the interior of a cluster are shielded and the whole mass must be lifted as one shape. Choice d states the altitude effect backwards — air thins as you climb, which is why lift falls off. Re-study block-14.",
     "objective_ids": ["lo-4"]
   }
 ]

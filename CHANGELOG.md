@@ -1273,3 +1273,109 @@ Shipped: 2026-09-04
 - Entry 06's prose still reads 9.02.1 and always will. A reader who finds it
   without reaching this entry will take the wrong citation, which is the cost
   of an append-only log.
+
+## 13 — Block audio is identified by content, not by block id
+Shipped: 2026-09-05
+
+**What changed**
+- New `src/audio-identity.ts`: `parseMarkers`, `hashOf`, `audioHashOf`. One
+  hash function, imported by `scripts/generate-audio.ts` (which writes the
+  hash), by every lesson module's accessors (which read it back), and by
+  `scripts/check-lessons.ts` (which reports on it). Nothing computes it twice.
+- The accessors check it. `hasAudio` is true only when an entry exists under
+  the block's id **and** its `hash` is the hash of that block's current spoken
+  text; `durationOf` and `revealsOf` fall back to `estimatedSeconds` and
+  `reveals` on a mismatch exactly as they do on a missing entry.
+  `usingEstimates` inherits the fix through `hasAudio` — confirmed by hand: a
+  one-word narration edit flipped lesson 01 from `measured` to `estimated`
+  with no other change.
+- `BlockMeta` gained `voice` and `model`. `generate` records the voice id and
+  the model id each block was generated under, and a block whose configuration
+  no longer matches misses the cache. The dry-run report names the cause per
+  block — `narration changed`, `voice changed: A to B`, `model changed`,
+  `generated before the voice and model were recorded`, `mp3 missing`,
+  `no audio yet` — and tallies the configuration-caused misses separately, so
+  an author can see whether they are about to pay for an edit or for a setting.
+- `generate` now requires `ELEVENLABS_VOICE_ID` for a dry run too. The voice is
+  part of the cache key; without it the report cannot say hit or miss.
+- `check` gained two findings: **ERROR** on an `audio-meta` entry whose hash is
+  of different words, naming the block and the `--only` command that fixes it;
+  **WARN** on an entry under an id no block carries.
+- `npm run new`'s video scaffold emits the corrected accessors. The text
+  scaffold emits none — a text lesson has no blocks and no audio-meta at all —
+  so there was nothing there to correct and nothing that could carry the defect.
+- `README.md`, `CLAUDE.md` and `LESSON-RUNBOOK.md` updated where they describe
+  the cache and what editing narration costs.
+
+**Standards touched**
+- 9.02.2(2)(ii) — the A/V duration retained as supporting documentation for the
+  word count formula. That number is what `durationOf` returns; returning one
+  measured against different narration makes the retained documentation wrong,
+  and `duration_source: "measured"` an untrue attestation.
+
+**Decisions**
+- The mismatch is an **ERROR**, not a WARN. It meets this file's own bar twice
+  over: it produces a defective render — the old measured reveals composited
+  onto new words, which is a sheet that sits blank — and it reaches a package,
+  because it is the one condition under which `duration_source: "measured"` is
+  false while `usingEstimates` says otherwise. It is decidable from the
+  lesson's own module and its own metadata, so `export` can gate on it.
+- An orphaned entry is a **WARN**. Nothing reads it, nothing renders it,
+  nothing packages it. It is litter left by a renamed or removed block, not a
+  defect, and failing a build over it would train people to ignore the level.
+- Voice and model are recorded as their own fields rather than folded into
+  `hash`. Folding them in would have made the two kinds of miss
+  indistinguishable — and task 2 requires telling them apart — and it would
+  have put the voice id inside a value the accessors must recompute, which
+  they cannot: the voice lives in `.env` and the lesson modules are compiled
+  into a browser bundle. So the *cache key* is the hash together with the
+  voice and the model, and the *identity the accessors check* is the hash
+  alone. Rejected: a second `configHash` field, which is the same information
+  spent twice.
+- SHA-256 is implemented in plain TypeScript in `src/audio-identity.ts`
+  instead of `node:crypto`. The accessors run in the Remotion bundle, where
+  `node:crypto` does not exist and webpack 5 does not polyfill it, and the
+  alternative — a different hash on each side — is the defect this feature
+  exists to close. The digest is byte-identical to `createHash("sha256")`,
+  verified against it on nine vectors and against all fourteen hashes
+  committed in `audio-meta-01.json`, so no existing metadata was invalidated
+  by the move.
+- The spec located the voice id in `scripts/generate-audio.ts`. It is not
+  there and never was: `generate` and `export` both read
+  `ELEVENLABS_VOICE_ID` from `.env`. Nothing was moved to make the spec true —
+  relocating the voice is a configuration decision, and this feature was told
+  not to make one. The acceptance run overrode the environment variable for
+  one dry run instead, which is the same cache event and leaves `.env` alone.
+
+**Known gaps**
+- **This defect shipped.** Block audio was identified by id alone from the
+  pipeline's first commit. `BlockMeta.hash` was written by `generate` and read
+  by nothing. The condition was reachable by ordinary authoring — renumbering
+  the blocks of a lesson under revision — and it was reached: BALLOON-01 was
+  rewritten from 8 blocks to 14 with the ids reused, and two renders composited
+  the old measured durations and reveal timestamps onto the new sheets while
+  `usingEstimates` stayed false, which is the one gate that exists to stop
+  estimated timings reaching a package.
+- No registered lesson errors on the new check. BALLOON-01's fourteen stored
+  hashes all match its current narration; the defective state was rendered, not
+  committed.
+- Every block of every existing lesson now misses the generate cache, on the
+  grounds that its metadata predates the voice and model fields. That is the
+  intended consequence and it is not free: BALLOON-01's fourteen blocks would
+  be resent, and their audio is current. Whoever knows which voice generated
+  them can write `voice` and `model` into `audio-meta-01.json` by hand — it is
+  their own record of their own run — and the cache will hit again. The
+  tooling will not guess it.
+- A voice change is caught by `generate`, not by `render`, `check` or
+  `usingEstimates`. The feature's goal statement asks for all four; its "In
+  scope" list and its tasks assign the hash to the accessors and the voice to
+  the cache, and only the cache can see a value that lives in `.env`. Closing
+  the rest means deciding where the voice id belongs, which is a configuration
+  decision this feature was told not to make.
+- 9.02.2(2)(ii) is cited here on the authority of `CLAUDE.md` and earlier
+  entries. `sources/` is empty and the 2026 Statement is not in the repo, so
+  the paragraph was not read before citing it, contrary to the changelog rule.
+- Deliberately not touched, both still open: the 40–75s sheet window, which is
+  wrong for image-heavy lessons and warns on all fourteen of BALLOON-01's
+  sheets; and the absence of a first-reveal-too-late check, the symmetric case
+  of the last-reveal warning that already exists.

@@ -1,285 +1,225 @@
 # Current Feature
 
-## Feature NN, `meta.status` is the developer's check, not the 4.02 review
+## Feature NN, Block audio is identified by content, not by block id
 
-> Set NN from the last entry in `CHANGELOG.md` before starting.
+> Set NN from the last entry in `CHANGELOG.md` before starting. The last entry
+> read at drafting time was 11.
 
 ## Goal
 
-video-tool stops claiming that a licensed CPA signs a lesson off inside this
-repo. No refusal changes its condition, order, or exit code. What changes is
-the paragraph the tooling cites, the record it points at, the word it uses, and
-`CLAUDE.md`'s standing rule that states the claim — so a reader of this repo
-can tell where the 4.02 content review actually happens, which is superCPE.
+`audio-meta-NN.json` stops being trusted on the strength of a block id alone.
+A block whose narration has changed, or whose audio was generated under a
+different voice or model, is treated as unvoiced — by `render`, by `check`, and
+by `usingEstimates` — instead of silently rendering against timings that belong
+to different words.
 
-This is a correction of stated compliance meaning. It ships no new capability.
+No new capability. This closes a defect that produced two wrong renders in one
+authoring session and would have produced a package whose measured durations
+did not describe its own narration.
 
 ## Why
 
-`export.ts` refuses a lesson whose `meta.status` is not `"reviewed"` with a
-message citing **4.01.1, 4.02** and directing the reader to
-`drafts/<code>-review.md`. `CLAUDE.md` rule 4 goes further and says the flag
-"evidences the 4.02 independent content review only," with 4.01.1 explicitly
-excluded from it.
+Two separate holes, found while authoring BALLOON-01.
 
-Read literally, that tells a licensed CPA to open a markdown file in a git repo
-and then hand-edit a TypeScript string in a second file. No CPA will do that,
-and they should not: superCPE already built the 4.02 review, and its records
-are the ones a NASBA reviewer would ask for.
+**1. `durationOf` and `revealsOf` never check that the metadata matches the
+block.** From `src/lesson-NN.ts`, the accessors every lesson carries:
 
-From superCPE's `COMPLIANCE.md`, the 4.02 rows — authoritative here, because
-this repo has no review model at all:
+```ts
+export const hasAudio = (b: Block): boolean => audio[b.id] !== undefined;
 
-- `course_reviews` holds the review, with `content_updated_at_reviewed`
-  snapshotted; `current_review` in `backend/app/services/development.py`
-  derives whether the approved review still reviews the current content.
-- Reviewers submit at `POST /api/v1/review/courses/{code}/reviews` behind
-  `require_role("reviewer", "admin")`. The reviewer has a login, not a repo.
-- `review_missing`, `reviewer_is_developer`, and `cpa_participation` are block
-  findings in `backend/app/services/readiness.py`; `publish` refuses on any
-  block finding.
-- Reviewer identity and qualification live in `subject_matter_experts` — name,
-  credentials, jurisdiction, license number, status (the 9.02.2(4) row).
-- `backend/app/constants/review_attestation.py` holds the versioned statements
-  the reviewer's approval puts their name to.
+export const durationOf = (b: Block): number =>
+  audio[b.id]?.durationSeconds ?? b.estimatedSeconds;
 
-The review is **course-level, against ingested package versions**. It cannot
-happen in video-tool, because the thing being reviewed does not exist until
-superCPE has it.
+export const revealsOf = (b: Block): number[] =>
+  audio[b.id]?.reveals ?? b.reveals;
+```
 
-`meta.status` is still a real attestation, under a different paragraph. From
-the 4.01.1 row: `developer_used_technology` defaults true because superCPE
-content is drafted with a language model in video-tool, and the developer of
-record is the human who directed and checked that draft. 4.01.1 requires that
-developer to review technology-assisted content for accuracy. Flipping the flag
-is that check, performed by the developer, before export. That is worth gating
-on and the gate stays.
+`BlockMeta` already carries a `hash`. Nothing reads it. A lookup by `b.id`
+succeeds whenever an entry exists under that key, whatever it describes.
 
-Consequences, all of them wording:
+Observed: BALLOON-01 was rewritten from 8 narrated blocks to 14. The ids
+`block-01` through `block-08` were reused for entirely different narration.
+The render composited the old measured durations and the old measured reveal
+timestamps onto the new sheets. One sheet sat blank from 0:52 to 1:10 because
+it inherited an 18-second reveal written for a different block. Blocks 09–14,
+having no entry, rendered silent. Nothing warned.
 
-1. `CLAUDE.md` rule 4 asserts the inversion as a standing rule, and the
-   Boundary section lists `meta.status` among the things a *package* carries.
-   It is not in either branch's manifest — it is an export gate.
-2. Export's refusal cites the wrong paragraph and names the wrong record.
-3. `drafts/` is documented as 4.02 sign-off evidence. It is not — it is the
-   developer's accuracy record under 4.01.1, and supporting documentation under
-   9.02.2(2)(ii). It is still preserved by `retire`, for that reason instead.
-4. The value `"reviewed"` collides with 4.02's "content reviewer" and is the
-   specific word that produced the confusion this feature corrects.
+`usingEstimates` has the same hole, and it is the more serious one: it is
+false as soon as an entry exists under every narrated block's id, so a lesson
+in this state passes the one gate that exists to stop estimated timings from
+reaching a package. `docs/course-package.md` requires
+`duration_source: "measured"` and superCPE rejects any other value, on the
+strength of this repo attesting the number was measured from the rendered
+narration. In the state above that attestation is false. Export's ffprobe
+check compares the render against the metadata, so a whole-lesson drift would
+likely be caught there — but that is a second line of defence catching a
+failure the first line was supposed to make impossible, and it does not fire
+on a per-block mismatch that happens to leave the total intact.
+
+**2. The generate cache key does not include voice or model.** `README.md`
+records that unchanged blocks are skipped by content hash. Observed: the voice
+id in `scripts/generate-audio.ts` was changed from `21m00Tcm4TlvDq8ikWAM` to
+`HKFOb9iktHA85uKXydRT`, and the next `npm run generate -- --lesson 01
+--dry-run` reported all eight blocks `unchanged, skipped`. The MP3s on disk
+were the old voice; the config claimed the new one; `--force` was the only way
+to reconcile them, and nothing said so.
+
+`CLAUDE.md` states that voice and model are frozen and that changing them means
+regenerating every block of every lesson for consistency. That instruction is
+correct and the tooling does not support it: a voice change is invisible to the
+cache, so the regeneration it requires can only be triggered by remembering to
+pass `--force`.
 
 ## In scope
 
-- `CLAUDE.md`: rule 4, the Boundary bullet, and the drift listed in task 6
-- The refusal messages in both branches of `scripts/export.ts`
-- The status comment and the `author` TODO in `scripts/new-lesson.ts`
-- The status warning in `scripts/check-lessons.ts`
-- Renaming the passing status value (see the decision below)
-- `README.md`, `LESSON-RUNBOOK.md` wherever they describe `drafts/`,
-  `meta.status`, or the reviewer
-- A `CHANGELOG.md` entry recording the correction, and a second short entry
-  correcting entry 06's citation (task 7)
+- `hash` becomes the identity check on read, in the accessors every lesson
+  module carries and in `scripts/new-lesson.ts`'s scaffold for both kinds
+- Voice id and model id become part of what the generate cache hashes
+- `check-lessons.ts` reports a block whose audio metadata does not match its
+  narration
+- `LESSON-RUNBOOK.md` and `CLAUDE.md` updated where they describe the cache
 
 ## Out of scope
 
-- Any change to what export refuses, or to the order of its refusals
-- Any change to `retire`'s preservation of `drafts/` and `sources/` — the
-  behavior is right, only its stated reason is wrong
-- Any change to the package contract or the manifest
-- Anything in superCPE. If superCPE's review flow turns out to disagree with
-  the 4.02 rows of its own `COMPLIANCE.md`, report it and stop.
-- Building a reviewer surface in video-tool. There is deliberately none.
-- Nano learning. `CLAUDE.md`'s rule against inventing a kind for it stands.
-
-## Decision to confirm before starting
-
-**Rename the passing value from `"reviewed"` to `"checked"`.**
-
-The value is internal to video-tool — it gates export and never enters the
-manifest. Renaming removes the word that invites the 4.02 reading. It is wider
-than one file: `LessonStatus` in `src/types.ts` serves both `meta.status` and
-`CourseLesson.status` in `src/course.ts`, `new-lesson.ts` writes it into both,
-and `check-lessons.ts` warns when the two disagree.
-
-The alternative is keeping `"reviewed"` and fixing only the prose, which is
-lower risk and leaves the collision in place.
-
-The spec below assumes the rename. To back it out, drop task 4 and keep
-`"reviewed"` everywhere; nothing else changes.
+- Generating any audio. Not one block. Verify against the metadata and the
+  hashes; do not spend credits proving a cache miss.
+- Any change to voice settings, `speed`, `stability`, or `similarity_boost`.
+- Changing what `hash` is computed over beyond adding voice and model — the
+  narration normalisation stays as it is.
+- The 40–75s sheet window, and the missing first-reveal check. Separate
+  features; see Known gaps.
 
 ## Read first
 
-- `CLAUDE.md`, rule 4 and the Boundary section
-- `scripts/export.ts`, both status refusals (the video branch's step 2 and the
-  identical one at the head of `exportTextLesson`)
-- `scripts/new-lesson.ts`, the scaffolded `meta` block and the course entry it
-  writes
-- `src/course.ts` and `src/types.ts`, for `LessonStatus` and `CourseLesson`
-- superCPE's `COMPLIANCE.md`: the 4.02 rows, the 4.01.1 row, the 9.02.2(4) row
-- 4.01.1, 4.02, 9.02.2(2)(ii), and 9.02.2(7) in the 2026 Statement, before
-  citing any of them
+- `scripts/generate-audio.ts`, all of it, and in particular what it hashes,
+  where it writes the hash, and where it decides to skip.
+- `src/blocks.ts` — `BlockMeta` and its `hash` field.
+- Any registered lesson's accessor block at the bottom of `src/lesson-NN.ts`.
+- `scripts/new-lesson.ts` — both `videoModule` and `textModule`.
+- `docs/course-package.md`, the `duration_source` rule.
 
 ## Tasks
 
-### 1. Find every reader of `meta.status`
+### 1. Establish what `hash` currently covers
 
-`rg 'status' src/ scripts/ *.md` and list them before editing anything. Known:
-`export.ts` (two refusals), `check-lessons.ts` (the `[draft]` header label, the
-status warning, and the module/course-record mismatch warning),
-`new-lesson.ts` (writes `"draft"` into both files), `retire.ts` (the
-reviewed-but-unexported warning), `src/course.ts` (`CourseLesson.status`),
-`src/types.ts` (`LessonStatus`), and `LessonMeta` in `src/slides.tsx`, which
-carries `status: string` — **so a sheet component may render it**. Check
-`src/Sheet.tsx` and `src/slides.tsx` for what is drawn from it. If the string
-reaches the rendered frame, the rename changes the video, and that must be
-stated in the changelog rather than discovered later.
+Read it out of `generate-audio.ts` and write it down before changing anything.
+The rest of this feature assumes the hash is over the block's speech text; if
+it is over something else, stop and report rather than proceeding on the
+assumption.
 
-Confirm `meta.status` appears in neither branch's manifest object in
-`export.ts`. Task 3 and the rename both rest on this. If it does appear, stop
-and report before changing anything.
+### 2. Voice and model join the hash
 
-### 2. `CLAUDE.md` rule 4
+Whatever is hashed today, hash it together with the voice id and the model id.
+A block generated under a different voice must miss the cache.
 
-Rewrite the second paragraph of rule 4. It currently reads that `meta.status`
-evidences 4.02 only and that 4.01.1 is not recorded by the flag. Both halves
-are backwards. The replacement says, in substance:
+This invalidates every existing block of every lesson on its next dry run.
+That is the correct behaviour and the point of the change, but it is not a
+silent one: the dry-run report must distinguish a miss caused by changed
+narration from a miss caused by changed voice or model, so an author reading
+the report knows whether they are about to pay for an edit or for a
+configuration change.
 
-`meta.status` is the developer's own check under 4.01.1: when technology is
-used in development, the content developer is responsible for reviewing the
-content for accuracy, and generated narration is exactly that case.
-`drafts/<code>-review.md` is where that check is recorded. The 4.02 independent
-content review is superCPE's — a licensed CPA with a reviewer login, against an
-ingested package version — and nothing in this repo evidences it.
+Do not regenerate anything to prove this. A dry run reporting the misses is
+the evidence.
 
-Keep the rest of rule 4 unchanged. The two-places instruction is correct:
-`CourseLesson.status` mirrors the module's `meta.status`, the module is
-authoritative, and `check-lessons.ts` warns when they disagree. Rename the rule
-from "Review is a human's signature" to something that does not read as 4.02 —
-"The status flag is the developer's signature" or similar.
+### 3. The accessors check the hash
 
-### 3. `CLAUDE.md` Boundary section
+`hasAudio` becomes true only when an entry exists under the block's id **and**
+its `hash` matches the hash of that block's current speech text. `durationOf`
+and `revealsOf` fall back to `estimatedSeconds` and `reveals` on a mismatch,
+exactly as they do on a missing entry.
 
-The five-bullet list of what a package carries that a bare MP4 cannot includes
-`meta.status: "reviewed"` — 4.02 and 4.02.1. Export refuses anything else.
+The hash function must be the one `generate-audio.ts` uses, not a second
+implementation. If that means extracting it to a module both can import, do
+that — a hash computed two ways is a defect waiting for a whitespace change.
 
-`meta.status` is not in the manifest (task 1 confirms this). Remove the bullet
-from that list. If the export gate is worth stating in Boundary at all, state
-it as a gate on what may be built, cited to 4.01.1, and not as package content.
+`usingEstimates` inherits the fix through `hasAudio` and needs no separate
+edit. Confirm that it does.
 
-Leave the other four bullets alone.
+Update `scripts/new-lesson.ts` so both scaffolds emit the corrected accessors.
+A scaffold that emits the defect is how this spreads.
 
-### 4. Rename `"reviewed"` to `"checked"`
+### 4. `check-lessons.ts` reports the mismatch
 
-`LessonStatus` in `src/types.ts`; the two comparisons in `export.ts`;
-`new-lesson.ts`'s scaffold, including the `status` it writes into the
-`CourseLesson` entry; `retire.ts`'s warning; `check-lessons.ts` including the
-mismatch warning; `CLAUDE.md` rule 4; and the runbook. `"draft"` is unchanged.
+A narrated block with an `audio-meta` entry whose hash does not match its
+current narration is a finding.
 
-### 5. Correct the refusal, scaffold, and `drafts/` text
+Level: **ERROR**. It meets the file's own stated bar — decidable from the
+lesson's own module and its metadata, and it produces a defective render, which
+is the rule the missing-`figure.src` check was set by. It also reaches a
+package: this is the condition under which `duration_source: "measured"` would
+be untrue.
 
-Both refusals in `export.ts` become one message, cited to 4.01.1 only, saying
-in substance: the lesson's status is *X*; only a checked lesson exports; 4.01.1
-makes the content developer responsible for reviewing technology-assisted
-content for accuracy, and `drafts/<code>-review.md` is where that check is
-recorded; nothing in the tooling sets the flag; the 4.02 content review is
-superCPE's, performed by a licensed CPA against the ingested package, and is
-not what this flag represents.
+The message should say what to do, which is regenerate that block, and should
+name the block.
 
-Do not cite 4.02 as something this repo satisfies. Naming it as superCPE's is
-correct and is the point.
+Orphaned entries — an `audio-meta` key matching no block id, which is what
+retiring or renaming a block leaves behind — are a WARN. They render nothing
+and reach no package; they are litter, not a defect.
 
-`new-lesson.ts`: the same correction in the scaffolded status comment, and
-`author.name`'s TODO changes from "the reviewing CPA's name" to the
-author/developer of record — that block becomes `manifest.author` under
-9.02.2(4), and superCPE holds the reviewer separately in
-`subject_matter_experts`. Correct the same phrase in the scaffolded module
-header comment if it appears there.
+### 5. Documentation
 
-`check-lessons.ts`: the status warning drops the `drafts/` review framing and
-matches the new refusal.
-
-`README.md`, `CLAUDE.md`'s layout table (`drafts/ … the reviewer's surface`),
-`LESSON-RUNBOOK.md`, and `retire.ts`'s own printed line each describe the
-review document as the reviewer's surface or as sign-off evidence. It is the
-developer's accuracy record under 4.01.1 and supporting documentation under
-9.02.2(2)(ii) — the judgment list behind the numbers that reach the credit
-formula. `retire` still preserves it. Say that reason instead.
-
-`LESSON-RUNBOOK.md`'s "Mark it reviewed" step becomes the developer's check,
-and the runbook gains one line after upload: the 4.02 review happens in
-superCPE, by a licensed CPA with a reviewer login, against the ingested
-package — not here.
-
-### 6. `CLAUDE.md` drift, unrelated to the above
-
-Four corrections while the file is open:
-
-- **`check-lessons.ts` contradicts itself.** "Maintained duplicates" says every
-  rule in it is decidable from one lesson's module and its questions file;
-  "Commands" says duplicate-stem detection is cross-lesson. The second is true
-  — it is why `Finding.lessons` is a list. Reword the first to say the rules are
-  decidable from the registered lessons without leaving the repo, which is what
-  makes export able to gate on them.
-- **The Layout scripts list is incomplete**: `render.ts`, `registry.ts`, and
-  `text-preview.ts` are missing.
-- **`src/course.ts`'s header comment cites "superCPE feature 004"**, which
-  `CLAUDE.md`'s own changelog rule forbids. Replace with the file path, or drop
-  the sentence.
-- **`src/course.ts` says it is "written by `npm run new` and `npm run retire`,
-  not by hand"**, while rule 4 requires a hand edit of a `CourseLesson.status`.
-  Both are true of different fields. Add a clause: the commands own the
-  structure, the human owns the status, and `check` warns when the two files
-  disagree.
-
-### 7. Changelog
-
-Two entries, per `CLAUDE.md`'s format.
-
-**The feature entry.** Under **Standards touched**: 4.01.1 — what `meta.status`
-attests and who makes it; 4.02 — named as superCPE's, with the records that
-hold it, and explicitly not satisfied by anything in this repo; 9.02.2(2)(ii) —
-`drafts/` as supporting documentation. Under **Decisions**: that the gate was
-kept rather than removed, and why; and the rename, or its rejection.
-
-**A correction entry.** Entry 06 cites 9.02.1 for what `retire` preserves, and
-`retire.ts`'s reviewed-but-unexported warning cites 9.02.1(8). `CLAUDE.md` is
-right that 9.02.1 is group programs: self study is 9.02.2, whose element list
-ends at item 7, so the transcript-of-record citation is **9.02.2(7)**. Fix the
-citation in `retire.ts` and write a new entry saying entry 06 was wrong — the
-changelog is append-only and entry 06 is not edited.
-
-Cite each paragraph only after reading it in the 2026 Statement.
+- `README.md`'s build-order section says unchanged blocks are skipped by
+  content hash. Extend it: voice and model are part of that hash, so changing
+  either invalidates every block.
+- `CLAUDE.md`'s costs-and-secrets section says changing voice or model means
+  regenerating every block of every lesson. Note that the cache now enforces
+  this rather than relying on the author remembering `--force`.
+- `LESSON-RUNBOOK.md`: a block whose narration you edit loses its audio and its
+  measured timings until you regenerate it, and `check` will tell you so.
 
 ## Acceptance
 
-1. `npm run typecheck` and `npm run check` both clean.
-2. `rg '4\.02' src/ scripts/ *.md` returns only text naming 4.02 as superCPE's.
-3. `rg 'reviewing CPA|reviewer.s surface|signed .* off' src/ scripts/ *.md`
-   returns nothing placing the 4.02 review in this repo.
-4. `rg '9\.02\.1' src/ scripts/` returns nothing.
-5. `CLAUDE.md` rule 4 and the new export refusal say the same thing. An agent
-   reading `CLAUDE.md` and then this spec finds no contradiction between them.
-6. A scaffolded throwaway lesson exports refused on status, with the new
-   message, creating nothing under `dist/`; setting both status fields to
-   `"checked"` clears that refusal and the next one fires normally.
-7. If task 1 found the status string rendered on a sheet, a render before and
-   after the rename differs only in that string, and the changelog says so.
+Run against a scratch lesson created with `npm run new` and removed afterwards,
+as features 09 and 10 did. `npm run generate` is not run without `--dry-run` at
+any point in this feature.
+
+1. `npm run typecheck` clean.
+2. `npm run check` on the repo as it stands: report the result. If any
+   registered lesson now errors on a hash mismatch, that is this feature
+   finding a real one — do not fix it here; record it in Known gaps with the
+   lesson and block named.
+3. Hand-edit one narrated block's `narration` in a scratch lesson without
+   regenerating. `check` errors on that block, naming it. `usingEstimates` is
+   true. Restore byte-identical; the error clears.
+4. Hand-edit the `hash` value of one entry in a scratch `audio-meta-NN.json`.
+   Same error. Restore byte-identical.
+5. Add an `audio-meta` entry under an id no block uses. `check` warns, does not
+   error, and exit code is unchanged.
+6. Change the voice id in `scripts/generate-audio.ts`, run
+   `npm run generate -- --lesson <scratch> --dry-run`, and confirm every block
+   reports as a miss attributed to the configuration change rather than to
+   changed narration. Nothing is sent, nothing written. Restore the voice id.
+7. Confirm a scaffold produced by `npm run new` for both `--kind video` and
+   `--kind text` carries the corrected accessors.
 
 ## Do not
 
-- Run `npm run generate` without `--dry-run`
-- Change any refusal's condition, order, or exit code
-- Add a review model, a sign-off record, or a reviewer command to this repo
-- Edit `CHANGELOG.md`'s existing entries
-- Edit anything under `../supercpe`
+- Run `npm run generate` without `--dry-run`.
+- Delete or regenerate any committed MP3 to make a test pass. `npm run retire`
+  is the only supported way to remove audio, and no lesson needs retiring here.
+- Change the voice, the model, or any voice setting as part of this feature.
+- Reimplement the hash. One function, imported by both call sites.
 
 ## When done
 
-Append both changelog entries and stop.
+Append the NN entry. Under **What changed**, the accessors, the cache key, the
+two new findings, the scaffold, and the three documentation files. Under
+**Standards touched**, 9.02.2(2)(ii) — the A/V duration retained as supporting
+documentation for the word count formula is the number these accessors return,
+and returning one measured against different narration makes that
+documentation wrong.
 
-## Note for the author
+Under **Decisions**, record why the mismatch is an ERROR rather than a WARN,
+and why an orphaned entry is not.
 
-superCPE's `COMPLIANCE.md` has no row for video-tool's `meta.status`, because
-from over there it is invisible. Once this lands, the 4.01.1 row's parenthetical
-about the developer of record is the only place either repo explains what the
-flag is. A one-line addition to that row naming it would close the loop, but it
-is a superCPE edit and belongs to a superCPE feature.
+Under **Known gaps**, record plainly that this defect shipped: block audio was
+identified by id alone from the pipeline's first commit, `BlockMeta.hash` was
+written but never read, and the condition was reachable by ordinary authoring —
+renumbering blocks in a lesson under revision. Name any registered lesson the
+new check errors on. Note the two features this one deliberately does not
+touch: the 40–75s sheet window, which is wrong for image-heavy lessons, and the
+absence of a first-reveal-too-late check, the symmetric case of the
+last-reveal warning that already exists.
+
+Then stop.

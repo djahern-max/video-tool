@@ -28,10 +28,11 @@
  * ever reach a credit calculation (7.02.7).
  */
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
+import { audioHashOf } from "../src/audio-identity";
 import { COURSES } from "../src/course";
 import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
 import { QUESTIONS } from "../src/questions";
@@ -94,6 +95,7 @@ type LessonModule = {
   meta: Record<string, string>;
   blocks: AnyBlock[];
   transcriptOf: (b: AnyBlock) => string;
+  speechOf: (b: AnyBlock) => string;
   hasAudio: (b: AnyBlock) => boolean;
   durationOf: (b: AnyBlock) => number;
   revealsOf: (b: AnyBlock) => number[];
@@ -147,6 +149,21 @@ const figureElements = (figure: Record<string, unknown> | undefined): number | n
   return null;
 };
 
+/**
+ * The lesson's `audio-meta-NN.json` as it sits on disk.
+ *
+ * Read here rather than through the module on purpose. The accessors now hide
+ * an entry whose hash does not match its block — that is the fix — so
+ * `hasAudio` can no longer tell "no entry" from "an entry describing different
+ * words", and those are the two states this file has to report differently.
+ * A malformed file never reaches this point: the lesson module imports the
+ * same JSON, so it would fail to load long before.
+ */
+const audioMetaOf = (id: LessonId): Record<string, { hash?: string }> => {
+  const path = join(root, "src", `audio-meta-${id}.json`);
+  return existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : {};
+};
+
 const mmss = (seconds: number) =>
   `${Math.floor(seconds / 60)}m ${String(Math.round(seconds % 60)).padStart(2, "0")}s`;
 
@@ -162,6 +179,7 @@ function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
     findings.push({ level: "WARN", block: label(b), message, lessons: [id] });
 
   const seen = new Set<string>();
+  const audioMeta = audioMetaOf(id);
 
   for (const b of mod.blocks) {
     /* --- identity ------------------------------------------------- */
@@ -236,6 +254,22 @@ function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
     if (!ascending) err(b, `reveals are not strictly ascending: [${fallback.join(", ")}]`);
     if (fallback.some((r) => r < 0)) err(b, `negative reveal time in [${fallback.join(", ")}]`);
 
+    /* --- audio identity ------------------------------------------- */
+    /*
+     * A block id is not an identity, and until this check existed nothing
+     * said so. Renumbering a lesson under revision reuses `block-03` for
+     * different narration, and the old measured duration and the old measured
+     * reveal seconds were composited onto the new sheet — a sheet that sits
+     * blank for eighteen seconds because it inherited a reveal written for
+     * other words. `usingEstimates` stayed false throughout, which is the
+     * gate that is supposed to stop estimated timings reaching a package.
+     */
+
+    const entry = audioMeta[b.id];
+    if (entry && !isTitle && entry.hash !== audioHashOf(mod.speechOf(b))) {
+      err(b, `audio-meta-${id}.json has an entry under this id whose hash is of different words — the mp3 and its measured timings belong to earlier narration, so the accessors ignore it and this block renders silent on estimates. Regenerate it: npm run generate -- --lesson ${id} --only ${b.id}`);
+    }
+
     /* --- stale audio ---------------------------------------------- */
 
     const measured = mod.hasAudio(b);
@@ -284,6 +318,25 @@ function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
   for (const b of mod.blocks) {
     if (b.speech && markerCount(b.speech) !== markerCount(b.narration)) {
       err(b, `speech and narration carry different marker counts — speech is what gets timed, narration is the transcript of record, and they must agree`);
+    }
+  }
+
+  /* --- orphaned audio metadata ------------------------------------ */
+  /*
+   * A key under no block's id — what retiring or renaming a block leaves
+   * behind. A WARN and not an ERROR: nothing reads it, nothing renders it,
+   * and nothing packages it. It is litter, not a defect.
+   */
+
+  const blockIds = new Set(mod.blocks.map((b) => b.id));
+  for (const key of Object.keys(audioMeta)) {
+    if (!blockIds.has(key)) {
+      findings.push({
+        level: "WARN",
+        block: key,
+        message: `audio-meta-${id}.json has an entry under "${key}" but no block carries that id — left behind by a renamed or removed block. Nothing reads it and nothing packages it; public/audio/${id}/${key}.mp3 is the matching orphan if it is still there`,
+        lessons: [id],
+      });
     }
   }
 

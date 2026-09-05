@@ -53,9 +53,25 @@ export type Block = {
   speech?: string; // overrides narration for TTS only; rarely needed
 };
 
-/** What `audio-meta-NN.json` holds for one generated block. */
+/**
+ * What `audio-meta-NN.json` holds for one generated block.
+ *
+ * `hash` is the identity of the audio, not a note about it. It is the hash of
+ * the exact text that was spoken (`audioHashOf` in `src/audio-identity.ts`),
+ * and every lesson module's accessors compare it against the block's current
+ * narration before returning a measured duration or a measured reveal. An
+ * entry whose hash does not match describes different words, whatever id it
+ * is filed under, and is treated as no entry at all.
+ *
+ * `voice` and `model` record the configuration the file was generated under.
+ * They are optional because entries written before they existed do not carry
+ * them; `generate` treats an absent value as a miss, which is what makes a
+ * voice change regenerate rather than silently reuse the old narrator.
+ */
 export type BlockMeta = {
   durationSeconds: number;
   reveals: number[];
   hash: string;
+  voice?: string;
+  model?: string;
 };

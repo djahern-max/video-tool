@@ -119,6 +119,7 @@ const videoModule = (id: string, code: string, title: string, course: CourseBind
  */
 
 import audioMeta from "./audio-meta-${id}.json";
+import { audioHashOf } from "./audio-identity";
 import type { Block, BlockMeta } from "./blocks";
 import { ${course.constName} } from "./course";
 import type { PackageLessonMeta } from "./types";
@@ -217,14 +218,30 @@ export const transcriptOf = (b: Block): string =>
 /** What gets sent to ElevenLabs. Markers intact; the script strips them. */
 export const speechOf = (b: Block): string => b.speech ?? b.narration;
 
-export const hasAudio = (b: Block): boolean => audio[b.id] !== undefined;
+/**
+ * The metadata for this block, or undefined if there is none that describes it.
+ *
+ * A block id is not an identity. Ids get reused: renumbering a lesson under
+ * revision leaves \`block-03\` naming entirely different narration, and a lookup
+ * by id alone happily returns the old measured duration and the old measured
+ * reveal seconds for it. The stored \`hash\` is the identity — it is over the
+ * exact text that was spoken — so an entry whose hash does not match this
+ * block's current narration is treated as no entry at all, and the block falls
+ * back to its estimates until it is regenerated.
+ */
+const audioFor = (b: Block): BlockMeta | undefined => {
+  const entry = audio[b.id];
+  return entry && entry.hash === audioHashOf(speechOf(b)) ? entry : undefined;
+};
+
+export const hasAudio = (b: Block): boolean => audioFor(b) !== undefined;
 
 export const durationOf = (b: Block): number =>
-  audio[b.id]?.durationSeconds ?? b.estimatedSeconds;
+  audioFor(b)?.durationSeconds ?? b.estimatedSeconds;
 
 /** Measured reveals when we have them, hand-written estimates when we do not. */
 export const revealsOf = (b: Block): number[] =>
-  audio[b.id]?.reveals ?? b.reveals;
+  audioFor(b)?.reveals ?? b.reveals;
 
 /**
  * Blocks with empty narration have no audio by design — the title sheet is the
