@@ -22,15 +22,17 @@
  *
  * This is a workspace command. It changes nothing about what a package
  * contains, how it is validated, or what it attests, and it never touches
- * `meta.status` (4.02): it removes a lesson, it does not un-review one.
+ * `meta.status`: it removes a lesson, it does not un-check one.
  *
  * What it deliberately does not delete:
  *
- *   drafts/   the review document is the 4.02 evidence that a licensed CPA
- *             signed the lesson off;
+ *   drafts/   the accuracy record is where the content developer's 4.01.1
+ *             check is written down, and it is the judgment list behind the
+ *             numbers that reach the word count formula — supporting
+ *             documentation under 9.02.2(2)(ii);
  *   sources/  the extractions the narration cites.
  *
- * Both are program-development records under 9.02.1. Deleting them is a
+ * Both are program-development records. Deleting them is a
  * human decision made by hand, not a side effect of clearing a workspace.
  * This command prints where they are and leaves them.
  *
@@ -293,22 +295,24 @@ const main = async () => {
   /* ---- the warning, which does not block ------------------------ */
 
   for (const p of plans) {
-    if (p.status !== "reviewed") continue;
+    if (p.status !== "checked") continue;
     if (exists(`dist/${p.packageId}.zip`)) continue;
     console.log(
-      `  WARNING: lesson ${p.id} (${p.packageId}) is "reviewed" but there is no\n` +
+      `  WARNING: lesson ${p.id} (${p.packageId}) is "checked" but there is no\n` +
         `  dist/${p.packageId}.zip on disk. The transcript of record leaves this\n` +
         `  repo only inside an exported package, and superCPE retains it there\n` +
-        `  under 9.02.1(8). If this lesson's package was never exported and\n` +
-        `  ingested, retiring it leaves git history as the only copy.\n`
+        `  as program materials under 9.02.2(7). If this lesson's package was\n` +
+        `  never exported and ingested, retiring it leaves git history as the\n` +
+        `  only copy.\n`
     );
   }
 
   const leftBehind = [...new Set(plans.flatMap((p) => p.leftBehind))].sort();
   const sources = sourcesDirs();
   if (leftBehind.length + sources.length > 0) {
-    console.log(`  Left in place — program-development records under 9.02.1:`);
-    for (const f of leftBehind) console.log(`    keep  ${f}   (4.02 review evidence)`);
+    console.log(`  Left in place — program-development records:`);
+    for (const f of leftBehind)
+      console.log(`    keep  ${f}   (4.01.1 accuracy record; 9.02.2(2)(ii))`);
     for (const f of sources) console.log(`    keep  ${f}`);
     console.log(`  Deleting these is a human decision, made by hand.\n`);
   }

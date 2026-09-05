@@ -11,7 +11,7 @@ to anything else; superCPE's copy of `docs/course-package.md` is authoritative
 and this one is kept byte-identical to it. Neither repo imports from the other,
 and no other consumer is supported.
 
-A package is the deliverable, not the MP4, because five things a bare video
+A package is the deliverable, not the MP4, because four things a bare video
 cannot carry live in the package and nowhere else:
 
 - `duration_source: "measured"` — 9.02.2(2)(ii) requires retaining the
@@ -19,7 +19,6 @@ cannot carry live in the package and nowhere else:
   including A/V duration. The number is never typed downstream; the tool that
   rendered it attests it was measured from the narration. (7.02.7 governs
   *whether* that duration may be counted at all — see "Two kinds of lesson.")
-- `meta.status: "reviewed"` — 4.02 and 4.02.1. Export refuses anything else.
 - `video.blocks` — measured per-block timings, so review questions can be
   placed at real points in the program (5.01.2.1).
 - `transcript.md` — the transcript of record, retained under 9.02.2(7) program
@@ -27,6 +26,10 @@ cannot carry live in the package and nowhere else:
   9.02.2(2)(ii).
 - `content_hash` — changed content re-ingests as a new lesson version instead
   of silently overwriting one.
+
+`meta.status` is not one of them: it is in neither branch's manifest and no
+package carries it. It is a gate on what may be built — export refuses a
+lesson the content developer has not checked under 4.01.1. See rule 4.
 
 Note that **9.02.1 is group programs**. Self study is 9.02.2, and its list of
 required documentation elements ends at item 7. Cite 9.02.2 here, matching
@@ -64,17 +67,22 @@ count is a frozen snapshot of one course's shape, not a rule.
    nothing may be exported while it is true.
 3. **One copy of the narration.** `narration` is the transcript of record and
    carries the `[[r]]` reveal markers. `transcriptOf()` strips them.
-4. **Review is a human's signature.** `meta.status` is `"draft" | "reviewed"`.
-   Export refuses anything but `"reviewed"`, naming the lesson's review
-   document. Nothing in the tooling sets it, and setting it means editing
-   **two** places in the same commit: `meta.status` and the matching lesson
-   entry in the course record. They must not come apart.
+4. **The status flag is the developer's signature.** `meta.status` is
+   `"draft" | "checked"`. Export refuses anything but `"checked"`, naming the
+   lesson's accuracy record. Nothing in the tooling sets it, and setting it
+   means editing **two** places in the same commit: `meta.status` and the
+   matching lesson entry in the course record. They must not come apart.
 
-   `meta.status` evidences the 4.02 independent content review only. 4.01.1's
-   separate requirement — that when technology is used in development the
-   content developer reviews the content for accuracy, which applies to
-   generated narration — is the developer's own duty and is not recorded by
-   this flag.
+   `meta.status` is the content developer's own check under **4.01.1**: when
+   technology is used in developing a program, the content developer is
+   responsible for reviewing the content for accuracy, and generated narration
+   is exactly that case. `drafts/<code>-review.md` is where that check is
+   recorded. The **4.02** independent content review is superCPE's — a
+   licensed CPA with a reviewer login, reviewing an ingested package version,
+   recorded in `course_reviews` and gated by `review_missing`,
+   `reviewer_is_developer`, and `cpa_participation` findings over there.
+   Nothing in this repo evidences it, and there is deliberately no reviewer
+   surface here.
 
 ## Two kinds of lesson
 
@@ -104,10 +112,11 @@ author types it and it is `0`.
 
     src/                lesson data, slides, course record, Remotion root
     guide/<lessonId>/   text-lesson markdown sections
-    scripts/            new-lesson.ts, retire.ts, generate-audio.ts, export.ts,
-                        validate-package.ts, check-lessons.ts, word-count.ts
+    scripts/            new-lesson.ts, retire.ts, generate-audio.ts, render.ts,
+                        export.ts, validate-package.ts, check-lessons.ts,
+                        registry.ts, text-preview.ts, word-count.ts
     public/audio/NN/    generated narration, committed (unreproducible = source)
-    drafts/             per-lesson review documents, the reviewer's surface
+    drafts/             per-lesson accuracy records, the developer's surface
     sources/            authoritative extractions the narration cites
     out/                rendered MP4s, ignored
     dist/               exported packages, ignored
@@ -192,9 +201,11 @@ claim and the rules were written in the same file on the same day, with no
 third-party original. Do not add course-wide count rules to it; see "What this
 repo does not decide."
 
-Every rule in it is decidable from one lesson's module and its questions file.
-That is what makes it safe for `npm run export` to gate on: export refuses on
-any ERROR naming the lesson it is packaging, so these rules bind rather than
+Every rule in it is decidable from the registered lessons without leaving the
+repo — most from one lesson's module and its questions file, and duplicate-stem
+detection from the registry as a whole, which is why `Finding.lessons` is a
+list. That is what makes it safe for `npm run export` to gate on: export refuses
+on any ERROR naming the lesson it is packaging, so these rules bind rather than
 advise.
 
 ## Commands

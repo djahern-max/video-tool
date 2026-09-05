@@ -3,12 +3,17 @@
  *
  * Course-level metadata lives here once; lesson modules import these fields
  * into their `meta` rather than repeating them, so the course cannot drift
- * across lessons. superCPE feature 004 formalizes the course side.
+ * across lessons. The manifest's `course_code` and `position` are read from
+ * here (scripts/export.ts).
  *
  * `knowledgeLevel` uses the contract's spelling ("Basic", "Intermediate",
  * "Advanced" — 3.01.1); the manifest validator rejects any other casing.
  *
- * This file is written by `npm run new` and `npm run retire`, not by hand.
+ * The commands own this file's structure and the human owns one field: it
+ * is written by `npm run new` and `npm run retire`, not by hand, except for
+ * each entry's `status`, which mirrors that lesson module's `meta.status`
+ * and is set by the same hand edit in the same commit. `npm run check`
+ * warns when the two files disagree.
  * `new --course-code` appends a lesson to a course, or creates the course
  * record when nothing matches; `retire` removes the entry and drops the
  * record when it loses its last lesson. Both edit this file line by line, so

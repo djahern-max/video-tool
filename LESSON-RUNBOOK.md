@@ -15,7 +15,7 @@ same steps plus two.
   under (`ASC450-LC-01`). Reusing one means "new version of that lesson"
   downstream, not "new lesson." `new` refuses a code already in use.
 
-Check `ls drafts/` before you pick a code. `retire` leaves review documents
+Check `ls drafts/` before you pick a code. `retire` leaves accuracy records
 behind, so a stale `drafts/<code>-review.md` can survive a retired lesson,
 and `new` will leave it untouched rather than replace it.
 
@@ -103,11 +103,18 @@ after every content change. Exit code 1 on any ERROR.
 `check` runs across all lessons, so a finding naming a different lesson is
 not your problem.
 
-## 7. Mark it reviewed
+## 7. Make the developer's accuracy check
 
-Work through `drafts/<code>-review.md`, then edit `meta.status` from
-`"draft"` to `"reviewed"` by hand. Nothing in the tooling sets this and
-nothing should.
+The narration and guide text were drafted with a language model. 4.01.1 makes
+the content developer — you — responsible for reviewing that content for
+accuracy. Work through `drafts/<code>-review.md`, which is where that check is
+recorded and is the judgment list behind the numbers that reach the credit
+formula (9.02.2(2)(ii) supporting documentation). Then edit `meta.status` from
+`"draft"` to `"checked"` by hand, in the lesson module **and** in the matching
+`src/course.ts` entry, in the same commit — `npm run check` warns when they
+disagree. Nothing in the tooling sets this and nothing should.
+
+This is not the 4.02 content review. See step 9.
 
 ## 8. Export
 
@@ -125,6 +132,11 @@ The zip goes to superCPE's admin packages page.
 
 Re-uploading the identical zip is a no-op. A changed zip creates a new
 version of the lesson.
+
+The 4.02 independent content review happens there, not here: a licensed CPA
+with a reviewer login reviews the ingested package version, and superCPE's
+publish gate refuses until that review exists and is current. Nothing in
+video-tool records it, and `meta.status` is not it.
 
 ---
 
@@ -193,4 +205,5 @@ not the tooling's: nothing here checks licensing.
 Removes the module, questions, audio, guide, render, and dist artifacts,
 and unwires all three registries. It refuses if the working tree is dirty
 or if any audio file is untracked by git. It leaves `drafts/` and
-`sources/` alone.
+`sources/` alone — the accuracy record and the source extractions are
+program-development records, and deleting them is a hand decision.

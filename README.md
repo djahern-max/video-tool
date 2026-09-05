@@ -29,7 +29,7 @@ npm run new -- --lesson 07 --code GUM-07 --title "..." --kind text \
 ```
 
 Writes the module, an empty `questions-NN.json`, an empty
-`audio-meta-NN.json`, and a review document in `drafts/`, and makes the
+`audio-meta-NN.json`, and an accuracy record in `drafts/`, and makes the
 registry edits. Every descriptor field lands as a `TODO:` and `meta.status`
 is `"draft"` — the tool writes no content and never sets status.
 
@@ -71,10 +71,11 @@ npm run render -- --lesson 01     # out/lesson-01.mp4
 npm run export -- --lesson 01     # dist/<lesson_id>.zip
 ```
 
-Refuses, with the reason, anything superCPE would reject: an unreviewed
-lesson (`meta.status` not cleared), estimated durations, a render whose
-ffprobe duration disagrees with the audio metadata, or any violation of the
-contract rules mirrored in `scripts/validate-package.ts`. On success the zip
+Refuses, with the reason, anything superCPE would reject: a lesson the
+content developer has not checked (`meta.status` not `"checked"`), estimated
+durations, a render whose ffprobe duration disagrees with the audio metadata,
+or any violation of the contract rules mirrored in
+`scripts/validate-package.ts`. On success the zip
 holds `manifest.json`, `video.mp4`, `transcript.md`, and `questions.json`
 under a single `<lesson_id>/` directory.
 
@@ -95,18 +96,21 @@ Deletes the lesson's files and unwires it from all three registries. It
 refuses an unknown id, a working tree with uncommitted changes under the
 removal set, and any MP3 git does not already track — git history is the
 archive here, and `--force` does not waive that last one. It never touches
-`drafts/` or `sources/`: the review document is the evidence a licensed CPA
-signed the lesson off, and the source extractions are what the narration
-cites. Both are program-development records; it prints where they are and
-leaves them.
+`drafts/` or `sources/`: the accuracy record holds the content developer's
+4.01.1 check and the judgment list behind the numbers that reach the word
+count formula — supporting documentation under 9.02.2(2)(ii) — and the source
+extractions are what the narration cites. Both are program-development
+records; it prints where they are and leaves them.
 
 This is the only supported way to delete narration audio, because it removes
 `public/audio/NN/` and `src/audio-meta-NN.json` in one operation. Deleting
 one without the other leaves a lesson rendering silent while still claiming
 measured timings.
 
-Every exported package is unreviewed content until a licensed CPA signs it
-off inside superCPE. Export attests measurement, not correctness.
+Every exported package is unreviewed content until a licensed CPA reviews it
+inside superCPE — that is the 4.02 review, and it happens there, against the
+ingested package, not here. Export attests measurement and the developer's own
+4.01.1 accuracy check, not independent review.
 
 ## Structure
 
@@ -136,7 +140,7 @@ scripts/
   validate-package.ts  local mirror of superCPE's ingest rules (packages.py is authoritative)
   check-lessons.ts     offline invariants: markers, reveals, figures, pacing
 guide/<id>/            a text lesson's markdown sections — the program itself
-drafts/                per-lesson review documents; retire never deletes these
+drafts/                per-lesson accuracy records; retire never deletes these
 sources/               the authoritative extractions the narration cites
 public/audio/<id>/     narration, one file per block — committed; regenerating
                        costs money and gives a different take
@@ -177,10 +181,11 @@ Palette is drafting vellum, graphite, and the fluorescent pink of surveyor's
 flagging tape. The pink marks only the thing currently under discussion. If
 it appears on more than two elements at once, something is wrong.
 
-The `DRAFT — NOT REVIEWED` stamp comes from a lesson module's own
-`meta.status`, which is the single authority on whether a lesson may ship:
-export refuses any lesson whose status is not cleared, and the reviewer
-clears it (LESSON-RUNBOOK.md, step 6).
+The draft stamp is a lesson module's own `meta.status`, drawn raw and blank
+once it reads `"checked"`. That flag is the single authority on whether a
+lesson may ship: export refuses any lesson still `"draft"`, and the content
+developer clears it after making the 4.01.1 accuracy check
+(LESSON-RUNBOOK.md, step 7).
 
 ## Two things that are compliance, not preference
 
@@ -194,6 +199,6 @@ still estimated; export refuses outright, and the manifest's
 **The transcript is a supplement, not required reading.** If the transcript
 is presented as required course content, the narration becomes "narration of
 the text" under 7.02.7 and you lose the argument for counting runtime. The
-exported `transcript.md` is the transcript of record (9.02.1(8)), retained
-for review — not participant reading material, and never counted in
-`word_count`.
+exported `transcript.md` is the transcript of record, retained by superCPE as
+program materials under 9.02.2(7) — not participant reading material, and
+never counted in `word_count`.

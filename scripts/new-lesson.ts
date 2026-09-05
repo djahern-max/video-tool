@@ -100,7 +100,8 @@ const videoModule = (id: string, code: string, title: string, course: CourseBind
  * Content is data. No React, no JSX, no timing logic in this file.
  *
  * SCAFFOLD — every field marked TODO is a human's to write, and
- * drafts/${code}-review.md is where the reviewer's record goes. Unvoiced
+ * drafts/${code}-review.md is where the content developer records the
+ * 4.01.1 accuracy check on this lesson's generated content. Unvoiced
  * until audio-meta-${id}.json is populated.
  *
  * Duration resolution order: audio-meta-${id}.json first, estimatedSeconds
@@ -139,9 +140,13 @@ ${course.positionField}
   fieldOfStudy: "TODO: the display field of study on the sheet",
   revision: "A",
   revisionDate: "${today()}",
-  // "draft" until the human works through drafts/${code}-review.md, closes
-  // its judgment list, and sets "reviewed" by hand. Nothing in the tooling
-  // sets it (4.01.1, 4.02).
+  // "draft" until the content developer works through
+  // drafts/${code}-review.md, closes its judgment list, and sets "checked"
+  // by hand. That is the 4.01.1 check: technology was used in developing
+  // this content, so the developer is responsible for reviewing it for
+  // accuracy. Nothing in the tooling sets it. The 4.02 content review is
+  // superCPE's, by a licensed CPA against the ingested package, and this
+  // flag does not evidence it.
   status: "draft",
 
   learningObjectives: [
@@ -157,8 +162,11 @@ ${course.positionField}
   sources: [
     { citation: "TODO: the paragraph this lesson is built on", role: "primary" },
   ],
+  // This block becomes manifest.author — the author/developer of record
+  // under 9.02.2(4). superCPE holds the content reviewer separately, in
+  // subject_matter_experts; no reviewer's name belongs here.
   author: {
-    name: "TODO: the reviewing CPA's name",
+    name: "TODO: the author/developer of record",
     credentials: "TODO: credentials",
     licenseJurisdiction: "TODO: jurisdiction",
     licenseNumber: "TODO: license number",
@@ -253,7 +261,8 @@ const textModule = (id: string, code: string, title: string, course: CourseBindi
  * \`after_section\` (5.01.2.1), not \`after_block\`.
  *
  * SCAFFOLD — every field marked TODO is a human's to write, and
- * drafts/${code}-review.md is where the reviewer's record goes.
+ * drafts/${code}-review.md is where the content developer records the
+ * 4.01.1 accuracy check on this lesson's generated content.
  */
 
 import { ${course.constName} } from "./course";
@@ -265,9 +274,13 @@ export const meta = {
   // The manifest's lesson_id — the globally unique package code.
   courseCode: "${code}",
   title: "${title}",
-  // "draft" until the human works through drafts/${code}-review.md, closes
-  // its judgment list, and sets "reviewed" by hand. Nothing in the tooling
-  // sets it (4.01.1, 4.02).
+  // "draft" until the content developer works through
+  // drafts/${code}-review.md, closes its judgment list, and sets "checked"
+  // by hand. That is the 4.01.1 check: technology was used in developing
+  // this content, so the developer is responsible for reviewing it for
+  // accuracy. Nothing in the tooling sets it. The 4.02 content review is
+  // superCPE's, by a licensed CPA against the ingested package, and this
+  // flag does not evidence it.
   status: "draft",
 
   sections: [
@@ -292,8 +305,11 @@ export const meta = {
   sources: [
     { citation: "TODO: the paragraph this guide is built on", role: "primary" },
   ],
+  // This block becomes manifest.author — the author/developer of record
+  // under 9.02.2(4). superCPE holds the content reviewer separately, in
+  // subject_matter_experts; no reviewer's name belongs here.
   author: {
-    name: "TODO: the reviewing CPA's name",
+    name: "TODO: the author/developer of record",
     credentials: "TODO: credentials",
     licenseJurisdiction: "TODO: jurisdiction",
     licenseNumber: "TODO: license number",
@@ -343,30 +359,37 @@ that declares its own word_count is refused.
 `;
 
 /**
- * The review document, headings only. Its contents are the reviewer's, not
- * this command's: the document is the 4.02 evidence that a licensed CPA read
- * the lesson, and pre-filling any of it would be the tool asserting something
- * no human did. `npm run retire` never deletes it.
+ * The lesson's accuracy record, headings only. Its contents are the content
+ * developer's, not this command's: the document is where the 4.01.1 check on
+ * technology-assisted content is written down, and it is supporting
+ * documentation for the data that reaches the word count formula
+ * (9.02.2(2)(ii)) — the judgment list behind the numbers. Pre-filling any of
+ * it would be the tool asserting something no human did. `npm run retire`
+ * never deletes it, for that reason.
+ *
+ * It is not 4.02 evidence. The independent content review is superCPE's.
  */
-const reviewDoc = (code: string, title: string, kind: string) => `# ${code} — ${title} — reviewer's document
+const reviewDoc = (code: string, title: string, kind: string) => `# ${code} — ${title} — accuracy record
 
 ${
   kind === "text"
-    ? `This is the document a licensed CPA reads before the lesson ships.
-Corrections to a text lesson stay nearly free, but 4.01.1/4.02 do not
-change: the reviewer reads the guide, and the sign-off asserts the 7.02.5
-role assignments are honest (nothing excluded smuggled into \`body\`) and
-that any clips are additional learning, not narration.
+    ? `This is where the content developer records reading the guide for
+accuracy before the lesson ships (4.01.1 — technology was used in developing
+it). Corrections to a text lesson stay nearly free, but what has to be
+checked does not change: that the 7.02.5 role assignments are honest (nothing
+excluded smuggled into \`body\`) and that any clips are additional learning,
+not narration.
 
 How to read it: for each section, the file, its role (which decides
 whether its words are counted), and the sources relied on; then each
 question with its sources and objective. The lesson data lives in
 \`src/lesson-NN.ts\`, \`src/questions-NN.json\`, and \`guide/NN/*.md\`; edit
 those files, not this one.`
-    : `This is the document a licensed CPA reads **before any narration audio is
-generated**. Once a block is voiced, changing one sentence costs an ElevenLabs
-regeneration and produces a different take — so every correction is nearly
-free now and expensive later.
+    : `This is where the content developer records checking the drafted
+narration for accuracy (4.01.1), **before any narration audio is
+generated**. Once a block is voiced, changing one sentence costs an
+ElevenLabs regeneration and produces a different take — so every correction
+is nearly free now and expensive later.
 
 How to read it: for each block, the narration as drafted (reveal markers
 \`[[r]]\` left in place), the sources relied on with the specific paragraph,
@@ -375,8 +398,9 @@ lesson data lives in \`src/lesson-NN.ts\` and \`src/questions-NN.json\`; edit
 those files, not this one.`
 }
 
-**Status, first draft (${today()}).** Unreviewed${kind === "text" ? "" : " and unvoiced"}.
-\`meta.status\` is \`"draft"\`; export refuses it.
+**Status, first draft (${today()}).** Unchecked${kind === "text" ? "" : " and unvoiced"}.
+\`meta.status\` is \`"draft"\`; export refuses it. The 4.02 independent content
+review happens in superCPE, against the ingested package — not in this file.
 
 Learning objectives (from \`src/lesson-NN.ts\`):
 
@@ -620,7 +644,9 @@ const main = () => {
   console.log("");
   console.log(
     `  meta.status is "draft" and stays that way until a human sets it.\n` +
-      `  Work through ${reviewPath}, then set status: "reviewed" by hand.`
+      `  Work through ${reviewPath} — the 4.01.1 accuracy check on this lesson's\n` +
+      `  generated content — then set status: "checked" by hand, in this module\n` +
+      `  and in the course record entry, in the same commit.`
   );
   console.log(`\n  Now run:  npm run typecheck && npm run check\n`);
 };

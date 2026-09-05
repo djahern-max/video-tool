@@ -6,7 +6,7 @@
  *
  * Produces dist/<lesson_id>.zip in exactly the shape docs/course-package.md
  * describes, refusing — with the reason — anything superCPE would reject:
- * an unreviewed lesson, estimated durations, a stale render, an ERROR from
+ * an unchecked lesson, estimated durations, a stale render, an ERROR from
  * check-lessons.ts's authoring rules, or any contract violation
  * validate-package.ts can see.
  *
@@ -214,13 +214,18 @@ const main = () => {
   const lesson = LESSONS[lessonId] as unknown as LessonModule;
   const meta = lesson.meta;
 
-  // 2. meta.status is the single authority on whether a lesson may ship.
-  if (meta.status !== "reviewed") {
+  // 2. meta.status is the single authority on whether a lesson may ship —
+  // the developer's own 4.01.1 accuracy check, not the 4.02 review.
+  if (meta.status !== "checked") {
     refuse(
-      `lesson ${lessonId}'s meta.status is "${meta.status}". Only "reviewed" ` +
-        `exports (4.01.1, 4.02): work through drafts/${meta.courseCode}-review.md, ` +
-        `then set status: "reviewed" by hand — LESSON-RUNBOOK.md step 6. ` +
-        `Nothing in the tooling sets it.`
+      `lesson ${lessonId}'s meta.status is "${meta.status}". Only "checked" ` +
+        `exports. 4.01.1 makes the content developer responsible for reviewing ` +
+        `technology-assisted content for accuracy, and this lesson's narration ` +
+        `is generated: work through drafts/${meta.courseCode}-review.md, where ` +
+        `that check is recorded, then set status: "checked" by hand — ` +
+        `LESSON-RUNBOOK.md step 7. Nothing in the tooling sets it. The 4.02 ` +
+        `content review is superCPE's, performed by a licensed CPA against the ` +
+        `ingested package, and is not what this flag represents.`
     );
   }
 
@@ -410,12 +415,16 @@ function exportTextLesson(
   const guideDir = join(root, "guide", lessonId);
 
   // meta.status keeps its authority, same as the video branch (step 2).
-  if (meta.status !== "reviewed") {
+  if (meta.status !== "checked") {
     refuse(
-      `lesson ${lessonId}'s meta.status is "${meta.status}". Only "reviewed" ` +
-        `exports (4.01.1, 4.02): work through drafts/${meta.courseCode}-review.md, ` +
-        `then set status: "reviewed" by hand — LESSON-RUNBOOK.md step 6. ` +
-        `Nothing in the tooling sets it.`
+      `lesson ${lessonId}'s meta.status is "${meta.status}". Only "checked" ` +
+        `exports. 4.01.1 makes the content developer responsible for reviewing ` +
+        `technology-assisted content for accuracy, and this lesson's narration ` +
+        `is generated: work through drafts/${meta.courseCode}-review.md, where ` +
+        `that check is recorded, then set status: "checked" by hand — ` +
+        `LESSON-RUNBOOK.md step 7. Nothing in the tooling sets it. The 4.02 ` +
+        `content review is superCPE's, performed by a licensed CPA against the ` +
+        `ingested package, and is not what this flag represents.`
     );
   }
 

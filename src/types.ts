@@ -31,12 +31,19 @@ export type Author = {
 };
 
 /**
- * Where the lesson stands with its reviewer. "draft" until the human has
- * worked through drafts/<lesson>-review.md, closed its judgment list, and
- * set "reviewed" by hand — nothing in the tooling sets it. Export refuses
- * "draft" (4.01.1, 4.02); `npm run check` warns on it.
+ * Where the lesson stands with the content developer's own accuracy check.
+ * "draft" until the human has worked through drafts/<lesson>-review.md,
+ * closed its judgment list, and set "checked" by hand — nothing in the
+ * tooling sets it. Export refuses "draft"; `npm run check` warns on it.
+ *
+ * 4.01.1: when technology is used in developing a program, the content
+ * developer is responsible for reviewing the content for accuracy, and
+ * generated narration is exactly that case. This flag is that check and
+ * nothing more. The 4.02 independent content review is superCPE's — a
+ * licensed CPA with a reviewer login, against an ingested package version
+ * — and no value of this type evidences it.
  */
-export type LessonStatus = "draft" | "reviewed";
+export type LessonStatus = "draft" | "checked";
 
 /** 3.01.1's five levels, exactly as superCPE spells them. */
 export type KnowledgeLevel =

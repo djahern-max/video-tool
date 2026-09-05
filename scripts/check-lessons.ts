@@ -299,14 +299,14 @@ function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
     }
   }
 
-  /* --- review gate ------------------------------------------------- */
+  /* --- developer check gate (4.01.1) -------------------------------- */
 
   const status = mod.meta.status;
-  if (status !== "draft" && status !== "reviewed") {
+  if (status !== "draft" && status !== "checked") {
     findings.push({
       level: "ERROR",
       block: "meta",
-      message: `meta.status must be "draft" or "reviewed", got "${status}" — export gates on this value`,
+      message: `meta.status must be "draft" or "checked", got "${status}" — export gates on this value`,
       lessons: [id],
     });
   } else if (status === "draft") {
@@ -315,7 +315,9 @@ function checkLesson(id: LessonId, mod: LessonModule): Finding[] {
     findings.push({
       level: "WARN",
       block: "meta",
-      message: `status is "draft" — export will refuse it until the human works through drafts/${mod.meta.courseCode}-review.md and sets status: "reviewed" by hand`,
+      message: `status is "draft" — export will refuse it until the content developer has made
+        the 4.01.1 accuracy check on this lesson's generated content, recorded it in
+        drafts/${mod.meta.courseCode}-review.md, and set status: "checked" by hand`,
       lessons: [id],
     });
   }
@@ -439,13 +441,13 @@ function checkTextLesson(id: LessonId, meta: TextLessonMeta): Finding[] {
     }
   }
 
-  /* --- review gate and course mirror -------------------------------- */
+  /* --- developer check gate (4.01.1) and course mirror -------------- */
 
   const status = meta.status as string;
-  if (status !== "draft" && status !== "reviewed") {
-    err("meta", `meta.status must be "draft" or "reviewed", got "${status}" — export gates on this value`);
+  if (status !== "draft" && status !== "checked") {
+    err("meta", `meta.status must be "draft" or "checked", got "${status}" — export gates on this value`);
   } else if (status === "draft") {
-    warn("meta", `status is "draft" — export will refuse it until the human works through drafts/${meta.courseCode}-review.md and sets status: "reviewed" by hand`);
+    warn("meta", `status is "draft" — export will refuse it until the content developer has made the 4.01.1 accuracy check on this lesson's generated content, recorded it in drafts/${meta.courseCode}-review.md, and set status: "checked" by hand`);
   }
   findings.push(...courseMirrorFindings(id, meta.courseCode, status));
 
@@ -461,11 +463,14 @@ function checkTextLesson(id: LessonId, meta: TextLessonMeta): Finding[] {
  * comment claimed superCPE enforced them, sourced only to the feature document
  * that invented them (see CHANGELOG entry 07).
  *
- * Every rule here is decidable from a single lesson's module and questions
- * file. Question-count minimums are not: 5.01.2.1 is three review questions
- * per CPE credit and 6.01.2 is five assessment questions per credit, both
- * functions of credit, which superCPE computes. Adding a question also moves
- * credit by 1.85/50, so the minimum is not even a static function of the
+ * Every rule here is decidable from the registered lessons without leaving
+ * the repo — most from a single lesson's module and its questions file, and
+ * rule 2 from the registry as a whole, which is why `Finding.lessons` is a
+ * list. That is what makes `npm run export` able to gate on them.
+ * Question-count minimums are not decidable here: 5.01.2.1 is three review
+ * questions per CPE credit and 6.01.2 is five assessment questions per credit,
+ * both functions of credit, which superCPE computes. Adding a question also
+ * moves credit by 1.85/50, so the minimum is not even a static function of the
  * content. Do not reintroduce a per-lesson count here.
  *
  *   1. Every objective carries at least one assessment question (6.01.2's 75
@@ -716,7 +721,7 @@ function main() {
       errors += findings.filter((f) => f.level === "ERROR").length;
       warnings += findings.filter((f) => f.level === "WARN").length;
 
-      const draft = meta.status === "reviewed" ? "" : `  [${meta.status}]`;
+      const draft = meta.status === "checked" ? "" : `  [${meta.status}]`;
       console.log(`\nLESSON ${id}  ${meta.title}${draft}`);
       console.log(`  text · ${meta.sections.length} sections · ${(meta.media ?? []).length} clip(s)`);
 
@@ -747,7 +752,7 @@ function main() {
     const audio = mod.usingEstimates
       ? `${mmss(mod.totalSeconds)} estimated`
       : `${mmss(mod.totalSeconds)} measured`;
-    const draft = mod.meta.status === "reviewed" ? "" : `  [${mod.meta.status}]`;
+    const draft = mod.meta.status === "checked" ? "" : `  [${mod.meta.status}]`;
 
     console.log(`\nLESSON ${id}  ${mod.meta.courseTitle} — ${mod.meta.lessonTitle}${draft}`);
     console.log(`  ${mod.blocks.length} blocks · ${audio}`);

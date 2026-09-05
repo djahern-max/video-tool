@@ -1100,3 +1100,176 @@ Shipped: 2026-09-03
   only because the scratch files were never committed, which is the one case
   the dirty-tree refusal has nothing to protect. The tree is back to an empty
   registry, as it started.
+
+## 11 — `meta.status` is the developer's 4.01.1 check, not the 4.02 review
+Shipped: 2026-09-04
+
+**What changed**
+- `LessonStatus` is now `"draft" | "checked"`. The passing value was
+  `"reviewed"`, which collided with 4.02's "content reviewer" and is the word
+  that produced the confusion this entry corrects. `"draft"` is unchanged.
+  Renamed in `src/types.ts`, both comparisons in `scripts/export.ts`,
+  `check-lessons.ts` (the vocabulary ERROR, the draft WARN, the two `[status]`
+  header labels, and the course-mirror path), `retire.ts`'s
+  checked-but-unexported warning, `new-lesson.ts`'s scaffold for both kinds,
+  and the prose in `CLAUDE.md`, `README.md`, and `LESSON-RUNBOOK.md`.
+- `src/Sheet.tsx` blanks the draft watermark on `"checked"` rather than
+  `"reviewed"`. The watermark draws `meta.status` raw, so this string does
+  reach the rendered frame — see **Decisions**.
+- Both refusals in `scripts/export.ts` — the video branch's step 2 and the
+  identical one at the head of `exportTextLesson` — now cite 4.01.1 only, name
+  `drafts/<code>-review.md` as where the content developer's accuracy check is
+  recorded, and say in the same breath that the 4.02 content review is
+  superCPE's, performed by a licensed CPA against the ingested package, and is
+  not what the flag represents. Neither refusal's condition, order, or exit
+  code changed. The pointer to the runbook was also stale at "step 6"; the
+  step is 7.
+- `scripts/check-lessons.ts`'s draft WARN drops the "work through the review
+  document" framing and matches the new refusal. Its section comments read
+  "developer check gate (4.01.1)" rather than "review gate".
+- `scripts/new-lesson.ts`: the scaffolded `status` comment in both module
+  templates now states the 4.01.1 duty and disclaims 4.02. `author.name`'s
+  TODO changes from "the reviewing CPA's name" to the author/developer of
+  record, with a comment that the block becomes `manifest.author` under
+  9.02.2(4) and that superCPE holds the content reviewer separately in
+  `subject_matter_experts`. The generated `drafts/<code>-review.md` is titled
+  "accuracy record" rather than "reviewer's document" and describes itself as
+  the developer's 4.01.1 check.
+- `scripts/retire.ts`: `drafts/` is preserved as the 4.01.1 accuracy record and
+  9.02.2(2)(ii) supporting documentation rather than as "the 4.02 evidence that
+  a licensed CPA signed the lesson off". What it preserves did not change.
+- `CLAUDE.md` rule 4 is renamed "The status flag is the developer's signature"
+  and its second paragraph is replaced: the flag is the developer's own 4.01.1
+  check, `drafts/<code>-review.md` records it, and the 4.02 review is
+  superCPE's — `course_reviews`, a reviewer login, `review_missing` /
+  `reviewer_is_developer` / `cpa_participation` — evidenced by nothing here.
+  The two-places instruction is unchanged.
+- `CLAUDE.md`'s Boundary list drops the `meta.status` bullet and goes from five
+  items to four. The flag is in neither branch's manifest object; it is a gate
+  on what may be built, and the section now says so and cites 4.01.1.
+- `README.md` and `LESSON-RUNBOOK.md`: `drafts/` is the developer's accuracy
+  record throughout, step 7 is "Make the developer's accuracy check", and the
+  upload step gains a line saying the 4.02 review happens in superCPE, by a
+  licensed CPA with a reviewer login, against the ingested package.
+
+**Standards touched**
+- 4.01.1 — learning activities must be developed by subject matter experts,
+  and where technology is used in developing the program the content developer
+  is responsible for reviewing the content for accuracy. That is what
+  `meta.status` attests, and the human who directed the generated narration is
+  who makes it.
+- 4.02 — programs must be reviewed by content reviewers other than those who
+  developed them, before first presentation and after each significant
+  revision. This is superCPE's: `course_reviews` with
+  `content_updated_at_reviewed`, `current_review` in
+  `backend/app/services/development.py`, submission behind
+  `require_role("reviewer", "admin")`, and `review_missing`,
+  `reviewer_is_developer`, `cpa_participation` as block findings on publish.
+  Nothing in video-tool evidences it, and nothing here should be read as
+  satisfying it.
+- 9.02.2(2)(ii) — for self study sponsors using method 2, the word count
+  formula calculation and the supporting documentation for the data used in it
+  must be retained. `drafts/<code>-review.md` is the judgment list behind those
+  numbers, which is why `retire` preserves it.
+- 9.02.2(4) — author/instructor, author/developer, and content reviewer names
+  and credentials, as applicable. `manifest.author` is the author/developer
+  half; the content reviewer half lives in superCPE's `subject_matter_experts`
+  and never in a lesson module.
+
+**Decisions**
+- **The gate stays.** Removing it was the obvious reading of "this repo has no
+  review model", and it is wrong: 4.01.1 is a real duty, it falls on the human
+  who directed the draft, and the flag is the only place that duty is recorded
+  before a package leaves. Only the paragraph it cites and the record it names
+  were wrong. No refusal's condition, order, or exit code moved.
+- **The rename shipped.** `"reviewed"` → `"checked"` was confirmed with the
+  author before starting. The value is internal — it is in neither manifest,
+  which was verified against both manifest objects in `export.ts` before any
+  edit — so nothing downstream sees it and the package contract is untouched.
+  The alternative considered and rejected was fixing only the prose: lower
+  risk, but it leaves the colliding word in the type, the refusals, and every
+  scaffolded module.
+- **The rename does reach the video.** `Sheet.tsx` draws `meta.status` raw and
+  blanks it on the passing value, so the comparison moved with the rename.
+  Verified on a scratch lesson 99 (`CHK-99`) with `remotion still` at frame 30:
+  `"draft"` renders the pink `draft` stamp exactly as before, and `"checked"`
+  renders the stamp blank exactly as `"reviewed"` did. The two frames differ in
+  that stamp and nothing else. No shipped lesson is affected — the registry is
+  empty — but any future module carrying a literal `"reviewed"` would now both
+  fail typecheck and render its own status string into the frame.
+- `drafts/` is cited to 9.02.2(2)(ii), not 9.02.2(7). It is the supporting
+  documentation for the word count formula's inputs, not program materials —
+  the participant never sees it, and `transcript.md` is what 9.02.2(7) covers.
+- No reviewer surface, review model, or sign-off record was added here, and
+  the spec's own out-of-scope list says there deliberately is none. The 4.02
+  review is course-level against ingested package versions; the thing being
+  reviewed does not exist until superCPE has it.
+- Two `CLAUDE.md` drift items in the same pass, both listed by the spec: the
+  Layout scripts list gains `render.ts`, `registry.ts`, and `text-preview.ts`;
+  and "Maintained duplicates" no longer claims every `check-lessons.ts` rule is
+  decidable from one lesson's module, which contradicted the Commands section's
+  correct statement that duplicate-stem detection is cross-lesson. The same
+  false claim sat in `check-lessons.ts`'s own header comment and was corrected
+  there too, so the two files now agree.
+- `src/course.ts`'s header no longer cites "superCPE feature 004" — `CLAUDE.md`
+  forbids citing a superCPE feature number, since they renumber and this repo
+  cannot see them — and names `scripts/export.ts` instead. It also no longer
+  says flatly that the file is never written by hand: the commands own its
+  structure, the human owns each entry's `status`, and `check` warns when the
+  two files disagree.
+
+**Known gaps**
+- superCPE's `COMPLIANCE.md` still has no row for `meta.status`; from over
+  there the flag is invisible. Its 4.01.1 row's parenthetical about the
+  developer of record is now the only place either repo explains what the flag
+  is. Naming it there would close the loop and is a superCPE edit, deliberately
+  not made from here.
+- Nothing prevents a developer from flipping `meta.status` to `"checked"`
+  without opening the accuracy record. The flag records that a human asserted
+  the 4.01.1 check, not that one happened — the same limit every authored
+  string in this repo has.
+- Acceptance ran against a scratch lesson 99 (`CHK-99`) created with
+  `npm run new`, exported twice (refused on status with the new message and
+  then on `usingEstimates`, nothing under `dist/` either time), stilled at both
+  status values, and removed with `npm run retire -- --lesson 99 --force`;
+  `drafts/CHK-99-review.md`, which `retire` correctly leaves behind, was
+  deleted by hand. `git status --porcelain` matches what it was before.
+
+## 12 — Correction: entry 06 cited 9.02.1, which is group programs
+Shipped: 2026-09-04
+
+**What changed**
+- Nothing in behavior. This entry exists because the changelog is append-only
+  and entry 06 is not edited.
+- Entry 06 cites **9.02.1** for what `npm run retire` preserves and **9.02.1(8)**
+  for the transcript of record, and `scripts/retire.ts` printed 9.02.1(8) in its
+  checked-but-unexported warning. All of these are wrong in the same way.
+  9.02.1 is the required documentation for **group** programs. Self study is
+  **9.02.2**, and its element list ends at item **7** — there is no 9.02.2(8).
+  `CLAUDE.md` already said this; entry 06 and `retire.ts` did not follow it.
+- `scripts/retire.ts`'s warning now says the transcript of record is retained
+  by superCPE as program materials under **9.02.2(7)**. `README.md` carried the
+  same `9.02.1(8)` citation for the same sentence and was corrected with it.
+- `rg '9\.02\.1' src/ scripts/` now returns nothing. The one remaining mention
+  in `CLAUDE.md` is the standing note that 9.02.1 is group programs, which is
+  the rule, not a citation.
+
+**Standards touched**
+- 9.02.1 — required documentation elements for group programs. Not this
+  repo's; cited here only to say it was cited wrongly.
+- 9.02.2(7) — program materials, the last of the seven required documentation
+  elements for self study programs. This is what retains the transcript of
+  record, and it is what entry 06 meant.
+
+**Decisions**
+- Written as a new entry rather than an edit to entry 06, per `CLAUDE.md`'s
+  append-only rule: if something was wrong, say so in a new entry.
+- Both paragraphs were read in the 2026 Statement before citing. 9.02.1 opens
+  "Required documentation elements for group programs"; 9.02.2 opens "Required
+  documentation elements for self study programs" and its list runs 1) through
+  7), ending at "Program materials."
+
+**Known gaps**
+- Entry 06's prose still reads 9.02.1 and always will. A reader who finds it
+  without reaching this entry will take the wrong citation, which is the cost
+  of an append-only log.
