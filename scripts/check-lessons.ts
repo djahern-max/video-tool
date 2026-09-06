@@ -530,8 +530,20 @@ function checkTextLesson(id: LessonId, meta: TextLessonMeta): Finding[] {
  *      percent floor; one-per-objective gives 100).
  *   2. No assessment stem duplicates a review stem anywhere in the course.
  *   3. Assessment and review questions carry at least three choices.
- *   4. Review questions are placed on distinct narrated blocks or sections,
- *      never two on the same one (5.01.2.1's "sufficient intervals").
+ *   4. Placement is in the lesson's own medium — a video lesson places
+ *      review questions by narrated block, a text lesson by section id —
+ *      and every `body` section of a text lesson carries at least one
+ *      review question (5.01.2.1). The coverage half is a WARN.
+ *
+ *      This rule used to refuse two review questions on the same block or
+ *      section, citing the same paragraph. That reading was removed in
+ *      changelog entry 14: 5.01.2.1 requires questions "placed throughout
+ *      the program in sufficient intervals", which constrains spacing, not
+ *      density. It forbids stacking every question at the end; it says
+ *      nothing about a section checked twice. A section checked twice
+ *      serves the paragraph's stated purpose — letting the participant
+ *      find what needs re-studying — better than one not checked at all,
+ *      which is why the replacement looks at the uncovered sections.
  *   5. Feedback and an objective mapping on every question.
  */
 
@@ -571,6 +583,8 @@ export function checkCourseQuestions(ids: LessonId[]): Finding[] {
   for (const id of ids) {
     const err = (block: string, message: string) =>
       findings.push({ level: "ERROR", block, message, lessons: [id] });
+    const warn = (block: string, message: string) =>
+      findings.push({ level: "WARN", block, message, lessons: [id] });
 
     const mod = LESSONS[id] as unknown as LessonModule;
     const questions = QUESTIONS[id];
@@ -583,12 +597,13 @@ export function checkCourseQuestions(ids: LessonId[]): Finding[] {
     const assessment = questions.filter((q) => q.kind === "assessment");
 
     // Rule 4: review placement, in the lesson's own medium (5.01.2.1) —
-    // a video lesson places by narrated block, a text lesson by section
-    // id, and in both never two review questions on the same spot.
+    // a video lesson places by narrated block, a text lesson by section id.
+    // A block or section may carry any number of review questions; see the
+    // rule list above for why the exclusivity reading came out.
     if (text) {
       const meta = mod.meta as unknown as TextLessonMeta;
       const sectionIds = new Set(meta.sections.map((s) => s.id));
-      const sectionsUsed = new Map<string, string>();
+      const sectionsCovered = new Set<string>();
       for (const q of review) {
         const where = `${id} ${q.id}`;
         if (q.after_block !== undefined) {
@@ -602,11 +617,38 @@ export function checkCourseQuestions(ids: LessonId[]): Finding[] {
           err(where, `after_section "${q.after_section}" is not a section id of the lesson`);
           continue;
         }
-        const already = sectionsUsed.get(q.after_section);
-        if (already) {
-          err(where, `after_section "${q.after_section}" already carries ${already} — never two review questions on the same section (rule 4)`);
-        } else {
-          sectionsUsed.set(q.after_section, q.id);
+        sectionsCovered.add(q.after_section);
+      }
+
+      // Coverage, text lessons only. Only `body` is read for credit —
+      // front_matter, glossary and appendix are excluded from the word count
+      // under 7.02.5 and are not material a participant re-studies — so an
+      // unchecked `body` section is the gap worth reporting.
+      //
+      // WARN, not ERROR, deliberately: an ERROR is a stronger claim than
+      // 5.01.2.1 supports. That paragraph asks for sufficient intervals
+      // across the program and prescribes a count per credit; it nowhere
+      // requires one question per section, and a lesson that covers most of
+      // its body and leaves one section to the assessment is not defective.
+      //
+      // The feature document argued this from a shipped 8-section,
+      // 5-review-question guide that an ERROR would supposedly refuse. That
+      // arithmetic does not hold once the rule is scoped to `body`, which is
+      // how the same document specifies it: the guide in question (the ASC
+      // 450 contingencies lesson, at commit 7ff8908) has 5 body sections
+      // carrying one review question each, plus front_matter, glossary and
+      // appendix, so it warns zero times. The example is wrong; the reason
+      // above is the one that holds, and is why this stayed a WARN.
+      //
+      // There is no video counterpart. A narrated block is not a chapter,
+      // and at three review questions per credit a 14-block lesson would
+      // fail a per-block rule no paragraph asks for.
+      for (const s of meta.sections) {
+        if (s.role === "body" && !sectionsCovered.has(s.id)) {
+          warn(
+            `${id} ${s.id}`,
+            `body section carries no review question — 5.01.2.1 places questions throughout the program so the participant can find what needs re-studying, and this section is unchecked (rule 4)`
+          );
         }
       }
       for (const q of assessment) {
@@ -616,7 +658,6 @@ export function checkCourseQuestions(ids: LessonId[]): Finding[] {
       }
     } else {
       const narrated = mod.blocks.filter((b) => b.narration.trim().length > 0).length;
-      const blocksUsed = new Map<number, string>();
       for (const q of review) {
         const where = `${id} ${q.id}`;
         if (q.after_section !== undefined) {
@@ -628,13 +669,6 @@ export function checkCourseQuestions(ids: LessonId[]): Finding[] {
         }
         if (!Number.isInteger(q.after_block) || q.after_block < 1 || q.after_block > narrated) {
           err(where, `after_block ${q.after_block} is outside 1..${narrated} (the lesson's narrated blocks)`);
-          continue;
-        }
-        const already = blocksUsed.get(q.after_block);
-        if (already) {
-          err(where, `after_block ${q.after_block} already carries ${already} — never two review questions on the same block (rule 4)`);
-        } else {
-          blocksUsed.set(q.after_block, q.id);
         }
       }
       for (const q of assessment) {

@@ -87,10 +87,27 @@ one in `meta.sections`.
 
 `src/questions-01.json`.
 
-    review       carries "after_section": "sec-02". At least 2 choices.
+    review       carries "after_section": "sec-02". At least 3 choices.
     assessment   carries no placement. At least 3 choices.
 
+Three either way. 5.01.2.1 does not count true/false review questions toward
+the required number per credit, so a two-choice review question is one that
+does not count. 6.01.2 prohibits forced choice on the qualified assessment
+outright.
+
 Every question needs `objective_ids` pointing at real objective ids.
+
+Aim for a review question on every `body` section — `check` warns about the
+ones that have none, since 5.01.2.1 places questions throughout the program
+so the participant can find what needs re-studying. It is a WARN, not a gate:
+a section the assessment covers instead is a judgment call, not a defect.
+Only `body` is counted; front matter, glossary and appendix are never asked
+about.
+
+Stacking two or three review questions on the same section is fine and is how
+a chapter-sized section gets checked properly. 5.01.2.1 constrains spacing —
+do not save every question for the end — not density. Do not split a section
+in half just to hang a second question on it.
 
 ## 6. Check
 

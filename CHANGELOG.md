@@ -1379,3 +1379,86 @@ Shipped: 2026-09-05
   wrong for image-heavy lessons and warns on all fourteen of BALLOON-01's
   sheets; and the absence of a first-reveal-too-late check, the symmetric case
   of the last-reveal warning that already exists.
+
+## 14 — Rule 4 becomes coverage, not exclusivity
+Shipped: 2026-09-06
+
+**What changed**
+- `checkCourseQuestions` no longer errors when two review questions carry the
+  same `after_block` or `after_section`. A narrated block or a guide section
+  may now carry any number. Both branches lost their `blocksUsed` /
+  `sectionsUsed` maps; every other rule-4 refusal is untouched — placement in
+  the lesson's own medium, a placement naming a real block or section, and
+  assessment questions carrying no placement at all.
+- In its place, text lessons get a coverage check: a section whose `role` is
+  `body` and that carries no review question is reported as a **WARN**, naming
+  the section. `front_matter`, `glossary` and `appendix` are not checked —
+  7.02.5 excludes them from the counted words, and they are not material a
+  participant re-studies.
+- No video counterpart was added. A narrated block is not a chapter.
+- The header comment's five-rule list has rule 4 rewritten, including why the
+  exclusivity reading came out. Rules 1, 2, 3 and 5 are unchanged, as is the
+  paragraph above the list saying these are video-tool's own authoring
+  discipline and mirror no superCPE rule.
+- `LESSON-RUNBOOK.md` step 5 now states both halves: aim for a review question
+  on every body section, and stacking two or three on one section is fine.
+
+**Standards touched**
+- 5.01.2.1 — "Review questions or other content reinforcement tools must be
+  placed throughout the program in sufficient intervals to allow the
+  participant the opportunity to evaluate the material that needs to be
+  re-studied." That is a floor on spacing, not a ceiling on density: it
+  forbids saving every question for the end and says nothing about a section
+  checked twice. A section checked twice serves the stated purpose — letting
+  the participant find what needs re-studying — better than one not checked at
+  all, which is why the replacement rule looks at the uncovered sections
+  rather than the doubled ones.
+- 7.02.5 — only `body` words count toward credit, which is what scopes the
+  coverage check to `body` sections.
+
+**Decisions**
+- Coverage ships as a **WARN**, not an ERROR. An ERROR is a stronger claim
+  than 5.01.2.1 supports: the paragraph asks for sufficient intervals across
+  the program and prescribes a count per credit, and nowhere requires one
+  question per section. A lesson that covers most of its body and leaves one
+  section to the assessment is a judgment call, not a defect.
+- **The feature document's concrete reason for that does not hold, and the
+  decision was kept anyway on the reason above.** It argued from a shipped
+  guide with "8 sections and 5 review questions" that a coverage ERROR would
+  refuse a lesson superCPE has already ingested. Once the rule is scoped to
+  `body` — which the same document specifies — the arithmetic collapses: that
+  guide (the ASC 450 contingencies lesson at commit 7ff8908, 8 sections) has
+  5 body sections carrying one review question each, plus front matter,
+  glossary and appendix, so it warns zero times. Recorded here rather than
+  repeated in the code comment, which now says the same thing.
+- Removing the exclusivity ERROR does not push the refusal downstream.
+  `scripts/validate-package.ts`, this repo's copy of superCPE's `packages.py`,
+  requires only that a review question's `after_section` name a section in the
+  manifest; it has no distinctness rule. Confirmed by exporting a package with
+  two review questions on one section — `export` runs `validatePackage` before
+  zipping, and it passed.
+- Rejected: also correcting `LESSON-RUNBOOK.md`'s "review … At least 2
+  choices", which contradicts rule 3's minimum of 3. It is a real defect in
+  the prose and it will produce an ERROR for anyone who follows it, but it is
+  a statement of rule 3, and this feature was scoped to change no other rule.
+  Reported rather than fixed.
+
+**Known gaps**
+- `ASC842-GDE`, the lesson the feature document's verification step names,
+  does not exist in this repo — not in the working tree, not in `CHANGELOG.md`,
+  not anywhere in git history. The verification that "`ASC842-GDE` still
+  exports and its word counts and credit estimate are unchanged" could
+  therefore not be run. The nearest real artifact is the ASC 450 guide
+  described above, which is not in the tree either; the reset at 102bc1f
+  removed it, and the registry is currently empty.
+- Because the registry is empty, `npm run check` passes vacuously — 0 lessons.
+  The behavior change was verified on a scratch text lesson (SCRATCH-99, 2
+  body sections, 2 review questions stacked on `sec-01`, `sec-02` uncovered),
+  which showed no error for the stacking, one WARN for the uncovered section,
+  and a successful `npm run export` with that WARN standing. The scratch
+  lesson was then retired.
+- 5.01.2.1 was **not read in the 2026 Statement before being cited here.**
+  `sources/` is empty and the Statement is not in the repo. The quotation
+  above is the feature document's, and the citation rests on it and on the
+  existing code comments — the same gap entry 13 recorded. The changelog rule
+  says to read the paragraph first; it was not met.

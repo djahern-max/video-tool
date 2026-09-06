@@ -1,0 +1,1242 @@
+
+--- page 1 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The Statement on Standards for 
+Continuing Professional 
+Education (CPE) Programs 
+Jointly issued by the American Institute of Certified Public Accountants (AICPA) and the 
+National Association of State Boards of Accountancy (NASBA) 
+August 2026 
+--- page 2 ---
+Contents 
+Introduction ........................................................................................................................... 5 
+Section 1 – Definitions ........................................................................................................... 1 
+Section 2 - General Standards ................................................................................................ 4 
+2.01.  CPE Program Sponsor Responsibility .................................................................................. 4 
+2.01.1.  CPE requirements of licensing bodies and others ..................................................... 4 
+2.02.1.  Formal learning programs ......................................................................................... 4 
+Section 3 - Standards for Learning Objectives ........................................................................ 5 
+3.01.  Learning Activities Based on Learning Objectives ............................................................... 5 
+3.01.1.  Program knowledge level .......................................................................................... 5 
+3.02.  Learning Activities Consistent with Experience of Participant ............................................ 5 
+3.02.1.  Prerequisite education and experience ..................................................................... 5 
+Section 4 – Standards for Quality of CPE Program .................................................................. 5 
+4.01.  Current and Accurate Learning Activities and Materials ..................................................... 5 
+4.01.1.  Developed by subject matter expert(s). .................................................................... 6 
+4.02.  Learning Activities Reviewed by Content Reviewers ........................................................... 6 
+4.02.1.  Qualifications of content reviewers .......................................................................... 6 
+4.03.  Instructors Qualified in Program Content and Instructional Method ................................. 6 
+4.03.1.  Qualifications of instructors ...................................................................................... 6 
+4.03.2.  Evaluation of instructor’s performance ..................................................................... 6 
+4.04.  Evaluation of Learning Activities ......................................................................................... 7 
+4.04.1.  Required elements of evaluation .............................................................................. 7 
+4.04.2.  Evaluation results ...................................................................................................... 7 
+4.05.  Instructional Strategies Appropriate for Learning Activities ............................................... 7 
+4.05.1.  Assess instructional strategy in context of program objectives ................................. 7 
+4.05.2.  Facilities and technology appropriateness ................................................................ 7 
+4.05.3.  Based on materials developed for instructional use .................................................. 7 
+4.06.  Review responsibilities if content is purchased from another entity .................................. 8 
+Section 5 – Standards for Participant Engagement ................................................................. 8 
+5.01.  Design Learning Programs to Drive Participant Engagement .............................................. 8 
+5.01.1.  Participant engagement for group programs ............................................................ 8 
+5.01.2.  Participant engagement for self study programs ...................................................... 9 
+5.01.2.1.  Use of review questions or other content reinforcement tools in self study  
+programs ............................................................................................................................... 9 
+5.01.2.2.  Feedback on review questions or other content reinforcement tools ................. 10 
+5.01.3.  Participant engagement for blended learning programs ......................................... 10 
+Section 6 – Standards for CPE Program Completion Verification .......................................... 10 
+6.01.  Responsibility to Monitor Attendance and Verify Program Completion ........................... 10 
+--- page 3 ---
+ 6.01.1. CPE program completion verification for group programs ...................................... 10 
+6.01.2.  CPE program completion verification for self study programs ................................ 11 
+6.01.3.  CPE program completion verification for blended learning programs ........................... 14 
+Section 7 - Standards for CPE Program Measurement ......................................................... 14 
+7.01.  Program Length Measured in CPE Credits ........................................................................ 14 
+7.01.1.  Learning activities with individual segments ........................................................... 16 
+7.02.  Self Study CPE Credits Based on Pilot Testing or Word Count Formula ............................ 16 
+7.02.1.  Method 1 – Sample group of pilot testers ............................................................... 16 
+7.02.2.  Method 1 – CPE credit based on representative completion time .......................... 17 
+7.02.3.  Method 1 – Requirement for re-pilot testing .......................................................... 17 
+7.02.4.  Method 1 – Pilot testing when course is purchased from vendor or other 
+developer ............................................................................................................................ 17 
+7.02.5.  Method 2 – Basis for prescribed word count formula ............................................. 17 
+7.02.6.  Method 2 – Calculation of CPE credit using the prescribed word count formula .... 17 
+7.02.7.  Method 2 – Consideration of audio and video segments in word count formula.... 18 
+7.02.8.  Method 2 – Word count formula when course is purchased from vendor or other 
+developer ............................................................................................................................ 18 
+7.02.9.  CPE credit for an adaptive learning self study program that tracks individual  
+participant’s completion time ............................................................................................. 18 
+ 7.02.10 CPE credit for Nano Learning Programs .................................................................. 19 
+7.03.  CPE Credit for Blended Learning Programs ....................................................................... 19 
+7.04.  Instructor CPE Credit for Preparation and Presentation Time .......................................... 19 
+7.04.1.  Instructor CPE credit parameters ............................................................................ 19 
+7.04.2.  Presenting a program. ............................................................................................. 19 
+7.05.  Author or Content Reviewer CPE Credit ........................................................................... 19 
+7.05.1.  Authoring a program. .............................................................................................. 19 
+7.05.2.  Requirement for content review. ............................................................................ 20 
+7.05.3.  Content reviewer CPE credit parameters ................................................................ 20 
+Section 8 - Standards for Participant Communication .......................................................... 20 
+8.01.  Descriptive Materials for Participant to Access Learning Activities .................................. 20 
+8.01.1.  Disclose significant features of program in advance ............................................... 20 
+8.01.2.  Disclose advance preparation and prerequisites ..................................................... 21 
+8.01.3.  Disclose requirements for earning full credit for a group program. ........................ 21 
+Section 9 - Standards for Required Documentation of CPE Programs ................................... 21 
+9.01.  Documentation of Participation in CPE Program  ............................................................. 21 
+9.01.1.  Entity to award CPE credits and acceptable documentation. .................................. 21 
+9.02.  CPE Program and Participation Documentation Maintenance ......................................... 22 
+9.02.1.  Required documentation elements for group programs ......................................... 22 
+9.02.2.  Required documentation elements for self study programs ................................... 23 
+--- page 4 ---
+9.02.3.  Required documentation elements for blended learning programs........................ 24 
+Effective date: ..................................................................................................................... 25 
+--- page 5 ---
+Introduction 
+The right to use the title “Certified Public Accountant” (CPA) is regulated by each state’s board of 
+accountancy in the public interest and imposes a duty to maintain public confidence by 
+maintaining or enhancing current professional competence, as defined in the Statement on 
+Standards for Continuing Professional Education (CPE) Programs (Standards), in all areas in which 
+they provide services. CPAs must accept and fulfill their ethical responsibilities to the public and 
+the profession regardless of their fields of employment.1,2 
+The profession of accountancy is characterized by an explosion of relevant knowledge, ongoing 
+changes and expansion, and increasing complexity. Advancing technology, globalization of 
+commerce, increasing specialization, proliferating regulations, and the complex nature of 
+business transactions have created a dynamic environment that requires CPAs performing 
+professional services to have a broad range of professional competence. Accordingly, acceptable 
+continuing education encompasses programs contributing to the development and maintenance 
+of professional skills. 
+The continuing development of professional competence involves a program of lifelong learning 
+activities. Continuing professional education (CPE) is the term used in these Standards to describe 
+the learning activities that assist CPAs in achieving and maintaining quality in professional 
+services. 
+The following Standards, published jointly by the American Institute of Certified Public 
+Accountants (AICPA) and the National Association of State Boards of Accountancy (NASBA), have 
+been broadly stated in recognition of the diversity of practice and experience among CPAs. They 
+establish a framework for the development, presentation, measurement, and reporting of CPE 
+programs including standards for learning objectives, quality of CPE program, participant 
+engagement, CPE program completion verification, CPE measurement, participant 
+communication and required documentation of formal CPE programs and thereby help to ensure 
+that CPAs receive the quality CPE necessary to satisfy their obligations in serving the public. The 
+spirit of the Standards is to encourage high -quality learning with measurable objectives by 
+providing baseline requirements. 
+The fields of study,  as published on NASBA’s website, www.nasbaregistry.org, represent the 
+primary knowledge and skill areas that CPAs need to perform professional services in all fields of 
+employment. 
+These Standards may also apply to other professionals by virtue of employment or membership. 
+CPAs are responsible for complying with all applicable CPE requirements, rules, and regulations of 
+boards of accountancy, as well as those of membership associations and other professional 
+organizations, as applicable. Boards of accountancy, membership associations and other 
+professional organizations have final authority on the acceptance of individual courses for CPE 
+credit. 
+Advances in technology, delivery, and workplace arrangements may lead to innovative learning 
+techniques. Learning theory is evolving to include more emphasis on outcome -based learning. 
+These Standards anticipate innovation in CPE in response to these advances. Sponsors must 
+--- page 6 ---
+ensure innovative learning techniques are in compliance with the Standards. CPE program 
+sponsors are encouraged to consult with NASBA regarding questions related to compliance with 
+the Standards when using innovative techniques. 
+These Standards create a basic foundation for sound educational programs. Sponsors may wish to 
+provide enhanced educational and evaluative techniques to all programs. 
+The Standards were last revised in 2026. 
+The Standards and the fields of study are periodically reviewed in their entirety by the CPE 
+Standards Working Group (Working Group). The Working Group comprises 13 members 
+representing the various stakeholders in the CPE arena, including boards of accountancy, state 
+societies, educators, CPE providers, and the AICPA. If the Working Group determines that 
+revisions or modifications are required, then the Working Group will make its recommendations 
+to NASBA’s CPE Committee (CPE Committee), which, in turn, makes recommendations to the Joint 
+AICPA/NASBA CPE Standards Committee (Joint Committee). The Joint Committee will then make 
+its recommendation to the respective AICPA and NASBA Boards of Directors. Any revisions or 
+modifications to the Standards will be posted to the AICPA and NASBA websites for comment. 
+The Standards are intended to be an “evergreen” document. As questions arise related to 
+implementation and application of the Standards, the questions will be presented to the Working 
+Group. NASBA will communicate the findings of the Working Group to the specific CPE program 
+sponsor. Authoritative interpretations will only be issued by the CPE Committee in limited cases 
+in which the matter is not addressed in the Standards, cannot be addressed specifically with the 
+CPE program sponsor, or cannot be addressed in the “Best Practices” web pages. All 
+interpretations issued by the CPE Committee will be reviewed and considered by the Joint 
+Committee upon the next revision of the Standards. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1 The term “CPA” is used in these Standards to identify any person who is licensed or regulated, or both, by boards of accountancy. 
+2 The terms “should” and “must” are intended to convey specific meanings within the context of this joint AICPA/NASBA Statement 
+on Standards for Continuing Professional Education Programs (Standards). The term “must” is used in the Standards and applies  
+to CPAs and CPE program sponsors to convey that CPAs and CPE program sponsors are not permitted any departure from those 
+specific Standards. The term “should” is used in the Standards and applies to both CPAs and CPE program sponsors and is 
+intended to convey that CPAs and CPE program sponsors are encouraged to follow such Standards as written. The term “may” is  
+used in the Standards and applies to both CPAs and CPE program sponsors and is intended to convey that CPAs and CPE program 
+sponsors are permitted to follow such Standards as written. 
+--- page 7 ---
+Section 1 – Definitions 
+Adaptive learning self study program. A self study  program that uses a computer algorithm, 
+other predictive analytics tools, or participant -driven selections to orchestrate interaction with 
+the participant to deliver customized learning activities and to assist the participant in meeting 
+the course’s stated learning objectives. CPE credit for an adaptive learning self study program 
+must be determined based on the methodologies detailed in Section 7 Paragraphs 7.02.1 through 
+7.02.9. 
+Advanced. Program knowledge level most useful for learners with mastery of the particular topic. 
+This level focuses on the development of in-depth knowledge, a variety of skills, or a broader range 
+of applications. Advanced level programs are often appropriate for seasoned learners within 
+organizations; however, they may also be beneficial for other learners with specialized knowledge 
+in a subject area. 
+Asynchronous. A learning activity in which the participant has control over time, place, or pace 
+of learning. 
+Basic. Program knowledge level most beneficial to learners  new to a skill or an attribute. These 
+learners are often at the staff or entry level in organizations, although such programs may also 
+benefit a seasoned learner with limited exposure to the area. 
+Blended learning program. One formal learning program with defined learning objectives that 
+includes both asynchronous and synchronous learning activities, and incorporates different 
+instructional strategies, or levels of guidance. 
+Content reinforcement tools. Tools used within the overall learning activity to reinforce learning 
+and influence behavior change throughout the learning or at the end of the learning. 
+ 
+Content reviewer. Individuals or teams qualified in the subject matter involved in a review 
+capacity during the development of a learning program other than those who developed the 
+content. 
+Continuing professional education (CPE). An integral part of the lifelong learning required  to 
+provide competent service to the public. The set of activities that enables CPAs and other 
+professionals to maintain or improve their professional competence. 
+CPE credit. Fifty minutes of participation in a formal learning program equals one CPE credit. 
+CPE program sponsor (sponsor). The individual or organization responsible for ensuring the 
+learning program meets all the requirements of the Standards, issuing the certificate of 
+completion, and maintaining the documentation required by the Statement on Standards for 
+Continuing Professional Education (CPE) Programs. 
+Feedback. Specific response to answers of review questions or other content reinforcement tools 
+in self study  programs that helps learners evaluate their understanding of course material and 
+gauge the effectiveness of learning efforts. 
+--- page 8 ---
+Formal learning program. A collection of learning activities that are designed and intended as 
+continuing education, which have defined learning objectives, and that comply with Standards for 
+either a group program, self study program or blended learning program. 
+Group program. A facilitated learning program with multiple learners in real time in which the 
+Instructor (as defined below) has control of timing, place and pace of learning. 
+ 
+Instructional strategies. Strategies such as but not limited to case studies, computer -assisted 
+learning, lectures, group interaction, programmed instruction, and use of audiovisual aids 
+employed within the group, self study, or blended learning programs 
+. 
+Instructor. A human or technology-assisted teaching mechanism which guides, facilitates, 
+instructs, coaches, models and/or evaluates learning activities. 
+ 
+Intermediate. Program knowledge level that builds on a basic program and is most appropriate 
+for learners with detailed knowledge in a particular topic. Such learners are often at a mid -level 
+within the organization, with operational or supervisory responsibilities, or both. 
+Learning activity. An educational endeavor that maintains or improves professional competence. 
+ 
+Learning program completion verification. A process to monitor the successful completion of the 
+learning program to assign the correct number of CPE credits to the learner. 
+Learning objectives. Measurable outcomes that learners should accomplish upon completion of a 
+learning program. Learning objectives are useful to program developers in deciding appropriate 
+instructional strategies and allocating time to various subjects. 
+Nano learning program. A self study program completed individually without the assistance or 
+interaction of a n instructor that is designed to permit a learner to achieve a single learning 
+objective in a minimum of 10 minutes and less than 20 minutes through the use of electronic 
+media (including technology applications and processes and computer -based or web -based 
+technology). A nano learning program differs from a traditional self study learning program in that 
+it is focused on a single learning objective and is not paper-based. A nano learning program is not 
+a group program. Nano learning is not a substitute for comprehensive programs addressing 
+complex issues. 
+Overview. Program knowledge level that provides a general review of a subject area from a broad 
+perspective. These programs may be appropriate for learners at all organizational levels. 
+Participant engagement. The level of attention, involvement, interest and active participation 
+demonstrated during the learning process. It involves the use of various strategies like interactive 
+content, group discussions, hands -on activities, simulations, case studies, and personalized 
+learning paths to make the learning experience more engaging and effective. 
+Pilot test. A method to determine the recommended CPE credit for self study programs that 
+involves sampling learners who are independent of the development team and are representative 
+of the intended audience to measure the representative completion time. 
+--- page 9 ---
+Pre-program assessment. A method of measuring prior knowledge that is given before the 
+learner has access to the course content of the program. 
+Professional competence. Having requisite technical competence, professional skills, values, 
+ethics, and attitudes to provide quality services as defined by the technical and ethical standards 
+of the profession. The expertise needed to undertake professional responsibilities and to serve 
+the public interest. 
+Qualified assessment. A method of measuring the achievement of a representative number of 
+learning objectives for the learning activity. 
+Review questions. A learning activity to reinforce learning and influence behavior changes 
+throughout the learning program. 
+ 
+Self study program. A learning program in which the individual learner has control over the 
+timing, place and pace of learning. 
+ 
+Subject matter expert. A person who has expertise in a particular area or topic. Expertise may 
+be demonstrated through practical experience or education, or both. 
+Synchronous. A learning activity in which learners engage simultaneously with an instructor. 
+Traditional self study learning program. A learning program in which the learner controls access 
+to educational content and resources as well as timing, place, and pace of learning. 
+Update. Program knowledge level that provides a general review of new developments. This level 
+is for learners with a background in the subject area who desire to keep current. 
+Word count formula. A method, detailed under Section 7 Paragraphs 7.02.5 through 7.02.8 
+method 2, to determine the recommended CPE credit for self study programs that uses a formula, 
+including word count of learning material, number of questions and exercises, and duration of 
+audio and video segments. 
+--- page 10 ---
+4  
+Section 2 – General Standards 
+2.01. CPE program sponsors are responsible for compliance with all applicable Standards and other 
+CPE sponsor requirements. 
+2.01.1. CPE requirements of licensing bodies and others. CPE program sponsors may have to meet 
+specific CPE sponsor requirements of state licensing bodies, other governmental entities, 
+membership associations, and other professional organizations or bodies. Professional guidance 
+for CPE program sponsors is available from NASBA and state-specific guidance is available from the 
+boards of accountancy. CPE program sponsors should contact the appropriate entity to determine 
+requirements. 
+2.02. Learning activities which qualify for CPE credit under these Standards. The following learning 
+activities qualify for CPE credit under these Standards: 
+1) Formal learning programs; 
+2) Instructor/speaker activities (See Section 7 Paragraph 7.04.1, & 7.04.2); 
+3) Author/developer activities (See Section 7 Paragraph 7.05.1); and 
+4) Content reviewer activities (See Section 7 Paragraph 7.05.3). 
+Other learning activities not listed above, such as independent study and college/university credit, 
+may also be acceptable by state licensing bodies, governmental entities, membership associations 
+and other professional organizations or bodies. Participants should refer to their state board or 
+approving organization for guidance on acceptance of CPE credit not covered by the Standards. 
+2.02.1. Formal learning programs. To qualify for CPE credit, CPE program sponsors must comply 
+with the requirements of learning objectives, quality of CPE program, participant engagement, CPE 
+program completion verification, CPE program measurement, participant communication and 
+required documentation of CPE programs as contained within these Standards. Formal learning 
+programs must employ instructional strategies that guide a participant through a program of 
+learning and are defined, within these Standards, as a group program, a self study program or a 
+blended learning program. 
+Formal learning programs and learning activities that could qualify as a group program, as defined 
+in Section 1, include but are not limited to: 
+1) Physical classroom setting; 
+2) Physical conference setting; 
+3) Internet enabled two-way video participation in a program; 
+4) Participation in a conference call; 
+5) Participation in watching a live broadcast or rebroadcast of a program; or 
+6) Webcast/webinar. 
+7) Two or more of the above. 
+--- page 11 ---
+5  
+Formal learning programs and learning activities that could qualify as a self study program, as 
+defined in Section 1, include but are not limited to: 
+1) Traditional learning program; 
+2) Adaptive learning program; or 
+3) Nano learning program. 
+Formal learning programs and learning activities that could qualify as a blended learning program, 
+as defined in Section 1, include but are not limited to: 
+1) Blended learning program in which the primary components of the program are 
+synchronous learning activities; or 
+2) Blended learning program in which the primary components of the program are 
+asynchronous learning activities. 
+ 
+Section 3 – Standards for Learning Objectives 
+3.01. Sponsored learning activities must be based on relevant learning objectives and outcomes 
+assigned to the learning activities that clearly articulate the professional competence that should 
+be achieved by participants in the learning activities. When determining the learning objectives, program 
+sponsors must consider the program knowledge level and prerequisite education/experience for the learning activity. 
+ 
+3.01.1. Program knowledge level. Learning activities provided by CPE program sponsors must 
+specify the knowledge level, content, and learning objectives so that potential  participants can 
+determine whether the learning outcomes are appropriate to their professional competence 
+development needs, except as provided in Section 8 Paragraph 8.01 for mandatory internal 
+courses. Knowledge levels consist of Basic, Intermediate, Advanced, Update, and Overview. 
+3.02. CPE program sponsors must develop and execute learning activities in a manner consistent 
+with the learning objectives, prerequisite education, experience, and advance preparation of 
+participants. 
+3.02.1. Prerequisite education and experience. To the extent it is possible to do so, CPE program 
+sponsors should make every attempt to equate program content and knowledge level with the 
+backgrounds of intended participants. All programs identified as Intermediate, Advanced or Update 
+must clearly identify prerequisite education, experience, and advance preparation in precise 
+language so that potential participants can readily ascertain whether they qualify for the program. 
+For courses with a program knowledge level of Basic and Overview, prerequisite education or 
+experience and advance preparation, should be noted if applicable, otherwise, state “none” in the 
+course announcement or descriptive materials. 
+Section 4 – Standards for Quality of CPE Program 
+4.01. CPE program sponsors must employ activities, materials, and delivery systems that are 
+current, accurate, and effectively designed. Course documentation must contain the most recent 
+publication, revision, or review date. Courses in subjects that undergo frequent changes such as 
+--- page 12 ---
+6  
+updates to codes, laws, rulings, decisions, interpretations, etc. must be reviewed and revised, as 
+necessary, by a subject matter expert as soon as possible but at least once a year to verify the 
+currency of the content. Other courses must be reviewed and revised, as necessary, at least every 
+two years. 
+ 
+4.01.1. Developed by subject matter expert(s).  Learning activities must be developed by subject 
+matter expert(s). The content developer must be competent and current in the subject matter, 
+skilled in the use of the appropriate instructional strategies and technology.  If technology is used 
+in the development of the program, the content developer is responsible for reviewing the content 
+for accuracy. 
+4.02. CPE program sponsors must ensure that learning activities are reviewed by content reviewers 
+other than those who developed the programs to ensure that the program is accurate and current 
+and addresses the stated learning objectives. These reviews must occur before the first 
+presentation of these materials and again after each significant revision of the CPE programs. 
+The participation of at least one licensed CPA (in good standing and holding an active license or the 
+equivalent of an “active” CPA license in a U.S. jurisdiction) is required in the development of every 
+program in accounting and auditing. The participation of at least one licensed CPA,  tax attorney, 
+or IRS enrolled agent (in good standing and holding an active CPA  license or the equivalent of an 
+“active” license in a U.S. jurisdiction) is required in the development of each program in the field 
+of study of taxes. In the case of the subject matter of international taxes, the  participation of the 
+equivalent of an “active” licensed CPA for the international jurisdiction involved  is permitted. As 
+long as this requirement is met at some point during the development process, a program would 
+be in compliance. Whether to have this individual involved during the development or the review 
+process is at the CPE program sponsor’s discretion. 
+4.02.1. Qualifications of content reviewers. Individuals or teams qualified in the subject matter 
+must review programs. The intent of the review is to serve as a quality control procedure to ensure 
+the course content is accurate and current as well as appropriate for CPE. In rare circumstances, it 
+may be impractical to review certain programs in advance. In those rare circumstances, greater 
+reliance should be placed on the recognized professional competence of the instructor or 
+presenter, and the basis for the lack of content review must be documented. 
+4.03. CPE program sponsors must ensure that instructors are qualified with respect to both 
+program content and instructional strategies used. 
+4.03.1. Qualifications of instructors. Instructors are key ingredients in the learning process for any 
+group or blended learning program. Therefore, it is imperative that CPE program sponsors exercise 
+great care in selecting qualified instructors for all group or blended learning programs. Qualified 
+instructors include individuals and technology-assisted mechanisms capable of delivering intended 
+program content and fostering a learning environment. While technology may assist in instruction, 
+it must not override the judgment of the human instructor. Instructors must be competent and 
+current in the subject matter, skilled in appropriate instructional strategies and technology, 
+prepared in advance, and committed to engaging participants effectively. 
+4.03.2. Evaluation of instructor’s performance. CPE program sponsors should evaluate the instructor’s 
+--- page 13 ---
+7  
+performance at the conclusion of each program to determine the instructor’s suitability to serve in the 
+future. 
+ 
+4.04. CPE program sponsors must employ an effective means for evaluating learning activity 
+quality with respect to content and presentation, as well as provide a mechanism for participants 
+to assess whether learning objectives were met. 
+4.04.1. Required elements of evaluation. The objectives of evaluation are to assess participant 
+and instructor satisfaction with specific programs and to increase subsequent program 
+effectiveness. Evaluations, whether written or electronic, must be solicited from participants and 
+instructors for the overall program. Sponsors may elect to solicit evaluations for each session within 
+an overall program. Evaluations determine, among other things, whether 
+1) stated learning objectives were met. 
+2) stated prerequisite requirements were appropriate and sufficient. 
+3) program materials, including the qualified assessment, if any, were relevant and 
+contributed to the achievement of the learning objectives. 
+4) time allotted to the learning activity was appropriate. 
+5) instructors were effective, where applicable. 
+4.04.2. Evaluation results. CPE program sponsors must periodically review evaluation results to 
+assess program effectiveness and should inform developers and instructors of evaluation results. 
+4.05. CPE program sponsors must ensure that instructional strategies employed are appropriate 
+for the learning activities. 
+4.05.1. Assess instructional strategy in context of program objectives. CPE program sponsors must 
+assess the instructional strategies employed for the learning activities to determine whether the 
+design is appropriate and effective. 
+4.05.2. Facilities and technology appropriateness. Learning activities must be presented in a 
+manner consistent with the program materials provided. Integral aspects of the learning 
+environment that should be carefully monitored include the number of participants and the 
+facilities and technologies employed in the delivery of the learning activity. 
+4.05.3. Based on materials developed for instructional use. Programs must be based on materials 
+specifically developed for instructional use and not on third -party materials. Self study programs 
+requiring only the reading of general professional literature, IRS publications, or reference manuals 
+followed by a test will not be acceptable. However, the use of the publications and reference 
+materials in self study programs as supplements to the instructional materials could qualify if the 
+self study program complies with each of the relevant CPE standards. 
+Instructional materials for a self study  program include teaching materials that are developed for 
+instructional educational purposes. These materials must demonstrate the expertise of the 
+author(s). At a minimum, instructional materials must include the following items: 
+1) An overview of topics 
+--- page 14 ---
+8  
+2) The ability to find information quickly (for example, an index or key word search 
+function) 
+3) The definition of key terms (for example, a glossary or a search function that takes 
+a participant to the definition of a key word) 
+4) Instructions to participants regarding navigation through the course, 
+course components, and course completion 
+5) Review questions or other content reinforcement tools with feedback 
+6) Qualified assessment 
+4.06. Review responsibilities if content is purchased from another entity. CPE program sponsors 
+may purchase course content from other entities and developers. The organization that issues the 
+certificate of completion under its name to the participants of the program is responsible for 
+compliance with all Standards and other CPE requirements. 
+If a CPE program sponsor plans to issue certificates of completion under its name, then the CPE 
+program sponsor must first consider whether the content was purchased from an entity registered 
+with NASBA on the National Registry of CPE Sponsors. 
+1) If the content is purchased from a sponsor registered with NASBA on the National 
+Registry of CPE Sponsors, then the CPE program sponsor that issues the certificate of 
+completion under its name must maintain the author/developer and content reviewer 
+documentation from that sponsor to satisfy the content development requirements of the 
+Standards. The documentation should be maintained as prescribed in Section 9 Paragraphs 
+9.02.1 through 9.02.3. 
+2) If the content is purchased from an entity not registered with NASBA on the National 
+Registry of CPE Sponsors, then the CPE program sponsor must independently review the 
+purchased content to ensure compliance with the Standards. If the CPE program sponsor 
+does not have the subject matter expertise on staff, then the CPE program sponsor must 
+contract with a content reviewer to conduct the review. The CPE program sponsor must 
+maintain the appropriate documentation regarding the credentials and experience of both 
+the course author/developer(s) and content reviewer(s) as prescribed in Section 9 
+Paragraphs 9.02.1 through 9.02.3. 
+Section 5 – Standards for Participant Engagement 
+5.01. CPE program sponsors must design programs of learning and learning activities to drive 
+participant engagement. 
+5.01.1. Participant engagement for group programs. A group program must include participant 
+engagement related to course content during each full credit of CPE as outlined in Section 6. In 
+certain limited circumstances, for example, a high -profile keynote session, an element of 
+engagement may not be appropriate. In such cases, the sponsor should document the justification. 
+ 
+Examples of content related participant engagement in group programs include but are not limited 
+to: 
+--- page 15 ---
+9  
+1) Group discussion; 
+2) Polling questions; 
+3) Instructor-posed question with time for participant reflection; 
+4) Case studies; 
+5) Simulations/role play; 
+6) Hands-on activities/application of skills or tools; 
+7) Shared whiteboards/discussion boards; 
+8) Virtual breakout rooms; and 
+9) Collaboration with other participants. 
+ 
+5.01.2. Participant engagement for self study programs. Examples of content related participant 
+engagement in self study programs include but are not limited to: 
+1) Instructional strategies, such as interactive content, hands-on activities, personalized 
+learning paths, or audiovisual aids; 
+2) Content Reinforcement tools with feedback as required by 5.01.2.1, such as review 
+questions or simulations. 
+3) Qualified Assessments as required by 6.01.2, such as multiple-choice questions or 
+simulations. 
+5.01.2.1. Use of review questions or other content reinforcement tools in self study programs. 
+Review questions or other content reinforcement tools must be placed throughout the program in 
+sufficient intervals to allow the participant the opportunity to evaluate the material that needs to be 
+re-studied. At least three review questions or other content reinforcement tools with scored 
+responses per CPE credit must be included. If the program is marketed for one-half CPE credits, then 
+two review questions or other content reinforcement tools with scored responses must be included. 
+Other content reinforcement tools with scored responses, such as simulations, that guide participants 
+through structured decisions can be used in lieu of review questions. “True or false” questions do not 
+count toward the number of required review questions per CPE credit. There is no minimum passing 
+rate required for review questions or other content reinforcement tools. 
+If the program is marketed for one-fifth CPE credit or 0.2 CPE credit, then a review question or other 
+content reinforcement tool with scored response is not required. After the first one -fifth credit is 
+earned, review questions or other content reinforcement tools with scored responses are required 
+based on the one-fifth credit measurement amount of the program as follows: 
+--- page 16 ---
+10  
+ 
+ 
+Credit 
+ 
+Review Questions or 
+Other Content 
+Reinforcement Tools 
+0.2 0 
+0.4 1 
+0.5 2 
+0.6 2 
+0.8 3 
+1.0 3 
+ 
+ 
+After the first full credit and the minimum of three review questions or other content reinforcement 
+tools with scored responses, additional review questions or other content reinforcement tools with 
+scored responses are required based on the chart above. 
+ 
+5.01.2.2. Feedback on review questions or other content reinforcement tools. Feedback must be 
+provided on review questions or other content reinforcement tools. At a minimum, feedback must 
+indicate that a response was “correct” or “incorrect”.  The goal of providing feedback is to reinforce 
+understanding, highlight knowledge gaps, and provide additional resources for learning 
+comprehension. 
+5.01.3. Participant engagement for blended learning programs. Blended learning programs and 
+learning activities must be designed to drive participant engagement. For blended learning programs 
+in which the primary components are synchronous learning activities, CPE program sponsors may 
+consider Paragraph 5.01.1 for guidance on participant engagement. For blended learning programs 
+in which the primary components are asynchronous activities, CPE program sponsors may consider 
+Paragraphs 5.01.2 through 5.01.2.2 for guidance on participant engagement. 
+ 
+Section 6 – Standards for CPE Program Completion Verification 
+6.01. Although it is the CPA’s and other professional’s responsibility to report the appropriate 
+number of credits earned, CPE program sponsors must maintain a process to monitor individual 
+attendance at group and blended learning programs or verify individual successful program 
+completion for self study and blended learning programs to assign the correct number of CPE 
+credits. Self-certification of attendance/completion alone is not sufficient. 
+6.01.1. CPE Program completion verification for group programs. Verification methods should 
+account for both individual presence in the CPE program and the time duration of such presence. 
+Program completion verification for group programs should include: 
+1) Documented attendance records. 
+i. Verification methods that capture the learner identity and indicate the duration of 
+attendance along with a statement from the program instructor, attendance monitor, 
+or the technology-based administrator attesting to learning participation and noting 
+--- page 17 ---
+11  
+any variances in attendance time. 
+ii. Examples include but are not limited to: 
+a. Use of attendance logs, registration records, or similar documentation, 
+including sign-in, and noting any late arrivals, early departures or elongated 
+break times. 
+b. Technology-based verification mechanisms such as technology tools (e.g., 
+QR codes, key words or codes, polling questions, electronic badging, 
+platform-based attendance prompts or similar mechanisms) to document 
+learner participation. 
+c. Individual login records when individual participants log into a group program. 
+2) Monitoring and oversight. 
+i. Real-time monitoring of learner attendance by an instructor or attendance monitor, 
+when used, to verify presence throughout the program. 
+ii. When an instructor or attendance monitor is used, the learner -to-attendance 
+monitor ratio must not exceed 25:1, unless a dedicated attendance monitor is 
+assigned in which case the ratio must not exceed 100:1. 
+iii. When used, technology -delivered attendance prompts or verification mechanisms 
+must occur at least three times per 50 -minute credit hour and lack predictability to 
+reasonably ensure learners are present and engaged throughout the program. 
+If the program is marketed for one-half CPE credits, then two attendance monitoring 
+mechanisms must be employed and completed by the participant. 
+After the first full credit and the three instances of attendance monitoring, additional 
+attendance monitoring mechanisms are required based on the additional credit 
+amount of the program as follows: 
+ 
+ 
+Additional Credit 
+Additional Monitoring 
+Mechanisms 
+0.2 0 
+0.4 1 
+0.5 2 
+0.6 2 
+0.8 3 
+Next full credit 3 
+CPE program sponsors should verify with the respective boards of accountancy regarding any 
+specific monitoring requirements applicable to particular delivery methods. 
+6.01.2. CPE program completion verification for self study programs. Examples of program 
+completion verification for self study programs include but are not limited to: 
+1) For traditional self study learning and adaptive learning programs: 
+i. To provide evidence of satisfactory completion of the course, CPE program 
+sponsors of self study programs must require participants to successfully 
+--- page 18 ---
+12  
+complete a qualified assessment during or after the program with a cumulative 
+minimum passing grade of at least 70 percent before issuing CPE credit for the 
+course. Assessments may contain questions of varying format (for example, 
+multiple choice, essay, and simulations). At least 5 questions and scored 
+responses per CPE credit must be included on the qualified assessment or 4 
+assessment questions and scored responses if the program is marketed for one -
+half CPE credits. For example, the qualified assessment for a 5-credit course must 
+include at least 25 questions and scored responses. Alternatively, a 5 ½ credit 
+course must include at least 29 questions and scored responses. Except in courses 
+in which recall of information is the learning strategy, duplicate review and 
+qualified assessment questions are not allowed. Forced choice responses such as 
+“True or false” or “yes or no” questions are not permissible on the qualified 
+assessment. 
+If the program is marketed for one -fifth credit, at least 2 questions or scored 
+responses must be included on the qualified assessment with a cumulative 
+minimum passing grade of at least 70%. After the first one-fifth credit is earned, 
+qualified assessment questions and scored responses are required based on the 
+one-fifth credit measurement amount of the program as follows: 
+ 
+ 
+Credit 
+ 
+Questions/Scored 
+Responses 
+0.2 2 
+0.4 3 
+0.5 4 
+0.6 4 
+0.8 5 
+Next full credit 5 
+After the first full credit and the minimum of five questions and scored responses 
+per CPE credit, additional qualified assessment questions and scored responses 
+are required based on the chart above. 
+ 
+For adaptive learning programs, the noted minimum requirement of at least 5 
+questions and scored responses per CPE credit must be met by the fastest 
+completion path through the program. When assessment questions are used to 
+evaluate the participant’s path through the program such that they must reach 
+100% success to complete the program, then an additional qualified assessment 
+is not required at the end of the course. 
+A qualified assessment must measure a representative number of the learning 
+objectives for the program. A representative number of the learning objectives is 
+75 percent or more of the learning objectives for the program. The representative 
+number of the learning objectives can be less than 75 percent of the learning 
+--- page 19 ---
+13  
+objectives for the program only if a randomized question generator is used, and 
+the test bank used in the creation of the assessment includes at least 75 percent 
+of the learning objectives for the program. Assessment items must be written to 
+test the achievement of the stated learning objectives of the course. 
+The number of re -takes a participant is permitted to take is at the sponsor’s 
+discretion. 
+ 
+ii. Providing feedback on the qualified assessment is at the discretion of the CPE 
+program sponsor. If the CPE program sponsor chooses to provide feedback and 
+a. uses a test bank, then the CPE program sponsor must ensure that the 
+question test bank is of sufficient size to minimize overlap of questions on 
+the qualified assessment for the  typical repeat test taker. Feedback may 
+comply with the feedback for review questions as described in Section 5 
+Paragraph 5.01.2.1 or take the form of identifying correct and incorrect 
+answers. 
+b. does not use a test bank, whether or not feedback can be given depends 
+on whether the participant passes the qualified assessment, then 
+1. on a failed assessment, the CPE program sponsor may not 
+provide feedback to the test taker. 
+2. on assessments passed successfully, CPE program sponsors may 
+choose to provide participants with feedback. This feedback may 
+comply with the type of feedback for review questions as 
+described in Section 5 Paragraph 5.01.2.1 or take the form of 
+identifying correct and incorrect answers. 
+2) For a nano learning program: 
+i. To provide evidence of satisfactory completion of the course, CPE program 
+sponsors of nano learning programs must require participants to successfully 
+complete a qualified assessment at the conclusion of the program with a passing 
+grade of 100 percent before issuing CPE credit for the course. Assessments may 
+contain questions of varying format (for example, multiple choice, rank order, and 
+matching). Only two questions must be included in the qualified assessment. 
+Forced choice responses such as “True or false” or “yes or no” questions are not 
+permissible on the qualified assessment. If the participant fails the qualified 
+assessment, then the participant must re -take the nano learning program. The 
+number of re-takes a participant is permitted to take is at the sponsor’s discretion. 
+ii. Providing feedback on the qualified assessment is at the discretion of the CPE 
+program sponsor. If the CPE program sponsor chooses to provide feedback and 
+a. uses a test bank, then the CPE program sponsor must ensure that the 
+question test bank is of sufficient size for no overlap of questions on the 
+qualified assessment for the typical repeat test taker. Feedback may 
+comply with the feedback for review questions as described in Section 5 
+Paragraph 5.01.2.1 or take the form of identifying correct and incorrect 
+--- page 20 ---
+14  
+answers. 
+b. does not use a test bank, whether or not feedback can be given depends 
+on whether the participant passes the qualified assessment, then 
+1. on a failed assessment, the CPE program sponsor may not 
+provide feedback to the test taker. 
+2. on assessments passed successfully, CPE program sponsors may 
+choose to provide participants with feedback. This feedback may 
+comply with the type of feedback for review questions as 
+described in Section 5 Paragraph 5.01.2.1 or take the form of 
+identifying correct and incorrect answers. 
+6.01.3. CPE program completion verification for blended learning programs. Examples of program 
+completion verification for blended learning programs include but are not limited to: 
+1) To guide participants through the learning process, CPE program sponsors must provide 
+clear instructions and information to participants that summarize the different components 
+of the program and what must be completed or achieved during each component in order to 
+qualify for CPE credits. The CPE program sponsor must document the process and 
+components of the course progression and completion of components by the participants. 
+2) If the primary components of the blended learning program are synchronous learning 
+activities, then CPE credits for pre -program, post - program, and homework assignments 
+cannot constitute more than 25 percent of the total CPE credits available for the blended 
+learning program. 
+3) For asynchronous learning activities that are significant components of the blended 
+learning program, the program must incorporate a qualified assessment as described in 
+6.01.2. For synchronous learning activities that are significant components of the blended 
+learning program, the program must incorporate completion verification as described in 
+paragraph 6.01.1. 
+A qualified assessment must measure a representative number of learning objectives 
+for the program. A representative number of the learning objectives is 75 percent or 
+more of the learning objectives for the program. The qualified assessment must be 
+completed during or after the program with a cumulative minimum passing grade of 
+at least 70 percent before issuing CPE credit for the course. 
+Section 7 - Standards for CPE Program Measurement 
+7.01. Sponsored learning activities are measured by actual program length, with one 50 -minute 
+period equal to one full CPE credit. Sponsors may recommend CPE credits under the following 
+scenarios and remain compliant with these Standards. However, rules and regulations of state 
+boards of accountancy may differ on acceptable increments of CPE credit, and CPE program 
+sponsors should comply with those rules in awarding CPE credit: 
+1) Group programs – A minimum of one-half or one full credit may be awarded initially. If 
+one-half credit is awarded initially, then no increments can be added until a full credit is 
+awarded. After the first full credit has been earned, credits may be awarded in one -fifth 
+increments or in one-half increments (1.0, x.2, x.4, x.5, x.6, x.8, and so on). 
+--- page 21 ---
+15  
+2) Blended learning programs – A minimum of one full credit must be awarded initially, 
+but after the first credit has been earned, credits may be awarded in one-fifth increments 
+or in one-half increments (1.0, x.2, x.4, x.5, x.6, x.8, and so on). 
+3) Self study programs – 
+i. Traditional and/Adaptive Self Study: A minimum of one-fifth or one-half credit 
+may be awarded initially. If one -fifth credit is awarded initially, credits may be 
+awarded in one-fifth increments up to a full credit (0.2, 0.4, 0.6, 0.8).  If one-half 
+credit is awarded initially, then no increments can be added until a full credit is 
+awarded. Once one full credit has been earned, credits may be awarded in one -
+fifth increments or in one- half increments (1.0, x.2, x.4, x.5, x.6, x.8, and so on). 
+ii. Nano learning program – Credits must be awarded only as one-fifth credit (0.2 
+credit). A 20 -minute program would have to be produced as two stand -alone 
+nano learning programs. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CPE Program 
+ 
+ 
+ 
+ 
+Minimum initial 
+credit that must 
+be earned 
+ 
+After first one-fifth 
+credit has been earned, 
+credit may be earned in 
+these increments 
+ 
+ 
+After first full credit has been 
+earned, credit may be 
+earned in these increments, 
+in addition to one whole 
+credit 
+Group One-half Not applicable One-fifth or one-half 
+Blended learning One Not applicable One-fifth or one-half 
+Self study One-fifth One-fifth One-fifth or one-half 
+One-half Not applicable One-fifth or one-half 
+ 
+Nano learning 
+ 
+One-fifth 
+Not applicable (single 
+nano learning 
+program is one- 
+fifth credit) 
+Not applicable (single nano 
+learning program is 
+one-fifth credit) 
+ 
+Only learning content portions of programs (including pre-program, post-program, and homework 
+assignments, when incorporated into a blended learning program) qualify toward eligible credit 
+amounts. Interactive, facilitated question and answer time between instructor and participants 
+qualifies toward eligible credit amounts. Time for activities outside of actual learning content, 
+including, for example, excessive welcome, introductions, and housekeeping instructions, and 
+breaks, is not accepted toward credit. 
+At their discretion, CPE program sponsors may round down (but not up) CPE credits awarded for 
+a CPE program to the nearest one-fifth, one-half, or whole credit increment as appropriate for the 
+type of formal learning program. The increment chosen by the CPE program sponsor must be 
+applied to all CPE program sessions (learning activities) within the same CPE program. Any 
+resulting certificate(s) issued for the CPE program must also be awarded in the chosen increment 
+for full credit; however, partial credit must be issued in only one -fifth, one -half, or whole 
+increments. In addition, CPE program sponsors must ensure that the total credit for a CPE program 
+--- page 22 ---
+16  
+is only in the allowable increment and should round down the credit if necessary. The CPA claiming 
+the CPE credits should refer to the respective state board requirements regarding acceptability of 
+one-fifth and one-half CPE credits. 
+7.01.1. Learning activities with individual segments. For learning activities in which individual 
+segments are less than 50 minutes, the sum of the segments would be considered one total program. 
+For example, five 30-minute presentations would equal 150 minutes and would be counted as three 
+CPE credits. When the total minutes of a sponsored learning activity are greater than 50, but not 
+equally divisible by 50, the CPE credits granted must be rounded down to the nearest  credit basis 
+depending on the type of formal learning program. For example, a group program must be rounded 
+down to the nearest one -fifth, one -half, or whole credit. Thus, learning activities with segments 
+totaling 140 minutes would be granted two and four -fifths CPE credits if using one-fifth increments 
+and two and one-half credits if using one-half increments. 
+For learning activities in which segments are classified in multiple fields of study, the CPE credits 
+granted should first be computed based on the content time of the total program. Next, the  CPE 
+credits granted should be allocated to the fields of study based on the field of study content time. If 
+the sum of the individual segments by field of study content time does not equal the CPE credits 
+computed based on the content time for the total program, then the difference should be allocated 
+to the primary field of study for the program. 
+7.02. For self study programs, CPE credit must be based on one of the following educationally sound 
+and defensible methods: 
+Method 1: Pilot test of the representative completion time 
+Method 2: Computation using the prescribed word count formula 
+If a pre-program assessment is used, the pre-program assessment is not included in the CPE credit 
+computation. 
+7.02.1. Method 1 – Sample group of pilot testers.  A sample of intended  professional participants 
+must be selected to test program materials in an environment and manner similar to that in which 
+the program is to be presented. The sample group for a traditional on -demand learning program 
+must consist of at least three qualified individuals who are independent of the program development 
+group. The sample group for an adaptive learning program must consist of at least seven qualified 
+individuals who are independent of the program development group. 
+1) For those courses whose target audience includes CPAs, the sample group must be 
+licensed CPAs in good standing, hold an active CPA  license or the equivalent of an “active” 
+CPA license in a U.S. jurisdiction, and possess the appropriate level of knowledge before 
+taking the program. 
+2) For those sponsors who are subject to various regulatory requirements that mandate a 
+minimum number of CPE credits and offer courses to non-CPAs, those courses do not have to 
+be pilot tested by licensed CPAs. 
+3) For those courses whose target audience includes CPAs and non-CPAs, the sample group 
+must be representative of the target audience and contain both CPAs, as defined previously, 
+--- page 23 ---
+17  
+and non-CPAs. 
+7.02.2. Method 1 – CPE credit based on representative completion time. The sample does not have 
+to ensure statistical validity; however, if the results of pilot testing are inconsistent, then the sample 
+must be expanded or, if the inconsistent results are outliers, the inconsistent results must be 
+eliminated. CPE credit must be recommended based on the representative completion time for the 
+sample. Completion time includes the time spent taking the qualified assessment and does not 
+include the time spent completing the course evaluation or pre -program assessment. Pilot testers 
+must not be informed about the length of time the program is expected to take  to complete. If 
+substantive changes are subsequently made to program materials, whether in one year or over a 
+period of years, further pilot tests of the revised program materials must be conducted  to affirm or 
+amend, as appropriate, the representative completion time. 
+ 
+7.02.3. Method 1 – Requirement for re -pilot testing. If, subsequent to course release, actual 
+participant completion time warrants a change in CPE credit hours, re -pilot testing is required  to 
+substantiate a change in CPE credit prospectively. 
+ 
+7.02.4. Method 1 – Pilot testing when course is purchased from vendor or other developer.  CPE 
+program sponsors may purchase courses from other vendors or course developers. For purchased 
+courses in which pilot tests were conducted and provided, CPE program sponsors must review 
+results of the course developer’s pilot test results to ensure that the results are appropriate.  For 
+purchased courses in which no pilot tests were conducted or provided, CPE program sponsors must 
+conduct pilot testing or perform the word count formula as prescribed in method 2 in Section 7 
+Paragraph 7.02.5. 
+7.02.5. Method 2 – Basis for prescribed word count formula. The prescribed word count formula 
+begins with a word count of the number of words contained in the text of the required reading  of 
+the self study program and should exclude any material not critical to the achievement of the stated 
+learning objectives for the program. Examples of information material that is not critical and, 
+therefore, excluded from the word count are course introduction, instructions to the participant, 
+author/course developer biographies, table of contents, glossary, pre -program assessment, and 
+appendixes containing supplementary reference materials. 
+Again, only course content text that is critical to the achievement of stated learning objectives should 
+be included in the word count formula. If an author/course developer determines, for example, that 
+including the entire accounting rule or tax regulation is beneficial to the participant, the accounting 
+rule or tax regulation should be included as an appendix to the course as supplementary reference 
+material and excluded from the word count formula. Only pertinent paragraphs or sections of the 
+accounting rule or tax regulation required for the achievement of stated learning objectives should 
+be included in the actual text of the course and, therefore, included in the word count formula. 
+Review questions, exercises, qualified assessment questions, and other content reinforcement tools 
+are considered separately in the calculation and should not be included in the word count. 
+7.02.6. Method 2 – Calculation of CPE credit using the prescribed word count formula.  The word 
+count for the text of the required reading of the program is divided by 180, the average reading 
+speed of adults. The total number of review questions (including those above the minimum 
+--- page 24 ---
+18  
+requirements), exercises, and qualified assessment questions are multiplied by 1.85, which is the 
+estimated average completion time per question. These two numbers plus actual audio/video 
+duration time (not narration of the text), if any, are then added together and the result divided by 50 
+to calculate the CPE credit for the self study program. When the total minutes of a self study program 
+are not equally divisible by 50, the CPE credits granted must be rounded down to the nearest one -
+half credit, one-fifth credit, or whole credit using the guidelines of Section 7 Paragraph 7.01. 
+[(# of words/180) + actual audio/video duration time + (# of questions × 1.85)] /50 = CPE credit 
+ 
+For adaptive learning programs, the CPE credit issued must be based on the average word count 
+formula calculation of each potential path the participant could take to complete the program using 
+the prescribed word count formula as described above. All potential paths must be documented. For 
+example, if the adaptive learning program has nine potential paths a participant could take to 
+complete the program, then the word count formula must be calculated for each of the nine 
+potential paths, with the sum of the results divided by nine. 
+ 
+7.02.7. Method 2 – Consideration of audio and video segments in word count formula. If audio and 
+video segments of a self study program constitute additional learning for the participant (that is, not 
+narration of the text), then the actual audio/video duration time may be added to the time calculation 
+as provided in the prescribed word count formula. If the entire self study program constitutes a 
+video, then the prescribed word count formula in Section 7 Paragraph 7.02.6 would consist of the 
+actual video time plus the total number of review questions (including those above the minimum 
+requirements), exercises, and qualified assessment questions multiplied by 1.85, divided by 50 (that 
+is, there would be no word count for text used in the formula). 
+[actual audio/video duration time + (# of questions × 1.85)] /50 = CPE credit 
+7.02.8. Method 2 – Word count formula when course is purchased from vendor or other 
+developer. CPE program sponsors may purchase courses from other vendors or course developers. 
+For purchased courses in which the word count formula was calculated, CPE program sponsors 
+must review the results of the course developer’s word count formula calculation to ensure  that 
+results are appropriate. For purchased courses in which the word count formula calculation  was 
+not performed or provided, CPE program sponsors must perform the word count formula 
+calculation or conduct pilot testing as described in method 1 in Section 7 Paragraphs 7.02.1 through 
+7.02.2. 
+7.02.9. CPE credit for an adaptive learning self study program that tracks individual participant’s 
+completion time. If the adaptive learning platform or technology can track an individual 
+participant’s actual completion time through the program, then CPE credit may be awarded as the 
+individual participant’s actual completion time. 
+The individual participant’s actual completion time should result in a completion time aligned with 
+the stated learning objectives of the program and the design and development of the program by 
+the CPE program sponsor. If the adaptive learning platform or technology is not responsive enough 
+to detect when an individual participant has deviated from the expected learning path or 
+experienced an unreasonable completion time during the program, then the participant’s actual 
+completion time must not be used for CPE credit determination. 
+--- page 25 ---
+19  
+7.02.10. CPE credit for nano learning programs must be based on the duration of the program 
+including review questions or other content reinforcement tools plus the qualified assessment, 
+which, when combined, should be a minimum of 10 minutes. The maximum credit to be awarded 
+for a single nano learning program is one-fifth (0.2) credit. Sponsors must use Method 2 in Section 
+7 Paragraph 7.02.7 to confirm that the nano learning program is a minimum of 10 minutes and 
+less than 20 minutes. 
+7.03. CPE credit for blended learning programs must equal the sum of the CPE credit 
+determinations for the various completed components of the program. CPE credits could be 
+determined by actual duration time (for example, audio/video duration time or learning content 
+delivery time in a group program) or by a pilot test of the representative completion time as 
+prescribed in Paragraph 7.02.1 or word count formula as prescribed in Paragraph 7.02.6 (for 
+example, reading, games, case studies, and simulations). 
+7.04. Instructors and discussion leaders of learning activities may receive CPE credit for their 
+preparation, review, and presentation time to the extent the activities maintain or improve their 
+professional competence and meet the requirements of these Standards. 
+7.04.1. Instructor CPE credit parameters. Instructors, discussion leaders, or speakers who present a 
+learning activity for the first time may receive CPE credit for actual preparation time up to 2 times 
+the number of CPE credits to which participants would be entitled, in addition to the time for 
+presentation, subject to regulations and maximums established by the boards of accountancy.  For 
+example, for learning activities in which participants could receive 8 CPE credits, instructors  may 
+receive up to 24 CPE credits (16 for preparation plus 8 for presentation). For  repeat presentations, 
+CPE credit can be claimed only if it can be demonstrated that the learning activity content was 
+substantially changed, and such change required significant additional study or research. 
+ 
+When multiple presenters are actively involved in instructing one CPE program session for the first 
+time, all presenters may receive the maximum CPE credit for preparation time up to 2 times the 
+number of CPE credits to which the participants would be entitled, in addition to the time for 
+presentation, subject to regulations and maximums established by the boards of accountancy. For 
+example, a CPE program session (learning activity) with 3 presenters offers participants 1 CPE credit. 
+Each presenter may receive up to 3 CPE credits (2 for preparation plus 1 for presentation). 
+7.04.2. Presenting a program. The CPA claiming CPE credits should refer to respective state board 
+requirements. 
+7.05. Writers of published articles, books, or CPE programs may receive CPE credit for their actual 
+research and writing time to the extent it maintains or improves their professional competence. 
+Content reviewers of learning activities may receive CPE credit for actual review time up to the 
+actual number of CPE credits for the program, subject to the regulations and maximums 
+established by boards of accountancy. 
+7.05.1. Authoring a program. As a general rule, receiving CPE credits for authoring and presenting 
+the same program should not be allowed. The CPA claiming CPE credits should refer to respective 
+state 
+--- page 26 ---
+20  
+board requirements. 
+7.05.2. Requirement for content review. Writing articles, books, or CPE programs for publication is 
+a structured activity that involves a process of learning. For the writer to receive CPE credit, the 
+article, book, or CPE program must be formally reviewed by a content reviewer other than the 
+writer. CPE credits should be claimed only upon publication. 
+7.05.3. Content reviewer CPE credit parameters. Content reviewers who review a learning activity 
+for the first time may receive CPE credit for actual review time up to the actual number of CPE 
+credits for the program, subject to regulations and maximums established by boards of 
+accountancy. For repeat content reviews, CPE credit can be claimed only if it can be demonstrated 
+that the learning activity content was substantially changed, and such change required significant 
+additional study or research. 
+ 
+Section 8 – Standards for Participant Communication 
+8.01. CPE program sponsors must provide descriptive materials that enable participants to assess 
+the appropriateness of learning activities. For CPE program sponsors whose courses are developed 
+for sale or external audiences, or both (that is, not internal training), CPE program sponsors must 
+make the following information available in advance: 
+1) Learning objectives 
+2) Type of formal learning program 
+3) Recommended CPE credit and recommended field of study 
+4) Prerequisites 
+5) Program knowledge level 
+6) Advance preparation 
+7) Program description 
+8) Course registration and, where applicable, attendance requirements 
+9) Refund policy for courses sold for a fee or cancellation policy 
+10) Complaint resolution policy 
+11) Official NASBA sponsor statement, if an approved NASBA sponsor (explaining final 
+authority of acceptance of CPE credits) 
+For CPE program sponsors whose courses are purchased or developed for internal training only, 
+CPE program sponsors must make the following information available in advance: 
+1) Learning objectives 
+2) Type of formal learning program 
+3) Recommended CPE credit and recommended field of study 
+4) Prerequisites (if required) 
+5) Advance preparation (if required) 
+6) Program knowledge level (for optional internal courses only) 
+7) Program description (for optional internal course only) 
+8.01.1. Disclose significant features of program in advance. For potential participants to 
+effectively plan their CPE, the program sponsor must disclose the significant features of the 
+--- page 27 ---
+21  
+program in advance (for example, through the use of brochures, websites, electronic notices, 
+invitations, direct mail, or other announcements). When CPE programs are offered in conjunction 
+with non -educational activities or when several CPE programs are offered concurrently, 
+participants must receive an appropriate schedule of events indicating those components that are 
+recommended for CPE credit. The CPE program sponsor’s registration and attendance policies and 
+procedures must be formalized, published, and made available to participants and include refund 
+and cancellation policies as well as complaint resolution policies. 
+8.01.2. Disclose advance preparation and prerequisites. CPE program sponsors must distribute 
+program materials in a timely manner and encourage participants to complete any advance 
+preparation requirements. All programs must clearly identify prerequisite education, experience, 
+and advance preparation requirements, if any, in the descriptive materials. Prerequisites, if any, 
+must be written in precise language so that potential participants can readily ascertain whether 
+they qualify for the program. 
+8.01.3. Disclose requirements for earning full credit for a group program. Prior to the 
+commencement of a group program, the CPE program sponsor must communicate how the 
+participants can earn full credit. Participants must be advised if the CPE program sponsor requires 
+polling questions to be answered correctly in order to earn full CPE credit for the program. If polling 
+questions are used for the attendance monitoring mechanism, the participant must be informed of 
+the number of polling questions posted per CPE credit and how many must be answered in order 
+to earn full credit for the program. 
+ 
+Section 9 – Standards for Required Documentation of CPE Programs 
+9.01. CPE program sponsors must provide program participants with documentation (electronic or 
+paper) of their participation (certificate of completion), which includes the following: 
+1) CPE program sponsor name 
+2) Participant’s name 
+3) Course title 
+4) Date offered or completed 
+5) If applicable, location 
+6) Type of formal learning program 
+7) Amount of CPE credit recommended by field(s) of study 
+8) NASBA sponsor identification number 
+9) State registration number, if required by the state boards 
+10) NASBA time statement stating that CPE credits have been granted on a 50-minute 
+hour 
+11) Any other statements required by boards of accountancy 
+The documentation should be provided as soon as possible and should not exceed 60 days (so 
+that participants can report their earned CPE credits in a timely manner). 
+9.01.1. Entity to award CPE credits and acceptable documentation. The CPE program sponsor is 
+the individual or organization responsible for issuing the certificate of completion and maintaining 
+--- page 28 ---
+22  
+the documentation required by these Standards. The entity whose name appears on the certificate of 
+completion is responsible for awarding the CPE credits earned by a participant. CPE  program 
+sponsors must provide participants with documentation (electronic or paper) to support their 
+claims of CPE credit. Acceptable evidence of completion includes the following: 
+1) For group and blended learning programs, a certificate or other verification supplied by 
+the CPE program sponsor 
+2) For self study and nano learning programs, a certificate supplied by the CPE program 
+sponsor after satisfactory completion of a qualified assessment 
+3) For instruction or content review credit, appropriate supporting documentation that 
+complies with the requirements of the respective state boards subject to the guidelines in 
+Section 7 Paragraphs 7.04 and 7.05 
+4) For published articles, books, or CPE programs: 
+i. A copy of the publication (or in the case of a CPE program, course development 
+documentation) that names the CPA as author or contributor 
+ii. A statement from the writer supporting the number of CPE hours claimed 
+iii. The name and contact information of the content reviewer(s) or publisher 
+9.02. CPE program sponsors must retain adequate documentation (electronic or paper) for a 
+minimum of five years to support their compliance with these Standards and the reports that may 
+be required of participants. 
+ 
+9.02.1. Required documentation elements for group programs. Evidence of compliance with 
+responsibilities set forth under these Standards that is to be retained by CPE program sponsors of 
+group programs includes the following: 
+1) Records of program completion verification by individual participant, including the 
+number of CPE credits earned by participant. 
+i. The documentation maintained should adequately support the CPE program 
+completion methodology selected by the CPE program sponsor. For example, if the 
+CPE program sponsor selected to use an attendance log with indications of individual 
+participant duration time, including sign in, sign out and any elongated breaks for 
+program completion verification, then the attendance log for the program including 
+all the aforementioned elements of information should be maintained. 
+ii. If the group program is a webinar/webcast and the CPE program sponsor used a 
+real time attendance monitoring mechanism to verify that participants are in 
+attendance during the program, then the CPE program sponsor must retain 
+documentation that serves as the evidence of the individual participant response to 
+the attendance monitoring mechanisms. 
+2) Dates and locations of group program offerings. 
+3) Documentation of how CPE credits were determined. 
+i. CPE credits for group programs are determined based on course content duration 
+time. Supporting documentation includes but is not limited to the group program 
+agenda or program descriptive materials (course announcement information). 
+4) Documentation of participant engagement. 
+i. Group CPE program sponsors must retain the program outline, agenda, speaker 
+notes or other documentation that evidences the participant engagement related to 
+--- page 29 ---
+23  
+course content during each credit of CPE planned for the group program. In certain 
+limited circumstances, such as a high -profile keynote session, an element of 
+participant engagement may not be appropriate. In such cases, the sponsor should 
+document the justification. 
+5) Author/instructor, author/developer, and content reviewer, as applicable, names and 
+credentials. For the CPA and tax attorney acting as an author/instructor, author/developer, 
+and content reviewer for accounting, auditing, or tax program(s), the state of licensure, 
+license number, and status of license should be maintained. For the enrolled agent acting in 
+such capacity for tax program(s), information regarding the enrolled agent number should 
+be maintained. 
+6) Results of program evaluations. 
+7) Program descriptive materials (course announcement information). 
+8) Program materials. 
+ 
+9.02.2. Required documentation elements for self study programs. Evidence of compliance with 
+responsibilities set forth under these Standards that is to be retained by CPE program sponsors of 
+self study programs includes the following: 
+1) Records of program completion verification by individual participant, including the 
+number of CPE credits earned by participant and course completion date. 
+2) Documentation of how CPE credits were determined. 
+i. For CPE program self study sponsors using method 1 (pilot tests) as the basis for 
+CPE credit for traditional on-demand learning programs, as well as adaptive learning 
+self study programs, appropriate pilot test records must be retained regarding the 
+following: 
+a. When the pilot test was conducted 
+b. The intended participant population 
+c. How the sample of pilot testers was selected 
+d. Names and credentials and relevant experience of sample pilot test 
+participants 
+e. For CPA pilot testers, the state of licensure, license number, and status 
+of license should be maintained 
+f. A summary of pilot test participants’ actual completion time 
+g. Statement from each pilot tester to confirm that the pilot tester is 
+independent from the  course development group and that the pilot 
+tester was not informed in advance of the expected completion time 
+ii. For CPE program sponsors using method 2 (word count formula) as the basis for 
+CPE credit for self study programs, the word count formula calculation, as well as 
+the supporting documentation for the data used in the word count formula (for 
+example, word count; number of review questions, exercises, and qualified 
+assessment questions; duration of audit or video segments, or both, if applicable; 
+and actual calculation), must be retained. For adaptive learning self study programs, 
+all potential paths that a participant could take to complete the program must be 
+documented and retained. 
+iii. For adaptive learning programs in which the adaptive learning platform or 
+technology can track an individual participant’s actual completion time through the 
+--- page 30 ---
+24  
+program, the CPE program sponsor must maintain or be able to produce upon 
+request the individual participant’s completion path and time through the program. 
+iv. For nano learning programs, CPE program sponsors must maintain the 
+documentation of the use of method 2 for self study programs in Section 7 
+Paragraph 7.02.7 to confirm that the nano learning program is a minimum of 10 
+minutes and less than 20 minutes. 
+3) Course documentation must include an expiration date (the time by which the participant 
+must complete the qualified assessment). For individual courses, the expiration date is no 
+longer than one year from the date of purchase or enrollment. For a series of courses to 
+achieve an integrated learning plan, the expiration date may be longer. 
+4) Author/instructor, author/developer, and content reviewer, as applicable, names and 
+credentials. For the CPA and tax attorney acting as an author/instructor, author/developer, 
+and content reviewer for accounting, auditing, or tax program(s), the state of licensure, 
+license number, and status of license should be maintained. For the enrolled agent acting in 
+such capacity for tax program(s), information regarding the enrolled agent number should 
+be maintained. 
+5) Results of program evaluations. 
+6) Program descriptive materials (course announcement information). 
+7) Program materials. 
+ 
+ 
+9.02.3. Required documentation elements for blended learning programs. Evidence of compliance 
+with responsibilities set forth under these Standards that is to be retained by CPE program sponsors of 
+blended learning programs includes the following: 
+1) Clear instructions and information that summarize the different components of the blended 
+learning program and what must be completed or achieved during each component in order 
+to qualify for CPE credits. The CPE program sponsor must also retain documentation of the 
+course progression and what CPE credits were earned by individual participants upon the 
+completion of the components. 
+2) Dates and locations of blended learning program offerings. 
+3) Documentation of how CPE credits were determined. CPE credit for blended learning 
+programs must equal the sum of the CPE determinations for the various completed 
+components of the program. 
+i. CPE credits could be determined by actual completion time, for example, audio/video 
+duration time or learning content duration time in a group program. Supporting 
+documentation in those instances includes but is not limited to evidence of 
+audio/video time or group program agenda or group meeting invitation indicating 
+duration time. 
+ii. CPE credits could also be determined based on pilot tests of the representative 
+completion time or word count formula (for example, reading, games, case studies and 
+simulations). Supporting documentation in those instances includes but is not limited 
+to the pilot test documentation (method 1) and word count formula (method 2) 
+documentation requirements as prescribed for self  study programs in Section 7 
+Paragraphs 7.02.01 and 7.02.6. 
+4) Author/instructor, author/developer, and content reviewer, as applicable, names and 
+--- page 31 ---
+25  
+credentials. For the CPA and tax attorney acting as an author/instructor, author/developer, 
+and content reviewer for accounting, auditing, or tax program(s), the state of licensure, 
+license number, and status of license should be maintained. For the enrolled agent acting in 
+such capacity for tax program(s), information regarding the enrolled agent number should 
+be maintained. 
+5) Results of program evaluations. 
+6) Program descriptive materials (course announcement information). 
+7) Program materials. 
+ 
+ 
+Effective date: August 1, 2026 
+Unless otherwise established by state licensing bodies or other professional organizations, these 
+Standards are to be effective as follows: 
+1. For group programs or self study programs already existing as of July 31, 2026, the changes 
+will need to be in effect by November 1, 2028. 
+2. For group and self study programs in development and/or being published for the first time, 
+the changes will be effective March 1, 2027. 
+3. For initial or additional delivery method applications for group programs or self study, the 
+changes will be effective August 1, 2026. 
