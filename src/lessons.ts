@@ -7,10 +7,8 @@
  * and one `"NN": lessonNN,` per line inside REGISTRY.
  */
 
-import * as lesson01 from "./lesson-01";
-
 const REGISTRY = {
-  "01": lesson01,
+
 } as const;
 
 export type LessonId = keyof typeof REGISTRY;
