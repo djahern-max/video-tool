@@ -57,15 +57,21 @@ export const meta = {
   // 4.05.3 item 3: superCPE refuses to publish a course whose guide has no
   // glossary. `npm run check` warns until this is written.
   //
-  // DRAFTED, NOT VERIFIED. Every definition below must be checked against
-  // sources/sec/ before status moves to "checked" — 800-63B-4 defines most
-  // of these terms itself, and where it does, its wording governs. Flag any
-  // that survive unverified as UNSOURCED in drafts/SEC-01-review.md.
+  // CHECKED AGAINST sources/sec/. Where 800-63B-4 Appendix D defines a
+  // term, its wording governs and is used below. Four definitions were
+  // corrected in the process — Authenticator (wrong subject), MFA, Relying
+  // party, and Passkey (the old wording claimed the private key never
+  // leaves the authenticator, which is false for syncable authenticators;
+  // see 800-63B-4 Sec. 3.2.13 and App. B). "Verifier impersonation
+  // resistance" is the superseded name for phishing resistance and now says
+  // so. Two terms — Adversary-in-the-middle and Infostealer — are defined by
+  // no source in the set and are flagged UNSOURCED in
+  // drafts/SEC-01-review.md.
   glossaryTerms: [
     {
       term: "Authenticator",
       definition:
-        "Something the claimant possesses and controls that is used to authenticate the claimant's identity.",
+        "Something that the subscriber possesses and controls (e.g., a cryptographic module or password) and that is used to authenticate a claimant's identity. (NIST SP 800-63B-4, App. D.)",
       sectionId: "sec-90",
     },
     {
@@ -77,49 +83,49 @@ export const meta = {
     {
       term: "Multi-factor authentication (MFA)",
       definition:
-        "Authentication requiring two or more distinct factors — something you know, something you have, something you are.",
+        "An authentication system that requires more than one distinct type of authentication factor for successful authentication. MFA can be performed using a multi-factor authenticator or by combining single-factor authenticators that provide different types of factors. The three factor types are something you know, something you have, and something you are. (NIST SP 800-63B-4, App. D.)",
       sectionId: "sec-90",
     },
     {
       term: "Phishing-resistant authentication",
       definition:
-        "Authentication in which the ceremony is bound cryptographically to the relying party's origin, so an assertion produced at an attacker's site cannot be replayed against the real one.",
+        "Authentication whose protocol prevents the disclosure of authentication secrets and valid authenticator outputs to an impostor verifier, without relying on the vigilance of the claimant. It requires cryptographic authentication, and is achieved either by channel binding or by verifier name binding. (NIST SP 800-63B-4, Sec. 3.2.5 and App. D.)",
       sectionId: "sec-90",
     },
     {
       term: "Session cookie",
       definition:
-        "A token a service issues after successful authentication, presented on subsequent requests in place of re-authenticating.",
+        "The browser cookie that carries the session secret binding a subscriber's software to a service after an authentication event, so that subsequent requests need not repeat it. Cookies are not authenticators; they are short-term secrets suitable for the duration of a session. (NIST SP 800-63B-4, Sec. 5.1 and 5.1.1.)",
       sectionId: "sec-90",
     },
     {
       term: "Adversary-in-the-middle (AiTM)",
       definition:
-        "An attack in which the attacker relays a victim's authentication to the real service in real time, capturing both the credential and the resulting session.",
+        "The common name for an attack in which the attacker relays a victim's authentication to the real service in real time, capturing both the credential and the resulting session. 800-63B-4 does not use this term: it treats the attack as phishing, and describes the mechanism as an impostor verifier relaying an authenticator output to the verifier in order to authenticate (Sec. 3.2.5).",
       sectionId: "sec-90",
     },
     {
       term: "Infostealer",
       definition:
-        "Malware whose purpose is to collect stored credentials, session tokens, and related data from an infected device.",
+        "Malware whose purpose is to collect stored credentials, session cookies, and related data from an infected device. The underlying techniques are catalogued as MITRE ATT&CK T1555, Credentials from Password Stores, and T1539, Steal Web Session Cookie.",
       sectionId: "sec-90",
     },
     {
       term: "Passkey",
       definition:
-        "A public-key credential created and used through WebAuthn, where the private key never leaves the authenticator and never reaches the relying party.",
+        "A public key credential created and used through WebAuthn, scoped so that it can only be accessed by origins belonging to the relying party it was registered with. WebAuthn distinguishes multi-device credentials (commonly called synced passkeys) from single-device credentials (device-bound passkeys); 800-63B-4 treats the authentication keys of syncable authenticators as inherently exportable (Sec. 3.2.13, App. B).",
       sectionId: "sec-90",
     },
     {
       term: "Relying party",
       definition:
-        "The service a user authenticates to, which relies on the authentication result to grant access.",
+        "An entity that relies on a verifier's assertion of a subscriber's identity, typically to process a transaction or grant access to information or a system. (NIST SP 800-63B-4, App. D.)",
       sectionId: "sec-90",
     },
     {
       term: "Verifier impersonation resistance",
       definition:
-        "The property of an authentication protocol that prevents an attacker posing as the verifier from obtaining anything usable against the real verifier.",
+        "The name used in revisions of SP 800-63B before rev. 4 for what is now called phishing resistance; 800-63B-4's glossary redirects \"verifier impersonation\" to \"phishing.\" Older revisions also described such protocols as \"strongly MitM-resistant.\" (NIST SP 800-63B-4, Sec. 3.2.5 and App. D.)",
       sectionId: "sec-90",
     },
   ],

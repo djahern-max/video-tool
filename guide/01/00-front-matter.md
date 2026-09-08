@@ -1,6 +1,18 @@
 # Account Takeover: How Credentials Are Stolen and How to Stop It
 
-TODO: one paragraph saying what this course covers and who it is for.
+This course is about how attackers take over online accounts, and what
+actually stops them. It follows four techniques — phishing, credential
+stuffing, infostealer malware, and attacks aimed at the second
+authentication factor — through the mechanism each one uses, then examines
+why some multi-factor authentication methods defeat those attacks and
+others do not. It closes with what an account takeover looks like from the
+outside and what to do, in what order, when one is suspected. It is written
+for licensed CPAs in small firms, where there is no security operations
+team and the person who notices the problem is usually the person who has
+to act on it. The field of study is Information Technology and the
+knowledge level is Basic: no background in security or system
+administration is assumed, and the guide defines its terms as it goes,
+using the vocabulary of NIST Special Publication 800-63B-4.
 
 ## How this course works
 

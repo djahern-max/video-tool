@@ -1462,3 +1462,111 @@ Shipped: 2026-09-06
   above is the feature document's, and the citation rests on it and on the
   existing code comments — the same gap entry 13 recorded. The changelog rule
   says to read the paragraph first; it was not met.
+
+## 15 — SEC-01 body prose, drafted from `sources/sec/`
+Shipped: 2026-09-06
+
+**What changed**
+- All eleven `body` sections of SEC-01 written from `sources/sec/`: 7,582
+  counted words against a 6,615 budget, every section over its own budget on
+  source material alone. No section was padded.
+- `00-front-matter.md` gained its scope-and-audience paragraph; the "How this
+  course works" block was already the `docs/course-package.md` template.
+  `90-glossary.md` and `91-appendix-a.md` written. All fourteen section files
+  are now non-blank.
+- Ten `meta.glossaryTerms` checked against 800-63B-4 Appendix D and six
+  corrected in both `src/lesson-01.ts` and `90-glossary.md`. The one that
+  mattered: **Passkey** claimed "the private key never leaves the
+  authenticator," which is false for syncable authenticators — 800-63B-4
+  §3.2.13 and Appendix B treat their keys as inherently exportable. Also
+  corrected Authenticator (had the claimant possessing it, not the
+  subscriber), MFA, Relying party, Session cookie, and Verifier impersonation
+  resistance, which is the superseded name for phishing resistance and now
+  says so.
+- `drafts/SEC-01-review.md` written as the 4.01.1 accuracy record: per-section
+  sources by paragraph and technique id, 41 `UNSOURCED` flags, and a
+  ten-item `## Still needs judgment` list.
+- **`sources/sec/CISA-Phishing-Guidance-Stopping-the-Attack-Cycle.pdf` was
+  replaced.** The committed file was 475 bytes of Akamai "Access Denied"
+  HTML saved under a `.pdf` name — a download that had returned 403 and was
+  never checked. It is the source `INDEX.md` assigns to sections 02, 10 and
+  11. The real document (872,842 bytes, sha256 `4ab4fdd2…5597f8`) was
+  retrieved and every citation to it is against that.
+
+**Standards touched**
+- 3.01 — learning activities must be based on relevant learning objectives
+  that clearly articulate the professional competence participants should
+  achieve; each body section names the objective it serves.
+- 4.01 — courses not subject to frequent change must be reviewed and revised,
+  as necessary, at least every two years; the appendix records what to
+  re-check at that review.
+- 4.01.1 — where technology is used in developing a program, the content
+  developer is responsible for reviewing the content for accuracy; this prose
+  was drafted by a language model, and `drafts/SEC-01-review.md` is where that
+  review is recorded.
+- 4.05.3 — instructional materials must include, at a minimum, an overview of
+  topics, the ability to find information quickly, the definition of key
+  terms, navigation instructions, review questions with feedback, and a
+  qualified assessment; this feature delivers the overview, the key terms and
+  the navigation instructions.
+- 7.02.5 — the word count excludes material not critical to the stated
+  objectives, naming course introduction, instructions to the participant,
+  biographies, table of contents, glossary, and appendixes of supplementary
+  reference material; roles were assigned on that basis and nothing excluded
+  was placed in a `body` section.
+
+**Decisions**
+- The review document records *claims* and their sources per section, quoting
+  verbatim only flagged sentences, rather than reproducing all 7,582 words the
+  way the ASC842 records reproduced narration. Narration is not otherwise
+  readable as prose; a study guide is.
+- `sources/sec/INDEX.md` was **not** edited, though its URL for the CISA
+  phishing guidance is dead and its promised CISA `.txt` extractions do not
+  exist. It is the human's authority on source standing; both are raised as
+  J1 and J2 instead.
+- Section 03 states in the participant-facing text that CISA's SMB password
+  advice (composition rules, prohibiting recycling) is superseded by
+  800-63B-4 §3.1.1.2 items 5 and 6. Rejected: writing the section as if the
+  two agreed, or omitting the conflict. `INDEX.md`'s precedence rule decides
+  it, and CPAs will meet the older advice in checklists. Raised as J4.
+- Section 04 was written at the level MITRE ATT&CK T1555 and T1539 support,
+  and says so in its own text, rather than sourcing a vendor technical
+  analysis of infostealer artifacts. Rejected: describing browser credential
+  store internals from working knowledge.
+- Section 08 distinguishes CISA's number matching (the user *types* a value —
+  a transfer 800-63B-4 §3.1.3 permits) from the compare-and-approve method
+  §3.1.3 now disallows. Getting this backwards would produce the false
+  statement "NIST bans number matching." Raised as J5.
+- WebAuthn §1's introduction was cited for origin scoping, where `INDEX.md`
+  says §1.2 and §1.3 only. It is mechanism rather than API surface and it is
+  the only place the specification states the property plainly, but it is
+  outside the letter of the instruction. Raised as J6 rather than glossed.
+- `src/course.ts` was left alone. Its three `TODO:` descriptor fields were
+  not in this feature's task list. Raised as J3.
+
+**Known gaps**
+- `UNSOURCED` flags by section: sec-00 1; sec-01 3; sec-02 5; sec-03 3;
+  sec-04 3; sec-05 2; sec-06 2; sec-07 4; sec-08 4; sec-09 2; sec-10 5;
+  sec-11 5; sec-90 2. Total 41, of which 38 are in `body` sections.
+- Of `INDEX.md`'s "Not yet sourced" list: **infostealer artifact behaviour
+  (section 04) is still unsourced** — the section states its own limit;
+  **real-time proxy phishing as a deployed technique (section 07) is
+  substantially closed** by the retrieved joint guidance, which lists the
+  credential-plus-code relay among techniques actors use, but automated proxy
+  toolkits remain unsourced and are not claimed; **detection indicators
+  (section 10) are partly closed** by 800-63B-4 §4.6, §4.3 and §5.3 and by
+  CISA's alerting and audit-trail advice, but mail rules created without the
+  user and user-visible active-session lists remain unsourced and are named
+  as unsourced in the guide text. No statistic or prevalence claim was
+  written.
+- The response ordering in section 11 — revoke, then change, then re-enrol —
+  is the author's synthesis. Its mechanism is sourced; the sequence is not,
+  and lo-6 is assessed on it. J8.
+- The lesson is unchecked. `meta.status` is `"draft"` and nothing in this
+  feature touched it. `npm run check` reports the expected six rule-1 ERRORs
+  (no assessment question for any objective) and eleven rule-4 WARNs (no
+  review question on any body section), plus the `[draft]` status WARN, and
+  exits 1. Questions are feature 16.
+- No clips exist. `meta.media` is absent, so the ~30 minutes of A/V in the
+  course's 3.0-credit arithmetic is not yet earned, and no
+  `avIsAdditionalLearning` attestation has been made.
