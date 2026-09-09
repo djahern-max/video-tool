@@ -35,7 +35,7 @@ export const meta = {
   // accuracy. Nothing in the tooling sets it. The 4.02 content review is
   // superCPE's, by a licensed CPA against the ingested package, and this
   // flag does not evidence it.
-  status: "draft",
+  status: "checked",
 
   sections: [
     { id: "sec-00", file: "00-front-matter.md", role: "front_matter", title: "How this course works" },

@@ -68,7 +68,7 @@ export type Course = {
 export const COURSE_SEC = {
   courseCode: "SEC",
   title: "Account Takeover: How Credentials Are Stolen and How to Stop It",
-  nasbaFieldOfStudy: "TODO: a value from docs/2024-Fields-of-Study",
+  nasbaFieldOfStudy: "Information Technology",
   knowledgeLevel: "Basic",
   prerequisites: "TODO: what a participant must already know — 3.02.1 wants None stated, not blank",
   advancePreparation: "TODO: what a participant must do beforehand, or None",
@@ -78,7 +78,7 @@ export const COURSE_SEC = {
       position: 1,
       lessonId: "SEC-01",
       title: "Account Takeover: How Credentials Are Stolen and How to Stop It",
-      status: "draft",
+      status: "checked",
     },
   ] as CourseLesson[],
 } as const;

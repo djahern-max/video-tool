@@ -1570,3 +1570,66 @@ Shipped: 2026-09-06
 - No clips exist. `meta.media` is absent, so the ~30 minutes of A/V in the
   course's 3.0-credit arithmetic is not yet earned, and no
   `avIsAdditionalLearning` attestation has been made.
+
+## 16 — SEC-01 flag triage checklist
+Shipped: 2026-09-09
+
+**What changed**
+- `drafts/SEC-01-flag-triage.md` added: all 41 `UNSOURCED` flags from
+  `drafts/SEC-01-review.md` re-presented as one checkbox list, grouped by the
+  class the review document already assigned, ordered by section id within
+  each group, each entry carrying the verbatim guide sentence, the one-line
+  ask, and the file path to open.
+- Nothing else changed. No flag was resolved, no guide text was touched, no
+  source was searched for, no question was written, and `meta.status` is
+  still `"draft"`. The feature creates exactly one file.
+- Every flagged sentence was taken from `guide/01/*.md` rather than from the
+  review document's rendering of it, and all 40 quoted entries were
+  machine-checked against the file they name. Spot-checked by hand across
+  five sections: sec-02 "A connection indicator tells you the connection is
+  protected…", sec-04 "A password in a browser store is software-readable by
+  design…", sec-06 "A bearer token authorises whoever bears it…", sec-09
+  "There is nothing for the user to get wrong…", sec-11 "Revoke, then change,
+  then re-enrol."
+- Per-section counts reconcile with entry 15 exactly: sec-00 1, sec-01 3,
+  sec-02 5, sec-03 3, sec-04 3, sec-05 2, sec-06 2, sec-07 4, sec-08 4,
+  sec-09 2, sec-10 5, sec-11 5, sec-90 2 — total 41. No number was adjusted
+  on either side to make them agree.
+
+**Standards touched**
+- 4.01.1 — learning activities must be developed by subject matter experts,
+  and if technology is used in the development of the program, the content
+  developer is responsible for reviewing the content for accuracy; this
+  checklist is a working aid for that review and not the record of it.
+
+**Decisions**
+- Three flags carry classes the feature's triage table has no row for:
+  `analogy` (sec-01), `judgment` (sec-02), `elaboration` (sec-07). They are
+  grouped separately with no default assigned. Rejected: mapping them onto a
+  neighbouring row — the feature required the class be taken from the review
+  document and the default be applied mechanically, and inventing a mapping
+  is the judgment the file is forbidden to make.
+- The sec-07 flag reserving the automated-proxy-toolkit claim is recorded as
+  `NO SENTENCE`, not `TEXT NOT FOUND`. The guide deliberately does not make
+  the claim, so there is no text that failed to be located.
+- Where `drafts/SEC-01-review.md` renders a flag as a sentence ending in a
+  full stop the guide does not have, the checklist quotes the guide's full
+  sentence and the reconciliation report names the three cases. Rejected:
+  editing the review document, which is out of scope and is the record.
+- Group ordering was left as the feature specified even though Confirm-fast
+  turned out to be the smallest group rather than the majority.
+
+**Known gaps**
+- Confirm-fast is 8 flags, not the ~21 the feature anticipated. The real
+  shape is Confirm the inference 18, Needs a decision 12, Confirm-fast 8,
+  unmapped 3. The sitting is 30 flags of substantive reasoning; the
+  momentum-first ordering does not change that and the report says so.
+- The three unmapped classes still need a default before the file can be
+  worked straight down the left margin.
+- Six of the ten judgment items (J1, J2, J3, J6, J9, J10) are not in this
+  file, per the feature's instruction. They remain open in
+  `drafts/SEC-01-review.md`.
+- Nothing here advances the lesson toward `"checked"`. The 4.01.1 review is
+  still entirely ahead of the content developer, and SEC-01 still carries no
+  questions — six rule-1 ERRORs, eleven rule-4 WARNs and the `[draft]` WARN,
+  unchanged by this feature.

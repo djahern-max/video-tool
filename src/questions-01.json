@@ -1,1 +1,170 @@
-[]
+[
+  {
+    "id": "q-01",
+    "kind": "assessment",
+    "stem": "An attacker has obtained username and password pairs from a breach of an unrelated service and is replaying them automatically against your firm's email provider. Which technique is this, and does multi-factor authentication defeat it?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Phishing; MFA does not defeat it, because the one-time code is captured in the moment it is used."
+      },
+      {
+        "id": "b",
+        "text": "Credential stuffing; MFA defeats it, because a correct password alone does not satisfy a second factor the attacker does not hold."
+      },
+      {
+        "id": "c",
+        "text": "An infostealer; MFA does not defeat it, because the session cookie is taken after authentication has already happened."
+      },
+      {
+        "id": "d",
+        "text": "Push bombing; MFA defeats it, because the subscriber can deny the prompt."
+      }
+    ],
+    "correct": "b",
+    "feedback": "Credential stuffing replays pairs that were correct somewhere else, in the expectation that a share of people reused them. It is the one technique in this course that multi-factor authentication reliably defeats: the attacker holds only the password, and a second factor they cannot supply stops the login. If you chose one of the others, the gap is which attacks survive MFA — phishing, infostealers and attacks on the second factor all work against an account that has MFA switched on, which is what makes the rest of the course necessary. Re-read sections 03 and 05.",
+    "objective_ids": [
+      "lo-1"
+    ]
+  },
+  {
+    "id": "q-02",
+    "kind": "assessment",
+    "stem": "You have followed a link to a page that appears to be your mail provider's sign-in screen. Which observation is actual evidence about who is on the other end of the connection?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The page carries the provider's logo and its usual layout."
+      },
+      {
+        "id": "b",
+        "text": "The browser shows a padlock or other connection-security indicator."
+      },
+      {
+        "id": "c",
+        "text": "The address bar shows the provider's authenticated hostname, or a parent domain at least one level below the public suffix."
+      },
+      {
+        "id": "d",
+        "text": "After signing in, the page forwards you to the genuine service."
+      }
+    ],
+    "correct": "c",
+    "feedback": "The origin is the one thing on that list the authentication protocol itself binds to: for a DNS identifier, NIST identifies the verifier as its authenticated hostname or a parent domain at least one level below the public suffix (SP 800-63B-4, Sec. 3.2.5.2). A logo is a copied image and layout is copied markup, so (a) is evidence of nothing. A connection indicator tells you the connection is protected, not who terminates it — NIST prefers channel binding precisely because an impostor verifier may hold a certificate representing the real one (Sec. 3.2.5.1), which rules out (b). A well-built harvest page forwards the victim onward afterwards, so (d) is the attack working as designed rather than a reassurance. Re-read section 02, step two.",
+    "objective_ids": [
+      "lo-2"
+    ]
+  },
+  {
+    "id": "q-03",
+    "kind": "assessment",
+    "stem": "An attacker has copied a valid session cookie out of a user's browser. When the attacker presents it, why does the service not ask for a second factor?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Because the session cookie is itself an authenticator, and it satisfies the second factor on its own."
+      },
+      {
+        "id": "b",
+        "text": "Because a second factor is only required the first time a given device signs in."
+      },
+      {
+        "id": "c",
+        "text": "Because the cookie carries a session secret the service issued when authentication had already succeeded, so no authentication event is taking place."
+      },
+      {
+        "id": "d",
+        "text": "Because multi-factor authentication is suspended for the duration of an established session."
+      }
+    ],
+    "correct": "c",
+    "feedback": "The continuity of an authenticated session rests on possession of a session secret issued by the session host at the time of authentication (SP 800-63B-4, Sec. 5.1), and that secret is used as a bearer token. A service receiving a valid one sees an ordinary request on a running session, not an attempt to authenticate — and there is no authentication event for a second factor to attach to. Choice (a) inverts an explicit statement in Sec. 5.1.1: cookies are not authenticators, they are short-term secrets for the duration of a session. Choices (b) and (d) describe policies no source establishes. Re-read section 06.",
+    "objective_ids": [
+      "lo-3"
+    ]
+  },
+  {
+    "id": "q-04",
+    "kind": "assessment",
+    "stem": "An attacker's site relays an entire sign-in to the genuine service as it happens, passing each prompt and answer through in real time. Which property of an authentication method defeats that attack?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The authenticator output changes on every use, so a captured value cannot be replayed later."
+      },
+      {
+        "id": "b",
+        "text": "The subscriber must type a number shown by the identity platform into the authenticator application."
+      },
+      {
+        "id": "c",
+        "text": "The authenticator output is cryptographically bound to the channel, or to the verifier's authenticated name, so an output produced at the attacker's site is not valid at the real one."
+      },
+      {
+        "id": "d",
+        "text": "The subscriber is trained to inspect the address bar before entering any code."
+      }
+    ],
+    "correct": "c",
+    "feedback": "Phishing resistance requires cryptographic authentication and is achieved either by channel binding or by verifier name binding (SP 800-63B-4, Sec. 3.2.5). Choice (a) describes replay resistance, which one-time-password authenticators genuinely have (Sec. 3.2.7) — it is simply beside the point, because the proxy uses the code now, inside its validity window, not tomorrow. Choice (b) is number matching, which CISA rates resistant to push bombing but still vulnerable to phishing; the proxy can read the number off the real service and show it to the victim. Choice (d) fails NIST's own test, which requires resistance without relying on the vigilance of the claimant. Re-read sections 07 and 09.",
+    "objective_ids": [
+      "lo-4"
+    ]
+  },
+  {
+    "id": "q-05",
+    "kind": "assessment",
+    "stem": "Which signal does SP 800-63B-4 require a provider to send to a subscriber for the express purpose of letting that subscriber detect fraud on their own account?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "An independent notification that an authenticator was bound to the account, or that account recovery was started."
+      },
+      {
+        "id": "b",
+        "text": "A monthly summary of the account's storage and activity totals."
+      },
+      {
+        "id": "c",
+        "text": "A prompt to choose a new password because ninety days have passed since the last change."
+      },
+      {
+        "id": "d",
+        "text": "A warning that the browser or operating system is out of date."
+      }
+    ],
+    "correct": "a",
+    "feedback": "Section 4.6 requires that certain subscriber account events — NIST's own examples are the binding of an authenticator and account recovery — cause the subscriber, or someone they designate, to be independently notified, and it states the purpose outright: these notifications help the subscriber detect possible fraud. That is what makes an unexpected “a new sign-in method was added” message the strongest indicator available to an individual, rather than routine noise. Choice (c) describes scheduled password expiry, which Sec. 3.1.1.2 now prohibits — a change must be forced on evidence of compromise, not on the calendar. Re-read section 10.",
+    "objective_ids": [
+      "lo-5"
+    ]
+  },
+  {
+    "id": "q-06",
+    "kind": "assessment",
+    "stem": "You suspect an account has been taken over and that the attacker may be holding a stolen session. Of the actions below, which should come first, and for what reason?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Change the password, because a new password ends the attacker's access to the account."
+      },
+      {
+        "id": "b",
+        "text": "Terminate the sessions, because a password change does not by itself end a session that is already running."
+      },
+      {
+        "id": "c",
+        "text": "Re-enrol the authenticators, because the attacker may have bound one you did not add."
+      },
+      {
+        "id": "d",
+        "text": "Report the incident, because reporting has to precede any remediation."
+      }
+    ],
+    "correct": "b",
+    "feedback": "A session's continuity rests on a secret issued when authentication succeeded, not on the password (SP 800-63B-4, Sec. 5.1), and a new password governs only the next authentication event — so changing it first can leave the stolen session running untouched. CISA, NSA, the FBI and MS-ISAC likewise put re-provisioning a compromised account first among their incident response steps, in order to prevent malicious actors from maintaining continued access. Choices (a) and (c) are both real steps and both belong in the response; they follow rather than lead. Remember too that sessions at an identity provider and at a relying party terminate independently (Sec. 5.2), so one sign-out is not a global act. Re-read sections 06 and 11.",
+    "objective_ids": [
+      "lo-6"
+    ]
+  }
+]
