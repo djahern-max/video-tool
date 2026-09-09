@@ -1,8 +1,8 @@
-# SEC-01 — UNSOURCED flag triage checklist
+# ATO-01 — UNSOURCED flag triage checklist
 
 A working checklist for one sitting: all 41 `UNSOURCED` flags from
-`drafts/SEC-01-review.md`, re-presented in the order that clears fastest.
-`drafts/SEC-01-review.md` stays the accuracy record — this file decides nothing
+`drafts/ATO-01-review.md`, re-presented in the order that clears fastest.
+`drafts/ATO-01-review.md` stays the accuracy record — this file decides nothing
 and resolves nothing; `meta.status` stays `"draft"` until it is worked through.
 
 ---
@@ -254,7 +254,7 @@ it, or cut it.
 
 ## Class not in the triage table — 3 flags
 
-`drafts/SEC-01-review.md` assigns these three flags classes the triage table
+`drafts/ATO-01-review.md` assigns these three flags classes the triage table
 does not list: `analogy`, `judgment`, `elaboration`. Assigning them a default
 would mean choosing a mapping, which is a judgment this checklist is not
 allowed to make. They are recorded with their real class and no default. See
@@ -284,7 +284,7 @@ the reconciliation report.
 
 ## Judgment items
 
-Four of the ten in `drafts/SEC-01-review.md`. The other six are mechanical or
+Four of the ten in `drafts/ATO-01-review.md`. The other six are mechanical or
 already settled. Numbering is the review document's and is unchanged.
 
 - [ ] **J4 — the guide contradicts a CISA recommendation in print.**
@@ -353,7 +353,7 @@ note, and sec-91's citation note. Counting any of them would have exceeded 41.
 
 ### Three classes the triage table does not cover
 
-`drafts/SEC-01-review.md` uses three classes the feature's table has no row
+`drafts/ATO-01-review.md` uses three classes the feature's table has no row
 for: `analogy` (sec-01), `judgment` (sec-02) and `elaboration` (sec-07). The
 instruction was to take the class from the parenthetical the review doc already
 uses and to apply the table mechanically without exercising judgment about any
@@ -381,7 +381,7 @@ names, with one entry that has no sentence to locate:
 
 ### Three quotations in the review document are truncated
 
-In three places `drafts/SEC-01-review.md` renders a flag as a sentence ending in
+In three places `drafts/ATO-01-review.md` renders a flag as a sentence ending in
 a full stop where the guide's sentence continues. The checklist uses the guide's
 text, per the instruction to quote the file and not the review document's
 rendering. The review document is not edited; this is recorded so the difference

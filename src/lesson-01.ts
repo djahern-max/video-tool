@@ -14,22 +14,22 @@
  * Review questions live in questions-01.json and are placed by
  * `after_section` (5.01.2.1), not `after_block`.
  *
- * SCAFFOLD — every field marked TODO is a human's to write, and
- * drafts/SEC-01-review.md is where the content developer records the
- * 4.01.1 accuracy check on this lesson's generated content.
+ * drafts/ATO-01-review.md is where the content developer records the 4.01.1
+ * accuracy check on this lesson's generated content, and
+ * drafts/ATO-01-flag-triage.md is the working checklist for it.
  */
 
-import { COURSE_SEC } from "./course";
+import { COURSE_ATO } from "./course";
 import type { TextLessonMeta } from "./types";
 
 export const meta = {
   kind: "text",
   lessonId: "01",
   // The manifest's lesson_id — the globally unique package code.
-  courseCode: "SEC-01",
+  courseCode: "ATO-01",
   title: "Account Takeover: How Credentials Are Stolen and How to Stop It",
   // "draft" until the content developer works through
-  // drafts/SEC-01-review.md, closes its judgment list, and sets "checked"
+  // drafts/ATO-01-review.md, closes its judgment list, and sets "checked"
   // by hand. That is the 4.01.1 check: technology was used in developing
   // this content, so the developer is responsible for reviewing it for
   // accuracy. Nothing in the tooling sets it. The 4.02 content review is
@@ -66,7 +66,7 @@ export const meta = {
   // resistance" is the superseded name for phishing resistance and now says
   // so. Two terms — Adversary-in-the-middle and Infostealer — are defined by
   // no source in the set and are flagged UNSOURCED in
-  // drafts/SEC-01-review.md.
+  // drafts/ATO-01-review.md.
   glossaryTerms: [
     {
       term: "Authenticator",
@@ -156,10 +156,10 @@ export const meta = {
       text: "Determine the response steps appropriate to a suspected account takeover",
     },
   ],
-  nasbaFieldOfStudy: COURSE_SEC.nasbaFieldOfStudy,
-  knowledgeLevel: COURSE_SEC.knowledgeLevel,
-  prerequisites: COURSE_SEC.prerequisites,
-  advancePreparation: COURSE_SEC.advancePreparation,
+  nasbaFieldOfStudy: COURSE_ATO.nasbaFieldOfStudy,
+  knowledgeLevel: COURSE_ATO.knowledgeLevel,
+  prerequisites: COURSE_ATO.prerequisites,
+  advancePreparation: COURSE_ATO.advancePreparation,
   // Full standing, supersession notes, and per-section mapping are in
   // sources/sec/INDEX.md. Cite by section number in the body text.
   sources: [
@@ -192,13 +192,19 @@ export const meta = {
   // This block becomes manifest.author — the author/developer of record
   // under 9.02.2(4). superCPE holds the content reviewer separately, in
   // subject_matter_experts; no reviewer's name belongs here.
+  //
+  // TEST PACKAGE. The jurisdiction and licence fields carry an explicit
+  // sentinel rather than a plausible-looking value, so that no manifest in
+  // this repo's history can be mistaken for one naming a real licensee.
+  // Both must be filled with real values before any course goes to the
+  // Registry.
   author: {
-    name: "TODO: the author/developer of record",
-    credentials: "TODO: credentials",
-    licenseJurisdiction: "TODO: jurisdiction",
-    licenseNumber: "TODO: license number",
+    name: "Dane Ahern",
+    credentials: "Content developer",
+    licenseJurisdiction: "N/A — test package",
+    licenseNumber: "N/A — test package",
   },
-  deliveryMethod: COURSE_SEC.deliveryMethod,
+  deliveryMethod: COURSE_ATO.deliveryMethod,
   revision: "A",
   revisionDate: "2026-09-06",
 } satisfies TextLessonMeta;

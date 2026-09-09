@@ -1,131 +1,108 @@
-# Feature — SEC-01 flag triage checklist
+# Current Feature
 
-Produce `drafts/SEC-01-flag-triage.md`: a single scannable checklist that lets
-the content developer work through all 41 `UNSOURCED` flags in
-`drafts/SEC-01-review.md` in one sitting.
+## Feature NN, the q-12 citation and the ATO-01 rename
 
-**This feature decides nothing.** It re-presents flags that already exist, in
-an order and a format that makes them fast to confirm. The 4.01.1 accuracy
-review is the human's; a checklist that pre-answers it defeats the purpose of
-having raised the flags. See "Out of scope."
+> Confirm the last entry number in `CHANGELOG.md` before starting. Entry 17
+> is the immediate predecessor; read it first.
 
-## Inputs
+## Goal
 
-- `drafts/SEC-01-review.md` — the authority for what the flags are
-- `guide/01/*.md` — the source of the verbatim sentence text
-- `src/lesson-01.ts` — section ids, files, roles, objectives
-- `CHANGELOG.md` entry 15, "Known gaps" — the per-section flag counts to
-  reconcile against
+Two record corrections left behind by feature 17. Nothing about the shipped
+package changes: `dist/ATO-01.zip` is already exported and is not rebuilt,
+`src/questions-01.json` is not edited, and no question text moves.
 
-## Tasks
+---
 
-### 1. Extract every flag
+## Task 1 — the q-12 citation disagrees with itself
 
-Read every `**Flags**` block in `drafts/SEC-01-review.md`. For each flag record:
+Entry 17's summary table puts q-12 on NIST SP 800-63B-4 **§3.1.1.1**. Entry
+17's decisions section, and `drafts/SEC-01-review.md`'s earlier sec-03
+record, put the composition-rule prohibition at **§3.1.1.2**, items 5 and 6.
+One of the two is wrong.
 
-- section id and file
-- the class, taken from the parenthetical the review doc already uses:
-  `illustration`, `framing`, `interpretive`, `descriptive`, `boundary only`,
-  or **none** where the flag is written as a bare `UNSOURCED`
-- the flagged sentence, **verbatim from the guide file**, not from the review
-  doc's rendering of it
-- the review doc's own note on what a human must verify, condensed to one line
-- the objective the section serves
+**The source decides, not the majority of the records.** Grep the committed
+800-63B-4 `.txt` in `sources/sec/` for both section numbers, read what each
+actually says, and determine which one carries the prohibition on composition
+rules — and, separately, which one q-12's correct answer actually rests on.
+They may not be the same paragraph, in which case say so rather than picking
+one.
 
-If a flagged sentence cannot be located verbatim in its guide file, do not
-paraphrase or approximate it. Record it as `TEXT NOT FOUND` with the review
-doc's quotation, and list it in the reconciliation report.
+Then correct whichever records are wrong: `CHANGELOG.md` entry 17 and the
+question addendum in `drafts/SEC-01-review.md`. Quote the governing sentence
+from the source in the correction so the next reader does not have to
+re-derive it.
 
-### 2. Reconcile the count
+Do not edit `src/questions-01.json`. If the question's own `_source` key is
+wrong, report it and stop — that changes the package.
 
-The per-section totals must match entry 15's Known gaps list exactly:
+---
 
-    sec-00 1  sec-01 3  sec-02 5  sec-03 3  sec-04 3  sec-05 2  sec-06 2
-    sec-07 4  sec-08 4  sec-09 2  sec-10 5  sec-11 5  sec-90 2     total 41
+## Task 2 — finish the ATO-01 rename
 
-If they do not, **stop and report the discrepancy**. Do not adjust either
-number to make them agree, and do not add or drop a flag to reach 41.
+`src/lesson-01.ts` carries `courseCode: "ATO-01"` and the course const is
+`COURSE_ATO`, from an uncommitted rename. The package on production is
+ATO-01, so **the value is already correct**. The job is making everything
+else agree with it.
 
-### 3. Assign a default by class, mechanically
+- **Do not touch `meta.courseCode` or the course const, in either
+  direction.** Nothing in this task changes what the package ships as.
+- `git mv drafts/SEC-01-review.md drafts/ATO-01-review.md` and
+  `git mv drafts/SEC-01-flag-triage.md drafts/ATO-01-flag-triage.md`.
+  `src/lesson-01.ts` already points at `drafts/ATO-01-review.md`, which is
+  currently a dangling reference; the move resolves it.
+- `rg -n 'SEC-01|COURSE_SEC' . --glob '!node_modules'` and fix every
+  remaining reference in source, scripts and docs. **`CHANGELOG.md` entries
+  15, 16 and 17 are the record and are not rewritten** — they describe what
+  was true when they shipped. If an entry's reference is now confusing, that
+  is a note in the new entry, not an edit to the old one.
+- These files are 9.02.2(2)(ii) supporting documentation for a package that
+  ships as ATO-01. Preserve their git history — use `git mv`, not delete and
+  recreate.
+- Commit the rename together with these corrections, so the shipped package's
+  identity stops depending on uncommitted working-tree state.
 
-The default is a function of the class the review doc already assigned. Apply
-the table; do not exercise judgment about the content of any individual flag.
+---
 
-| Class | Default | The question the human is answering |
-|---|---|---|
-| `illustration` | **Keep** | Is this composed scenario fair and plausible? It needs no source. |
-| `framing` | **Keep** | Is this aphorism true as stated, and does it oversell? |
-| `boundary only` | **Keep** | Does the entry say in its own text that no source defines the term? |
-| `descriptive` | **Confirm** | Does this match how the course will be marketed and registered? |
-| `interpretive` | **Confirm inference** | The premises are sourced; does the conclusion follow? |
-| *(bare)* | **Decide** | Nothing supports this. Source it, reword it, or cut it. |
+## Verify
 
-### 4. Write the checklist
+    npm run typecheck && npm run check
 
-`drafts/SEC-01-flag-triage.md`, in this order:
+Expected, unchanged from entry 17: 0 errors, 6 rule-4 coverage WARNs
+(sec-02, sec-03, sec-04, sec-07, sec-10, sec-11), no `[draft]` WARN. If any
+of those move, stop and report — nothing here should reach `check`.
 
-1. A four-line header: what this file is, that it is a working document for one
-   sitting, that `drafts/SEC-01-review.md` remains the record, and that
-   `meta.status` stays `"draft"` until it is worked through.
-2. **Confirm-fast** — every `illustration`, `framing`, `boundary only` and
-   `descriptive` flag. These are the majority; put them first so the sitting
-   starts with momentum.
-3. **Confirm the inference** — every `interpretive` flag.
-4. **Needs a decision** — every bare `UNSOURCED` flag.
-5. **Judgment items** — J4, J5, J7, J8 only, each restated in two or three
-   lines with the decision framed and *not* made. The other six J items are
-   mechanical or already settled and do not belong here.
+Do not run `export`. The zip is built and correct.
 
-Within each group, order by section id.
+## Do not
 
-Each flag is one entry, in this shape:
-
-```
-- [ ] **sec-08 · illustration · lo-4** — default: keep
-      > a person, at eleven at night, with a phone that will not stop
-      > buzzing, who taps the thing that makes it stop.
-      Composed scenario; needs no source. Fair?
-      `guide/01/08-mfa-fatigue.md`
-```
-
-Requirements on the format:
-
-- The checkbox is first so the file can be worked down the left margin.
-- The verbatim sentence is blockquoted so it is visually distinct from the ask.
-- The guide file path is on every entry, because acting on a flag means opening
-  that file.
-- No entry is longer than six lines.
-- Section headers carry a running count (`Confirm-fast — 21 flags`).
-
-### 5. Append a reconciliation report
-
-At the foot of the file: per-section counts as extracted, the entry 15 counts,
-whether they agree, and any `TEXT NOT FOUND` entries. If step 2 stopped, this
-report is the deliverable and the checklist is not written.
-
-## Out of scope — do not do these
-
-- **Do not resolve any flag.** No sentence is added, cut, reworded or sourced.
-- **Do not edit `guide/01/*.md`, `src/lesson-01.ts`, `src/course.ts`,
-  `sources/sec/INDEX.md`, or `drafts/SEC-01-review.md`.** This feature creates
-  exactly one new file.
-- **Do not touch `meta.status`.**
-- **Do not search for sources** for the bare `UNSOURCED` flags, and do not
-  suggest candidate sources. Naming a plausible source is the first half of
-  deciding, and the decision is J7's and the human's.
-- **Do not write, draft or sketch any question.** Questions are feature 16 and
-  lo-6's is blocked on J8.
-- Do not reorder or renumber the J items.
+- Rebuild, re-export, or re-hash the package
+- Edit `src/questions-01.json`, any file under `guide/01/`, or `meta.status`
+- Change `meta.courseCode`
+- Rewrite CHANGELOG entries 15 or 16
+- Resolve, reclassify or close any `UNSOURCED` flag or J item
 
 ## Acceptance
 
-- `drafts/SEC-01-flag-triage.md` exists and holds 41 checklist entries plus the
-  four judgment items.
-- Every entry's blockquoted sentence appears verbatim in the guide file it
-  names — spot-check five across five different sections and say which.
-- Group counts sum to 41 and the per-section reconciliation agrees with entry
-  15, or the run stopped at step 2 and said why.
-- `git status` shows exactly one new file and no modifications.
-- `npm run typecheck` clean. `npm run check` reports the same six rule-1
-  ERRORs, eleven rule-4 WARNs and one `[draft]` WARN as before — unchanged,
-  because nothing this feature touches is read by `check`.
+1. The q-12 citation is the same section number in `CHANGELOG.md` and
+   `drafts/ATO-01-review.md`, and that number is the one the source supports,
+   with the governing sentence quoted.
+2. `drafts/ATO-01-review.md` and `drafts/ATO-01-flag-triage.md` exist with
+   history preserved; no `SEC-01` filename remains under `drafts/`.
+3. `rg 'SEC-01|COURSE_SEC'` returns only CHANGELOG entries 15–17.
+4. `npm run typecheck` clean; `npm run check` identical to entry 17.
+5. `git status` clean after commit, with the rename committed.
+
+## When done
+
+Append the entry. Under **Standards touched**: 9.02.2(2)(ii) — the word count
+formula's supporting documentation must be retained, and the accuracy record
+now carries the code the package ships under. Under **Decisions**: which
+section number the source supported and which record was wrong. Under **Known
+gaps**: the 2026 Statement extraction gap from entry 17 is closed — the file
+is a zip of per-page text, not a PDF, and `unzip` reads both sentences
+cleanly; 5.01.2.1's excluded subject is true/false questions and 6.01.2
+prohibits forced-choice responses on the qualified assessment outright,
+neither of which mandates a three-choice floor, so `check-lessons.ts` rule 3
+needs no change.
+
+Then stop. Do not upload.

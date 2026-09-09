@@ -1633,3 +1633,267 @@ Shipped: 2026-09-09
   still entirely ahead of the content developer, and SEC-01 still carries no
   questions — six rule-1 ERRORs, eleven rule-4 WARNs and the `[draft]` WARN,
   unchanged by this feature.
+
+## 17 — ATO-01 review questions, and the seventh assessment question
+Shipped: 2026-09-09
+
+**What changed**
+- `src/questions-01.json` goes from 6 questions to **12**: five review
+  questions (q-07 … q-11) placed by `after_section` on sec-01, sec-05,
+  sec-06, sec-08 and sec-09, and a seventh assessment question (q-12) on
+  lo-1. The six existing assessment questions were not touched.
+- `drafts/SEC-01-review.md` gains an addendum recording, per question, the
+  source file and the section or paragraph behind it, the objective tested,
+  and the flag it inherits — none inherits one. **No new `UNSOURCED` flag was
+  created.** J11 was added to `## Still needs judgment`; J1–J10 are unchanged
+  and unrenumbered.
+- The review document's `## Questions` section was stale — it said
+  `src/questions-01.json` was `[]`, that questions were a later feature, and
+  that `check` reported six rule-1 ERRORs and eleven rule-4 WARNs. Six
+  assessment questions had shipped since. It is corrected in place and the
+  old text is quoted in the correction rather than silently dropped.
+- `npm run export -- --lesson 01` produced `dist/ATO-01.zip` — text package,
+  14 sections, 0 clips, 12 questions, new `content_hash`
+  `082c1a94…` (it was `64655c49…`), so it re-ingests as a new version of the
+  package already on production rather than as a new package.
+- Nothing else. No guide prose was edited, no source was re-read for the body
+  sections, no clip was added, no duration was typed or asserted,
+  `meta.status` was not touched, and `meta.courseCode` was not touched.
+
+**Standards touched**
+- 5.01.2.1 — review questions must be placed throughout the program in
+  sufficient intervals so the participant can evaluate what needs re-studying;
+  at least three with scored responses per CPE credit, and after the first
+  full credit the chart governs the additions, where an additional 0.2
+  requires 0. So 1.2 credit requires 3.
+- 6.01.2 — at least five questions and scored responses per CPE credit on the
+  qualified assessment, and after the first full credit the chart governs,
+  where an additional 0.2 requires 2. So 1.2 credit requires 7. The same
+  paragraph forbids duplicate review and qualified assessment questions
+  except in courses where recall of information is the learning strategy —
+  this is not such a course — and requires the assessment to measure a
+  representative number of the objectives, being 75 percent or more.
+- 7.01 — self study credit is awarded in one-fifth increments once the first
+  full credit is earned (1.0, x.2, x.4, x.5, x.6, x.8), and a sponsor may
+  round down but not up to the nearest increment. That is what turns 1.2864
+  into 1.2.
+- 4.01.1 — the content developer is responsible for reviewing generated
+  content for accuracy. `drafts/SEC-01-review.md` is where that check is
+  recorded, and the addendum puts the twelve questions inside its scope.
+
+**Decisions**
+- **The seventh assessment question was added for credit, not for coverage.**
+  6.01.2's representative-number test is 75 percent of the learning
+  objectives, and q-01 … q-06 already measure six of six — 100 percent, so
+  coverage needed nothing. q-12 exists because 9 questions leave the course
+  at 1.156 → 1.0 and 10 carry it to 1.2. The changelog says so plainly
+  because the coverage reading would be false.
+- **Zero-slack: the author chose option 2 — ship above the floor.** Twelve
+  questions, not the floor of ten: two spare review questions on sec-05 and
+  sec-06. At 1.2 the band runs from 10 questions (60.62) to 15 (70.87), so
+  the two spares mean the 4.01.1 pass can cut two questions before the course
+  falls back to 1.0 and the seventh assessment question is spent for nothing.
+  Rejected: option 1 (ship 10, cheapest, zero cushion below the floor) and
+  option 3 (ship 10 and record the fragility).
+- **`revision` stays `"A"` and `revisionDate` stays `2026-09-06`,** on the
+  author's decision that moving computed credit 1.0 → 1.2 is not a
+  significant revision under 4.01. `src/lesson-01.ts` is therefore untouched
+  by this feature. Whether a significant revision would have triggered
+  anything under 4.02 is superCPE's question, not this repo's.
+- **q-12 was placed on lo-1, resting wholly on sec-03.** The feature document
+  guessed lo-1 as the objective whose sections carry the most sourced
+  material and the fewest bare flags. lo-1 is right but not for that reason:
+  on the flag triage's own numbers lo-4 carries fewer bare flags (2, both in
+  sec-07) than lo-1 (3, in sec-02 and sec-04). What decides it is that lo-1's
+  bare flags are confined to two sections, leaving sec-01, sec-03 and sec-05
+  clean, and that sec-03 carried no review question — so the assessment
+  question spreads the exposure instead of stacking a third question on the
+  sections the review questions already use. Rejected: lo-4, whose clean
+  material is exactly what q-10 and q-11 consume.
+- **Sections were chosen on flag load first, overlap second.** sec-02,
+  sec-04, sec-07, sec-10 and sec-11 were passed over because each carries a
+  bare `UNSOURCED` flag on the claim a question would have had to rest on —
+  sec-04's browser-store mechanism, sec-10's mail-rule and active-session
+  indicators, sec-11's "revoke, then change, then re-enrol" ordering. In the
+  sec-09..sec-11 band sec-09 was the only section without one. Writing a
+  question on any of them would have inherited the flag, which is the ASC842
+  failure the sourcing discipline exists to prevent.
+- **All twelve stems were compared by hand before running `check`,** not only
+  under rule 2's normalization. The two closest pairs are q-05/q-12 (both
+  touch §3.1.1.2, but item 6 as a distractor versus item 5 as the answer) and
+  q-03/q-09 (both concern a stolen session, but the mechanism versus §5.2's
+  timeouts). Both are recorded in the addendum with why they are far enough
+  apart in substance, which is the test 6.01.2 sets — normalized-distinct is
+  the floor, not the target.
+- **The package code in the feature document was stale and was not
+  "corrected" here.** The document says `src/lesson-01.ts` carries
+  `courseCode: "SEC-01"`; the working tree carries `"ATO-01"`, from an
+  uncommitted rename that also renamed `COURSE_SEC` to `COURSE_ATO`, and
+  `dist/` already held an ATO-01 package. The author confirmed production
+  holds ATO-01, so the export re-ingests as a new version. Nothing in this
+  feature changed `meta.courseCode` in either direction.
+
+**Known gaps**
+- **Two questions of cushion, and that is all.** Option 2 buys slack against
+  the 4.01.1 pass cutting a question, not against it cutting three. If the
+  developer's review removes three of the twelve, the course drops to 1.0,
+  where it needs 3 review and 5 assessment questions and where q-12 was
+  bought for nothing. Nothing in the tooling warns about this — `check`
+  prints an estimate and says superCPE's computation is authoritative.
+- **The rule-4 coverage WARN count is 6, not the 8 the feature document
+  expected.** That is arithmetic, not drift: 11 body sections less 3 review
+  questions is 8, less 5 is 6. The six are sec-02, sec-03, sec-04, sec-07,
+  sec-10 and sec-11. They are correct and expected, and no review question
+  was added to reduce them — the two spares were added for credit slack and
+  went to sec-05 and sec-06 on their flag load, not on their WARN.
+- **The review document's `## Questions` section was found stale and
+  corrected,** as recorded above. Anything else in that document written
+  before the six assessment questions shipped may be stale in the same way;
+  only this section was checked.
+- **`drafts/SEC-01-review.md` and `drafts/SEC-01-flag-triage.md` still carry
+  the old code in their filenames,** while `src/lesson-01.ts` now points at
+  `drafts/ATO-01-review.md`, which does not exist. The rename was the
+  author's and outside this feature's scope, so nothing was renamed; the
+  addendum states which file is the accuracy record.
+- **Two sentences of the Statement were not fully legible.** The 2026
+  Statement was read directly, but this machine has no PDF text tooling and
+  the throwaway extractor drops runs in one of the document's fonts. In
+  5.01.2.1 the subject of "… do not count toward the number of required
+  review questions per CPE credit" was lost, and in 6.01.2 the forced-choice
+  sentence reads "Forced choice responses such a[s] … assessment." The
+  three-choice floor in `check-lessons.ts` rule 3 rests on the repo's earlier
+  reading of those clauses, not on this one; every question shipped here has
+  four choices, so nothing turns on it today. J2 in the review document
+  already asks for committed `.txt` extractions of the source PDFs; the same
+  argument now applies to the Statement.
+- **The course still has no clips.** `meta.media` is absent and the manifest
+  carries 0 seconds of A/V, so the ~30 minutes of audiovisual material in the
+  3.0-credit arithmetic `current-feature-011.md` planned remains unearned and
+  no `avIsAdditionalLearning` attestation has been made. **This is a
+  1.2-credit course, not the 3.0 that document planned.**
+- **The 4.01.1 review is still ahead of the content developer.** `meta.status`
+  is `"checked"` and was not touched, but 41 `UNSOURCED` flags and now eleven
+  judgment items (J1–J11) remain open in `drafts/SEC-01-review.md`. Nothing
+  in this repo evidences the 4.02 independent content review, which is
+  superCPE's.
+
+## 18 — The q-12 citation, checked against the source, and the ATO-01 rename
+Shipped: 2026-09-09
+
+**What changed**
+- **Nothing the package ships changed.** `dist/ATO-01.zip` was not rebuilt,
+  `src/questions-01.json` was not edited, no question text moved,
+  `meta.courseCode` and `meta.status` were not touched, and no guide file
+  under `guide/01/` was opened for editing. `content_hash` is unchanged.
+- `drafts/SEC-01-review.md` → `drafts/ATO-01-review.md` and
+  `drafts/SEC-01-flag-triage.md` → `drafts/ATO-01-flag-triage.md`, by
+  `git mv`, so history is preserved. `src/lesson-01.ts`'s doc comment already
+  pointed at `drafts/ATO-01-review.md` and was a dangling reference until
+  this commit; it now resolves.
+- Remaining `SEC-01` references rewritten in `drafts/ATO-01-review.md`,
+  `drafts/ATO-01-flag-triage.md` (titles and cross-references) and
+  `sources/sec/INDEX.md` (four: the authority line, the sentence naming the
+  accuracy record, the `UNSOURCED`-flag destination, and the note on the
+  other 800-63-4 volumes). Nothing else in `INDEX.md` was touched — its dead
+  CISA URL and its promised CISA `.txt` extractions are still J1 and J2, and
+  neither was closed.
+- CHANGELOG entries 15, 16 and 17 keep their `SEC-01` references. They
+  describe what was true when they shipped and are the record.
+- `drafts/ATO-01-review.md` gains **"q-12's citation, checked against the
+  source"** in the question addendum, and its closing rename note is
+  corrected in place with the superseded paragraph quoted rather than
+  dropped.
+- The uncommitted rename that entry 17 recorded as working-tree state is
+  committed here, so the shipped package's identity no longer depends on it.
+
+**Standards touched**
+- 9.02.2(2)(ii) — the word count formula's supporting documentation must be
+  retained; the accuracy record and its flag triage are that documentation
+  and now carry the code the package ships under, with git history intact
+  rather than deleted and recreated.
+- 5.01.2.1 — review questions must be placed throughout the program at
+  sufficient intervals, at least three with scored responses per CPE credit;
+  "'True or false' questions do not count toward the number of required
+  review questions per CPE credit."
+- 6.01.2 — at least five questions and scored responses per CPE credit on the
+  qualified assessment; "Forced choice responses such as 'True or false' or
+  'yes or no' questions are not permissible on the qualified assessment."
+- 4.01.1 — the content developer reviews content developed with technology
+  for accuracy; `drafts/ATO-01-review.md` is where that check is recorded,
+  and the citation check above is inside its scope.
+
+**Decisions**
+- **The premise of task 1 did not survive contact with the records: no record
+  was wrong, and there is no summary table.** `CHANGELOG.md` contains no
+  markdown table at any point in its history — entry 17 included — so nothing
+  in it puts q-12 on §3.1.1.1 alone. Every record that cites q-12 already
+  cites both paragraphs and cites them correctly: the review addendum,
+  `src/questions-01.json`'s `_source`, q-12's own feedback, and
+  `guide/01/03-credential-stuffing.md`. Nothing was corrected, because
+  correcting a record that agrees with the source would have introduced the
+  error the task was written to remove.
+- **The source states the prohibition twice, in two paragraphs addressed to
+  two different things, so a single section number is incomplete rather than
+  wrong.** §3.1.1.1 (Password Authenticators), on what may be demanded when
+  the subscriber chooses a password: "Other composition requirements for
+  passwords SHALL NOT be imposed." §3.1.1.2 (Password Verifiers) item 5, on
+  what a verifier may impose: "Verifiers and CSPs SHALL NOT impose other
+  composition rules (e.g., requiring mixtures of different character types)
+  for passwords."
+- **The prohibition and q-12's answer are not the same paragraph, and the
+  addendum now says so.** q-12's correct choice (c) — "verifiers shall not
+  impose composition rules" — carries §3.1.1.2 item 5's wording and rests
+  there. §3.1.1.1 states the same rule in the CSP's voice, which is what
+  makes the feedback's "states it twice" true. Distractor (d) rests on
+  §3.1.1.2 item 1, the 15/8-character split, which is a length rule and not a
+  composition rule.
+- **§3.1.1.2 item 6 was never a q-12 citation.** It is periodic change:
+  "Verifiers and CSPs SHALL NOT require subscribers to change passwords
+  periodically. However, verifiers SHALL force a change if there is evidence
+  that the authenticator has been compromised." Where this document's entry
+  15, the sec-03 record and the flag triage pair "items 5 and 6," they are
+  naming the two points on which CISA-PHISH's SMB advice is superseded —
+  composition rules and recycling — not two grounds for one question. Read
+  that way the records never disagreed.
+- **`src/questions-01.json` was left with a stale path rather than made
+  consistent.** q-07's `_source` still says `drafts/SEC-01-review.md`. That
+  file is inside the exported package, so the edit would change
+  `content_hash` and re-ingest the course — which this feature forbids and
+  which is not worth spending on a prose reference. Reported as a gap below.
+  Rejected: editing it, and rejected: renaming the drafts back to match it.
+- **`sources/sec/INDEX.md` was edited, narrowly.** Entry 15 records that it
+  was deliberately left alone as the human's authority on source standing.
+  That decision was about its content — which sources are authoritative, and
+  its dead URL — not about a path that a rename in this repo turned dangling.
+  Only the four `SEC-01` strings were rewritten.
+
+**Known gaps**
+- **The 2026 Statement extraction gap from entry 17 is closed, but not the
+  way the feature document described it.** The document said the Statement is
+  a zip of per-page text read by `unzip`; it is not. `docs/standards/`
+  holds a genuine 31-page PDF and, beside it, a committed
+  `2026-Statement.txt` extraction, and both sentences entry 17 lost read
+  cleanly out of the `.txt`: 5.01.2.1's excluded subject is "'True or false'
+  questions," and 6.01.2 prohibits forced choice responses "such as 'True or
+  false' or 'yes or no' questions" on the qualified assessment outright.
+  Neither mandates a three-choice floor, so `check-lessons.ts` rule 3 needs
+  no change, and its comment — review questions get 3 because a two-choice
+  review question is a true/false question that would not count — is now
+  confirmed against the source rather than resting on an earlier reading.
+- **q-07's `_source` inside the package still names
+  `drafts/SEC-01-review.md`.** It is the one surviving `SEC-01` reference
+  outside CHANGELOG entries 15–17, and it is a dangling path in a shipped
+  file. Fixing it means a new `content_hash` and a re-ingest, so it waits for
+  the next feature that rebuilds the package for a reason of its own.
+- **CHANGELOG entries 15–17 read as if the course were SEC-01.** They are not
+  rewritten. A reader who greps for the accuracy record from entry 15 will
+  find a filename that no longer exists; the rename is recorded here.
+- **`drafts/ATO-01-flag-triage.md` still says `meta.status` stays `"draft"`
+  until the checklist is worked through.** `meta.status` has been `"checked"`
+  since before this feature and was not touched. The sentence was stale
+  before the rename and is stale after it; it was outside this feature's task
+  list and only the review document's own rename note was corrected.
+- **Nothing about the 4.01.1 review moved.** 41 `UNSOURCED` flags and eleven
+  judgment items (J1–J11) remain open, none was resolved, reclassified or
+  closed, and the course still has no clips. The 4.02 independent content
+  review is superCPE's and nothing here evidences it.

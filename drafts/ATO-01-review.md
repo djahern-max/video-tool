@@ -1,4 +1,4 @@
-# SEC-01 — Account Takeover: How Credentials Are Stolen and How to Stop It — accuracy record
+# ATO-01 — Account Takeover: How Credentials Are Stolen and How to Stop It — accuracy record
 
 This is where the content developer records reading the guide for accuracy
 before the lesson ships (4.01.1 — technology was used in developing it).
@@ -690,11 +690,29 @@ feature makes that attestation, because there is nothing yet to attest.
 
 ## Questions
 
-None. `src/questions-01.json` is `[]` and questions are feature 16, which
-depends on this prose existing. `npm run check` therefore reports six rule-1
-ERRORs — one per objective with no assessment question — and eleven rule-4
-WARNs, one per body section with no review question. Both are expected at
-this point and are not defects in this feature.
+**Corrected. The paragraph this section used to carry was written before any
+question existed and is no longer true; it is replaced rather than deleted,
+and the correction is recorded in `CHANGELOG.md`.** It said
+`src/questions-01.json` was `[]`, that questions were a later feature, and
+that `npm run check` therefore reported six rule-1 ERRORs and eleven rule-4
+WARNs.
+
+`src/questions-01.json` now holds **twelve** questions:
+
+- **Seven assessment questions.** Six (q-01 … q-06) shipped in the feature
+  that also set `meta.status` to `"checked"` and produced the ingested
+  package; they measure lo-1 … lo-6, one each, so every objective is
+  measured. The seventh (q-12) was added by the review-question feature and
+  is recorded in the addendum below.
+- **Five review questions** (q-07 … q-11), placed by `after_section` on
+  sec-01, sec-05, sec-06, sec-08 and sec-09. Also in the addendum below.
+
+`npm run check` now reports **0 ERRORs** and **6 rule-4 coverage WARNs** —
+one for each of the six body sections that carries no review question
+(sec-02, sec-03, sec-04, sec-07, sec-10, sec-11). Those WARNs are expected
+and are not defects: 5.01.2.1 constrains spacing across the program, not
+per-section density, and a section the assessment covers instead is a
+judgment call. They must not be silenced by adding review questions.
 
 ---
 
@@ -770,6 +788,34 @@ exists. Every section above lists what it rests on; the flags mark where it
 rests on nothing. Working through them is the check. Nothing in the tooling
 sets `meta.status`, and it should stay `"draft"` until this list is closed.
 
+**J11 — the six new questions (2026-09-09), and the objective tags on two of
+them.** The addendum below records the source behind each one. Three things
+need your eye rather than a nod:
+
+(a) **Objective fit on q-07 and q-12.** Both are tagged `lo-1`, because this
+document maps sec-01 → lo-1 and sec-03 → lo-1 and the feature's rule was to
+take the objective from the section rather than re-decide it. But lo-1 reads
+"identify the primary techniques attackers use to obtain user credentials,"
+and neither question is about a technique: q-07 tests the App. D vocabulary
+and q-12 tests the composition-rule prohibition. The tags are defensible at
+section granularity and indefensible at question granularity. Decide whether
+that is the right granularity, or whether lo-1's text should widen.
+
+(b) **q-08's distractor (a) treats a numeric PIN as a password.** That is
+63B-4 §3.1.1's own parenthesis and the question rests on it, but a
+participant who thinks of a device unlock PIN — which §3.1.1 calls an
+activation secret and puts in a different bucket — could read (a) as
+arguably correct. Confirm the wording "a numeric PIN the subscriber chose
+for the same account" closes that off.
+
+(c) **q-11 rests on CISA's 2022 deployability judgment, not on a
+requirement.** "The only widely available phishing-resistant authentication"
+is a statement about the market in October 2022 and is the kind of claim
+that goes stale. Confirm you are willing to grade a participant on it, or
+reword the stem to ask what CISA says rather than what is true.
+
+J1–J10 are unchanged.
+
 ## Sources still needed
 
 Carried forward from `INDEX.md`'s "Not yet sourced," with what changed:
@@ -789,3 +835,225 @@ Carried forward from `INDEX.md`'s "Not yet sourced," with what changed:
   rules and for user-visible active-session lists.
 - **Any prevalence or frequency statistic** — *not needed.* None was written.
   See J9.
+
+---
+
+## Addendum (2026-09-09) — the five review questions and the seventh assessment question
+
+This lesson had six assessment questions and no review questions. At six
+assessment questions superCPE computed the course at 1.0 credit, where
+5.01.2.1 requires three review questions and 6.01.2 requires five assessment
+questions — so the course was held by a `review_minimum` block. Twelve
+questions carry the computation to 1.2 credit, where the minimums are three
+review and seven assessment. Nothing else changed: no guide prose was
+edited, no source was re-read for the body sections, no clip was added,
+`meta.status` was not touched, and `revision` stays `"A"` on the author's
+decision that the change is not significant under 4.01.
+
+**The seventh assessment question was bought for credit, not for coverage.**
+6.01.2's representative-number test is 75 percent of the learning
+objectives; q-01 … q-06 already cover six of six. q-12 exists because ten
+questions reach 1.2 credit and nine do not.
+
+**The author chose to ship twelve, not the floor of ten** — two spare review
+questions above the minimum. At 1.2 credit the band runs from ten questions
+to fifteen, so the two spares mean the 4.01.1 pass can cut two questions
+before the course falls back to 1.0. See the changelog entry.
+
+**Sourcing rule applied.** Every question below rests on a claim quoted from
+`sources/sec/`, and none rests on a claim carrying a bare `UNSOURCED` flag in
+this document. **No new flag was created.** The three sections carrying bare
+flags on the claims a question would have tested — sec-02, sec-04, sec-07,
+sec-10 and sec-11 — were passed over for that reason, which is why the
+review questions cluster where they do.
+
+### Placement
+
+Review questions sit on sec-01, sec-05, sec-06, sec-08 and sec-09. The three
+the minimum requires are sec-01, sec-08 and sec-09 — one from each third of
+the eleven body sections. The two spares are sec-05 and sec-06. No section
+carries more than one question, so no single cut in the 4.01.1 pass can take
+two questions with it.
+
+### q-07 · review · after_section `sec-01` · lo-1
+
+Which system is the verifier and which the relying party, in a single
+sign-on plus document store arrangement. **Source:** `NIST-SP-800-63B-4.txt`
+App. D, the glossary entries for *verifier* ("confirms the claimant's
+identity by verifying the claimant's possession and control of one or more
+authenticators") and *relying party* ("relies on a verifier's assertion of a
+subscriber's identity, typically to process a transaction or grant access to
+information or a system"), both of which sec-01 quotes in NIST's wording;
+§5.2 for the pairing of an IdP that authenticates with an RP that does not.
+**Objective:** lo-1, from this document's sec-01 mapping — see J11(a).
+**Flag inherited:** none. sec-01's three flags are the opening
+machine-versus-account claim, the "verifier never sees the person" framing,
+and the accounting-practice analogy; the question rests on none of them.
+Distractor (a) reverses the roles, (c) confuses being signed in with
+checking authenticators, (d) makes the RP's defining property into a reason
+it is not one.
+
+### q-08 · review · after_section `sec-05` · lo-1, lo-4
+
+Which arrangement satisfies NIST's definition of multi-factor
+authentication. **Source:** App. D (*multi-factor authentication* — "more
+than one distinct type of authentication factor"; *authentication factor* —
+"the three types … are something you know, something you have, and something
+you are"), both quoted in sec-05; §3.1.1 ("A password (sometimes referred to
+as a passphrase or, if numeric, a personal identification number [PIN]) … A
+password is 'something you know.'") for distractor (a); §3.1.3 ("An
+out-of-band authenticator is 'something you have.'") for the correct answer;
+§3.1.1.2 item 8 (no KBA or security questions) for distractor (c).
+**Objective:** lo-1, lo-4, this document's sec-05 mapping. **Flag
+inherited:** none — sec-05's two flags are the "test applied at one moment"
+framing and the six-digit-code paraphrase. See J11(b).
+
+### q-09 · review · after_section `sec-06` · lo-3
+
+What bounds the useful life of a stolen session cookie. **Source:**
+`NIST-SP-800-63B-4.txt` §5.2 — the two timeouts, "When either timeout
+expires, the session SHALL be terminated," and "Session activity SHALL reset
+the inactivity timeout," which together give the correct answer and the
+reason the attacker's own activity is what makes the overall timeout the
+operative one; §5.1 for logout invalidation, behind distractor (c).
+**Objective:** lo-3. **Flag inherited:** none — sec-06's two flags are the
+bearer-token gloss and the "no point in the flow" sentence. Distractor (d)
+is q-03's misunderstanding restated as a session-lifetime claim, which is
+deliberate: it is the same error seen from the other side.
+
+### q-10 · review · after_section `sec-08` · lo-4
+
+The test that separates the out-of-band arrangements §3.1.3 permits from the
+one it no longer accepts. **Source:** `NIST-SP-800-63B-4.txt` §3.1.3 — the
+two permitted transfer arrangements in both directions, the note that the
+third method "compares the secrets received from the primary and secondary
+channels and requests approval on the secondary channel" and "is no longer
+considered acceptable because it increases the likelihood that the
+subscriber would approve an authentication request without actually
+comparing the secrets," the authentication-fatigue sentence, and the
+limited-size-of-the-list line quoted in the feedback; App. E change log.
+**Objective:** lo-4. **Flag inherited:** none — sec-08's four flags are the
+two composed scenarios, the nagging-mechanism inference and the closing
+aphorism, and the question rests on the NIST text directly. Distractor (a)
+is the direction error J5 warns about: transfer is permitted **either** way.
+
+### q-11 · review · after_section `sec-09` · lo-4
+
+Which phishing-resistant implementation CISA identifies as realistic for a
+small practice. **Source:**
+`CISA-Implementing-Phishing-Resistant-MFA.pdf`, "Phishing-Resistant MFA
+Implementations" — "The only widely available phishing-resistant
+authentication is FIDO/WebAuthn authentication," and, on PKI-based MFA,
+"successfully deploying PKI-based MFA requires highly mature identity
+management practices. It is also not as widely supported by commonly used
+services and infrastructure"; "Areas of Focus" for the prioritisation advice
+behind distractor (d). Verified against the PDF, not against this
+document's rendering of it. **Objective:** lo-4. **Flag inherited:** none —
+sec-09's two flags are the lo-4 payoff sentence and the closing aphorism.
+See J11(c).
+
+### q-12 · assessment · no placement · lo-1
+
+The standing of a checklist requirement that passwords mix character types.
+**Source:** `NIST-SP-800-63B-4.txt` §3.1.1.1 ("Other composition
+requirements for passwords SHALL NOT be imposed."); §3.1.1.2 item 5
+("Verifiers and CSPs SHALL NOT impose other composition rules (e.g.,
+requiring mixtures of different character types) for passwords."); item 1
+(the 15-character single-factor / 8-character multi-factor split, which is
+what distractor (d) misapplies); App. A.3 for the reasoning quoted in the
+feedback — "a user who might have chosen 'password' … would be relatively
+likely to choose 'Password1' … or 'Password1!' if a symbol is also
+required." **Objective:** lo-1, from this document's sec-03 mapping — see
+J11(a). **Flag inherited:** none. sec-03's three flags are all interpretive
+and sit on the stuffing-blocklist connection, the untouched-practice claim
+and the word *unique*; none is this question's ground. This question was
+placed on lo-1 rather than lo-4 because lo-1's five sections hold the
+largest pool of material carrying no bare flag (sec-01, sec-03, sec-05), and
+because sec-03 carried no review question, so the assessment question spreads
+the exposure instead of stacking a third question on sec-08 or sec-09. lo-4
+in fact carries fewer bare flags overall — two, both in sec-07 — but its
+clean sections are the ones the review questions already use.
+
+### q-12's citation, checked against the source
+
+The composition-rule prohibition was re-read in
+`sources/sec/NIST-SP-800-63B-4.txt` to settle which paragraph q-12 rests on.
+**It is stated twice, in two paragraphs, addressed to two things**, so a
+citation naming only one of them is incomplete rather than wrong:
+
+- **§3.1.1.1 Password Authenticators**, on what may be demanded of a password
+  when the subscriber chooses one: *"Other composition requirements for
+  passwords SHALL NOT be imposed. A rationale for this is presented in
+  Appendix A, Strength of Passwords."*
+- **§3.1.1.2 Password Verifiers, item 5**, on what a verifier may impose:
+  *"Verifiers and CSPs SHALL NOT impose other composition rules (e.g.,
+  requiring mixtures of different character types) for passwords."*
+
+q-12's correct answer, choice (c) — "Prohibited — verifiers shall not impose
+composition rules" — rests on **§3.1.1.2 item 5**, whose wording it carries.
+§3.1.1.1 states the same prohibition in the CSP's voice and is what makes the
+feedback's "states it twice" true, but it is not the sentence choice (c)
+tracks. Distractor (d)'s single-factor/multi-factor split is **§3.1.1.2 item
+1**, not a composition rule at all. So the answer and the prohibition are not
+one paragraph: the prohibition is in both, the answer is in §3.1.1.2 item 5.
+
+**§3.1.1.2 item 6 is not a composition rule** and never was one of q-12's
+grounds: *"Verifiers and CSPs SHALL NOT require subscribers to change
+passwords periodically. However, verifiers SHALL force a change if there is
+evidence that the authenticator has been compromised."* Where this document
+and CHANGELOG entry 15 pair "items 5 and 6" they are naming the **two**
+points on which CISA-PHISH's SMB advice is superseded — composition rules
+(item 5) and recycling, which implies scheduled change (item 6) — not two
+citations for q-12. Read that way, no record disagrees with another.
+
+### Stem uniqueness (course rule 2, and 6.01.2's prohibition)
+
+All twelve stems were compared against each other by hand and then under
+rule 2's normalization (lowercased, whitespace collapsed, trailing
+punctuation stripped). All twelve are distinct, and distinct in substance,
+not only after normalization. The two closest pairs, and why they are far
+enough apart:
+
+- **q-05 (assessment) and q-12 (assessment).** q-05's distractor (c) is
+  scheduled password expiry and its feedback explains that §3.1.1.2 now
+  prohibits it. q-12 tests the composition-rule prohibition in the same
+  subsection. Different items of §3.1.1.2 (item 6 versus item 5), different
+  facts, and in q-05 the password rule is only a distractor while the stem
+  is about §4.6 notifications. A participant who answered q-05 has not been
+  handed q-12.
+- **q-03 (assessment) and q-09 (review).** Both concern a stolen session.
+  q-03 asks why no second factor is requested — the mechanism. q-09 asks
+  what bounds the session's life — §5.2's timeouts, which q-03 does not
+  touch. q-09's distractor (d) restates q-03's misunderstanding, which
+  reinforces rather than reveals: a participant who picks it has not learned
+  q-03's answer from it.
+
+### The file name now matches the package code — corrected
+
+This file was `drafts/SEC-01-review.md` when the addendum above was written,
+and the flag triage checklist was `drafts/SEC-01-flag-triage.md`. Both were
+renamed with `git mv` to `drafts/ATO-01-review.md` and
+`drafts/ATO-01-flag-triage.md`, so the accuracy record carries the code the
+package ships under and `src/lesson-01.ts`'s doc comment resolves. History is
+preserved; these files are 9.02.2(2)(ii) supporting documentation and are not
+deleted and recreated.
+
+`meta.courseCode` was not touched in either direction. It has been `"ATO-01"`
+since before the rename, and the exported `dist/ATO-01.zip` is what production
+holds.
+
+The superseded paragraph, kept rather than dropped:
+
+> **One thing this file's name no longer matches.** `src/lesson-01.ts`
+> carries `courseCode: "ATO-01"` and its doc comment points at
+> `drafts/ATO-01-review.md`. This file is still `drafts/SEC-01-review.md`,
+> and so is the flag triage checklist. The rename was the author's and was
+> outside this feature's scope, so nothing here was renamed. This is the
+> accuracy record `src/lesson-01.ts` means.
+
+One reference to the old name survives deliberately and is **not** a
+loose end this document can close: `src/questions-01.json` q-07's `_source`
+says "drafts/SEC-01-review.md records no UNSOURCED flag on sec-01's
+definitions." That file is inside the exported package, so editing it changes
+`content_hash` and re-ingests the course. It is left as it stands and recorded
+as a known gap in the changelog instead.

@@ -1,6 +1,6 @@
 # sources/sec — INDEX
 
-Authority for SEC-01, "Account Takeover: How Credentials Are Stolen and How
+Authority for ATO-01, "Account Takeover: How Credentials Are Stolen and How
 to Stop It." Field of study: Information Technology. Knowledge level: Basic.
 
 **Why this file states standing per entry.** Accounting lessons have the
@@ -8,7 +8,7 @@ Codification: one authoritative text, and a paragraph number either supports a
 sentence or it does not. Security has no equivalent. NIST, CISA and W3C are
 authoritative in different ways and over different things; vendor research and
 breach reports are evidence you attribute, not authority you rest on. Every
-entry below says which it is, because `drafts/SEC-01-review.md` has to
+entry below says which it is, because `drafts/ATO-01-review.md` has to
 distinguish them sentence by sentence.
 
 **Currency.** 4.01 requires courses that are not about codes, laws, rulings or
@@ -140,7 +140,7 @@ about what attackers commonly do.
 
 Claims the course will need that no file above supports. Each one is either
 sourced before it reaches a body section, or the sentence is rewritten, or it
-carries an `UNSOURCED` flag into `drafts/SEC-01-review.md` for the 4.01.1
+carries an `UNSOURCED` flag into `drafts/ATO-01-review.md` for the 4.01.1
 accuracy check. Nothing ships on the third option silently.
 
 - **Infostealer malware behaviour (body section 04)** — what is actually
@@ -164,7 +164,7 @@ accuracy check. Nothing ships on the third option silently.
 
 - **SP 800-63-4, 800-63A-4, 800-63C-4** — the other three volumes of the
   suite: framework, enrollment and identity proofing, and federation and
-  assertions. No learning objective in SEC-01 touches identity proofing or
+  assertions. No learning objective in ATO-01 touches identity proofing or
   federated assertions. B-4 is the authenticator volume and is the one this
   course needs.
 - **Vendor whitepapers and IAM product marketing** — surfaced heavily when

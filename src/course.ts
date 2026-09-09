@@ -63,20 +63,23 @@ export type Course = {
 // warns when the two disagree (scripts/check-lessons.ts).
 
 /**
- * TODO: one line saying what SEC is and who it is for.
+ * ATO — account takeover for licensed CPAs in small firms, where there is no
+ * security operations team and the person who notices the problem is usually
+ * the person who has to act on it. Information Technology, Basic level, text
+ * study guide with supplemental clips.
  */
-export const COURSE_SEC = {
-  courseCode: "SEC",
+export const COURSE_ATO = {
+  courseCode: "ATO",
   title: "Account Takeover: How Credentials Are Stolen and How to Stop It",
   nasbaFieldOfStudy: "Information Technology",
   knowledgeLevel: "Basic",
-  prerequisites: "TODO: what a participant must already know — 3.02.1 wants None stated, not blank",
-  advancePreparation: "TODO: what a participant must do beforehand, or None",
+  prerequisites: "None",
+  advancePreparation: "None",
   deliveryMethod: "Self study",
   lessons: [
     {
       position: 1,
-      lessonId: "SEC-01",
+      lessonId: "ATO-01",
       title: "Account Takeover: How Credentials Are Stolen and How to Stop It",
       status: "checked",
     },
@@ -88,4 +91,4 @@ export const COURSE_SEC = {
  * a lesson's package id up across all of them; lesson modules import their
  * own course const directly, as before.
  */
-export const COURSES: readonly Course[] = [COURSE_SEC];
+export const COURSES: readonly Course[] = [COURSE_ATO];
