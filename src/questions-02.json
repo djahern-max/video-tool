@@ -1,0 +1,120 @@
+[
+  {
+    "id": "q-13",
+    "kind": "review",
+    "after_block": 6,
+    "stem": "That evening Ruth looks again at the message she followed and notices that the sender's domain is not quite the client's. Her sign-in at 4:43 had gone through normally and her mailbox had opened as usual. What does that successful sign-in tell her about whether her credentials were captured?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "That they were not captured. A page that could not really authenticate her would have failed, and hers did not."
+      },
+      {
+        "id": "b",
+        "text": "Nothing either way. A relayed sign-in succeeds at the real service, so an ordinary-looking sign-in is exactly what a successful capture produces — she should report it now and ask for the account's sessions to be terminated."
+      },
+      {
+        "id": "c",
+        "text": "That they were captured but are already spent, because the six-digit code she typed can only be used once."
+      },
+      {
+        "id": "d",
+        "text": "That the exposure is limited to the password, so changing the password this evening is a sufficient response."
+      }
+    ],
+    "correct": "b",
+    "feedback": "A successful sign-in is not evidence about who received the credentials. In a relayed attack the page is not storing what is typed; it is forwarding it to the real service, so the service authenticates, the mailbox opens, and the visible outcome is indistinguishable from an ordinary sign-in. That is what makes (a) the most costly answer here — it reads the absence of a failure as the presence of safety. Choice (c) mistakes replay resistance for protection against this attack: the code is indeed single-use, and this attacker used it within seconds, inside its window. Choice (d) is the wrong scope: at 4:44 the access rested on a session secret, and a password change does not end a running session. What the moment calls for is reporting it while the attacker's session is still young enough for someone to cut. Re-watch S-04 and S-05, blocks 4 and 5, then look again at the inventory on S-06.",
+    "objective_ids": [
+      "lo-7"
+    ],
+    "_source": "sources/sec/NIST-SP-800-63B-4.txt §3.2.5 (manual entry does not bind the output to the specific session; an impostor verifier could relay the output and successfully authenticate); §3.2.7 (OTP authenticators are replay-resistant); §5.1 (session continuity rests on a session secret issued at the time of authentication). sources/sec/CISA-Phishing-Guidance-Stopping-the-Attack-Cycle.pdf p. 4 (the user submits username, password and the six-digit code, which the actors then receive) and p. 7 (identify and remediate successful phishing attempts; promptly report phishing incidents). Flag inherited: the eleven-second relay figure on block-04 is `illustration`; this question does not rest on it, only on the claim that the relay happens inside the code's validity window."
+  },
+  {
+    "id": "q-14",
+    "kind": "review",
+    "after_block": 11,
+    "stem": "The provider sent the required notification the moment the attacker's authenticator was bound to Ruth's account, and it arrived in the mailbox the attacker was reading. Which change to the account would have put that warning in front of somebody able to act on it?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Switching off notifications for authenticator changes, so that an attacker learns nothing from them."
+      },
+      {
+        "id": "b",
+        "text": "Adding a second notification address to the account — the standard requires a provider to carry more than one, and allows the notice to reach someone the subscriber has designated."
+      },
+      {
+        "id": "c",
+        "text": "Requiring the account's password to be changed every ninety days, so that a compromised account is cycled out on a schedule."
+      },
+      {
+        "id": "d",
+        "text": "Moving the mailbox to a provider that does not notify on authenticator changes, to cut down what a partner has to read."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The notification worked exactly as specified; the delivery address is what failed. SP 800-63B-4 Sec. 4.6 requires that events such as the binding of an authenticator cause the subscriber, or someone designated by them, to be independently notified, and it requires providers to support at least two notification addresses per subscriber account — a clause that reads like housekeeping until an incident like this one, where the single address is inside the compromised account. A second address, or a designated recipient such as the firm administrator, breaks the loop. Choices (a) and (d) both remove the one signal the standard put there specifically so that fraud can be detected, which is the opposite move. Choice (c) describes scheduled password expiry, which Sec. 3.1.1.2 prohibits — the trigger for a change is evidence of compromise, not the calendar — and it would not have delivered any warning to anyone. Re-watch S-10, block 10.",
+    "objective_ids": [
+      "lo-8"
+    ],
+    "_source": "sources/sec/NIST-SP-800-63B-4.txt §4.6 (\"Certain subscriber account events (e.g., the binding of an authenticator, account recovery) require the subscriber or someone designated by them to be independently notified. These notifications help the subscriber detect possible fraud…\"; \"CSPs SHALL support at least two notification addresses per subscriber account\"; the clear-instructions-on-repudiation sentence); §3.1.1.2 item 6 (no periodic change; force a change on evidence of compromise), for choice (c). Flag inherited: block-10's claim that the notice reached the attacker before the subscriber is `interpretive` — 63B-4 states the two-address requirement, not this consequence. The question is answerable from the requirement alone."
+  },
+  {
+    "id": "q-15",
+    "kind": "assessment",
+    "stem": "Following the incident on its clock, at which moment did changing Ruth's password stop being capable, by itself, of ending the attacker's access to the account?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "When she opened the message on Tuesday afternoon, because following the link is what granted the access."
+      },
+      {
+        "id": "b",
+        "text": "When the provider issued a session secret at the end of the relayed sign-in, because from that moment the access rested on that secret rather than on the password."
+      },
+      {
+        "id": "c",
+        "text": "On Thursday, when the attacker reached the document store, because a second service was now involved."
+      },
+      {
+        "id": "d",
+        "text": "At no point — a password change ends every form of access to an account, whenever it is made."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The pivot is the issuing of the session secret. Until then the attacker held only what Ruth had typed; afterwards they held a secret the provider itself had issued, and the continuity of an authenticated session rests on possession of that secret (SP 800-63B-4, Sec. 5.1), not on the password. A new password governs the next authentication event; it does not reach into a session already running. Choice (a) puts the pivot too early — opening the message granted nothing, and the credentials had not yet been entered. Choice (c) puts it too late: the document store was a consequence of access the attacker already had, not the point at which the password stopped mattering. Choice (d) is the belief the whole incident exists to correct, and it is the reason the response in the final blocks terminates before it changes anything.",
+    "objective_ids": [
+      "lo-7"
+    ],
+    "_source": "sources/sec/NIST-SP-800-63B-4.txt §5.1 (\"The continuity of authenticated sessions SHALL be based on the possession of a session secret that is issued by the session host at the time of authentication…\"; session secrets used as bearer tokens); §5.1.1 (cookies are not authenticators); §3.1.1.2 item 6 (a change is forced on evidence of compromise), which is why the password step is meaningful later and not here. Flag inherited: block-05's \"the service asks what is being presented, not who is presenting it\" is `interpretive`; this question rests on §5.1's text rather than on that gloss."
+  },
+  {
+    "id": "q-16",
+    "kind": "assessment",
+    "stem": "A firm has terminated the session on a compromised mailbox and changed the account's password. Given how that account was actually reached in this incident, what must the response still include before the attacker is out?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Nothing further. Terminating the session and changing the password together close every route into the account."
+      },
+      {
+        "id": "b",
+        "text": "Only a report to the appropriate authorities, since the technical work on the account is finished."
+      },
+      {
+        "id": "c",
+        "text": "Invalidating the authenticator the attacker bound to the account, and terminating the sessions at the other services that manage their own — neither of which the first two steps touches."
+      },
+      {
+        "id": "d",
+        "text": "A scheduled password change every ninety days from now on, so that any access the attacker has kept expires on a known date."
+      }
+    ],
+    "correct": "c",
+    "feedback": "Two things survive the first two steps. The authenticator the attacker bound is a binding between an authenticator and the subscriber account, and only invalidation removes it (SP 800-63B-4, Sec. 4.5); it is unaffected by a revoked session or a new password, and Sec. 4.3 requires compromised authenticators to be suspended, invalidated or destroyed promptly. And sessions do not terminate together: terminating at an identity provider and at a relying party are independent of each other, and sessions at different relying parties are established and terminated independently (Sec. 5.2), which is why the document store kept running here after the sign-on service had been signed out. Choice (a) is the assumption that produced the eleven-minute gap. Choice (b) is right that reporting belongs in the response and wrong that the account work is done. Choice (d) is prohibited by Sec. 3.1.1.2 and would not remove either surviving route. If you hesitate over invalidating an authenticator you are not certain about, Sec. 4.5 answers it: not invalidating a compromised authenticator is usually more significant than the denial-of-service potential of invalidating one in error.",
+    "objective_ids": [
+      "lo-8"
+    ],
+    "_source": "sources/sec/NIST-SP-800-63B-4.txt §4.3 (compromised authenticators include those with activation factors no longer in the subscriber's control; the CSP SHALL suspend, invalidate or destroy them promptly); §4.5 (invalidation is the removal of the binding; \"The consequences of not invalidating a compromised authenticator are usually more significant than the denial-of-service potential of invalidating one in error.\"); §5.2 (IdP and RP sessions terminate independently; sessions at multiple RPs likewise); §3.1.1.2 item 6, for choice (d). sources/sec/CISA-Phishing-Guidance-Stopping-the-Attack-Cycle.pdf p. 11 (re-provision compromised accounts first, to prevent continued access; audit account access afterwards) and p. 12 (reporting channels), for choice (b). Flag inherited: the eleven-minute gap on block-12 is `illustration`; the question is answerable without it."
+  }
+]

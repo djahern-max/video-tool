@@ -1,108 +1,186 @@
-# Current Feature
+# Feature NN — ATO-02: a case-study video lesson
 
-## Feature NN, the q-12 citation and the ATO-01 rename
-
-> Confirm the last entry number in `CHANGELOG.md` before starting. Entry 17
-> is the immediate predecessor; read it first.
+Number this feature one past the last entry in `CHANGELOG.md`.
 
 ## Goal
 
-Two record corrections left behind by feature 17. Nothing about the shipped
-package changes: `dist/ATO-01.zip` is already exported and is not rebuilt,
-`src/questions-01.json` is not edited, and no question text moves.
+Add a second lesson to course `ATO`: a short narrated **video** lesson,
+package id `ATO-02`, that walks through one composed account-takeover
+incident from start to finish. It exists to exercise the video pipeline end
+to end inside a real course, and to move course `ATO` from 1.2 to 1.6 CPE
+credits.
 
----
+This feature authors the lesson and stops. It does not spend ElevenLabs credits,
+render, export, or set status.
 
-## Task 1 — the q-12 citation disagrees with itself
+## Why this shape (read before drafting)
 
-Entry 17's summary table puts q-12 on NIST SP 800-63B-4 **§3.1.1.1**. Entry
-17's decisions section, and `drafts/SEC-01-review.md`'s earlier sec-03
-record, put the composition-rule prohibition at **§3.1.1.2**, items 5 and 6.
-One of the two is wrong.
+- **7.02.7.** A/V duration counts only if the video is additional learning,
+  not narration of the text. ATO-01's guide *explains*. ATO-02 *shows*: one
+  incident with its decisions made in front of the participant. If a block
+  restates what a guide section says, it does not belong. `avIsAdditionalLearning`
+  stays `true` only if that holds, and it must reflect reality, not the target.
+- **Credit target.** superCPE computes the credit, not this repo. It is recorded here only to
+  size the lesson. Today ATO's total is 64.322 minutes: 7,582 words ÷ 180, plus
+  12 questions × 1.85. Reaching 80 minutes (1.6) needs this lesson's measured
+  video plus 4 new questions × 1.85 ≥ 15.678 minutes. That means a measured
+  video of **≥ 497 s**. Aim for about 600 s of projected runtime for margin.
+  Falling short only costs credit. The minimums at 1.4 (4 review, 8 assessment) are still met.
+- **Minimums at 1.6** (5.01.2.1, 6.01.2 charts): 5 review and 9 assessment across
+  the course. ATO-01 has 5 and 7, so this lesson adds exactly 2 review and 2 assessment questions.
+- **7.01.** Only learning content counts. Do not pad to reach the runtime. If the
+  incident cannot fill about 600 s with sourced, non-repeating material, stop and
+  report the honest length instead.
 
-**The source decides, not the majority of the records.** Grep the committed
-800-63B-4 `.txt` in `sources/sec/` for both section numbers, read what each
-actually says, and determine which one carries the prohibition on composition
-rules — and, separately, which one q-12's correct answer actually rests on.
-They may not be the same paragraph, in which case say so rather than picking
-one.
+## Read first
 
-Then correct whichever records are wrong: `CHANGELOG.md` entry 17 and the
-question addendum in `drafts/SEC-01-review.md`. Quote the governing sentence
-from the source in the correction so the next reader does not have to
-re-derive it.
+- `CLAUDE.md`, `LESSON-RUNBOOK.md` (the "Video lessons" section), `src/blocks.ts`
+- `scripts/new-lesson.ts` (the video module template) and `scripts/check-lessons.ts`
+  (block rules, the 40–75 s sheet window, question rules 1–5)
+- Every file in `guide/01/`, to know what the guide already says and so what
+  the video must not repeat
+- `sources/sec/INDEX.md` and the files it lists
+- `src/lesson-01.ts`, for ATO-01's objective ids, its `sources` citation format,
+  and its `author` block
+- `src/questions-01.json`, for the stems this lesson must not duplicate
 
-Do not edit `src/questions-01.json`. If the question's own `_source` key is
-wrong, report it and stop — that changes the package.
+## Tasks
 
----
+### 0. Establish
 
-## Task 2 — finish the ATO-01 rename
+Record the answers in the changelog entry:
 
-`src/lesson-01.ts` carries `courseCode: "ATO-01"` and the course const is
-`COURSE_ATO`, from an uncommitted rename. The package on production is
-ATO-01, so **the value is already correct**. The job is making everything
-else agree with it.
+1. Pick the lesson number, the next number not registered in `src/lessons.ts`.
+   Check that `drafts/ATO-02-review.md` does not already exist. If it does, stop
+   and report.
+2. **Measured pace.** From any existing `src/audio-meta-*.json` with generated
+   audio, compute words per minute. Use `transcriptOf` word counts ÷
+   `durationSeconds`, over blocks whose `voice` matches the current
+   `ELEVENLABS_VOICE_ID`. Report the rate and which lessons it came from. If no
+   measured audio exists for the current voice, report that and use 130 wpm.
+3. How narrated blocks are indexed for `after_block`: does the title block count?
+   Confirm from `export.ts` and `validate-package.ts`.
 
-- **Do not touch `meta.courseCode` or the course const, in either
-  direction.** Nothing in this task changes what the package ships as.
-- `git mv drafts/SEC-01-review.md drafts/ATO-01-review.md` and
-  `git mv drafts/SEC-01-flag-triage.md drafts/ATO-01-flag-triage.md`.
-  `src/lesson-01.ts` already points at `drafts/ATO-01-review.md`, which is
-  currently a dangling reference; the move resolves it.
-- `rg -n 'SEC-01|COURSE_SEC' . --glob '!node_modules'` and fix every
-  remaining reference in source, scripts and docs. **`CHANGELOG.md` entries
-  15, 16 and 17 are the record and are not rewritten** — they describe what
-  was true when they shipped. If an entry's reference is now confusing, that
-  is a note in the new entry, not an edit to the old one.
-- These files are 9.02.2(2)(ii) supporting documentation for a package that
-  ships as ATO-01. Preserve their git history — use `git mv`, not delete and
-  recreate.
-- Commit the rename together with these corrections, so the shipped package's
-  identity stops depending on uncommitted working-tree state.
+### 1. Scaffold
 
----
+```
+npm run new -- --lesson NN --code ATO-02 \
+  --title "Anatomy of a Takeover: One Incident, Start to Finish" --course-code ATO
+```
 
-## Verify
+Use the default kind, video. `course.ts` changes only through this command,
+which places the lesson at position 2. Run `npm run typecheck` immediately.
 
-    npm run typecheck && npm run check
+### 2. Source map before narration
 
-Expected, unchanged from entry 17: 0 errors, 6 rule-4 coverage WARNs
-(sec-02, sec-03, sec-04, sec-07, sec-10, sec-11), no `[draft]` WARN. If any
-of those move, stop and report — nothing here should reach `check`.
+In `drafts/ATO-02-review.md`, below the scaffolded header, write the source map
+**before drafting any narration**. Break the incident into beats, and give each
+factual beat the file in `sources/sec/` that supports it, with a locator.
 
-Do not run `export`. The zip is built and correct.
+The incident is a composed small CPA firm with composed people, and no real
+companies, products, brands or people. The arc runs roughly:
 
-## Do not
+1. The lure
+2. The proxy page relaying credentials and MFA
+3. The session token captured
+4. What the attacker does with the access
+5. The signals that show up
+6. The response, in the order the guide gives
 
-- Rebuild, re-export, or re-hash the package
-- Edit `src/questions-01.json`, any file under `guide/01/`, or `meta.status`
-- Change `meta.courseCode`
-- Rewrite CHANGELOG entries 15 or 16
-- Resolve, reclassify or close any `UNSOURCED` flag or J item
+Keep every fact consistent with `guide/01/06`, `07`, `10` and `11`.
+
+A beat with no source is either cut, or kept as story detail and flagged. Do not
+search for new sources, and do not add files to `sources/`.
+
+Flag classes: use only `illustration`, `framing`, `boundary only`,
+`descriptive`, `interpretive`, and bare `UNSOURCED`. Do **not** use `analogy`,
+`elaboration`, or `judgment`. Those classes are awaiting Dane's ruling.
+
+### 3. Blocks
+
+Replace the scaffold's TODO block with the real ones:
+
+- Size the narration so that its projected runtime at the Task 0.2 pace is about
+  600 s. Blocks should fall inside the 40–75 s window, which is roughly 11–15 blocks.
+- Use existing slide types only: Statement, Facts, List, Compare. No Image, and no
+  bespoke components. Figures show the incident's facts (timeline, signals,
+  steps). They must not show the narration's sentences. `new-lesson.ts`'s rule
+  applies: the flag is true unless the audio merely reads the slides.
+- `[[r]]` markers = `reveals` length, and figure elements ≥ reveals.
+  `estimatedSeconds` follows the template's formula.
+- `citation` on each block names its source(s), in the format ATO-01 uses.
+- Flags go in the review file, **never in `narration`**. Narration is spoken
+  aloud and becomes the transcript of record.
+- Write for the ear. Use `speech` only where a spelled-out form is needed for TTS.
+
+### 4. Meta
+
+- Two learning objectives, measurable, at the course's Basic level, and about
+  applying the guide to an incident. Their ids must not collide with ATO-01's;
+  continue past its highest id.
+- `sources`: one entry per `sources/sec/` file actually cited, in ATO-01's format.
+- `author`: copy ATO-01's block verbatim, including its test sentinels.
+- `wordCount: 0` and `avIsAdditionalLearning: true`, as scaffolded.
+- Fill `subtitle`, `eyebrow`, and the display `fieldOfStudy`.
+- `status` stays `"draft"`.
+
+### 5. Questions (`src/questions-NN.json`)
+
+- **Two review questions** with `after_block`: one near the midpoint, one near the
+  end. Each is a decision point in the incident ("what should the partner do
+  next?"), not a recall question. Each has at least 3 choices (4 preferred), and
+  feedback that gives the right answer, the misunderstanding, and the block to
+  re-study.
+- **Two assessment questions**, one per objective, with no placement and at least 3
+  choices. They must not duplicate the review questions or any ATO-01 stem. No true/false.
+
+### 6. Overlap check
+
+Report every run of **8 or more consecutive words** that the narration shares with
+any `guide/01/*.md` file. The target is zero. Use a throwaway script and do not
+commit it.
+
+For each block, also add one line to the review file saying what it adds beyond
+the guide. Dane uses these to judge 7.02.7. They are not a pass/fail gate.
+
+## Out of scope — do not do these
+
+- Run `npm run generate` without `--dry-run`. `render`, `export` and `npm run dev`
+  are Dane's.
+- Edit `guide/01/`, `src/lesson-01.ts`, `src/questions-01.json`, anything
+  under `sources/`, or any existing file in `drafts/`.
+- Rename `sources/sec`, re-export ATO-01, or touch `dist/`.
+- Change voice or model settings, `.env`, or `generate-audio.ts`.
+- Set `meta.status`, or resolve any flag.
 
 ## Acceptance
 
-1. The q-12 citation is the same section number in `CHANGELOG.md` and
-   `drafts/ATO-01-review.md`, and that number is the one the source supports,
-   with the governing sentence quoted.
-2. `drafts/ATO-01-review.md` and `drafts/ATO-01-flag-triage.md` exist with
-   history preserved; no `SEC-01` filename remains under `drafts/`.
-3. `rg 'SEC-01|COURSE_SEC'` returns only CHANGELOG entries 15–17.
-4. `npm run typecheck` clean; `npm run check` identical to entry 17.
-5. `git status` clean after commit, with the rename committed.
+1. `npm run typecheck` is clean.
+2. `npm run check` reports no ERROR for the new lesson. ATO-01's findings are
+   unchanged; paste the before and after counts. Explain any WARN on the new lesson.
+3. `npm run generate -- --lesson NN --dry-run` lists every narrated block as new
+   and spends nothing. Report the total character count.
+4. Report projected runtime at the measured pace (≥ about 600 s), the 130 wpm
+   estimate, and one labelled estimate line:
+   `(64.322 + video min + 7.4) ÷ 50`.
+5. The overlap report is attached, with any shared runs listed.
+6. `drafts/ATO-02-review.md` holds the source map, the per-sentence flags, the
+   per-block "adds beyond the guide" lines, and a short list of the judgment items Dane
+   must decide.
+
+## Stop rules
+
+- The scaffold refuses, or typecheck fails after scaffolding and the fix is not obvious.
+- The sourced material cannot fill about 500 s without repeating the guide.
+- A fact in the incident would contradict the guide.
 
 ## When done
 
-Append the entry. Under **Standards touched**: 9.02.2(2)(ii) — the word count
-formula's supporting documentation must be retained, and the accuracy record
-now carries the code the package ships under. Under **Decisions**: which
-section number the source supported and which record was wrong. Under **Known
-gaps**: the 2026 Statement extraction gap from entry 17 is closed — the file
-is a zip of per-page text, not a PDF, and `unzip` reads both sentences
-cleanly; 5.01.2.1's excluded subject is true/false questions and 6.01.2
-prohibits forced-choice responses on the qualified assessment outright,
-neither of which mandates a three-choice floor, so `check-lessons.ts` rule 3
-needs no change.
+Append the changelog entry, including the Task 0 answers, and stop. The
+next steps are Dane's:
 
-Then stop. Do not upload.
+1. The 4.01.1 check.
+2. A Studio scrub (`npm run dev`).
+3. `generate`, then `render`.
+4. Set status to `"checked"`, in both places, in one commit.
+5. `export`, then upload.

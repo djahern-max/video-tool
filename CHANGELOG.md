@@ -1897,3 +1897,182 @@ Shipped: 2026-09-09
   judgment items (J1–J11) remain open, none was resolved, reclassified or
   closed, and the course still has no clips. The 4.02 independent content
   review is superCPE's and nothing here evidences it.
+
+## 19 — ATO-02: a case-study video lesson for course ATO
+Shipped: 2026-09-10
+
+**What changed**
+- New video lesson `02`, package id `ATO-02`, "Anatomy of a Takeover: One
+  Incident, Start to Finish", scaffolded with `npm run new -- --lesson 02
+  --code ATO-02 --course-code ATO`, which placed it at position 2 of
+  `COURSE_ATO`. Course `ATO` now holds a text lesson and a video lesson.
+- 14 blocks: one Title sheet and 13 narrated, 1,503 narrated words. Slide
+  types are Statement, Facts, List and Compare only — no Image, no bespoke
+  component. Every block's `estimatedSeconds` falls inside the 40–75 s sheet
+  window (48–58 s), so `check` reports no pacing warning.
+- Two learning objectives, `lo-7` and `lo-8`, continuing past ATO-01's
+  `lo-6`. Both are about applying the guide to an incident rather than
+  restating it.
+- `src/questions-02.json`: `q-13`..`q-16` — two review questions placed by
+  `after_block` (6 and 11) and two assessment questions with no placement,
+  one per objective, four choices each, none of them forced choice.
+- `drafts/ATO-02-review.md` (1,097 lines): the beat-by-beat source map,
+  written before any narration was drafted; per-block narration, reveal
+  targets, sources with locators and flags; a per-block "what this block
+  adds beyond the guide" line; the overlap report; and a six-item judgment
+  list, J1–J6, all open.
+
+**Task 0 answers, as `current-feature.md` asks**
+1. **Lesson number 02** — the only registered id was `01`.
+   `drafts/ATO-02-review.md` did not exist before this feature.
+2. **Measured pace: none available; 130 wpm used.** There is no
+   `src/audio-meta-*.json` in the tree at all and `public/audio/` is empty,
+   so no block matches the current `ELEVENLABS_VOICE_ID` and the documented
+   130 wpm default governs. For the record, the only measured audio this
+   repo has ever held — the retired BALLOON-01 lesson, at commit `27be399^`
+   — ran **165.5 wpm** over 824 words and 298.8 s. It does not qualify under
+   the feature's own test: those entries predate the `voice`/`model` fields
+   entirely, and `generate` treats an absent voice as a cache miss, which is
+   the same rule applied here. It is reported because it is the only
+   evidence of how this pipeline's TTS actually paces, and it is the reason
+   for the sizing decision below.
+3. **`after_block` counts narrated blocks only, 1-based; the Title block
+   does not count.** `scripts/export.ts` builds both `video.blocks` and
+   `video.narration_blocks` from `lesson.blocks.filter(b =>
+   b.narration.trim().length > 0)`, and `scripts/validate-package.ts`
+   range-checks `after_block` against `narration_blocks` as `[1,
+   narration_blocks]`. `check-lessons.ts` uses the same filter. So block 1
+   of the review record is `after_block: 1`, and the valid range here is
+   1..13.
+
+**Standards touched**
+- **7.02.7** — A/V duration counts toward the word count formula only if the
+  segments constitute additional learning for the participant, that is, not
+  narration of the text. `meta.avIsAdditionalLearning` is `true`; the
+  per-block case for that claim is in the accuracy record and is J4, open.
+- **7.01** — Program length is measured by actual program length, 50 minutes
+  to one CPE credit. The script was not padded to reach a runtime; where the
+  incident had no sourced material it kept none.
+- **5.01.2.1** — Review questions must be placed throughout the program in
+  sufficient intervals, at least three with scored responses per CPE credit,
+  and true/false questions do not count toward that number. At 1.6 credits
+  the chart gives 5 (3 for the first credit, 2 for the 0.6). The course now
+  carries 7, placed at blocks 6 and 11 here and across five sections in
+  ATO-01.
+- **5.01.2.2** — Feedback must be provided on review questions. Each of the
+  four new questions names the right answer, the misunderstanding behind
+  each distractor, and the sheet to re-watch.
+- **6.01.2** — At least 5 qualified assessment questions per CPE credit; at
+  1.6 the chart gives 9 (5 + 4). ATO-01 had 7, this lesson adds 2, so the
+  course is at 9 exactly. Forced-choice responses are not permissible on the
+  qualified assessment; none of the four is forced choice. Duplicate review
+  and assessment questions are not allowed; no stem here duplicates an
+  ATO-01 stem, and `check`'s rule 2 tests the same thing course-wide.
+- **4.01.1** — Where technology is used in developing a program, the content
+  developer is responsible for reviewing the content for accuracy.
+  `meta.status` stays `"draft"` and `drafts/ATO-02-review.md` is where that
+  check gets recorded. Nothing in this feature set the flag.
+- **9.02.2(2)(ii)** — Supporting documentation for the data used in the word
+  count formula. The accuracy record carries the source map and the flags
+  behind every number this lesson will contribute.
+
+**Decisions**
+- **Sized at 1,503 words rather than the 1,300 that 600 s at 130 wpm
+  implies.** The feature asks for about 600 s of projected runtime at the
+  Task 0.2 pace, with 497 s the floor for 1.6 credits. At 130 wpm, 1,503
+  words projects to **694 s**. At the 165.5 wpm this repo has actually
+  measured, the same script is **545 s**. Sizing to exactly 600 s at 130 wpm
+  would have projected to 471 s at the measured rate — under the floor. The
+  larger number is the one that clears 497 s under both assumptions, and
+  every added word carries incident material rather than padding (7.01). The
+  spread between the two projections is J5, and it is a decision to take
+  after `generate` against a measured number, not now.
+- **The incident is composed, and unnamed where it can be.** No firm name,
+  no product name, no surnames — only "Ruth", "Dev", "the mail provider",
+  "the document store", "the sign-on service". A composed firm name was
+  rejected because it creates an entity that can collide with a real one and
+  the incident does not need one.
+- **The video shows what the guide explains; the two never state the same
+  thing in the same words.** Zero runs of 8 or more consecutive words are
+  shared between the narration and any file in `guide/01/`. One 8-word run
+  existed in the first draft of block 10 and the narration was rewritten to
+  break it. Two 6-word runs survive deliberately: "one level below the
+  public suffix" and "and activity resets the inactivity clock", both NIST's
+  own phrasing of a defined requirement, where paraphrase would cost
+  accuracy.
+- **The three strongest additions beyond the guide, which are what
+  `avIsAdditionalLearning` rests on.** Block 8 shows an attacker binding an
+  authenticator to the account — the persistence step the guide's response
+  section removes but never shows created. Block 10 shows a correct,
+  on-time, standards-compliant account notification arriving in the mailbox
+  the attacker is reading, which is what 63B-4 §4.6's two-address
+  requirement is for. Block 6 freezes a completed takeover in which the
+  password is still secret and MFA has just worked correctly.
+- **Flag classes.** Only `illustration`, `framing`, `boundary only`,
+  `descriptive`, `interpretive` and bare `UNSOURCED` are used.  `analogy`,
+  `elaboration` and `judgment` are not used anywhere in this record, per
+  `current-feature.md`.
+- **Nothing was added to `sources/`.** The two CISA PDFs were read by
+  extracting their text with a throwaway script in the session scratchpad,
+  because `INDEX.md` names `.txt` extractions for both and neither exists on
+  disk — the same finding ATO-01's record carries as its J2. No file under
+  `sources/` was created, moved or modified, and the extraction is not
+  committed.
+- **Not run:** `npm run generate` without `--dry-run`, `render`, `export`,
+  `npm run dev`. The feature authors the lesson and stops.
+
+**Verification**
+- `npm run typecheck` — clean.
+- `npm run check` — **0 errors, 7 warnings.** ATO-01's findings are
+  unchanged: 6 warnings before this feature and 6 after, the same
+  `sec-02`, `sec-03`, `sec-04`, `sec-07`, `sec-10` and `sec-11`
+  "body section carries no review question" warnings, and 0 errors either
+  way. ATO-02 contributes exactly one warning, `meta` / `status is "draft"`,
+  which is the 4.01.1 gate doing its job and is required to be there: the
+  feature is forbidden to set the flag. No block-level finding of any kind
+  fired on the new lesson.
+- `npm run generate -- --lesson 02 --dry-run` — all 13 narrated blocks
+  listed "no audio yet", nothing sent and nothing written. **8,465
+  characters** across the 13 blocks (601–740 per block).
+- Projected runtime: **694 s at 130 wpm** (the Task 0.2 pace), **545 s at
+  the 165.5 wpm measured on the retired lesson**. Both clear the 497 s the
+  course needs. The rendered file will be about 8 s longer than either,
+  because the Title sheet is a fixed 8 s render constant that ffprobe will
+  measure into `video.duration_seconds`.
+- Course credit estimate, labelled as an estimate — superCPE computes the
+  real one and rounds once, at course level:
+  `(64.322 + 11.562 + 7.4) ÷ 50 ≈ 1.67` at 130 wpm, and
+  `(64.322 + 9.082 + 7.4) ÷ 50 ≈ 1.62` at 165.5 wpm.
+
+**Known gaps**
+- **`meta.status` is `"draft"` and the six judgment items J1–J6 are all
+  open.** Nothing in this feature resolved a flag or set a status, and it
+  was not permitted to. Until Dane closes them, `export` refuses the lesson.
+- **J1 is the one to read first.** Three `interpretive` sentences carry more
+  weight than the rest: block 10's "a warning delivered to the wrong reader"
+  (which q-14 is built on), block 2's claim that a registered lookalike
+  domain passes its own DMARC, and block 5's bearer-token gloss. Each
+  follows from a sourced mechanism; none is a sentence any source in
+  `sources/sec/` writes.
+- **J5: the runtime is a projection with a 149-second spread.** 694 s at the
+  documented 130 wpm, 545 s at the only rate this repo has measured. If the
+  real render comes in under 497 s the course lands at 1.4, not 1.6. The
+  answer is a decision after `generate`, not more words now.
+- **J2 is inherited and now affects two lessons.** `sources/sec/INDEX.md`
+  still names `.txt` extractions beside both CISA PDFs and neither exists,
+  so every CISA citation in ATO-01 and ATO-02 rests on an extraction nobody
+  reading the records can reproduce. This feature could not fix it:
+  `CLAUDE.md` allows adding to `sources/` only when `current-feature.md`
+  says so, and it does not.
+- **J3: block 13 cites WebAuthn §1 Introduction, where `INDEX.md` scopes use
+  to §1.2 and §1.3.** It is the sentence those sections elaborate and the one
+  `guide/01/09-phishing-resistant.md` already uses; no API surface is cited.
+  Confirm the scope or move the citation to §1.3.
+- **ATO-01's six review-coverage warnings are untouched.** They name
+  `sec-02`, `sec-03`, `sec-04`, `sec-07`, `sec-10` and `sec-11`, they
+  predate this feature, and editing `guide/01/` or
+  `src/questions-01.json` was out of scope.
+- **Nothing has been rendered or voiced.** `usingEstimates` is true, every
+  duration in the module is an estimate, and no estimate may reach a credit
+  calculation (7.02.7). The measured numbers arrive with `generate` and
+  `render`, both of which are Dane's.

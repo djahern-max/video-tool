@@ -83,6 +83,12 @@ export const COURSE_ATO = {
       title: "Account Takeover: How Credentials Are Stolen and How to Stop It",
       status: "checked",
     },
+    {
+      position: 2,
+      lessonId: "ATO-02",
+      title: "Anatomy of a Takeover: One Incident, Start to Finish",
+      status: "draft",
+    },
   ] as CourseLesson[],
 } as const;
 
