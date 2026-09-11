@@ -212,18 +212,18 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]Tuesday, twenty to five. A message lands in Ruth's mailbox, and it " +
-      "is not a cold approach — it is a reply inside a thread that has been " +
-      "running all week, about an engagement letter she is genuinely waiting " +
-      "on. [[r]]The sending domain is not the client's. It is one character " +
-      "away from the client's, and the attacker registered it himself. That " +
-      "distinction decides what the firm's mail defences do next. [[r]]The firm " +
-      "publishes DMARC and enforces it, so a forged sender would have been " +
-      "quarantined before Ruth ever saw it. But nothing here was forged. The " +
-      "attacker's own domain publishes its own records, and its own records " +
-      "check out. The message is delivered clean.",
-    reveals: [0.5, 18.4, 32.7],
-    estimatedSeconds: 53,
+      "[[r]]Tuesday, four forty-one in the afternoon. A message lands in Ruth's " +
+      "mailbox, and it is not a cold approach — it is a reply inside a thread " +
+      "that has been running all week, about an engagement letter she is " +
+      "genuinely waiting on. [[r]]The sending domain is not the client's. It is " +
+      "one character away from the client's, and the attacker registered it " +
+      "himself. That distinction decides what the firm's mail defences do next. " +
+      "[[r]]The firm publishes DMARC and enforces it, so a forged sender would " +
+      "have been quarantined before Ruth ever saw it. But nothing here was " +
+      "forged. The attacker's own domain publishes its own records, and its own " +
+      "records check out. The message is delivered clean.",
+    reveals: [0.5, 19.4, 33.7],
+    estimatedSeconds: 54,
   },
 
   {
@@ -279,13 +279,12 @@ export const blocks: Block[] = [
       "layout, the wordmark, the connection indicator, and — the first thing " +
       "she looked at — her provider's name in the address bar. [[r]]Now look at " +
       "what her provider's name was doing in that address bar. It was a label " +
-      "near the front of a much longer hostname. NIST identifies a verifier by " +
-      "its authenticated hostname, or by a parent domain one level below the " +
-      "public suffix, and that part sat at the far right, past the point where " +
+      "near the front of a much longer hostname. The part of that hostname that " +
+      "actually named a verifier sat at the far right, past the point where " +
       "Ruth stopped reading. It belonged to the attacker. Everything to the " +
       "left of it was decoration.",
-    reveals: [0.5, 21.7],
-    estimatedSeconds: 55,
+    reveals: [0.5, 21.5],
+    estimatedSeconds: 49,
   },
 
   {
@@ -306,16 +305,16 @@ export const blocks: Block[] = [
     },
     narration:
       "[[r]]The page asks for the six-digit code. Her phone has one. She types " +
-      "it in. [[r]]What she cannot see is that her keystrokes are not being " +
-      "stored anywhere. They are being forwarded, right then, to the real " +
-      "provider, by a machine sitting between the two. NIST states this as a " +
-      "property of the method rather than a flaw in any product: a code typed " +
-      "in by hand is tied to no particular sign-in. It is a number. It does not " +
-      "know which login it was made for. [[r]]And yes, the code is single-use, " +
-      "and that is a real protection — against somebody replaying it tomorrow. " +
-      "This attacker used it eleven seconds after it reached her phone.",
-    reveals: [0.5, 7.0, 40.5],
-    estimatedSeconds: 54,
+      "it in. [[r]]The instant she presses enter, the same six digits go on to " +
+      "her real provider. Ruth did not send them there. The attacker's machine " +
+      "did — the machine that has been sitting between her and the provider " +
+      "since the page loaded, passing every screen she saw through from the " +
+      "real one, and every answer she gave straight on. [[r]]The provider " +
+      "checks the code, and it is right: correct, unused, and inside its " +
+      "window. By every test the provider applies, this is Ruth signing in, " +
+      "eleven seconds after the code reached her phone.",
+    reveals: [0.5, 6.9, 33.4],
+    estimatedSeconds: 49,
   },
 
   {
@@ -335,17 +334,16 @@ export const blocks: Block[] = [
     },
     narration:
       "[[r]]The sign-in succeeds, and the provider does what it does after " +
-      "every successful sign-in: it issues a session secret. That secret is " +
-      "what keeps somebody signed in, and it goes to whichever machine " +
-      "completed the ceremony. [[r]]That machine was the attacker's. From here " +
-      "the account has an occupant who never has to authenticate again, because " +
-      "authenticating is the part that is over. NIST calls a session secret a " +
-      "bearer token, and the phrase is exact: the service asks what is being " +
-      "presented, not who is presenting it. [[r]]And Ruth's mailbox opens " +
-      "normally. That is the part worth sitting with. The visible outcome of a " +
-      "finished takeover is a sign-in that worked.",
-    reveals: [0.5, 16.5, 40.0],
-    estimatedSeconds: 51,
+      "every successful sign-in: it issues a session secret, and hands it to " +
+      "whichever machine finished the sign-in. [[r]]That machine was the " +
+      "attacker's. Ruth sees nothing unusual — no second prompt, no error, no " +
+      "warning, not even a delay long enough to notice. From 4:43 and " +
+      "thirty-five seconds, two people are using the same account, and only one " +
+      "of them knows there are two. [[r]]And Ruth's mailbox opens normally. " +
+      "That is the part worth sitting with. The visible outcome of a finished " +
+      "takeover is a sign-in that worked.",
+    reveals: [0.5, 12.9, 34.0],
+    estimatedSeconds: 45,
   },
 
   {
@@ -407,12 +405,12 @@ export const blocks: Block[] = [
           value: "Reading. Nothing sent, nothing deleted",
         },
         {
-          label: "Inactivity timeout",
-          value: "Reset by every page he opens",
+          label: "What he reads",
+          value: "Engagement letters, fee discussions, who pays by transfer",
         },
         {
-          label: "Overall timeout",
-          value: "The only clock still running against him",
+          label: "To the provider",
+          value: "An account in use",
         },
         {
           label: "Failed logins to alert on",
@@ -423,16 +421,16 @@ export const blocks: Block[] = [
     narration:
       "[[r]]For the next two days this attacker sends nothing and deletes " +
       "nothing. He reads. That is a decision, and it is the decision that keeps " +
-      "him inside. [[r]]NIST's session rules run two clocks, an overall one and " +
-      "an inactivity one, and activity resets the inactivity clock. Somebody " +
-      "quietly paging through a mailbox is generating activity. The timeout " +
-      "built to close an abandoned session never gets its chance. " +
-      "[[r]]Meanwhile every ordinary safeguard in the building is pointed the " +
-      "wrong way. There is no failed login to lock out, no denied prompt to " +
-      "raise an alert, and nothing on Ruth's laptop for anti-virus to find, " +
-      "because nothing was ever put on it.",
-    reveals: [0.5, 12.5, 31.1],
-    estimatedSeconds: 51,
+      "him inside. [[r]]Every message he opens is activity on Ruth's account, " +
+      "so to the provider it looks like exactly what it is: an account in use. " +
+      "He reads the engagement letters, the fee discussions, and which clients " +
+      "pay by bank transfer, and into which accounts. [[r]]Meanwhile every " +
+      "ordinary safeguard in the building is pointed the wrong way. There is no " +
+      "failed login to lock out, no denied prompt to raise an alert, and " +
+      "nothing on Ruth's laptop for anti-virus to find, because nothing was " +
+      "ever put on it.",
+    reveals: [0.5, 12.4, 32.2],
+    estimatedSeconds: 52,
   },
 
   {
@@ -503,18 +501,16 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]So what could this firm actually have seen? Three things happened " +
+      "[[r]]So what could this firm actually have seen? Two things happened " +
       "that were observable, and it is worth being exact about who was in a " +
-      "position to observe each one. The provider had been evaluating the " +
-      "session all along — NIST lists what those checks weigh, among them " +
-      "geolocation, timing, and the reputation of the address — and Tuesday's " +
-      "sign-in arrived from a range this firm has never once used. [[r]]It sat " +
-      "in a console nobody had open. [[r]]The document store, for its part, " +
-      "produced nothing at all, and that is not a hole in its logging. Nobody " +
-      "logged in to it. A session simply arrived, carrying proof that a login " +
-      "had happened somewhere else.",
-    reveals: [0.5, 32.3, 35.9],
-    estimatedSeconds: 53,
+      "position to observe each one. The provider's own record of Tuesday's " +
+      "sign-in carried the address it came from, and it was a range this firm " +
+      "has never once used. [[r]]It sat in a console nobody had open. [[r]]The " +
+      "document store, for its part, produced nothing at all, and that is not a " +
+      "hole in its logging. Nobody logged in to it. A session simply arrived, " +
+      "carrying proof that a login had happened somewhere else.",
+    reveals: [0.5, 25.1, 28.8],
+    estimatedSeconds: 46,
   },
 
   {
@@ -590,22 +586,23 @@ export const blocks: Block[] = [
       lines: [
         "Fri 09:20 — a client telephones about a message Ruth did not send",
         "Elapsed since 16:43 Tuesday: sixty-four hours",
-        "Signals available: three. Signals read by a person: none",
+        "Signals available: two. Signals read by a person: none",
       ],
     },
     narration:
       "[[r]]Friday morning a client telephones the firm about an instruction " +
       "they had received from Ruth. Ruth had sent nothing. That is what raised " +
       "the alarm — not a log, not an alert, not a console, but a phone call " +
-      "from outside the firm, sixty-four hours after the fact. [[r]]All three " +
-      "signals were real and all three were available. Not one of them was read " +
-      "by a person, because reading them was nobody's job on any particular " +
-      "morning. [[r]]That is the ordinary case in a practice this size, and it " +
-      "is why CISA's advice to small organisations is mostly about arranging to " +
-      "be told: turn the alerting on, watch the internal mail, and keep a trail " +
-      "somebody can go back through.",
-    reveals: [0.5, 22.0, 35.3],
-    estimatedSeconds: 55,
+      "from outside the firm, sixty-four hours after the fact. [[r]]Both " +
+      "signals were real and both were available. Neither was read by a person, " +
+      "because reading them was nobody's job on any particular morning. [[r]]At " +
+      "this firm nobody was told, because nobody had arranged to be told. The " +
+      "alerting on the mailbox was never switched on. Nobody read the firm's " +
+      "own internal mail for anything out of place. And the trail the sign-on " +
+      "service had been keeping all week was not opened by anyone until Dev " +
+      "went looking for it on Friday morning, after the telephone call.",
+    reveals: [0.5, 22.0, 33.1],
+    estimatedSeconds: 62,
   },
 
   {
@@ -618,34 +615,33 @@ export const blocks: Block[] = [
     figure: {
       kind: "list",
       items: [
-        "1 — Terminate the sessions, at every service that keeps its own",
-        "2 — Change the password; there is now evidence, which is the trigger",
-        "3 — Invalidate the authenticator he bound, and re-enrol the ones she knows",
-        "4 — Audit what the account reached, then report it",
+        "09:31 — Every session on the account ended",
+        "09:36 — Password changed",
+        "09:44 — An unknown sign-in method found and removed; the known ones re-enrolled",
+        "Then — Access audited, incident reported",
         "Missed for eleven minutes: the document store's own session",
       ],
     },
     narration:
-      "[[r]]Dev works the response, and the order is not the instinctive one. " +
-      "Terminate first. A password governs the next sign-in and does nothing " +
-      "whatever to a session already running, and a session already running is " +
-      "the entire access. [[r]]Then the password, and only now is it the right " +
-      "move: NIST forbids changing passwords on a schedule but requires a " +
-      "change on evidence of compromise, and this week is evidence. [[r]]Then " +
-      "the authenticator he bound, which nothing earlier in the sequence " +
-      "touches. NIST is unusually blunt about hesitating here — removing one in " +
-      "error costs less than leaving a compromised one in place. [[r]]And one " +
-      "thing went wrong. Signing out at the sign-on service did not close the " +
-      "document store, which ran on for another eleven minutes.",
-    reveals: [0.5, 17.5, 31.8, 47.0],
-    estimatedSeconds: 58,
+      "[[r]]Dev works the response, and he works it in an order that feels " +
+      "backwards. At nine thirty-one he ends every session on Ruth's account, " +
+      "before he touches anything else. [[r]]At nine thirty-six, he changes the " +
+      "password. [[r]]At nine forty-four he opens the list of Ruth's sign-in " +
+      "methods and finds one she has never seen, added on Thursday at ten " +
+      "forty. He removes it, and re-enrols the ones she recognises. Then he " +
+      "pulls the record of everything the account opened that week, and reports " +
+      "the incident. [[r]]And one thing went wrong. Signing out at the sign-on " +
+      "service did not close the document store, which stayed open for another " +
+      "eleven minutes.",
+    reveals: [0.5, 13.3, 16.5, 39.0],
+    estimatedSeconds: 50,
   },
 
   {
     id: "block-13",
     sheet: "S-13",
     citation:
-      "NIST SP 800-63B-4 §3.2.5, §3.2.5.2; W3C REC-webauthn-3-20260825 §1; " +
+      "NIST SP 800-63B-4 §3.2.5, §3.2.5.2; W3C REC-webauthn-3-20260825 §1.3; " +
       "CISA, Implementing Phishing-Resistant MFA (Oct 2022), p. 3",
     slide: "Compare",
     figure: {
@@ -693,14 +689,15 @@ export const blocks: Block[] = [
       "[[r]]Now run that same Tuesday again and change exactly one thing: the " +
       "second factor on the account is a passkey. Ruth still gets the message. " +
       "She still clicks it. She still lands on the attacker's page, and she " +
-      "still does not read the far end of the hostname. [[r]]And it ends at " +
-      "4:43:20, because her authenticator is asked to sign for an origin that " +
-      "is not her provider's, and the credential it holds can only be reached " +
-      "by her provider's origin. There is no output to relay. Nothing at all " +
-      "depends on Ruth noticing anything, which is the test NIST actually sets, " +
-      "and it is the only line in this story that was ever going to hold.",
-    reveals: [0.5, 22.2],
-    estimatedSeconds: 54,
+      "still does not read the far end of the hostname. [[r]]And the incident " +
+      "ends at 4:43:20. Her authenticator is asked for an origin that is not " +
+      "her provider's, and it produces nothing to relay. There is no 4:43:35, " +
+      "and no session for the provider to issue. Thursday's second sign-in " +
+      "method is never added. The client's telephone call on Friday is never " +
+      "made. Every one of the twelve sheets before this one sits downstream of " +
+      "one second on Tuesday afternoon, and that is the second where it stops.",
+    reveals: [0.5, 22.3],
+    estimatedSeconds: 58,
   },
 ];
 
