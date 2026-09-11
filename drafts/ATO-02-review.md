@@ -1095,3 +1095,785 @@ source for them would be worse than leaving them open:
 
 No prevalence or frequency statistic appears anywhere in this lesson, per
 `INDEX.md`'s standing instruction.
+
+---
+
+## Rulings and narration pass — 2026-09-11
+
+Dane ruled on J1, J3 and J4 on 2026-09-11 and authorised this appended
+section. Nothing above this line was edited: the first-draft record of
+2026-09-10 stands as written, including the block quotations, which are now
+the *before* text of the edits below. Where a block entry above and this
+section disagree about what the narration says, this section is the later
+record and `src/lesson-02.ts` is the authority.
+
+This pass edited text only. No audio was generated, nothing was rendered,
+nothing was exported, and `meta.status` is still `"draft"`.
+
+### The rulings as given
+
+**J1 — keep all three load-bearing `interpretive` sentences.** Block 10's
+"a warning delivered to the wrong reader", block 2's claim that a registered
+lookalike domain passes its own DMARC, and block 5's bearer-token gloss all
+stand as sound inferences. The one exception is block 5's gloss, which J4
+removes for a different reason; that removal supersedes the keep for that
+sentence only. Blocks 10 and 2 are unchanged by this pass.
+
+**J3 — move the WebAuthn citation from §1 to §1.3.** Done on block 13. The
+`boundary only` flag that block 13's entry above carries is **cleared**: the
+citation is now inside the scope `sources/sec/INDEX.md` sets, and after the
+J4 edit below the narration no longer states the specification's scoping
+sentence at all. J3 is closed.
+
+**J4 — `meta.avIsAdditionalLearning` stays `true`, on the condition that the
+edits below are made.** The test Dane set is narrower than the one the first
+draft argued: a sentence that *explains a rule `guide/01/` already explains*
+fails 7.02.7 even when it is reworded, because the participant gets no
+learning from it that the guide has not already given. A sentence that *shows
+what happened in this incident* passes, because the incident is not in the
+guide. Blocks 4, 5, 7 and 12 contained guide rules restated; their
+replacements keep the events and drop the lectures. J4 is closed on that
+condition, and the condition is met.
+
+**J2, J5 and J6 stay open.** J2 (the missing CISA `.txt` extractions) is
+untouched — this feature did not add to `sources/`. J5 (the projected
+runtime) is re-stated with the new word total under "Size after the pass"
+below, and is still a decision to take after `generate`. J6 (the level of
+invention in the composed incident) is untouched; this pass added composed
+detail on blocks 4, 5, 7, 11 and 12, all of it flagged `illustration`, so
+there is slightly more of it to confirm than there was.
+
+### What changed, block by block
+
+Nine blocks changed. Marker counts are unchanged in every one of them, so no
+block's `reveals` length or figure element count moved. Every changed block's
+`estimatedSeconds` was recomputed as `Math.round(words / 130 * 60)` and its
+`reveals` re-estimated from the word position of each marker; the estimates
+are preview values and are discarded the moment audio exists.
+
+| Block | Words before → after | est. s before → after | Why it changed |
+|---|---|---|---|
+| `block-02` | 115 → 117 | 53 → 54 | spoken time did not match the sheet |
+| `block-03` | 119 → 107 | 55 → 49 | J4 sweep against `02-phishing.md` |
+| `block-04` | 116 → 107 | 54 → 49 | J4 |
+| `block-05` | 111 → 98 | 51 → 45 | J4, and J1's one exception |
+| `block-07` | 110 → 113 | 51 → 52 | J4, and a verbatim six-word run |
+| `block-09` | 115 → 99 | 53 → 46 | signal count, and J4 sweep |
+| `block-11` | 120 → 135 | 55 → 62 | signal count, sheet line, J4 sweep |
+| `block-12` | 126 → 109 | 58 → 50 | J4, and the `items` are now the clock |
+| `block-13` | 117 → 125 | 54 → 58 | J3, and J4 sweep |
+
+---
+
+#### `block-02` — the spoken time now matches the sheet
+
+The sheet's first row reads `Tue 16:41`; the narration said "twenty to
+five", which is 16:40. Narration is the transcript of record, so the two
+cannot disagree. Nothing else in the block moved.
+**Before**
+
+> [[r]]Tuesday, twenty to five. A message lands in Ruth's mailbox, and
+> it is not a cold approach — it is a reply inside a thread that has
+> been running all week, about an engagement letter she is genuinely
+> waiting on. [[r]]The sending domain is not the client's. It is one
+> character away from the client's, and the attacker registered it
+> himself. That distinction decides what the firm's mail defences do
+> next. [[r]]The firm publishes DMARC and enforces it, so a forged
+> sender would have been quarantined before Ruth ever saw it. But
+> nothing here was forged. The attacker's own domain publishes its own
+> records, and its own records check out. The message is delivered
+> clean.
+
+**After**
+
+> [[r]]Tuesday, four forty-one in the afternoon. A message lands in
+> Ruth's mailbox, and it is not a cold approach — it is a reply inside a
+> thread that has been running all week, about an engagement letter she
+> is genuinely waiting on. [[r]]The sending domain is not the client's.
+> It is one character away from the client's, and the attacker
+> registered it himself. That distinction decides what the firm's mail
+> defences do next. [[r]]The firm publishes DMARC and enforces it, so a
+> forged sender would have been quarantined before Ruth ever saw it. But
+> nothing here was forged. The attacker's own domain publishes its own
+> records, and its own records check out. The message is delivered
+> clean.
+
+**Sources after the change** — unchanged: CISA-PHISH pp. 4, 6.
+
+**Flags after the change** — unchanged. The `illustration` on the Tuesday
+timestamp now covers the spoken form of it as well as the sheet's.
+
+---
+
+#### `block-03` — J4 sweep: the §3.2.5.2 rule removed from the narration
+
+`guide/01/02-phishing.md`, step two, already states it: "the identity of the
+verifier is its authenticated hostname, or a parent domain at least one level
+below the public suffix; that is the fact the protocol itself binds to, and
+it is the fact a person can read in the address bar." The narration stated
+the same rule in NIST's name. Under J4 that is a lecture the guide has
+already given, so it is replaced with where the thing actually sat in this
+attacker's hostname. The **sheet is unchanged and still carries the rule** —
+its right column reads "Authenticated hostname / Or a parent domain one level
+below the public suffix" — so the participant still sees the definition; the
+narration no longer recites it.
+
+This also removes the first of the two six-word runs the overlap report
+above records, "one level below the public suffix".
+**Before**
+
+> [[r]]Two minutes later Ruth is looking at her mail provider's sign-in
+> page. It is the right page in every respect she can check quickly: the
+> layout, the wordmark, the connection indicator, and — the first thing
+> she looked at — her provider's name in the address bar. [[r]]Now look
+> at what her provider's name was doing in that address bar. It was a
+> label near the front of a much longer hostname. NIST identifies a
+> verifier by its authenticated hostname, or by a parent domain one
+> level below the public suffix, and that part sat at the far right,
+> past the point where Ruth stopped reading. It belonged to the
+> attacker. Everything to the left of it was decoration.
+
+**After**
+
+> [[r]]Two minutes later Ruth is looking at her mail provider's sign-in
+> page. It is the right page in every respect she can check quickly: the
+> layout, the wordmark, the connection indicator, and — the first thing
+> she looked at — her provider's name in the address bar. [[r]]Now look
+> at what her provider's name was doing in that address bar. It was a
+> label near the front of a much longer hostname. The part of that
+> hostname that actually named a verifier sat at the far right, past the
+> point where Ruth stopped reading. It belonged to the attacker.
+> Everything to the left of it was decoration.
+
+**Sources after the change** — citation unchanged (63B-4 §3.2.5, §3.2.5.2).
+§3.2.5.2 is now carried by the sheet's right column rather than by a
+sentence. §3.2.5 ("how the claimant was directed to the impostor verifier is
+not relevant") is no longer stated anywhere in the block. See the citation
+finding at the end of this section.
+
+**Flags after the change**
+
+- `illustration` — retained, and now also covers "The part of that hostname
+  that actually named a verifier sat at the far right". Where each part of
+  this attacker's hostname sat is composed; no source in the set describes
+  hostname construction.
+
+---
+
+#### `block-04` — J4: the relay shown, the rule dropped
+
+Three sentences stated rules `guide/01/07-proxy-phishing.md` already
+explains at length — "NIST states this as a property of the method rather
+than a flaw in any product: a code typed in by hand is tied to no particular
+sign-in. It is a number. It does not know which login it was made for", and
+"the code is single-use, and that is a real protection — against somebody
+replaying it tomorrow". The guide's section 07 carries both: the block quote
+of §3.2.5's manual-entry sentence, and the whole subsection "Why the one-time
+code does not help". The replacement narrates the relay as it ran — who sent
+the digits on, what the machine in the middle had been doing since the page
+loaded, and what the provider saw when it checked the code.
+**Before**
+
+> [[r]]The page asks for the six-digit code. Her phone has one. She
+> types it in. [[r]]What she cannot see is that her keystrokes are not
+> being stored anywhere. They are being forwarded, right then, to the
+> real provider, by a machine sitting between the two. NIST states this
+> as a property of the method rather than a flaw in any product: a code
+> typed in by hand is tied to no particular sign-in. It is a number. It
+> does not know which login it was made for. [[r]]And yes, the code is
+> single-use, and that is a real protection — against somebody replaying
+> it tomorrow. This attacker used it eleven seconds after it reached her
+> phone.
+
+**After**
+
+> [[r]]The page asks for the six-digit code. Her phone has one. She
+> types it in. [[r]]The instant she presses enter, the same six digits
+> go on to her real provider. Ruth did not send them there. The
+> attacker's machine did — the machine that has been sitting between her
+> and the provider since the page loaded, passing every screen she saw
+> through from the real one, and every answer she gave straight on.
+> [[r]]The provider checks the code, and it is right: correct, unused,
+> and inside its window. By every test the provider applies, this is
+> Ruth signing in, eleven seconds after the code reached her phone.
+
+**Sources after the change**
+
+- CISA-PHISH p. 4 — the user submits username, password and the six-digit
+  code, which the actors then receive in order to authenticate as the user in
+  the legitimate login portal. This is what "passing every screen she saw
+  through from the real one, and every answer she gave straight on" narrates.
+- 63B-4 §3.2.7 — OTP authenticators are replay-resistant; the verifier
+  detects a message that is not fresh. This is what "correct, unused, and
+  inside its window" rests on.
+- 63B-4 §3.2.5 — no longer stated by any sentence. It remains the reason the
+  sheet's third row is true ("she types it; the proxy forwards it,
+  unchanged"), so the citation stays. See the citation finding below.
+
+**Flags after the change**
+
+- `illustration` — "The instant she presses enter"; "since the page loaded";
+  "eleven seconds after the code reached her phone". Composed timing, as
+  before. The eleven-second figure survives the rewrite, which is what
+  `q-13`'s inherited-flag note refers to.
+- `interpretive` — "By every test the provider applies, this is Ruth signing
+  in." The provider applying its tests and finding nothing wrong follows from
+  §3.2.7 and §5.1; no source states it as a sentence about what the provider
+  concludes.
+- `descriptive` — "The provider checks the code, and it is right: correct,
+  unused, and inside its window", against §3.2.7.
+
+---
+
+#### `block-05` — J4, and J1's one exception
+
+Two sentences went. "From here the account has an occupant who never has to
+authenticate again, because authenticating is the part that is over" is
+`guide/01/06-session-tokens.md`'s subsection "Why no second factor is
+requested" in one line. And the bearer-token gloss — "NIST calls a session
+secret a bearer token, and the phrase is exact: the service asks what is
+being presented, not who is presenting it" — is the guide's "A bearer token
+authorises whoever bears it. There is no further test of who that is."
+J1 would have kept that sentence; J4 removes it, and J1 records the
+exception. What replaces them is what Ruth experienced at that second and
+what was true of the account from then on.
+**Before**
+
+> [[r]]The sign-in succeeds, and the provider does what it does after
+> every successful sign-in: it issues a session secret. That secret is
+> what keeps somebody signed in, and it goes to whichever machine
+> completed the ceremony. [[r]]That machine was the attacker's. From
+> here the account has an occupant who never has to authenticate again,
+> because authenticating is the part that is over. NIST calls a session
+> secret a bearer token, and the phrase is exact: the service asks what
+> is being presented, not who is presenting it. [[r]]And Ruth's mailbox
+> opens normally. That is the part worth sitting with. The visible
+> outcome of a finished takeover is a sign-in that worked.
+
+**After**
+
+> [[r]]The sign-in succeeds, and the provider does what it does after
+> every successful sign-in: it issues a session secret, and hands it to
+> whichever machine finished the sign-in. [[r]]That machine was the
+> attacker's. Ruth sees nothing unusual — no second prompt, no error, no
+> warning, not even a delay long enough to notice. From 4:43 and
+> thirty-five seconds, two people are using the same account, and only
+> one of them knows there are two. [[r]]And Ruth's mailbox opens
+> normally. That is the part worth sitting with. The visible outcome of
+> a finished takeover is a sign-in that worked.
+
+**Sources after the change**
+
+- 63B-4 §5.1 — the continuity of an authenticated session rests on
+  possession of a session secret issued by the session host at the time of
+  authentication. "It issues a session secret, and hands it to whichever
+  machine finished the sign-in" is that requirement as an event.
+- ATT&CK T1539 — unchanged, and still carried by the sheet's middle rows.
+
+**Flags after the change**
+
+- `illustration` — "Ruth sees nothing unusual — no second prompt, no error,
+  no warning, not even a delay long enough to notice"; "From 4:43 and
+  thirty-five seconds". Composed.
+- `framing` — "two people are using the same account, and only one of them
+  knows there are two." The lesson's way of putting the state of the account;
+  not a claim any source makes.
+- The `interpretive` flag this block's entry above carries for the
+  bearer-token gloss is **cleared**, the sentence being gone. `q-15`'s
+  `_source` note was updated in `src/questions-02.json` to say so; the
+  question rested on §5.1's text, not on the gloss, and is unaffected.
+
+---
+
+#### `block-07` — J4, and the verbatim six-word run
+
+"NIST's session rules run two clocks, an overall one and an inactivity one,
+and activity resets the inactivity clock. Somebody quietly paging through a
+mailbox is generating activity. The timeout built to close an abandoned
+session never gets its chance" is `guide/01/06-session-tokens.md`'s "What
+limits the damage", and the clause "activity resets the inactivity clock"
+appears in that file word for word — the second of the two six-word runs the
+overlap report above records, and the reason it is now zero. What replaces it
+is what this attacker read over two days, and what the provider saw while he
+read it. No session-duration figure was added anywhere in the lesson.
+**Before**
+
+> [[r]]For the next two days this attacker sends nothing and deletes
+> nothing. He reads. That is a decision, and it is the decision that
+> keeps him inside. [[r]]NIST's session rules run two clocks, an overall
+> one and an inactivity one, and activity resets the inactivity clock.
+> Somebody quietly paging through a mailbox is generating activity. The
+> timeout built to close an abandoned session never gets its chance.
+> [[r]]Meanwhile every ordinary safeguard in the building is pointed the
+> wrong way. There is no failed login to lock out, no denied prompt to
+> raise an alert, and nothing on Ruth's laptop for anti-virus to find,
+> because nothing was ever put on it.
+
+**After**
+
+> [[r]]For the next two days this attacker sends nothing and deletes
+> nothing. He reads. That is a decision, and it is the decision that
+> keeps him inside. [[r]]Every message he opens is activity on Ruth's
+> account, so to the provider it looks like exactly what it is: an
+> account in use. He reads the engagement letters, the fee discussions,
+> and which clients pay by bank transfer, and into which accounts.
+> [[r]]Meanwhile every ordinary safeguard in the building is pointed the
+> wrong way. There is no failed login to lock out, no denied prompt to
+> raise an alert, and nothing on Ruth's laptop for anti-virus to find,
+> because nothing was ever put on it.
+
+**Sources after the change**
+
+- CISA-PHISH p. 7 — review MFA lockout and alert settings; track denied or
+  attempted MFA logins. This is what "no failed login to lock out, no denied
+  prompt to raise an alert" rests on, as before.
+- 63B-4 §5.2 — no longer stated by any sentence. It is still what the
+  sheet's two timeout rows rest on. **This is the one place where the sheet
+  is now ahead of the narration**: rows 2 and 3 name an inactivity timeout
+  and an overall timeout that the narration no longer introduces. See the
+  findings below — `current-feature.md` gave a replacement for this block's
+  `narration` and not for its `figure`, and changing a figure it did not name
+  was out of scope.
+
+**Flags after the change**
+
+- `illustration` — "the engagement letters, the fee discussions, and which
+  clients pay by bank transfer, and into which accounts". Composed; this is
+  what the composed mailbox held.
+- `interpretive` — "so to the provider it looks like exactly what it is: an
+  account in use." What the provider makes of the reading follows from §5.2
+  and §5.3; no source states it.
+
+---
+
+#### `block-09` — two signals, not three, and the §5.3 list removed
+
+Two changes. The count: the block itself says the document store "produced
+nothing at all", so it is not a signal, and the narration should not have
+counted it. Three became two here, on `block-11`'s sheet, and in
+`block-11`'s narration. `block-10`'s "The second signal" is unaffected —
+the notification is still the second of the two.
+
+The J4 sweep: "NIST lists what those checks weigh, among them geolocation,
+timing, and the reputation of the address" is `guide/01/10-detection.md`'s
+"What the service is watching, and what it will show you", which lists the
+same §5.3 characteristics and says outright that they are worth knowing
+because they are the vocabulary a provider's security page uses. Replaced
+with what the provider's record of this sign-in actually carried.
+**Before**
+
+> [[r]]So what could this firm actually have seen? Three things happened
+> that were observable, and it is worth being exact about who was in a
+> position to observe each one. The provider had been evaluating the
+> session all along — NIST lists what those checks weigh, among them
+> geolocation, timing, and the reputation of the address — and Tuesday's
+> sign-in arrived from a range this firm has never once used. [[r]]It
+> sat in a console nobody had open. [[r]]The document store, for its
+> part, produced nothing at all, and that is not a hole in its logging.
+> Nobody logged in to it. A session simply arrived, carrying proof that
+> a login had happened somewhere else.
+
+**After**
+
+> [[r]]So what could this firm actually have seen? Two things happened
+> that were observable, and it is worth being exact about who was in a
+> position to observe each one. The provider's own record of Tuesday's
+> sign-in carried the address it came from, and it was a range this firm
+> has never once used. [[r]]It sat in a console nobody had open.
+> [[r]]The document store, for its part, produced nothing at all, and
+> that is not a hole in its logging. Nobody logged in to it. A session
+> simply arrived, carrying proof that a login had happened somewhere
+> else.
+
+**Sources after the change**
+
+- 63B-4 §5.3 — no longer stated as a list. Still what the sheet's first row
+  rests on: the address a sign-in arrived from is among the characteristics a
+  provider evaluates, which is why it is in the console at all.
+- CISA-PHISH pp. 6-7 — unchanged.
+
+**Flags after the change**
+
+- `illustration` — "The provider's own record of Tuesday's sign-in carried
+  the address it came from, and it was a range this firm has never once
+  used"; "It sat in a console nobody had open". Composed, as before.
+- `interpretive` — "that is not a hole in its logging", retained unchanged.
+  J1 keeps it and `guide/01/10-detection.md` does not state it.
+
+**One borderline left as written.** "A session simply arrived, carrying proof
+that a login had happened somewhere else" is close to
+`guide/01/06-session-tokens.md`'s "They are presenting proof that an
+authentication already happened." `current-feature.md` directed the sweep of
+this block against `10-detection.md`, which does not contain that sentence,
+and the block's version is a statement about what this document store saw
+rather than a rule. It is left as written and flagged here so Dane can
+overrule it.
+
+---
+
+#### `block-11` — the count, the sheet line, and J4
+
+Sheet line 3 now reads "Signals available: two. Signals read by a person:
+none", and the narration's "All three signals ... all three were available.
+Not one of them" becomes "Both signals ... both were available. Neither".
+
+The J4 sweep: "it is why CISA's advice to small organisations is mostly about
+arranging to be told: turn the alerting on, watch the internal mail, and keep
+a trail somebody can go back through" is a three-item summary of
+`guide/01/10-detection.md`'s "What a small firm can do deliberately", which
+gives the same three measures and two more. Replaced with what this firm had
+not arranged, which is the incident's side of the same page.
+**Before**
+
+> [[r]]Friday morning a client telephones the firm about an instruction
+> they had received from Ruth. Ruth had sent nothing. That is what
+> raised the alarm — not a log, not an alert, not a console, but a phone
+> call from outside the firm, sixty-four hours after the fact. [[r]]All
+> three signals were real and all three were available. Not one of them
+> was read by a person, because reading them was nobody's job on any
+> particular morning. [[r]]That is the ordinary case in a practice this
+> size, and it is why CISA's advice to small organisations is mostly
+> about arranging to be told: turn the alerting on, watch the internal
+> mail, and keep a trail somebody can go back through.
+
+**After**
+
+> [[r]]Friday morning a client telephones the firm about an instruction
+> they had received from Ruth. Ruth had sent nothing. That is what
+> raised the alarm — not a log, not an alert, not a console, but a phone
+> call from outside the firm, sixty-four hours after the fact. [[r]]Both
+> signals were real and both were available. Neither was read by a
+> person, because reading them was nobody's job on any particular
+> morning. [[r]]At this firm nobody was told, because nobody had
+> arranged to be told. The alerting on the mailbox was never switched
+> on. Nobody read the firm's own internal mail for anything out of
+> place. And the trail the sign-on service had been keeping all week was
+> not opened by anyone until Dev went looking for it on Friday morning,
+> after the telephone call.
+
+**Sources after the change**
+
+- CISA-PHISH pp. 6-7 — unchanged, and now carried as the measures this firm
+  did not have rather than as advice restated. Monitoring internal mail is
+  CISA's; "Nobody read the firm's own internal mail for anything out of
+  place" is this firm failing to do it. SSO's audit trail is CISA's; "the
+  trail the sign-on service had been keeping all week" is this firm's copy of
+  it, unopened.
+
+**Flags after the change**
+
+- `illustration` — the whole third movement: the alerting never switched on,
+  nobody reading internal mail, and the trail unopened until Dev went looking
+  for it on Friday morning. All composed, and consistent with `block-12`,
+  where Dev's first action is at 09:31 and the audit comes after 09:44.
+- `framing` — "reading them was nobody's job on any particular morning",
+  retained unchanged.
+- The sixty-four-hour figure and the Friday telephone call keep their
+  `illustration` flags from the entry above.
+
+---
+
+#### `block-12` — J4: the response performed, not explained
+
+Three rule statements went, and all three are in
+`guide/01/11-response.md`, which is built on exactly them: "A password
+governs the next sign-in and does nothing whatever to a session already
+running" is the guide's opening paragraph; "NIST forbids changing passwords
+on a schedule but requires a change on evidence of compromise" is its step 2;
+"removing one in error costs less than leaving a compromised one in place" is
+its step 3, which quotes §4.5's sentence in full. The order is still the
+lesson — it is now shown as a clock rather than argued, and the `items` are
+the clock too.
+**Before**
+
+> [[r]]Dev works the response, and the order is not the instinctive one.
+> Terminate first. A password governs the next sign-in and does nothing
+> whatever to a session already running, and a session already running
+> is the entire access. [[r]]Then the password, and only now is it the
+> right move: NIST forbids changing passwords on a schedule but requires
+> a change on evidence of compromise, and this week is evidence.
+> [[r]]Then the authenticator he bound, which nothing earlier in the
+> sequence touches. NIST is unusually blunt about hesitating here —
+> removing one in error costs less than leaving a compromised one in
+> place. [[r]]And one thing went wrong. Signing out at the sign-on
+> service did not close the document store, which ran on for another
+> eleven minutes.
+
+**After**
+
+> [[r]]Dev works the response, and he works it in an order that feels
+> backwards. At nine thirty-one he ends every session on Ruth's account,
+> before he touches anything else. [[r]]At nine thirty-six, he changes
+> the password. [[r]]At nine forty-four he opens the list of Ruth's
+> sign-in methods and finds one she has never seen, added on Thursday at
+> ten forty. He removes it, and re-enrols the ones she recognises. Then
+> he pulls the record of everything the account opened that week, and
+> reports the incident. [[r]]And one thing went wrong. Signing out at
+> the sign-on service did not close the document store, which stayed
+> open for another eleven minutes.
+
+**`items` before and after**
+
+Before:
+
+    "1 — Terminate the sessions, at every service that keeps its own"
+    "2 — Change the password; there is now evidence, which is the trigger"
+    "3 — Invalidate the authenticator he bound, and re-enrol the ones she knows"
+    "4 — Audit what the account reached, then report it"
+    "Missed for eleven minutes: the document store's own session"
+
+After:
+
+    "09:31 — Every session on the account ended"
+    "09:36 — Password changed"
+    "09:44 — An unknown sign-in method found and removed; the known ones re-enrolled"
+    "Then — Access audited, incident reported"
+    "Missed for eleven minutes: the document store's own session"
+
+Five items and four reveals, as before.
+
+**Sources after the change**
+
+- CISA-PHISH p. 11 — re-provision compromised accounts first, to prevent
+  continued access; audit account access afterwards; report. The sequence the
+  clock runs is this one.
+- 63B-4 §5.2 — terminating at an identity provider does not terminate at a
+  relying party. This is what the last line reports as an event: signing out
+  at the sign-on service did not close the document store.
+- 63B-4 §3.1.1.2, §4.3, §4.5 — no longer stated. They remain the reason
+  09:36 and 09:44 are the right moves in the right order, which is the whole
+  point of the block, so the citation stays. See the citation finding below.
+
+**Flags after the change**
+
+- `illustration` — 09:31, 09:36, 09:44, and "added on Thursday at ten
+  forty", which matches `block-08`'s sheet row `Thu 10:40`. The eleven-minute
+  gap keeps its `illustration` flag; `q-16`'s inherited-flag note still
+  holds.
+- `framing` — "he works it in an order that feels backwards". The lesson's
+  characterisation of the order, not a claim about what responders usually do.
+
+---
+
+#### `block-13` — J3, and J4
+
+The citation moves from `W3C REC-webauthn-3-20260825 §1` to `§1.3`, which is
+inside the scope `sources/sec/INDEX.md` sets. The `boundary only` flag is
+cleared.
+
+The J4 sweep: "because her authenticator is asked to sign for an origin that
+is not her provider's, and the credential it holds can only be reached by her
+provider's origin. There is no output to relay. Nothing at all depends on
+Ruth noticing anything, which is the test NIST actually sets" is
+`guide/01/09-phishing-resistant.md` twice over — "It cannot relay this,
+because the credential the victim's authenticator would need is scoped to the
+real relying party's origin, and the attacker's site is not that origin",
+and "The check is not 'did the person notice the domain' — it is the protocol
+declining to produce an output at all." This is the most consequential of the
+four sweep edits, because the removed sentences were the lesson's stated
+payoff. What replaces them is the payoff as the incident: the twelve sheets
+that came before, named and cancelled one at a time.
+**Before**
+
+> [[r]]Now run that same Tuesday again and change exactly one thing: the
+> second factor on the account is a passkey. Ruth still gets the
+> message. She still clicks it. She still lands on the attacker's page,
+> and she still does not read the far end of the hostname. [[r]]And it
+> ends at 4:43:20, because her authenticator is asked to sign for an
+> origin that is not her provider's, and the credential it holds can
+> only be reached by her provider's origin. There is no output to relay.
+> Nothing at all depends on Ruth noticing anything, which is the test
+> NIST actually sets, and it is the only line in this story that was
+> ever going to hold.
+
+**After**
+
+> [[r]]Now run that same Tuesday again and change exactly one thing: the
+> second factor on the account is a passkey. Ruth still gets the
+> message. She still clicks it. She still lands on the attacker's page,
+> and she still does not read the far end of the hostname. [[r]]And the
+> incident ends at 4:43:20. Her authenticator is asked for an origin
+> that is not her provider's, and it produces nothing to relay. There is
+> no 4:43:35, and no session for the provider to issue. Thursday's
+> second sign-in method is never added. The client's telephone call on
+> Friday is never made. Every one of the twelve sheets before this one
+> sits downstream of one second on Tuesday afternoon, and that is the
+> second where it stops.
+
+**Sources after the change**
+
+- 63B-4 §3.2.5, §3.2.5.2 — no longer stated. Carried by the sheet's right
+  column, "The origin asked for / Not her provider's".
+- WebAuthn §1.3 — the sample authentication flow: the authenticator is shown
+  the origin requesting a credential. This is what "Her authenticator is
+  asked for an origin that is not her provider's" reports, and §1.3 is now
+  the locator.
+- CISA-MFA p. 3 — unchanged; it is what licenses the word "passkey" as a
+  deployable thing.
+
+**Flags after the change**
+
+- `framing` — the counterfactual itself, retained.
+- `illustration` — 4:43:20 and 4:43:35, and the cancelled Thursday and
+  Friday events. Composed, and consistent with the clock above.
+- `boundary only` — **cleared** (J3).
+
+### The sweep Dane's reviewer could not run
+
+`current-feature.md` directed the J4 test at four blocks that had not been
+compared, against the four guide files that had not been used:
+
+| Block | Guide file | Found | Result |
+|---|---|---|---|
+| `block-03` | `02-phishing.md` | 1 sentence | replaced, see above |
+| `block-09` | `10-detection.md` | 1 clause | replaced, see above |
+| `block-11` | `10-detection.md` | 1 sentence | replaced, see above |
+| `block-13` | `09-phishing-resistant.md` | 1 passage | replaced, see above |
+
+So: not none. Four, one in each block swept, each one a rule the matching
+guide file already explains, and each one replaced with what happened in the
+incident and flagged `illustration` where the replacement is composed. The
+before and after text of all four is in the block entries above. One
+borderline in `block-09` is flagged there and left as written.
+
+Three sentences in the swept blocks were examined and **kept**, because they
+report what Ruth or the firm did rather than stating a rule:
+
+- `block-03`, "It is the right page in every respect she can check quickly:
+  the layout, the wordmark, the connection indicator" — `02-phishing.md`
+  states the *rule* that none of those is evidence; this sentence states that
+  Ruth checked them.
+- `block-09`, "It sat in a console nobody had open" — not in the guide in any
+  form.
+- `block-11`, "not a log, not an alert, not a console, but a phone call from
+  outside the firm" — `10-detection.md` says a small firm will detect a
+  takeover "by noticing something, or by being told", which is close, but
+  this sentence is the particular telling that happened here.
+
+### Questions — re-confirmed after the pass
+
+`current-feature.md` required confirming that each of `q-13`..`q-16` still
+has its correct answer supported, and updating feedback's re-watch pointers
+if a supporting sentence moved. No stem, choice, correct answer or feedback
+text needed changing, and none was changed.
+
+- **`q-13`** (`after_block: 6`, correct `b`). Supported, and better than
+  before: the new `block-04` ends "By every test the provider applies, this
+  is Ruth signing in", and the new `block-05` adds "Ruth sees nothing
+  unusual — no second prompt, no error, no warning" before keeping "The
+  visible outcome of a finished takeover is a sign-in that worked." The
+  feedback's distractor note for choice (c) — that the code is single-use and
+  was used inside its window — is still supported: `block-04` now says
+  "correct, unused, and inside its window", and
+  `guide/01/07-proxy-phishing.md` carries the replay-resistance property in
+  full. Re-watch pointer "S-04 and S-05, blocks 4 and 5, then ... S-06" is
+  still correct; both supporting sentences are still in blocks 4 and 5.
+- **`q-14`** (`after_block: 11`, correct `b`). `block-10` was not touched by
+  this pass. Re-watch pointer "S-10, block 10" unchanged and correct.
+- **`q-15`** (assessment, correct `b`). The pivot sentence survives: the new
+  `block-05` still says the provider "issues a session secret, and hands it
+  to whichever machine finished the sign-in". The feedback's closing line —
+  "the response in the final blocks terminates before it changes anything" —
+  is still true of the new `block-12`, where 09:31 ends the sessions and
+  09:36 changes the password. **One `_source` note updated**: it referred to
+  `block-05`'s bearer-token gloss as an inherited flag, and that sentence no
+  longer exists, so the note now records its removal under J4 and that the
+  question rested on §5.1's text rather than on the gloss. No stem, choice,
+  answer or feedback text was touched.
+- **`q-16`** (assessment, correct `c`). Both surviving routes are still
+  narrated: `block-08` is untouched for the bound authenticator, and the new
+  `block-12` both removes it at 09:44 and reports the document store staying
+  open for eleven minutes. The feedback's "which is why the document store
+  kept running here after the sign-on service had been signed out" still
+  matches the narration. `block-12`'s `items` now name 09:44 and keep the
+  eleven-minute line.
+
+No answer became unsupported, so there was nothing to stop and report.
+
+### Overlap with `guide/01/` — re-run
+
+Re-run after the edits with a throwaway script over all fourteen files in
+`guide/01/`, comparing normalised word sequences (lower-cased, punctuation
+stripped) from every block's `narration` with markers stripped. The script is
+not committed.
+
+**Runs of 8 or more consecutive words shared with any guide file: zero.**
+
+**Runs of 6 words: zero.** Both of the runs the first-draft report kept
+deliberately are gone, each removed by a J4 edit rather than by paraphrase:
+
+- "one level below the public suffix" — was `block-03`, against
+  `02-phishing.md` and `09-phishing-resistant.md`. The sentence that carried
+  it was the §3.2.5.2 rule the guide already states, and it was replaced. The
+  phrase still appears on `block-03`'s sheet, which is not narration and not
+  in the transcript of record.
+- "activity resets the inactivity clock" — was `block-07`, against
+  `06-session-tokens.md`, where it appears word for word. The sentence that
+  carried it was removed.
+
+**Runs of 5 words: two**, both function words carrying no content: "and it is
+not a" (`block-02`, against `05-what-mfa-stops.md`) and "and it is worth
+being" (`block-09`, against `04-infostealers.md`). Neither is a term of art
+and neither carries an argument.
+
+### Size after the pass
+
+**New narrated word total: 1,464 words**, across thirteen narrated blocks,
+down 39 from the first draft's 1,503. Counted the way `scripts/check-lessons.ts`
+counts — whitespace-separated tokens of `transcriptOf(b)`, markers stripped —
+so an em dash counts as a token, as it does in the first-draft figures above.
+
+Projected runtime of the narration, which is a projection and not a
+measurement (7.02.7: no estimate may reach a credit calculation):
+
+| Rate | Narration | Plus the 8 s Title sheet |
+|---|---|---|
+| 130 wpm (the documented default) | 675.7 s — 11m 16s | 683.7 s — 11m 24s |
+| 165.5 wpm (the only pace this repo has ever measured) | 530.8 s — 8m 51s | 538.8 s — 8m 59s |
+
+`npm run check` reports 11m 22s, which is the sum of the thirteen recomputed
+`estimatedSeconds` values plus the Title sheet's 8 s; it differs from 683.7 s
+only because each block's estimate is rounded to a whole second before being
+summed.
+
+The total is above `current-feature.md`'s 1,400-word floor, so nothing was
+added and nothing was padded. **J5 is unchanged in kind and slightly tighter
+in degree**: at 165.5 wpm the margin over the 497 s J5 records is now about
+34 s rather than about 48 s. Both projections still clear it, and it is still
+a decision to take after `generate` against the measured number, not a reason
+to add words now (7.01).
+
+Character total sent to the API if `generate` is run for all thirteen blocks,
+from `npm run generate -- --lesson 02 --dry-run`: **8,245 characters**.
+
+### Findings from this pass, for Dane
+
+1. **`block-07`'s sheet is now ahead of its narration.** Rows 2 and 3 name an
+   inactivity timeout and an overall timeout that the narration no longer
+   introduces, because the sentence that introduced them was the guide rule
+   J4 removed. `current-feature.md` replaced this block's `narration` and did
+   not give a `figure`, and changing a figure it did not name was out of
+   scope. The two rows are still true of the incident; they are simply
+   unexplained on screen now. A one-line fix would be to replace them with
+   what the attacker's reading did rather than what the clocks are.
+2. **Six blocks now cite a paragraph the narration no longer states.**
+   `block-03` (§3.2.5), `block-04` (§3.2.5), `block-07` (§5.2), `block-09`
+   (§5.3), `block-12` (§3.1.1.2, §4.3, §4.5) and `block-13` (§3.2.5,
+   §3.2.5.2, and CISA-MFA p. 3). In each case the paragraph is still what
+   makes the block's sheet or its order true, which is why the citations were
+   kept. If Dane would rather a `citation` name only what the narration
+   itself says, that is a trim across those six blocks and a separate
+   decision.
+3. **`block-09`'s "carrying proof that a login had happened somewhere
+   else"** is close to `guide/01/06-session-tokens.md`'s "They are presenting
+   proof that an authentication already happened." Outside the file this
+   block was directed to be swept against, and arguably incident rather than
+   rule. Flagged, not changed.
+4. **J6 has slightly more to confirm.** This pass added composed detail on
+   blocks 4, 5, 7, 11 and 12 — the page-load moment, Ruth seeing no delay,
+   what the mailbox held, what the firm had not switched on, and Dev's three
+   timestamps. All of it is flagged `illustration` above, and none of it is
+   phrased as a claim about what attackers or firms generally do.
+5. **Nothing is voiced and nothing is rendered.** `usingEstimates` is still
+   true, every duration in the module is still an estimate, and
+   `meta.status` is still `"draft"`, so `export` still refuses the lesson.

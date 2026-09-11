@@ -1,186 +1,137 @@
-# Feature NN — ATO-02: a case-study video lesson
-
-Number this feature one past the last entry in `CHANGELOG.md`.
+# Feature 20 — ATO-02 narration pass: J1, J3, J4 and two consistency fixes
 
 ## Goal
 
-Add a second lesson to course `ATO`: a short narrated **video** lesson,
-package id `ATO-02`, that walks through one composed account-takeover
-incident from start to finish. It exists to exercise the video pipeline end
-to end inside a real course, and to move course `ATO` from 1.2 to 1.6 CPE
-credits.
+Apply Dane's rulings on ATO-02's judgment list, plus the edits that make
+`avIsAdditionalLearning: true` honest, before any audio is generated. This
+feature edits text only.
 
-This feature authors the lesson and stops. It does not spend ElevenLabs credits,
-render, export, or set status.
+## Rulings (Dane, 2026-09-11)
 
-## Why this shape (read before drafting)
+- **J1 — keep** all three interpretive sentences. The one exception is
+  block 5's bearer-token gloss, which is removed below for J4 reasons. That
+  removal supersedes the keep for that sentence.
+- **J3 — move** block 13's WebAuthn citation from `§1` to `§1.3`.
+- **J4 — the flag stays `true`**, on the condition that the edits below are
+  made. The test is whether the video adds learning the guide does not already
+  give. Sentences that *explain a rule the guide already explains* fail that
+  test, even when reworded. Sentences that *show what happened in this
+  incident* pass it. Blocks 4, 5, 7 and 12 contained guide rules restated;
+  their replacements below keep the events and drop the lectures.
 
-- **7.02.7.** A/V duration counts only if the video is additional learning,
-  not narration of the text. ATO-01's guide *explains*. ATO-02 *shows*: one
-  incident with its decisions made in front of the participant. If a block
-  restates what a guide section says, it does not belong. `avIsAdditionalLearning`
-  stays `true` only if that holds, and it must reflect reality, not the target.
-- **Credit target.** superCPE computes the credit, not this repo. It is recorded here only to
-  size the lesson. Today ATO's total is 64.322 minutes: 7,582 words ÷ 180, plus
-  12 questions × 1.85. Reaching 80 minutes (1.6) needs this lesson's measured
-  video plus 4 new questions × 1.85 ≥ 15.678 minutes. That means a measured
-  video of **≥ 497 s**. Aim for about 600 s of projected runtime for margin.
-  Falling short only costs credit. The minimums at 1.4 (4 review, 8 assessment) are still met.
-- **Minimums at 1.6** (5.01.2.1, 6.01.2 charts): 5 review and 9 assessment across
-  the course. ATO-01 has 5 and 7, so this lesson adds exactly 2 review and 2 assessment questions.
-- **7.01.** Only learning content counts. Do not pad to reach the runtime. If the
-  incident cannot fill about 600 s with sourced, non-repeating material, stop and
-  report the honest length instead.
+## Edits to `src/lesson-02.ts`
 
-## Read first
+Replace the `narration` (and the `items` where given) exactly as written.
+Recompute `estimatedSeconds` with the template's formula, and re-estimate
+`reveals`. Marker counts are unchanged from the current blocks.
 
-- `CLAUDE.md`, `LESSON-RUNBOOK.md` (the "Video lessons" section), `src/blocks.ts`
-- `scripts/new-lesson.ts` (the video module template) and `scripts/check-lessons.ts`
-  (block rules, the 40–75 s sheet window, question rules 1–5)
-- Every file in `guide/01/`, to know what the guide already says and so what
-  the video must not repeat
-- `sources/sec/INDEX.md` and the files it lists
-- `src/lesson-01.ts`, for ATO-01's objective ids, its `sources` citation format,
-  and its `author` block
-- `src/questions-01.json`, for the stems this lesson must not duplicate
+### block-02: the time matches the sheet (16:41)
 
-## Tasks
+Change `"Tuesday, twenty to five."` to `"Tuesday, four forty-one in the afternoon."`
 
-### 0. Establish
+### block-04: narration
 
-Record the answers in the changelog entry:
+    [[r]]The page asks for the six-digit code. Her phone has one. She types it in. [[r]]The instant she presses enter, the same six digits go on to her real provider. Ruth did not send them there. The attacker's machine did — the machine that has been sitting between her and the provider since the page loaded, passing every screen she saw through from the real one, and every answer she gave straight on. [[r]]The provider checks the code, and it is right: correct, unused, and inside its window. By every test the provider applies, this is Ruth signing in, eleven seconds after the code reached her phone.
 
-1. Pick the lesson number, the next number not registered in `src/lessons.ts`.
-   Check that `drafts/ATO-02-review.md` does not already exist. If it does, stop
-   and report.
-2. **Measured pace.** From any existing `src/audio-meta-*.json` with generated
-   audio, compute words per minute. Use `transcriptOf` word counts ÷
-   `durationSeconds`, over blocks whose `voice` matches the current
-   `ELEVENLABS_VOICE_ID`. Report the rate and which lessons it came from. If no
-   measured audio exists for the current voice, report that and use 130 wpm.
-3. How narrated blocks are indexed for `after_block`: does the title block count?
-   Confirm from `export.ts` and `validate-package.ts`.
+### block-05: narration
 
-### 1. Scaffold
+    [[r]]The sign-in succeeds, and the provider does what it does after every successful sign-in: it issues a session secret, and hands it to whichever machine finished the sign-in. [[r]]That machine was the attacker's. Ruth sees nothing unusual — no second prompt, no error, no warning, not even a delay long enough to notice. From 4:43 and thirty-five seconds, two people are using the same account, and only one of them knows there are two. [[r]]And Ruth's mailbox opens normally. That is the part worth sitting with. The visible outcome of a finished takeover is a sign-in that worked.
 
-```
-npm run new -- --lesson NN --code ATO-02 \
-  --title "Anatomy of a Takeover: One Incident, Start to Finish" --course-code ATO
-```
+### block-07: narration
 
-Use the default kind, video. `course.ts` changes only through this command,
-which places the lesson at position 2. Run `npm run typecheck` immediately.
+This also removes the six-word run "activity resets the inactivity clock",
+which appears verbatim in `guide/01/06-session-tokens.md`, not only in NIST.
 
-### 2. Source map before narration
+    [[r]]For the next two days this attacker sends nothing and deletes nothing. He reads. That is a decision, and it is the decision that keeps him inside. [[r]]Every message he opens is activity on Ruth's account, so to the provider it looks like exactly what it is: an account in use. He reads the engagement letters, the fee discussions, and which clients pay by bank transfer, and into which accounts. [[r]]Meanwhile every ordinary safeguard in the building is pointed the wrong way. There is no failed login to lock out, no denied prompt to raise an alert, and nothing on Ruth's laptop for anti-virus to find, because nothing was ever put on it.
 
-In `drafts/ATO-02-review.md`, below the scaffolded header, write the source map
-**before drafting any narration**. Break the incident into beats, and give each
-factual beat the file in `sources/sec/` that supports it, with a locator.
+Do not add a session-duration figure anywhere in the lesson.
 
-The incident is a composed small CPA firm with composed people, and no real
-companies, products, brands or people. The arc runs roughly:
+### block-09: narration
 
-1. The lure
-2. The proxy page relaying credentials and MFA
-3. The session token captured
-4. What the attacker does with the access
-5. The signals that show up
-6. The response, in the order the guide gives
+Change `"Three things happened that were observable"` to
+`"Two things happened that were observable"`. The document store produced
+nothing, as the block itself says, so it is not a signal.
 
-Keep every fact consistent with `guide/01/06`, `07`, `10` and `11`.
+### block-11: sheet and narration
 
-A beat with no source is either cut, or kept as story detail and flagged. Do not
-search for new sources, and do not add files to `sources/`.
+- Sheet line 3 becomes `"Signals available: two. Signals read by a person: none"`.
+- In the narration, change
+  `"All three signals were real and all three were available. Not one of them was read by a person"`
+  to
+  `"Both signals were real and both were available. Neither was read by a person"`.
 
-Flag classes: use only `illustration`, `framing`, `boundary only`,
-`descriptive`, `interpretive`, and bare `UNSOURCED`. Do **not** use `analogy`,
-`elaboration`, or `judgment`. Those classes are awaiting Dane's ruling.
+### block-12: narration and items
 
-### 3. Blocks
+    [[r]]Dev works the response, and he works it in an order that feels backwards. At nine thirty-one he ends every session on Ruth's account, before he touches anything else. [[r]]At nine thirty-six, he changes the password. [[r]]At nine forty-four he opens the list of Ruth's sign-in methods and finds one she has never seen, added on Thursday at ten forty. He removes it, and re-enrols the ones she recognises. Then he pulls the record of everything the account opened that week, and reports the incident. [[r]]And one thing went wrong. Signing out at the sign-on service did not close the document store, which stayed open for another eleven minutes.
 
-Replace the scaffold's TODO block with the real ones:
+`items`:
 
-- Size the narration so that its projected runtime at the Task 0.2 pace is about
-  600 s. Blocks should fall inside the 40–75 s window, which is roughly 11–15 blocks.
-- Use existing slide types only: Statement, Facts, List, Compare. No Image, and no
-  bespoke components. Figures show the incident's facts (timeline, signals,
-  steps). They must not show the narration's sentences. `new-lesson.ts`'s rule
-  applies: the flag is true unless the audio merely reads the slides.
-- `[[r]]` markers = `reveals` length, and figure elements ≥ reveals.
-  `estimatedSeconds` follows the template's formula.
-- `citation` on each block names its source(s), in the format ATO-01 uses.
-- Flags go in the review file, **never in `narration`**. Narration is spoken
-  aloud and becomes the transcript of record.
-- Write for the ear. Use `speech` only where a spelled-out form is needed for TTS.
+    "09:31 — Every session on the account ended"
+    "09:36 — Password changed"
+    "09:44 — An unknown sign-in method found and removed; the known ones re-enrolled"
+    "Then — Access audited, incident reported"
+    "Missed for eleven minutes: the document store's own session"
 
-### 4. Meta
+### block-13: citation
 
-- Two learning objectives, measurable, at the course's Basic level, and about
-  applying the guide to an incident. Their ids must not collide with ATO-01's;
-  continue past its highest id.
-- `sources`: one entry per `sources/sec/` file actually cited, in ATO-01's format.
-- `author`: copy ATO-01's block verbatim, including its test sentinels.
-- `wordCount: 0` and `avIsAdditionalLearning: true`, as scaffolded.
-- Fill `subtitle`, `eyebrow`, and the display `fieldOfStudy`.
-- `status` stays `"draft"`.
+Change `W3C REC-webauthn-3-20260825 §1` to `§1.3`.
 
-### 5. Questions (`src/questions-NN.json`)
+## Check the blocks I could not
 
-- **Two review questions** with `after_block`: one near the midpoint, one near the
-  end. Each is a decision point in the incident ("what should the partner do
-  next?"), not a recall question. Each has at least 3 choices (4 preferred), and
-  feedback that gives the right answer, the misunderstanding, and the block to
-  re-study.
-- **Two assessment questions**, one per objective, with no placement and at least 3
-  choices. They must not duplicate the review questions or any ATO-01 stem. No true/false.
+Dane's reviewer (Claude, in chat) compared blocks 4, 5, 7 and 12 against
+`guide/01/06`, `07` and `11`. Apply the same test to the remaining blocks
+against the guide files that were not compared:
 
-### 6. Overlap check
+- block 3 against `guide/01/02-phishing.md`
+- blocks 9 and 11 against `guide/01/10-detection.md`
+- block 13 against `guide/01/09-phishing-resistant.md`
 
-Report every run of **8 or more consecutive words** that the narration shares with
-any `guide/01/*.md` file. The target is zero. Use a throwaway script and do not
-commit it.
+Any sentence that explains a rule the guide file already explains gets
+replaced with what happened in the incident, flagged `illustration`. Report
+every such change with before and after. If you find none, say so.
 
-For each block, also add one line to the review file saying what it adds beyond
-the guide. Dane uses these to judge 7.02.7. They are not a pass/fail gate.
+## Questions
 
-## Out of scope — do not do these
+Confirm that each of `q-13`..`q-16` still has its correct answer supported,
+by the narration or by `guide/01/`. Update feedback's re-watch pointers if the
+supporting sentence moved. If an answer is no longer supported, stop and
+report; do not rewrite stems or answers.
 
-- Run `npm run generate` without `--dry-run`. `render`, `export` and `npm run dev`
-  are Dane's.
-- Edit `guide/01/`, `src/lesson-01.ts`, `src/questions-01.json`, anything
-  under `sources/`, or any existing file in `drafts/`.
-- Rename `sources/sec`, re-export ATO-01, or touch `dist/`.
-- Change voice or model settings, `.env`, or `generate-audio.ts`.
-- Set `meta.status`, or resolve any flag.
+## Records
+
+Dane authorises **appending** to `drafts/ATO-02-review.md`, an existing
+record. Do not edit any prior content in it. Append a dated section,
+"Rulings and narration pass — 2026-09-11", containing:
+
+- the rulings above
+- each block changed, with its before and after text
+- updated sources and flags for the new sentences
+- a re-run overlap report (zero 8-word runs against `guide/01/`, and list any
+  6-word runs)
+- the new narrated word total
+
+Leave J2, J5 and J6 open.
+
+## Size
+
+Report the new narrated word total and projected runtime at 130 wpm and at
+165.5 wpm. If the total falls below **1,400** words, stop and report before
+adding anything. Do not pad.
+
+## Out of scope
+
+- `generate` without `--dry-run`, `render`, `export`
+- Setting `meta.status`
+- Editing `guide/01/`, `sources/` or ATO-01 files
+- Changing any block not named above, except as the "Check the blocks I could
+  not" section directs
 
 ## Acceptance
 
 1. `npm run typecheck` is clean.
-2. `npm run check` reports no ERROR for the new lesson. ATO-01's findings are
-   unchanged; paste the before and after counts. Explain any WARN on the new lesson.
-3. `npm run generate -- --lesson NN --dry-run` lists every narrated block as new
-   and spends nothing. Report the total character count.
-4. Report projected runtime at the measured pace (≥ about 600 s), the 130 wpm
-   estimate, and one labelled estimate line:
-   `(64.322 + video min + 7.4) ÷ 50`.
-5. The overlap report is attached, with any shared runs listed.
-6. `drafts/ATO-02-review.md` holds the source map, the per-sentence flags, the
-   per-block "adds beyond the guide" lines, and a short list of the judgment items Dane
-   must decide.
-
-## Stop rules
-
-- The scaffold refuses, or typecheck fails after scaffolding and the fix is not obvious.
-- The sourced material cannot fill about 500 s without repeating the guide.
-- A fact in the incident would contradict the guide.
-
-## When done
-
-Append the changelog entry, including the Task 0 answers, and stop. The
-next steps are Dane's:
-
-1. The 4.01.1 check.
-2. A Studio scrub (`npm run dev`).
-3. `generate`, then `render`.
-4. Set status to `"checked"`, in both places, in one commit.
-5. `export`, then upload.
+2. `npm run check` reports no ERROR naming ATO-02, and ATO-01's findings are
+   unchanged.
+3. `npm run generate -- --lesson 02 --dry-run` lists 13 blocks and spends
+   nothing. Report the character total.
+4. The review-record section above is appended, and changelog entry 20 is
+   written.

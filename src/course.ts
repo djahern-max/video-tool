@@ -87,7 +87,7 @@ export const COURSE_ATO = {
       position: 2,
       lessonId: "ATO-02",
       title: "Anatomy of a Takeover: One Incident, Start to Finish",
-      status: "draft",
+      status: "checked",
     },
   ] as CourseLesson[],
 } as const;

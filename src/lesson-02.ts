@@ -69,7 +69,7 @@ export const meta = {
   // accuracy. Nothing in the tooling sets it. The 4.02 content review is
   // superCPE's, by a licensed CPA against the ingested package, and this
   // flag does not evidence it.
-  status: "draft",
+  status: "checked",
 
   // Ids continue past ATO-01's highest (lo-6) and must not collide with it:
   // both lessons are attached to course ATO, and a question's objective_ids

@@ -2076,3 +2076,114 @@ Shipped: 2026-09-10
   duration in the module is an estimate, and no estimate may reach a credit
   calculation (7.02.7). The measured numbers arrive with `generate` and
   `render`, both of which are Dane's.
+
+## 20 — ATO-02 narration pass: J1, J3, J4 and two consistency fixes
+Shipped: 2026-09-11
+
+**What changed**
+- Applied Dane's rulings of 2026-09-11 on ATO-02's judgment list. Text only:
+  no audio was generated, nothing was rendered, nothing was exported, and
+  `meta.status` is still `"draft"`.
+- **J4** — `meta.avIsAdditionalLearning` stays `true`, conditional on the
+  edits below. Under the test Dane set, a sentence that explains a rule
+  `guide/01/` already explains fails 7.02.7 even when reworded; a sentence
+  that shows what happened in the incident passes. `block-04`, `block-05`,
+  `block-07` and `block-12` had their narration replaced to keep the events
+  and drop the rules. `block-12`'s `items` became the response clock
+  (09:31 / 09:36 / 09:44) instead of a numbered list of the steps.
+- **J1** — all three load-bearing `interpretive` sentences kept, so
+  `block-02` and `block-10` are unchanged. The one exception is `block-05`'s
+  bearer-token gloss, removed under J4; its `interpretive` flag is cleared.
+- **J3** — `block-13`'s WebAuthn citation moved from
+  `W3C REC-webauthn-3-20260825 §1` to `§1.3`, inside the scope
+  `sources/sec/INDEX.md` sets. Its `boundary only` flag is cleared.
+- Ran the J4 test on the four blocks and four guide files Dane's reviewer
+  had not compared: `block-03` against `02-phishing.md`, `block-09` and
+  `block-11` against `10-detection.md`, `block-13` against
+  `09-phishing-resistant.md`. Found four rule restatements, one per block,
+  and replaced each with what happened in the incident.
+- Two consistency fixes. `block-02`'s spoken time was "twenty to five"
+  against a sheet reading `Tue 16:41`; it is now "four forty-one in the
+  afternoon". And the lesson counted three observable signals where the
+  document store produced nothing — it is two now, in `block-09`'s
+  narration, `block-11`'s narration, and `block-11`'s sheet line.
+- Every changed block's `estimatedSeconds` recomputed as
+  `Math.round(words / 130 * 60)` and its `reveals` re-estimated from each
+  marker's word position. Marker counts are unchanged in every block, so no
+  `reveals` length or figure element count moved. All thirteen estimates
+  stay inside the 40–75 s sheet window (45–62 s).
+- Narrated words: **1,464**, down from 1,503. 675.7 s at 130 wpm and 530.8 s
+  at 165.5 wpm, both projections, neither a measurement.
+  `npm run generate -- --lesson 02 --dry-run` lists 13 blocks and 8,245
+  characters, and spent nothing.
+- Appended "Rulings and narration pass — 2026-09-11" to
+  `drafts/ATO-02-review.md`: the rulings, before and after text for all nine
+  changed blocks, updated sources and flags per block, the sweep results,
+  the question re-confirmation, a re-run overlap report, the new word total
+  and five findings. 782 lines added, nothing above them edited.
+- One `_source` note in `src/questions-02.json` updated, on `q-15`: it named
+  `block-05`'s bearer-token gloss as an inherited flag and that sentence no
+  longer exists. No stem, choice, correct answer or feedback text in any of
+  `q-13`..`q-16` was changed.
+
+**Standards touched**
+- 7.02.7 — A/V duration counts toward credit only where the audio and video
+  constitute additional learning for the participant rather than narration
+  of the text; for an all-video program the formula uses actual video time
+  and no word count. This is the whole content of J4.
+- 4.01.1 — where technology is used in developing a program, the content
+  developer is responsible for reviewing the content for accuracy. These
+  rulings and the appended record are that review in progress;
+  `meta.status` stays `"draft"` until Dane closes the rest.
+- 7.01 — program length is measured in CPE credits at one 50-minute period
+  per credit, which is why the projected runtime is recorded in the review
+  record as a projection and is not allowed to become a number anyone types.
+
+**Decisions**
+- Confirmed each of `q-13`..`q-16` still has its correct answer supported
+  after the rewrites, and updated nothing but one stale `_source` note.
+  Rewriting a stem or an answer was out of scope and none needed it.
+- Kept every block's `citation` as it stood, even where the J4 edits mean
+  the narration no longer states the cited paragraph. In each case the
+  paragraph is still what makes the block's sheet or the order of its events
+  true. Rejected trimming them inside this feature: it would touch six
+  blocks and is a separate decision, listed as finding 2 in the record.
+- Left `block-07`'s `figure` alone. `current-feature.md` gave a replacement
+  for its `narration` and not for its `figure`, and changing a figure it did
+  not name was out of scope — so the sheet's two timeout rows now name
+  clocks the narration no longer introduces. Reported as finding 1 rather
+  than fixed.
+- Did not add a session-duration figure anywhere, as instructed. The only
+  durations in the lesson remain the composed incident clock and the
+  pre-existing eleven-minute gap.
+- Added no words to reach a length. The total landed at 1,464 against
+  `current-feature.md`'s 1,400 floor on its own.
+
+**Known gaps**
+- **J2, J5 and J6 stay open, and `meta.status` is still `"draft"`**, so
+  `export` still refuses the lesson. J2 — `sources/sec/INDEX.md` still names
+  `.txt` extractions beside both CISA PDFs and neither exists; this feature
+  did not add to `sources/`, because `current-feature.md` did not say to.
+  J5 — the runtime is still projected, and the margin at 165.5 wpm over the
+  497 s the record discusses is now about 34 s rather than about 48 s. J6 —
+  this pass added composed detail on five blocks, all flagged
+  `illustration`, so there is slightly more invention to confirm.
+- **`block-07`'s sheet is ahead of its narration**, as above.
+- **Six blocks cite a paragraph their narration no longer states**:
+  `block-03`, `block-04`, `block-07`, `block-09`, `block-12` and
+  `block-13`. Kept deliberately; see Decisions and finding 2.
+- **`block-09`'s "carrying proof that a login had happened somewhere else"**
+  is close to `guide/01/06-session-tokens.md`'s "They are presenting proof
+  that an authentication already happened". Outside the file this block was
+  directed to be swept against, and arguably incident rather than rule.
+  Flagged in the record, not changed.
+- **ATO-01's six review-coverage warnings are untouched** and name `sec-02`,
+  `sec-03`, `sec-04`, `sec-07`, `sec-10` and `sec-11`: "body section carries
+  no review question — 5.01.2.1 places questions throughout the program so
+  the participant can find what needs re-studying, and this section is
+  unchecked (rule 4)". They predate this feature and editing `guide/01/` or
+  `src/questions-01.json` was out of scope.
+- **Nothing is voiced.** `usingEstimates` is still true, every duration in
+  the module is an estimate, and no estimate may reach a credit calculation
+  (7.02.7). The measured numbers arrive with `generate` and `render`, both
+  of which are Dane's.

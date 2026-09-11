@@ -86,7 +86,7 @@
     "objective_ids": [
       "lo-7"
     ],
-    "_source": "sources/sec/NIST-SP-800-63B-4.txt §5.1 (\"The continuity of authenticated sessions SHALL be based on the possession of a session secret that is issued by the session host at the time of authentication…\"; session secrets used as bearer tokens); §5.1.1 (cookies are not authenticators); §3.1.1.2 item 6 (a change is forced on evidence of compromise), which is why the password step is meaningful later and not here. Flag inherited: block-05's \"the service asks what is being presented, not who is presenting it\" is `interpretive`; this question rests on §5.1's text rather than on that gloss."
+    "_source": "sources/sec/NIST-SP-800-63B-4.txt §5.1 (\"The continuity of authenticated sessions SHALL be based on the possession of a session secret that is issued by the session host at the time of authentication…\"; session secrets used as bearer tokens); §5.1.1 (cookies are not authenticators); §3.1.1.2 item 6 (a change is forced on evidence of compromise), which is why the password step is meaningful later and not here. Flag inherited: none. Block-05's bearer-token gloss (\"the service asks what is being presented, not who is presenting it\") was removed in the 2026-09-11 narration pass under J4; this question already rested on §5.1's text rather than on that gloss and is unaffected."
   },
   {
     "id": "q-16",
