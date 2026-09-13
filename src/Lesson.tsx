@@ -49,7 +49,7 @@ export const Lesson: React.FC<{ lessonId: LessonId }> = ({ lessonId }) => {
             durationInFrames={durationInFrames}
             name={`${block.sheet} ${block.slide}`}
           >
-            <Sheet sheet={block.sheet} citation={block.citation} meta={mod.meta}>
+            <Sheet sheet={block.sheet} citation={block.citation} meta={mod.meta} hideMark={block.slide === "Title"}>
               <Slide
                 reveals={mod.revealsOf(block as never)}
                 figure={block.figure as never}

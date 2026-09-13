@@ -1,137 +1,146 @@
-# Feature 20 — ATO-02 narration pass: J1, J3, J4 and two consistency fixes
+# Current Feature
+
+## GPT course, source index
 
 ## Goal
+`drafts/GPT-source-index.md` exists and tells the author, for every file in
+`sources/gpt/`, exactly which claims that file supports — quoted verbatim with
+a page reference — so that lesson prose can be written from the index and
+every factual sentence traces to a source *before* drafting. This is the
+pre-drafting sourcing rule from the ATO course, made executable for course
+GPT.
 
-Apply Dane's rulings on ATO-02's judgment list, plus the edits that make
-`avIsAdditionalLearning: true` honest, before any audio is generated. This
-feature edits text only.
+Nothing in this feature drafts lesson content, registers a lesson, or touches
+a source file.
 
-## Rulings (Dane, 2026-09-11)
+## The course this serves
+Working title: "Using ChatGPT in an Accounting Practice". Field of study
+Computer Software & Applications (Non-technical), Basic, QAS Self Study,
+course code `GPT`. Planned shape — five text lessons and one video lesson:
 
-- **J1 — keep** all three interpretive sentences. The one exception is
-  block 5's bearer-token gloss, which is removed below for J4 reasons. That
-  removal supersedes the keep for that sentence.
-- **J3 — move** block 13's WebAuthn citation from `§1` to `§1.3`.
-- **J4 — the flag stays `true`**, on the condition that the edits below are
-  made. The test is whether the video adds learning the guide does not already
-  give. Sentences that *explain a rule the guide already explains* fail that
-  test, even when reworded. Sentences that *show what happened in this
-  incident* pass it. Blocks 4, 5, 7 and 12 contained guide rules restated;
-  their replacements below keep the events and drop the lectures.
+| # | Working title | Kind |
+|---|---|---|
+| 01 | What the model is doing | text |
+| 02 | Setting up for professional use | text |
+| 03 | Prompting for accounting tasks | text |
+| 04 | Verifying the output | text |
+| 05 | Confidentiality and client data | text |
+| 06 | A task, start to finish | video |
 
-## Edits to `src/lesson-02.ts`
+Working learning objectives:
+1. Describe how a large language model produces a response and identify the
+   failure modes that matter in professional work: fabrication, staleness,
+   instruction drift.
+2. Configure a ChatGPT workspace for professional use, including data-sharing
+   and training controls, and distinguish consumer, Team, and Enterprise data
+   handling.
+3. Apply a structured prompt pattern (role, task, inputs, constraints, output
+   format) to routine accounting tasks.
+4. Verify model output against a source before relying on it, and document
+   the verification.
+5. Identify client information that must not be entered into a
+   general-purpose model under the confidentiality rule, and apply a firm
+   policy to a given situation.
 
-Replace the `narration` (and the `items` where given) exactly as written.
-Recompute `estimatedSeconds` with the template's formula, and re-estimate
-`reveals`. Marker counts are unchanged from the current blocks.
+These are working drafts. The index reports how well the sources cover them;
+it does not rewrite them.
 
-### block-02: the time matches the sheet (16:41)
-
-Change `"Tuesday, twenty to five."` to `"Tuesday, four forty-one in the afternoon."`
-
-### block-04: narration
-
-    [[r]]The page asks for the six-digit code. Her phone has one. She types it in. [[r]]The instant she presses enter, the same six digits go on to her real provider. Ruth did not send them there. The attacker's machine did — the machine that has been sitting between her and the provider since the page loaded, passing every screen she saw through from the real one, and every answer she gave straight on. [[r]]The provider checks the code, and it is right: correct, unused, and inside its window. By every test the provider applies, this is Ruth signing in, eleven seconds after the code reached her phone.
-
-### block-05: narration
-
-    [[r]]The sign-in succeeds, and the provider does what it does after every successful sign-in: it issues a session secret, and hands it to whichever machine finished the sign-in. [[r]]That machine was the attacker's. Ruth sees nothing unusual — no second prompt, no error, no warning, not even a delay long enough to notice. From 4:43 and thirty-five seconds, two people are using the same account, and only one of them knows there are two. [[r]]And Ruth's mailbox opens normally. That is the part worth sitting with. The visible outcome of a finished takeover is a sign-in that worked.
-
-### block-07: narration
-
-This also removes the six-word run "activity resets the inactivity clock",
-which appears verbatim in `guide/01/06-session-tokens.md`, not only in NIST.
-
-    [[r]]For the next two days this attacker sends nothing and deletes nothing. He reads. That is a decision, and it is the decision that keeps him inside. [[r]]Every message he opens is activity on Ruth's account, so to the provider it looks like exactly what it is: an account in use. He reads the engagement letters, the fee discussions, and which clients pay by bank transfer, and into which accounts. [[r]]Meanwhile every ordinary safeguard in the building is pointed the wrong way. There is no failed login to lock out, no denied prompt to raise an alert, and nothing on Ruth's laptop for anti-virus to find, because nothing was ever put on it.
-
-Do not add a session-duration figure anywhere in the lesson.
-
-### block-09: narration
-
-Change `"Three things happened that were observable"` to
-`"Two things happened that were observable"`. The document store produced
-nothing, as the block itself says, so it is not a signal.
-
-### block-11: sheet and narration
-
-- Sheet line 3 becomes `"Signals available: two. Signals read by a person: none"`.
-- In the narration, change
-  `"All three signals were real and all three were available. Not one of them was read by a person"`
-  to
-  `"Both signals were real and both were available. Neither was read by a person"`.
-
-### block-12: narration and items
-
-    [[r]]Dev works the response, and he works it in an order that feels backwards. At nine thirty-one he ends every session on Ruth's account, before he touches anything else. [[r]]At nine thirty-six, he changes the password. [[r]]At nine forty-four he opens the list of Ruth's sign-in methods and finds one she has never seen, added on Thursday at ten forty. He removes it, and re-enrols the ones she recognises. Then he pulls the record of everything the account opened that week, and reports the incident. [[r]]And one thing went wrong. Signing out at the sign-on service did not close the document store, which stayed open for another eleven minutes.
-
-`items`:
-
-    "09:31 — Every session on the account ended"
-    "09:36 — Password changed"
-    "09:44 — An unknown sign-in method found and removed; the known ones re-enrolled"
-    "Then — Access audited, incident reported"
-    "Missed for eleven minutes: the document store's own session"
-
-### block-13: citation
-
-Change `W3C REC-webauthn-3-20260825 §1` to `§1.3`.
-
-## Check the blocks I could not
-
-Dane's reviewer (Claude, in chat) compared blocks 4, 5, 7 and 12 against
-`guide/01/06`, `07` and `11`. Apply the same test to the remaining blocks
-against the guide files that were not compared:
-
-- block 3 against `guide/01/02-phishing.md`
-- blocks 9 and 11 against `guide/01/10-detection.md`
-- block 13 against `guide/01/09-phishing-resistant.md`
-
-Any sentence that explains a rule the guide file already explains gets
-replaced with what happened in the incident, flagged `illustration`. Report
-every such change with before and after. If you find none, say so.
-
-## Questions
-
-Confirm that each of `q-13`..`q-16` still has its correct answer supported,
-by the narration or by `guide/01/`. Update feedback's re-watch pointers if the
-supporting sentence moved. If an answer is no longer supported, stop and
-report; do not rewrite stems or answers.
-
-## Records
-
-Dane authorises **appending** to `drafts/ATO-02-review.md`, an existing
-record. Do not edit any prior content in it. Append a dated section,
-"Rulings and narration pass — 2026-09-11", containing:
-
-- the rulings above
-- each block changed, with its before and after text
-- updated sources and flags for the new sentences
-- a re-run overlap report (zero 8-word runs against `guide/01/`, and list any
-  6-word runs)
-- the new narrated word total
-
-Leave J2, J5 and J6 open.
-
-## Size
-
-Report the new narrated word total and projected runtime at 130 wpm and at
-165.5 wpm. If the total falls below **1,400** words, stop and report before
-adding anything. Do not pad.
+## In scope
+- Reading every file in `sources/gpt/`
+- Writing one new file, `drafts/GPT-source-index.md`
+- A changelog entry
 
 ## Out of scope
+- Any change under `sources/`. Not a rename, not a re-save, not a text
+  extraction written there. Extract to a temp directory or `out/`.
+- Any change to an existing file under `drafts/`.
+- `npm run new`, or any lesson module, questions file, or `guide/` content.
+  The course is not registered by this feature.
+- Rewriting the learning objectives or lesson list. Report gaps; do not fix
+  them.
+- Web research. If a source does not say something, the index says the
+  source does not say it. Do not fill in from general knowledge.
 
-- `generate` without `--dry-run`, `render`, `export`
-- Setting `meta.status`
-- Editing `guide/01/`, `sources/` or ATO-01 files
-- Changing any block not named above, except as the "Check the blocks I could
-  not" section directs
+## Read first
+- `CLAUDE.md`, "Evidence directories" and "Four rules"
+- `drafts/SEC-01-flag-triage.md` — the shape of the problem this index
+  prevents: 41 UNSOURCED flags found after drafting
+- `sources/gpt/` — list it; the file set is whatever is there, and the index
+  must cover all of it
 
-## Acceptance
+## Tasks
 
-1. `npm run typecheck` is clean.
-2. `npm run check` reports no ERROR naming ATO-02, and ATO-01's findings are
-   unchanged.
-3. `npm run generate -- --lesson 02 --dry-run` lists 13 blocks and spends
-   nothing. Report the character total.
-4. The review-record section above is appended, and changelog entry 20 is
-   written.
+### 1. Extract
+Extract text from every PDF in `sources/gpt/` into a temp directory, one
+`.txt` per source, with page breaks preserved so page numbers can be cited.
+`pdftotext -layout` is fine; the Standards under `docs/standards/` were
+extracted the same way. If a file is not a PDF, report what it is and index
+it from whatever text can be read; if nothing can be read, say so in the
+index rather than guessing at its contents.
+
+Do not commit the extracted text.
+
+### 2. Index each source
+One section per file, in filename order. Each section has exactly these
+parts:
+
+**Header** — filename as it exists on disk; publisher; document title as
+printed on the document; publication or last-updated date if the document
+states one, otherwise "not stated"; retrieval date if the filename carries
+one.
+
+**What it is** — two or three sentences on what the document is and who it
+is written for. Not a summary of its contents.
+
+**Claims supported** — a list. Each entry is one factual claim the course
+could make, followed by the supporting passage quoted verbatim, at most 40
+words, with its page number. The claim is in the index's words; the quote is
+in the document's. One claim, one quote. If a claim needs two passages, that
+is two entries. Aim for the claims that matter to the learning objectives
+above, not for completeness — twelve well-chosen entries beat forty.
+
+**Does not cover** — things a course author might expect this document to
+support but it does not. Two to five bullets. This is the part that prevents
+UNSOURCED flags: it is where the author learns that the prompt-engineering
+page says nothing about accuracy, or that the data-controls FAQ does not
+define "Enterprise".
+
+**Currency risk** — one line. Is this a help-center page that can change
+without notice, a dated publication, or a statute? This drives the 4.01
+review cadence later.
+
+### 3. Coverage
+After the per-source sections, one table: rows are the five learning
+objectives and the six lessons, columns are the source filenames, cells are
+✓ where the source has at least one claim entry bearing on that row. Then a
+short **Gaps** list: objectives or lessons with no ✓, or with a ✓ only from a
+source whose currency risk is high. Report; do not propose new sources.
+
+### 4. Two sources are probably not this course
+`cpacom-ai-solution-due-diligence-guide.pdf` and
+`cpacom-build-vs-buy-ai-decision-framework.pdf` are about selecting AI tools
+for a firm. Index them like the rest, but if their claim entries do not bear
+on any learning objective, say so plainly in a one-line note at the top of
+each section rather than stretching claims to fit.
+
+### 5. Changelog
+One entry, numbered one past the last, in the CLAUDE.md format. Standards
+touched: cite 4.01.1 only if, having read it in the 2026 Statement under
+`docs/standards/`, the content developer's accuracy-review duty is what this
+index serves. Otherwise write "none".
+
+## Verify
+1. Every quote in the index is findable verbatim in the extracted text of the
+   source it is attributed to. Check mechanically — grep each quote — and
+   report the count checked and the count found. A quote that cannot be found
+   is removed, not paraphrased.
+2. Every file in `sources/gpt/` has a section. `ls sources/gpt/` and the
+   section headers must match one to one.
+3. `git status` shows exactly two changes: the new `drafts/GPT-source-index.md`
+   and `CHANGELOG.md`. Nothing under `sources/`.
+4. `npm run typecheck` and `npm run check` unchanged from before — nothing
+   here touches code, so this is a sanity check, not a gate.
+
+## Not this feature
+Registering course GPT, drafting lesson 01, and writing questions are the
+next features, in that order, and each starts from this index.

@@ -1,16 +1,24 @@
 import React from "react";
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, Img, staticFile } from "remotion";
 import { theme, WIDTH, HEIGHT } from "./theme";
 import type { LessonMeta } from "./slides";
 
 /**
  * The sheet chrome that every slide sits inside.
  *
- * This is the signature element. A drawing border with corner registration
- * ticks and a title block in the lower right, carrying the sheet number, the
- * ASC paragraph under discussion, and the revision. It gives the participant a
- * persistent, glanceable citation without a caption competing with the content,
- * and it tells them where they are in the sequence.
+ * This is the signature element. A border with corner registration ticks,
+ * the superCPE shield mark at the top left, and a title block in the lower
+ * right carrying the sheet number, the citation under discussion, and the
+ * revision. The REFERENCE cell shows whatever `citation` the block gives it —
+ * for accounting lessons an ASC paragraph, a Code section, or a Standards
+ * paragraph. It gives the participant a persistent, glanceable citation
+ * without a caption competing with the content, and it tells them where they
+ * are in the sequence.
+ *
+ * The shield is chrome: no reveal, no animation, on screen from frame 0. It
+ * sits in the band above the content padding, so no slide can reach it.
+ * `hideMark` is for the Title sheet, where the full logo is already on
+ * screen and two shields is one too many.
  */
 
 const Tick: React.FC<{ x: number; y: number; rx: number; ry: number }> = ({
@@ -50,12 +58,13 @@ export const Sheet: React.FC<{
   citation: string;
   meta: LessonMeta;
   children: React.ReactNode;
-}> = ({ sheet, citation, meta, children }) => {
+  hideMark?: boolean;
+}> = ({ sheet, citation, meta, children, hideMark }) => {
   const m = theme.margin;
 
   return (
     <AbsoluteFill style={{ background: theme.color.vellum }}>
-      {/* Drawing border */}
+      {/* Sheet border */}
       <div
         style={{
           position: "absolute",
@@ -72,6 +81,23 @@ export const Sheet: React.FC<{
       <Tick x={WIDTH - m} y={m} rx={1} ry={-1} />
       <Tick x={m} y={HEIGHT - m} rx={-1} ry={1} />
       <Tick x={WIDTH - m} y={HEIGHT - m} rx={1} ry={1} />
+
+      {/* Shield mark, inside the border at the top left, aligned to the
+          content padding. It lives in the `m + 64` band the content area
+          pads from the top, so it cannot collide with a slide. */}
+      {hideMark ? null : (
+        <Img
+          src={staticFile("brand/supercpe-icon.png")}
+          alt=""
+          style={{
+            position: "absolute",
+            top: m + 10,
+            left: m + 72,
+            height: 44,
+            width: "auto",
+          }}
+        />
+      )}
 
       {/* Content area, inset from the border */}
       <AbsoluteFill
@@ -141,7 +167,7 @@ const Cell: React.FC<{
       style={{
         fontSize: 15,
         letterSpacing: "0.14em",
-        color: theme.color.hairline,
+        color: theme.color.slate,
         marginBottom: 4,
       }}
     >
@@ -149,7 +175,7 @@ const Cell: React.FC<{
     </div>
     <div
       style={{
-        color: emphasis ? theme.color.graphite : theme.color.slate,
+        color: emphasis ? theme.color.accent : theme.color.slate,
         fontWeight: emphasis ? 600 : 400,
         whiteSpace: "nowrap",
         overflow: "hidden",

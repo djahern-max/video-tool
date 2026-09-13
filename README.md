@@ -159,6 +159,8 @@ public/audio/<id>/     narration, one file per block — committed; regenerating
                        costs money and gives a different take
 public/images/<id>/    what an Image block renders — committed source, not
                        build output
+public/brand/          the superCPE logo files — committed, and the only images
+                       that appear on every sheet
 docs/                  course-package.md, kept identical to superCPE's copy
 out/                   rendered MP4s, gitignored, reproducible
 dist/                  exported packages, gitignored, reproducible
@@ -182,17 +184,26 @@ is the only description of the image that reaches the transcript of record,
 and it is what a reviewer reads. Whether an image may be used at all is an
 authoring decision — no script checks licensing.
 
+`public/brand/` holds the superCPE logo files: `supercpe-logo.png` (the full
+logo, shown on the Title sheet) and `supercpe-icon.png` (the shield mark, in
+the chrome of every other sheet). They are committed source the same way
+lesson images are, and they are the only images that appear on every sheet.
+Do not resize or re-encode them.
+
 ## Design notes
 
-The visual language is a construction drawing set. Each slide is a numbered
-sheet inside a drawing border, with a title block in the lower right carrying
-the course code, the citation under discussion, the revision, and the sheet
-number. That is not decoration: it puts a persistent citation on screen
-without a caption fighting the content.
+The visual language is a numbered sheet set. Each slide is a sheet inside a
+border, with the superCPE shield mark at the top left and a title block in
+the lower right carrying the course code, the citation under discussion, the
+revision, and the sheet number. The chrome persists from the construction
+drawing set this started as, and it is not decoration: it puts a persistent
+citation on screen without a caption fighting the content. The Title sheet
+carries the full logo instead of the shield.
 
-Palette is drafting vellum, graphite, and the fluorescent pink of surveyor's
-flagging tape. The pink marks only the thing currently under discussion. If
-it appears on more than two elements at once, something is wrong.
+The palette is the superCPE logo: navy for type, blue for chrome (eyebrows,
+the Title rule, the sheet number), and teal as the one marker. The teal marks
+only the thing currently under discussion. If it appears on more than two
+elements at once, something is wrong. Blue is chrome and never marks content.
 
 The draft stamp is a lesson module's own `meta.status`, drawn raw and blank
 once it reads `"checked"`. That flag is the single authority on whether a

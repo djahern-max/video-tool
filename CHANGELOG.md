@@ -2187,3 +2187,180 @@ Shipped: 2026-09-11
   the module is an estimate, and no estimate may reach a credit calculation
   (7.02.7). The measured numbers arrive with `generate` and `render`, both
   of which are Dane's.
+
+## 21 — superCPE theme and logo
+Shipped: 2026-09-13
+
+**What changed**
+- `src/theme.ts`: the palette is now the superCPE logo. Every existing
+  token name is kept, so no slide component changed: `vellum` `#F7F9FC`,
+  `vellumEdge` `#EAF0F8`, `graphite` `#032660` (logo navy), `slate`
+  `#5B6B85`, `hairline` `#C9D3E0`, `flag` `#01B0A9` (logo teal),
+  `flagWash` `#E3F5F4`. One new token, `accent` `#0166FC` (logo blue). The
+  comment block above `theme` no longer explains drafting vellum and
+  surveyor's flagging tape; it says the chrome persists from the drawing-set
+  design because the numbered sequence and the citation are still real
+  properties of the content, that `flag` marks the one thing under
+  discussion, and that `accent` is chrome and never content.
+- `accent` goes in exactly three places: `Eyebrow` in `src/slides.tsx`
+  (was `slate`), the 60×2 rule on the Title sheet (was `flag` — the Title
+  sheet has nothing under discussion yet, so `flag` was wrong there), and
+  the SHEET cell's emphasis value in `src/Sheet.tsx` (was `graphite`). The
+  `Cell` label color moved from `hairline` to `slate`; it was low-contrast
+  on the old vellum and would have been worse on near-white.
+- `src/Sheet.tsx`: the shield mark, `Img` of
+  `staticFile("brand/supercpe-icon.png")` at height 44, `top: m + 10`,
+  `left: m + 72`, inside the border and aligned to the content padding. It
+  is chrome: no reveal, no animation, on screen from frame 0. `Sheet` takes
+  an optional `hideMark?: boolean`. The doc comment no longer says "ASC
+  paragraph"; the REFERENCE cell carries whatever `citation` the block gives
+  it.
+- `src/slides.tsx`: the full logo, `Img` of
+  `staticFile("brand/supercpe-logo.png")` at height 96 with
+  `marginBottom: 40`, above the eyebrow on the Title sheet, inside the
+  eyebrow's `revealAt(frame, reveals[0])` wrapper so the two come up
+  together. No fourth reveal was added.
+- `src/Lesson.tsx`: one line, `hideMark={block.slide === "Title"}`, so the
+  Title sheet shows the full logo and not the shield as well.
+- `public/brand/supercpe-logo.png` (2079×756) and
+  `public/brand/supercpe-icon.png` (1350×1350) are added as supplied,
+  neither resized nor re-encoded. Committed source, like
+  `public/images/<lesson id>/`.
+- `README.md`: `public/brand/` is listed in the layout table and described
+  under the Image-block paragraph — committed, and the only images that
+  appear on every sheet. The Design notes paragraphs that described the
+  pink palette were rewritten to match the theme comment, since they were
+  now false; that is the one edit beyond the line the feature asked for.
+- Verification. `npm run typecheck` clean. `npm run check` before and after:
+  2 lessons, 0 errors, 12 warnings, and the two outputs are byte-identical.
+  Stills at `out/still-title.png` (frame 60), `out/still-statement.png`
+  (S-01, frame 800, `theme.size.display` text) and `out/still-compare.png`
+  (S-03, frame 3260, two columns): the shield sits in the top band and no
+  content reaches it. `npm run render -- --lesson 02` re-rendered and
+  ffprobe reports 16,287 frames and 542.933 s at 30 fps, identical to the
+  2026-09-11 render of the same lesson. `git status` shows nothing under
+  `public/audio/` or `src/audio-meta-*.json`. `generate` was not run.
+
+**Standards touched**
+- None. This is render-side chrome; nothing here reaches a transcript, a
+  word count, or a duration.
+
+**Decisions**
+- The feature spec titled itself "Feature 15" and asked for changelog
+  entry 15. Entry 15 already exists (SEC-01 body prose) and the changelog
+  numbers one past the last entry, so this is entry 21. Nothing in the
+  spec's content depended on the number.
+- `flag` stays the single marker and stays on the draft watermark. Teal
+  "draft" at the bottom left is still visible and still blanks on
+  `"checked"`; lesson 02 is checked, so the stills show no watermark.
+- The Title sheet hides the chrome shield through a `Sheet` prop set from
+  `Lesson.tsx`, as the spec proposed, rather than `Sheet` inspecting its
+  children or the slide name. `Sheet` still knows nothing about which slide
+  it wraps.
+- `reveal.ts`, timing, animation, fonts, `scripts/`, and every lesson
+  module are untouched.
+
+**Known gaps**
+- The stills and the new render are in gitignored `out/`, alongside
+  `still-*.png` files this feature left there for review.
+- The `Image` slide's doc comment still opens "The theme is a construction
+  drawing set". It remains true in the sense the theme comment now gives the
+  phrase, and it was not in the spec's rewrite list, so it was left alone.
+- ATO-01's six review-coverage warnings and ATO-02's six sheet-window
+  warnings predate this feature and are unchanged; see entry 20.
+
+## 22 — GPT course, source index
+Shipped: 2026-09-13
+
+**What changed**
+- New `drafts/GPT-source-index.md`. One section per file in `sources/gpt/`
+  (ten files), each with the header, "What it is", "Claims supported",
+  "Does not cover" and "Currency risk" parts the spec asked for. 94 claim
+  entries in all, each a claim in the index's words over a verbatim quote of
+  40 words or fewer with its PDF page, tagged with the learning objectives
+  and planned lessons it bears on. A coverage table over the five working
+  objectives and six planned lessons, a Gaps list, and a closing note on how
+  the index was produced.
+- Extraction. `pdftotext` is not installed on this machine, so the PDFs were
+  extracted with `pypdf` 6.18.1 in a virtualenv in the session scratchpad,
+  plain text mode with a page marker per page. Layout mode was tried first
+  and crashed on a blank page of the Code. The extracted text stayed in the
+  scratchpad; nothing was written under `sources/` or `out/`, and nothing
+  was committed from it.
+- Verification, as the spec's Verify list asks. A script in the scratchpad
+  greps every quote against the extracted text of the page it cites, after
+  collapsing whitespace, joining end-of-line hyphens and expanding the fi/fl
+  ligatures: 94 quotes checked, 94 found, none over 40 words. Section
+  headers match `ls sources/gpt/` one to one. `npm run typecheck` clean.
+  `npm run check`: 2 lessons, 0 errors, 12 warnings, the same output as
+  entry 21.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for accuracy.
+  The index is built for that review: a sentence written from an entry is
+  traceable before it is checked, and one without an entry is `UNSOURCED`
+  from the start.
+- 4.01 — courses in subjects that undergo frequent changes such as updates
+  to codes, laws, rulings and interpretations must be reviewed at least once
+  a year; other courses at least every two years. The per-source "Currency
+  risk" line is there to set that cadence source by source.
+
+**Decisions**
+- Two files in `sources/gpt/` are the same bytes: the AICPA Code file and
+  `nh-rsa-309-b-18-confidential-communications.pdf` (MD5
+  `1ff43d51…`). Both are the complete AICPA Code of Professional Conduct,
+  updated through July 2026; neither contains a New Hampshire statute. Both
+  are indexed. The `nh-rsa` section states the fact and carries no claim
+  entries, so the Code is not counted twice in the coverage table. Neither
+  file was renamed, re-saved or replaced: `sources/` is evidence and the
+  spec puts every change there out of scope.
+- `sources/gpt/.DS_Store` exists. It is a Finder artifact, not a source; the
+  index says so at the top and does not give it a section, so the headers
+  still match a plain `ls` one to one.
+- Page references are PDF page numbers. For the Code, whose printed numbers
+  run six behind, entries give both. The verifier checks the PDF page.
+- The coverage table's columns are numbered, with a key above the table,
+  rather than carrying ten long filenames in a header row. The table itself
+  was generated from the entry tags by the verifier script and pasted in
+  unchanged, so it cannot disagree with the entries.
+- `cpacom-build-vs-buy-ai-decision-framework.pdf` is indexed with four
+  entries, all tagged "no LO", and a one-line note at the top says it is not
+  this course, per Task 4. `cpacom-ai-solution-due-diligence-guide.pdf` is
+  the softer case: five of its eight entries bear on an objective as
+  practices a firm could adopt, and the note says that too.
+- The index quotes the 2023 toolkit's statements that ChatGPT input "becomes
+  public domain" and that public tools "often rely on user input" only in
+  its Currency risk line, as claims the course must not make, because the
+  2026 OpenAI pages in the same set say otherwise. That is a conflict
+  between two sources in the set, not outside knowledge.
+- No web research, per the spec. Where a source does not say something,
+  the index says so; nothing was filled in.
+
+**Known gaps**
+- Lesson 05's state-law content has no source. The file meant to carry New
+  Hampshire RSA 309-B:18 is a duplicate of the Code. Adding the real statute
+  is a `sources/` change and its own feature.
+- The enterprise privacy capture lost most of its FAQ answers (collapsed
+  accordions); the questions about who can view chats and about retention
+  are in the file without their answers. Re-capturing is a `sources/`
+  change.
+- "Team" appears in exactly one sentence of one source; the enterprise and
+  data-use pages say "ChatGPT Business" and never "Team". The set cannot say
+  whether they are the same plan. LO 2 as worded depends on it. Reported
+  under Gaps; the objectives were not rewritten.
+- LO 3's five-element prompt pattern and LO 1's account of how a model
+  produces a response are not in any source; both are listed under Gaps.
+- The verifier script and the extracted text are in the session scratchpad,
+  not the repo, because the spec allows one new file. Re-running the check
+  means re-extracting with `pypdf`; the index's last section records the
+  method.
+- `git status` is not "exactly two changes". Before this feature started the
+  tree already carried uncommitted modifications to `CHANGELOG.md`,
+  `README.md`, `current-feature.md`, `src/Lesson.tsx`, `src/Sheet.tsx`,
+  `src/slides.tsx` and `src/theme.ts`, plus untracked `public/brand/` and
+  `sources/gpt/`. None of those is this feature's; this feature's footprint
+  is the new `drafts/GPT-source-index.md` and this entry. Nothing under
+  `sources/` changed.
+- ATO-01's six review-coverage warnings and ATO-02's six sheet-window
+  warnings predate this feature and are unchanged; see entries 20 and 21.

@@ -5,34 +5,37 @@ const { fontFamily: archivo } = loadArchivo();
 const { fontFamily: plexMono } = loadPlexMono();
 
 /**
- * Visual language: a construction drawing set.
+ * Visual language: a numbered sheet set in superCPE's colors.
  *
- * Every slide is a "sheet" carrying a title block, the way a real drawing
- * sheet does. This is not decoration — the sheets are a numbered sequence and
- * each one cites a specific ASC paragraph, so the title block encodes two
- * things that are actually true about the content and need to be on screen
- * anyway.
+ * Every slide is a "sheet" carrying a title block, the way a drawing sheet
+ * does. The chrome persists from the drawing-set design this started as
+ * because the two things it encodes are still real properties of the
+ * content: the sheets are a numbered sequence, and each one cites the
+ * paragraph it rests on. Both need to be on screen anyway, and the title
+ * block puts them there without a caption competing with the content.
  *
- * Palette is taken from the subject's own materials rather than a generic
- * slide theme: drafting vellum, graphite pencil, and the fluorescent pink of
- * surveyor's flagging tape. The pink marks the one thing currently under
- * discussion and appears nowhere else. If it is on more than two elements at
- * once, something has gone wrong.
+ * The palette is the superCPE logo: navy for type, blue for chrome, teal for
+ * the marker. `flag` (the logo's teal checkmark) marks the one thing currently
+ * under discussion and appears nowhere else — if it is on more than two
+ * elements at once, something has gone wrong. `accent` (the logo's blue) is
+ * structural: eyebrows, the Title rule, the sheet number. It is chrome and
+ * never marks content.
  */
 export const theme = {
   color: {
-    vellum: "#F1F3F1",      // sheet background, faintly green-grey like drafting film
-    vellumEdge: "#E4E8E5",  // panel fills, table banding
-    graphite: "#22262B",    // primary type
-    slate: "#5F6D79",       // secondary type, rules
-    hairline: "#C3CBC7",    // drawing border, dividers
-    flag: "#D01F63",        // surveyor's flagging — the marker, used sparingly
-    flagWash: "#FBE7EF",    // flag at low opacity, for fills behind marked items
+    vellum: "#F7F9FC",      // sheet background — near-white with a cool cast
+    vellumEdge: "#EAF0F8",  // panel fills, table banding
+    graphite: "#032660",    // primary type — logo navy
+    slate: "#5B6B85",       // secondary type, rules
+    hairline: "#C9D3E0",    // sheet border, dividers
+    flag: "#01B0A9",        // the marker — logo teal, used sparingly
+    flagWash: "#E3F5F4",    // flag at low opacity, for fills behind marked items
+    accent: "#0166FC",      // logo blue — eyebrows, the Title rule, sheet number
   },
   font: {
     display: archivo,   // grotesque with an engineered squareness
     body: archivo,
-    mono: plexMono,     // title block, sheet numbers, ASC citations
+    mono: plexMono,     // title block, sheet numbers, citations
   },
   size: {
     display: 84,
@@ -42,7 +45,7 @@ export const theme = {
     caption: 26,
     titleBlock: 22,
   },
-  // Drawing border inset, in px on a 1920x1080 sheet
+  // Sheet border inset, in px on a 1920x1080 sheet
   margin: 84,
 } as const;
 

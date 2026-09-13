@@ -32,7 +32,7 @@ const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       fontFamily: theme.font.mono,
       fontSize: theme.size.caption,
       letterSpacing: "0.16em",
-      color: theme.color.slate,
+      color: theme.color.accent,
       marginBottom: 28,
     }}
   >
@@ -66,7 +66,15 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
   const m = meta!;
   return (
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+      {/* The full logo shares the eyebrow's reveal so the two come up
+          together. Title has three hand-set reveals and no markers, and the
+          validator special-cases it on that basis — do not add a fourth. */}
       <div style={revealAt(frame, reveals[0])}>
+        <Img
+          src={staticFile("brand/supercpe-logo.png")}
+          alt="superCPE"
+          style={{ height: 96, width: "auto", display: "block", marginBottom: 40 }}
+        />
         <Eyebrow>{m.courseTitle.toUpperCase()}</Eyebrow>
       </div>
       <div
@@ -95,7 +103,7 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
           color: theme.color.slate,
         }}
       >
-        <span style={{ width: 60, height: 2, background: theme.color.flag }} />
+        <span style={{ width: 60, height: 2, background: theme.color.accent }} />
         <span>
           {[m.position, m.deliveryMethod, m.fieldOfStudy]
             .join("\u00A0·\u00A0")
