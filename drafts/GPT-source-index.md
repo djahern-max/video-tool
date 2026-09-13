@@ -10,6 +10,14 @@ sitting. Every factual sentence in a GPT lesson should trace to an entry
 below before it is written; a sentence that has no entry is `UNSOURCED` from
 the moment it is typed.
 
+This is the second generation of the index. The first (changelog entry 22)
+was built over a source set with two defects it found itself: the file named
+for New Hampshire RSA 309-B:18 was a second copy of the AICPA Code, and no
+file named the ChatGPT plans. Both are fixed in `sources/gpt/` — the
+duplicate is replaced by the statute, OpenAI's pricing page is added, and the
+AICPA file is renamed. The index was regenerated whole over the corrected
+set and every quote re-verified; git history holds the first generation.
+
 **How to read an entry.** The claim is in this index's words and is what the
 course could say. The quote under it is the document's words, verbatim,
 forty words or fewer, with the page it sits on. One claim, one quote. The tag
@@ -20,20 +28,15 @@ in the set, not because the course needs them.
 
 **Page numbers.** Pages are PDF page numbers as counted by the extractor
 (`pypdf` 6.18, plain text mode, one page break per PDF page; `pdftotext` is
-not installed on this machine). For the OpenAI and CPA.com files the PDF page
-is also the printed page. The AICPA Code prints its own page numbers six
-behind the PDF page, so those entries give both, as `(PDF p. 238, printed
-232)`. Extracted text lives in the session scratchpad and was not committed.
+not installed on this machine). For the OpenAI, CPA.com and New Hampshire
+files the PDF page is also the printed page. The AICPA Code prints its own
+page numbers six behind the PDF page, so those entries give both, as
+`(PDF p. 238, printed 232)`. Extracted text lives in the session scratchpad
+and was not committed.
 
-**Two facts about the file set, found on listing it.**
-
-- `AICPA Code's Confidential Client Information Rule, 1.700.001.pdf` and
-  `nh-rsa-309-b-18-confidential-communications.pdf` are the same bytes
-  (MD5 `1ff43d513cafdd127e8fe043d4b3842f`, 3,717,332 bytes). Both are the
-  complete AICPA Code of Professional Conduct, 340 pages. No New Hampshire
-  statute is in the set. Neither file was touched; see Gaps.
-- `sources/gpt/.DS_Store` is a macOS Finder artifact, not a source. It is not
-  indexed and is not counted as a file below.
+**One fact about the file set, found on listing it.** `sources/gpt/.DS_Store`
+is a macOS Finder artifact, not a source. It is not indexed and is not
+counted as a file below. The eleven PDFs are each a section.
 
 **Working learning objectives** (from `current-feature.md`, unchanged):
 
@@ -58,15 +61,15 @@ L06 A task, start to finish (video).
 
 ---
 
-## AICPA Code's Confidential Client Information Rule, 1.700.001.pdf
+## aicpa-code-1-700-001-confidential-client-information.pdf
 
 **Note.** The filename names one rule; the file is the whole Code. Every
 rule, interpretation and definition in the Code is available here, and the
 entries below draw on 0.400 (definitions), 1.300 (general standards) and
-1.700 (confidential information). It is byte-identical to
-`nh-rsa-309-b-18-confidential-communications.pdf`.
+1.700 (confidential information). The bytes are unchanged from the first
+index (MD5 `1ff43d513cafdd127e8fe043d4b3842f`); only the filename is new.
 
-- **Filename:** `AICPA Code's Confidential Client Information Rule, 1.700.001.pdf`
+- **Filename:** `aicpa-code-1-700-001-confidential-client-information.pdf`
 - **Publisher:** American Institute of CPAs (AICPA)
 - **Title as printed:** the cover carries no extractable title; PDF p. 1
   reads "Effective December 15, 2014. Updated for all official releases
@@ -176,7 +179,8 @@ this set; everything else is a vendor page or a trade-body guide.
   information. 1.700.110 offers de-identifying tax return information as an
   example safeguard in a tax practice review and goes no further.
 - New Hampshire RSA 309-B:18 or any state statute. "New Hampshire", "309-B"
-  and "RSA" do not appear in the extracted text.
+  and "RSA" do not appear in the extracted text; the statute is its own
+  file in the set, indexed below.
 - Anything about how a model works, prompting, or accuracy of AI output.
 
 **Currency risk:** dated publication on a rolling cadence — the AICPA
@@ -442,47 +446,220 @@ for any current product behaviour.
 
 ## nh-rsa-309-b-18-confidential-communications.pdf
 
-**Note.** This file is not what its name says. It is byte-identical to
-`AICPA Code's Confidential Client Information Rule, 1.700.001.pdf` (MD5
-`1ff43d513cafdd127e8fe043d4b3842f`): the full AICPA Code of Professional
-Conduct, 340 pages. The strings "New Hampshire", "309-B" and "RSA" occur
-nowhere in its extracted text. The file was not renamed, re-saved or
-replaced, because `sources/` is evidence and this feature may not change it.
-
 - **Filename:** `nh-rsa-309-b-18-confidential-communications.pdf`
-- **Publisher:** American Institute of CPAs (AICPA), not the State of New
-  Hampshire
-- **Title as printed:** as for the AICPA file above — no extractable cover
-  title; "Effective December 15, 2014. Updated for all official releases
-  through July 2026." (PDF p. 1)
-- **Date stated:** "Updated for all official releases through July 2026"
-  (PDF p. 1); © 2026. PDF metadata creation date 2026-08-10.
-- **Retrieval date:** not in filename
+- **Publisher:** New Hampshire General Court (gc.nh.gov, the state's
+  online RSA text)
+- **Title as printed:** "Section 309-B:18 Confidential Communications." under
+  the running heads "TITLE XXX OCCUPATIONS AND PROFESSIONS", "CHAPTER 309-B
+  NEW HAMPSHIRE ACCOUNTANCY ACT"
+- **Date stated:** the source note reads "Source. 1999, 236:1, eff. Sept. 7,
+  1999. 2024, 327:167, eff. July 1, 2024." (p. 1) — the section as captured
+  reflects the 2024 amendment. No "last updated" date for the web page.
+- **Retrieval date:** not in filename; print footer 9/13/26, 5:29 PM (p. 1)
 
 **What it is**
 
-The same document as the section above: the AICPA Code, complete. Whatever
-was meant to be saved here (presumably New Hampshire RSA 309-B:18,
-*Confidential Communications*) was not. It is written for AICPA members, not
-for New Hampshire licensees, and it carries no New Hampshire law.
+One section of New Hampshire's accountancy statute, one page, as published
+on the General Court's website: the confidentiality duty a New Hampshire
+licensee owes a client, and the list of disclosures the chapter does not
+prohibit. It is written as law, for licensees and those who regulate them,
+not as guidance. It is the state-law counterpart to the AICPA rule above and
+the only statute in the set.
 
 **Claims supported**
 
-No entries. Every entry under the AICPA file is equally findable in this
-file, and none of them is a New Hampshire claim. Listing them twice would
-double-count the Code in the coverage table, so this column stays empty.
+1. **A New Hampshire licensee may not voluntarily disclose information a
+   client communicated in connection with the services rendered.** *(LO 5;
+   L05)*
+   > shall not voluntarily disclose information communicated to such person by the client relating to and in connection with services rendered to the client by the licensee. (p. 1)
+
+2. **The only general release from the duty is the client's permission, or
+   that of the client's heirs, successors or personal representatives.**
+   *(LO 5; L05)*
+   > Except by permission of the client for whom a licensee performs services, or the heirs, successors, or personal representatives of such client (p. 1)
+
+3. **The duty binds everyone in the licensee's firm, not only the licensee:
+   partners, officers, members, managers, shareholders and employees.**
+   *(LO 5; L05)*
+   > a licensee or any partner, officer, member, manager, shareholder, or employee of a licensee shall not voluntarily disclose (p. 1)
+
+4. **Client-communicated information is confidential by statute, not by
+   agreement.** *(LO 5; L05)*
+   > Such information shall be deemed confidential (p. 1)
+
+5. **Disclosures the profession's reporting standards require, when
+   reporting on an examination of financial statements, are not
+   prohibited.** *(LO 5; L05)*
+   > nothing in this chapter shall be construed as prohibiting the disclosure of information required to be disclosed by the standards of the public accounting profession in reporting on the examination of financial statements (p. 1)
+
+6. **Disclosure under a subpoena or summons in court or agency proceedings
+   is not prohibited.** *(LO 5; L05)*
+   > or as prohibiting disclosures in court proceedings or administrative proceedings before governmental agencies in instances where a subpoena or summons has been issued (p. 1)
+
+7. **Disclosure in licensing investigations, ethics investigations by
+   professional bodies, and peer review is not prohibited.** *(LO 5; L05)*
+   > in investigations or proceedings under RSA 310, in ethical investigations conducted by private professional organizations, or in the course of peer reviews (p. 1)
+
+8. **Sharing within the organization serving the client is allowed on a
+   need-to-know basis — the statute's own model of who may see client
+   information.** *(LO 5; L05)*
+   > or to other persons active in the organization performing services for that client on a need to know basis (p. 1)
+
+9. **Sharing for the sole purpose of quality control is allowed, and the
+   statute names the peer review entity and the organization serving the
+   client as the recipients.** *(LO 5; L05)*
+   > or to persons in such professional organization, peer review entity, or organization performing services for that client who need this information for the sole purpose of assuring quality control. (p. 1)
+
+10. **The section dates from 1999 and was last amended effective July 1,
+    2024, so a lesson can date the rule it cites.** *(LO 5; L05)*
+    > Source. 1999, 236:1, eff. Sept. 7, 1999. 2024, 327:167, eff. July 1, 2024. (p. 1)
+
+11. **The rule sits in the New Hampshire Accountancy Act, RSA chapter
+    309-B.** *(LO 5; L05)*
+    > CHAPTER 309-B NEW HAMPSHIRE ACCOUNTANCY ACT Section 309-B:18 (p. 1)
 
 **Does not cover**
 
-- RSA 309-B:18 or any provision of New Hampshire's accountancy statute.
-- Whether New Hampshire's confidentiality rule is broader or narrower than
-  the AICPA rule, which is the question lesson 05 presumably wanted this file
-  for (the Code itself says state law may be more restrictive; AICPA entry
-  13).
-- Any state-specific consent, privilege, or disclosure requirement.
+- A third-party service provider route. The AICPA interpretation (AICPA
+  entries 8–10) lets a member disclose to a provider under a
+  confidentiality contract plus reasonable assurance, *or* with the
+  client's specific consent. The statute's exceptions list contains no
+  service-provider, vendor or contractor clause; its general release is
+  "permission of the client". Whether a model vendor falls under "persons
+  in such ... organization performing services for that client" is not
+  addressed, and the lesson should not say the statute permits it.
+- What "voluntarily disclose" means, or whether entering information into
+  software operated by someone else is a disclosure. The section never
+  names technology, a vendor, or a computer system of any kind.
+- The form of the client's permission. "Permission" is not qualified as
+  written, specific, or informed; the AICPA's "specific consent" language
+  (AICPA entry 11) has no counterpart here.
+- Definitions. "Licensee", "client" and "services" are defined elsewhere in
+  chapter 309-B, which is not in the set; so is any penalty.
+- Whether de-identified or anonymized client information is still
+  "information communicated to such person by the client".
 
-**Currency risk:** not applicable to a mislabeled duplicate; if the real
-statute replaces it, a statute is 4.01 annual-review material.
+**Currency risk:** statute — amended as recently as July 1, 2024, and 4.01
+puts laws on the annual review; the capture is the General Court's web text
+with a 9/13/26 footer, so re-capture from gc.nh.gov at each review and
+compare the "Source." line for a newer session law.
+
+---
+
+## openai-chatgpt-pricing-2026-09-13.pdf
+
+- **Filename:** `openai-chatgpt-pricing-2026-09-13.pdf`
+- **Publisher:** OpenAI (chatgpt.com/pricing, the product site, not the
+  help center)
+- **Title as printed:** "Pricing" — subtitle "See pricing for our
+  individual, business, and enterprise plans." Browser title "Pricing |
+  ChatGPT".
+- **Date stated:** not stated; footer "OpenAI © 2015–2026" (p. 12)
+- **Retrieval date:** 2026-09-13 (filename; print footer 9/13/26, 5:30 PM)
+
+**What it is**
+
+ChatGPT's public plan and price page, twelve printed pages: plan cards for
+the individual tier, a feature-comparison grid, a security and
+administration grid, and a short FAQ. It is written for a prospective
+subscriber choosing a plan. The capture is the "Individual" tab; the
+"Business & Enterprise" tab (p. 1) is a link, so business plan cards and
+prices are not in the file. In the comparison grids the row labels
+extracted but the per-plan cells (check marks, "Limited") did not, so the
+file says *what* is compared and not *which plan has it*.
+
+**On the names the course needs.** This page names a plan called
+**"Business"** — in the tab label "Business & Enterprise" (p. 1), in the
+footnote "Enterprise and Business can purchase credits" (p. 10), and twice in
+the FAQ answer that lists the paid plans (p. 10). It does **not** name a plan
+called "Team"; the string "team" occurs once, lowercase, in "Trusted by teams
+at" (p. 4), a logo strip. It says **nothing** about one plan replacing,
+renaming or succeeding another. The set as a whole now has three OpenAI
+pages that say "Business" and one (the Data Controls FAQ) that says "Team";
+none connects them. See Gaps.
+
+**Claims supported**
+
+1. **ChatGPT's plans are grouped as individual, business and enterprise.**
+   *(LO 2; L02)*
+   > See pricing for our individual, business, and enterprise plans. (p. 1)
+
+2. **The paid plans are Go, Plus, Business and Enterprise, priced per user
+   per month; a free plan is open to everyone.** *(LO 2; L02)*
+   > The free version of ChatGPT is available to everyone. Paid plans (Go, Plus, Business, and Enterprise) are priced per user per month. (p. 10)
+
+3. **Business is sold monthly or annually; Enterprise is annual only.**
+   *(LO 2; L02)*
+   > We offer monthly plans for Go, Plus and Business and annual plans for Business and Enterprise. (p. 10)
+
+4. **The individual plans and their list prices on the capture date: Free
+   $0, Go $8, Plus $20, Pro from $100 a month.** *(LO 2; L02)*
+   > Plus Do more with advanced intelligence $20 / month (p. 2)
+
+5. **The Go plan may show advertisements.** *(LO 2; L02)*
+   > This plan may include ads. (p. 2)
+
+6. **Business and Enterprise can buy additional usage as credits.** *(LO 2;
+   L02)*
+   > **Enterprise and Business can purchase credits for more access (p. 10)
+
+7. **ChatGPT works within a shared context window that holds the request,
+   the conversation so far, retrieved information and the response — the
+   page's own account of what the model is working from.** *(LO 1; L01)*
+   > ChatGPT manages a shared context window to understand your request, track the conversation, retrieve relevant information, and generate responses. (p. 10)
+
+8. **The space available for the user's input is less than the whole
+   window, because system instructions, memories and the model's internal
+   processing share it.** *(LO 1; L01, L03)*
+   > The portion available for user input is smaller than the total window, as space is also used for system instructions (including tools and personality), memories (if enabled), and internal processing (p. 10)
+
+9. **The input a user can supply is bounded, and the page states it in
+   pages of text for the Instant model.** *(LO 3; L03)*
+   > GPT Instant input maximum*** ~12 pages of text (p. 5)
+
+10. **The comparison grid has a Privacy row, with the labels "Content is
+    used to train our models" and "Opt-out available". Which plan each
+    label applies to did not survive extraction.** *(LO 2; L02)*
+    > Privacy Security & Administration Content is used to train our models Opt-out available (p. 8)
+
+11. **SAML SSO, an admin console, admin roles, domain verification and SOC 2
+    Type 2 are among the security and administration features the grid
+    compares.** *(LO 2; L02)*
+    > SAML SSO Unified billing Dedicated workspace GPTs analytics and management Admin console Bulk member management Admin roles Soc 2 Type 2 compliance (p. 8)
+
+12. **Data residency, IP allowlisting, compliance API logs and enterprise
+    key management are listed as features — the page names what an
+    Enterprise-grade deployment can offer without saying which plan
+    includes each.** *(LO 2; L02)*
+    > Compliance API Logs Platform IP allowlisting Data residency in US, EU, UK, JP, CA, KR, SG, IN, AU, UAE (p. 9)
+
+**Does not cover**
+
+- **"Team".** Not named. The page names "Business" and "Enterprise" as the
+  business plans and lists the paid plans as Go, Plus, Business and
+  Enterprise; there is no "Team" plan card, row, or footnote, and nothing
+  says a Team plan was renamed, replaced or folded into Business. The
+  question entry 22 could not settle — is "Team" the same plan as
+  "Business"? — is still not settled by any source in the set; this page
+  narrows it to "the current page does not use the name".
+- **Business and Enterprise prices, seats, or features.** The "Business &
+  Enterprise" tab was not captured; "Trusted by teams at" (p. 4) is a logo
+  strip.
+- **Which plan has which feature.** Every grid row is present without its
+  cells. "Content is used to train our models" and "Opt-out available"
+  cannot be attached to Free, Go, Plus or Pro from this file, so the page
+  cannot be cited for "plan X trains by default".
+- **Data handling.** The FAQ headings "How secure is ChatGPT?" and "How
+  does ChatGPT use my data?" (p. 11) are present as questions only; the
+  answers were collapsed at capture.
+- **Accuracy, prompting, or anything about how a model produces output**
+  beyond the context-window footnote (entries 7–8).
+
+**Currency risk:** product pricing page that changes without notice and
+carries no date; the model names (GPT-6 Astra, GPT-5.6 Luna, Sol, Terra)
+and prices will date within months, and the page shows a transient banner
+about Pro sign-ups; re-capture before every 4.01 review and treat entries 4
+and 9 as of the capture date only.
 
 ---
 
@@ -709,9 +886,10 @@ question headings, so the page says less here than it does live.
 **Does not cover**
 
 - "Team". The word does not appear on this page. The plan the Data Controls
-  FAQ calls "Team" is here "ChatGPT Business", and no source in the set says
-  whether they are the same plan renamed. LO 2 names "Team"; the author has
-  to resolve this before writing it.
+  FAQ calls "Team" is here "ChatGPT Business", the pricing page captured the
+  same day also says "Business" and not "Team", and no source in the set
+  says whether they are the same plan renamed. LO 2 names "Team"; the
+  author has to resolve this before writing it.
 - The FAQ answers. "Who can view conversations and chat history in ChatGPT
   Business?", "What is OpenAI’s policy on data retention for ChatGPT
   Business?" and their Enterprise counterparts appear as questions only;
@@ -858,7 +1036,7 @@ captured.
 
 ## Coverage
 
-Columns are the ten source files in `ls` order; the key is directly above
+Columns are the eleven source files in `ls` order; the key is directly above
 the table because the filenames do not fit in a header row. A ✓ means the
 source has at least one claim entry tagged with that objective or lesson.
 The table was generated from the entry tags by the verification script and
@@ -866,95 +1044,119 @@ pasted here unchanged.
 
 | # | File |
 |---|---|
-| 1 | `AICPA Code's Confidential Client Information Rule, 1.700.001.pdf` |
+| 1 | `aicpa-code-1-700-001-confidential-client-information.pdf` |
 | 2 | `cpacom-ai-solution-due-diligence-guide.pdf` |
 | 3 | `cpacom-build-vs-buy-ai-decision-framework.pdf` |
 | 4 | `cpacom-genai-toolkit.pdf` |
-| 5 | `nh-rsa-309-b-18-confidential-communications.pdf` (duplicate of 1; no entries) |
-| 6 | `openai-data-controls-faq-2026-09-13.pdf` |
-| 7 | `openai-does-chatgpt-tell-the-truth-2026-09-13.pdf` |
-| 8 | `openai-enterprise-privacy-2026-09-13.pdf` |
-| 9 | `openai-how-your-data-is-used-2026-09-13.pdf` |
-| 10 | `openai-prompt-engineering-best-practices-2026-09-13.pdf` |
+| 5 | `nh-rsa-309-b-18-confidential-communications.pdf` |
+| 6 | `openai-chatgpt-pricing-2026-09-13.pdf` |
+| 7 | `openai-data-controls-faq-2026-09-13.pdf` |
+| 8 | `openai-does-chatgpt-tell-the-truth-2026-09-13.pdf` |
+| 9 | `openai-enterprise-privacy-2026-09-13.pdf` |
+| 10 | `openai-how-your-data-is-used-2026-09-13.pdf` |
+| 11 | `openai-prompt-engineering-best-practices-2026-09-13.pdf` |
 
-| | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| LO 1 |  |  |  | ✓ |  |  | ✓ | ✓ | ✓ |  |
-| LO 2 |  | ✓ |  | ✓ |  | ✓ |  | ✓ | ✓ |  |
-| LO 3 |  |  |  | ✓ |  |  |  |  |  | ✓ |
-| LO 4 | ✓ | ✓ |  | ✓ |  |  | ✓ |  |  |  |
-| LO 5 | ✓ | ✓ |  | ✓ |  |  |  |  |  |  |
-| L01 | ✓ |  |  | ✓ |  |  | ✓ | ✓ | ✓ |  |
-| L02 |  | ✓ |  | ✓ |  | ✓ |  | ✓ | ✓ |  |
-| L03 |  |  |  | ✓ |  |  |  |  |  | ✓ |
-| L04 | ✓ | ✓ |  | ✓ |  |  | ✓ |  |  |  |
-| L05 | ✓ | ✓ |  | ✓ |  |  |  | ✓ | ✓ |  |
-| L06 |  |  |  | ✓ |  | ✓ | ✓ |  |  | ✓ |
+| | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| LO 1 |   |   |   | ✓ |   | ✓ |   | ✓ | ✓ | ✓ |   |
+| LO 2 |   | ✓ |   | ✓ |   | ✓ | ✓ |   | ✓ | ✓ |   |
+| LO 3 |   |   |   | ✓ |   | ✓ |   |   |   |   | ✓ |
+| LO 4 | ✓ | ✓ |   | ✓ |   |   |   | ✓ |   |   |   |
+| LO 5 | ✓ | ✓ |   | ✓ | ✓ |   |   |   |   |   |   |
+| L01 | ✓ |   |   | ✓ |   | ✓ |   | ✓ | ✓ | ✓ |   |
+| L02 |   | ✓ |   | ✓ |   | ✓ | ✓ |   | ✓ | ✓ |   |
+| L03 |   |   |   | ✓ |   | ✓ |   |   |   |   | ✓ |
+| L04 | ✓ | ✓ |   | ✓ |   |   |   | ✓ |   |   |   |
+| L05 | ✓ | ✓ |   | ✓ | ✓ |   |   |   | ✓ | ✓ |   |
+| L06 |   |   |   | ✓ |   |   | ✓ | ✓ |   |   | ✓ |
 
-**Currency of the ✓s.** Files 6, 7, 8, 9 and 10 are web pages that change
+**Currency of the ✓s.** Files 6 through 11 are web pages that change
 without notice; file 4 is a 2023 publication already overtaken on the facts
-it states about ChatGPT. Only file 1 (the Code) and, marginally, files 2 and
-3 are stable publications.
+it states about ChatGPT. Files 1 (the Code) and 5 (the statute) are the
+stable, authoritative sources, and both are on 4.01's annual cadence as a
+code and a law; files 2 and 3 are dated trade-body publications.
 
 ### Gaps
 
 Reported, not fixed. No new source is proposed here.
 
-- **LO 1, first half, is unsourced.** No document explains how a large
-  language model produces a response. The nearest are "patterns in data it
-  was trained on" (file 7) and "generated output, not computed answers"
-  (file 4, a quoted CEO). "Instruction drift" appears in no source.
-  "Staleness" is supported only as the knowledge cutoff on file 7. Every ✓
-  on LO 1 is from a help-center page or the 2023 toolkit; L01's ✓ from
-  file 1 is only the Code's pointer to AI guidance it does not contain.
-- **LO 2's "Team" is a name only one source uses.** File 6 says Team,
-  Enterprise and Edu have "additional data controls" and stops. Files 8 and
-  9 say "ChatGPT Business" and never "Team". Nothing in the set says whether
-  Team and Business are the same plan. LO 2 as worded asks the course to
-  "distinguish consumer, Team, and Enterprise data handling", and the set
-  can distinguish consumer from business but cannot describe Team.
+- **LO 1, first half, is still mostly unsourced.** No document explains how
+  a large language model produces a response. The nearest are "patterns in
+  data it was trained on" (file 8), "generated output, not computed
+  answers" (file 4, a quoted CEO), and — new in this set — the pricing
+  page's footnote that ChatGPT works from a shared context window holding
+  the request, the conversation and retrieved information (file 6, entries
+  7–8). That is the only source describing what the model is working from
+  during a conversation; it is a pricing footnote, not an explanation.
+  "Instruction drift" appears in no source. "Staleness" is supported only
+  as the knowledge cutoff on file 8. Every ✓ on LO 1 is from a web page or
+  the 2023 toolkit; L01's ✓ from file 1 is only the Code's pointer to AI
+  guidance it does not contain.
+- **LO 2's "Team" is a name only one source uses, and the new source does
+  not use it either.** File 7 says Team, Enterprise and Edu have
+  "additional data controls" and stops. Files 6, 9 and 10 say "ChatGPT
+  Business" and never "Team"; file 6 lists the paid plans as Go, Plus,
+  Business and Enterprise. Nothing in the set says whether Team and
+  Business are the same plan, and nothing says one replaced the other. LO
+  2 as worded asks the course to "distinguish consumer, Team, and
+  Enterprise data handling"; the set can distinguish consumer from
+  business and can name Business and Enterprise, but it cannot describe a
+  plan called Team. Rewording the objective is not this index's decision.
 - **LO 2's ✓s are all high-currency-risk.** Every source bearing on LO 2 and
-  L02 is a web page (6, 8, 9), the 2023 toolkit (4), or a vendor-question
-  list (2). The enterprise page's FAQ answers on who can view chats and on
-  retention were collapsed at capture and are not in the file.
+  L02 is a web page (6, 7, 9, 10), the 2023 toolkit (4), or a
+  vendor-question list (2). The enterprise page's FAQ answers on who can
+  view chats and on retention were collapsed at capture; the pricing
+  page's grid cells and its two data-handling FAQ answers were lost the
+  same way. Business and Enterprise prices were not captured at all.
 - **LO 3's pattern is unsourced.** No source names role, inputs,
-  constraints or output format as elements of a prompt. Files 10 and 4
-  support clarity, specificity, examples, iteration and tone. The
-  five-element pattern in LO 3 will be `UNSOURCED` as a pattern even if each
-  element can be argued from those. Both LO 3 sources are high currency
-  risk (file 10 is a web page; file 4 is 2023).
+  constraints or output format as elements of a prompt. Files 11 and 4
+  support clarity, specificity, examples, iteration and tone; file 6 adds
+  only that input length is bounded. The five-element pattern in LO 3 will
+  be `UNSOURCED` as a pattern even if each element can be argued from
+  those. All three LO 3 sources are high currency risk.
 - **LO 4 is sourced but thin on documentation.** Verification itself is well
-  supported (files 1, 2, 4, 7). "Document the verification" has one line of
+  supported (files 1, 2, 4, 8). "Document the verification" has one line of
   support: file 4 sends the firm to counsel for what to document. No source
   gives a form of record.
-- **LO 5 has no state law.** The Code (file 1) carries LO 5 and says state
-  law may be more restrictive; the file meant to supply New Hampshire's rule
-  is a duplicate of the Code. Any sentence in lesson 05 about New Hampshire
-  law is `UNSOURCED` until a real copy of RSA 309-B:18 is added, which is a
-  `sources/` change and its own feature.
+- **LO 5 now has state law, and the two rules do not line up.** File 5
+  supplies New Hampshire RSA 309-B:18. Its general release is "permission
+  of the client" and its exceptions list has no service-provider clause,
+  while the Code (file 1) lets a member use a third-party provider under a
+  confidentiality contract with reasonable assurance and no client
+  consent. A lesson that teaches the Code's contract route as sufficient
+  for a New Hampshire licensee would be unsourced on the statute; the
+  statute's silence is reported in file 5's "Does not cover", not resolved.
+- **Neither rule names technology.** Whether entering client information
+  into ChatGPT is a "disclosure" (file 1) or a "voluntary disclosure"
+  (file 5) is the author's inference in both cases; no source in the set
+  applies either rule to a model or a chatbot.
 - **"General-purpose model" is undefined.** LO 5 turns on it; file 4 says
   "public LLM" and "public generative AI tool" without defining either, and
   no OpenAI page uses any such term.
 - **L06 has no source of its own.** The video lesson will rest on file 4's
   use-case prompts (2023, naming tools that may no longer exist as named)
-  and on files 6, 7 and 10 for the settings, verification and iteration
+  and on files 7, 8 and 11 for the settings, verification and iteration
   steps. Nothing in the set describes a complete accounting task end to end.
-- **Files 3 and 5 contribute nothing** to any objective, file 3 by subject
-  and file 5 by being a duplicate. File 2 contributes five entries, all
-  practices rather than facts.
+- **File 3 contributes nothing** to any objective, by subject. File 2
+  contributes five entries, all practices rather than facts. File 5 now
+  contributes eleven, all to LO 5 and L05.
 
 ---
 
 ## How this index was made
 
 - Extracted 2026-09-13 with `pypdf` 6.18.1 in plain text mode into the
-  session scratchpad, one `.txt` per PDF, a `===== PAGE N =====` marker per
+  session scratchpad, one `.txt` per PDF, a `=== PAGE N ===` marker per
   page. `pdftotext` is not installed here. Nothing was written under
   `sources/` or `out/`.
 - Every quote above was checked mechanically against the extracted text of
   its cited page: whitespace collapsed, end-of-line hyphens joined, fi/fl
-  ligatures expanded, nothing else normalized. 94 quotes checked, 94 found
+  ligatures expanded, nothing else normalized. 117 quotes checked, 117 found
   verbatim on the cited page, none over 40 words. A quote that had failed
   would have been removed, not paraphrased; none did.
 - Section headers were compared to `ls sources/gpt/` and match one to one;
   `.DS_Store` is excluded as noted at the top.
+- Sections for the nine files whose bytes did not change between the first
+  index and this one were carried over and re-verified rather than
+  rewritten; the AICPA section's header and note, and the enterprise page's
+  note on "Team", were edited to reflect the corrected set.

@@ -2364,3 +2364,92 @@ Shipped: 2026-09-13
   `sources/` changed.
 - ATO-01's six review-coverage warnings and ATO-02's six sheet-window
   warnings predate this feature and are unchanged; see entries 20 and 21.
+
+## 23 — GPT source index, regenerated for the corrected source set
+Shipped: 2026-09-13
+
+**What changed**
+- `drafts/GPT-source-index.md` overwritten. It supersedes entry 22's index,
+  which was built over a set where the New Hampshire file was a second copy
+  of the AICPA Code and nothing named the ChatGPT plans; both are fixed in
+  `sources/gpt/` (committed before this feature ran, as the spec requires)
+  and the index was regenerated whole rather than patched.
+- Eleven sections, one per PDF in `ls sources/gpt/` order, each with the
+  header, "What it is", "Claims supported", "Does not cover" and "Currency
+  risk" parts. 117 claim entries. New sections for the statute
+  (`nh-rsa-309-b-18-confidential-communications.pdf`, 11 entries, all LO 5)
+  and the pricing page (`openai-chatgpt-pricing-2026-09-13.pdf`, 12
+  entries). The AICPA section carries its new filename and a note that the
+  bytes are unchanged. The nine sections whose files did not change were
+  carried over and re-verified, with two edits: the AICPA "Does not cover"
+  now points to the statute's own section, and the enterprise page's
+  "Team" note now says the pricing page also says "Business".
+- The pricing section answers the question the spec singles out: the page
+  names a plan called "Business", does not name one called "Team" (the
+  only "team" is the lowercase "Trusted by teams at" logo strip), and says
+  nothing about one replacing the other.
+- Coverage table regenerated over eleven columns from the entry tags by
+  the verifier script and pasted unchanged. Gaps rewritten: LO 5's
+  state-law gap is closed and replaced by a finding that the statute's
+  exceptions list has no service-provider route where the Code has one;
+  LO 2's "Team" gap stays open with the pricing page's evidence added.
+- Extraction with `pypdf` 6.18.1 in a scratchpad virtualenv, plain text
+  mode with a page marker per page; `pdftotext` is still not installed and
+  no dependency was added to `package.json`. Nothing written under
+  `sources/` or `out/`; nothing committed from the scratchpad.
+- Verification, per the spec's Verify list: every quote grepped against
+  the extracted text of its cited page after collapsing whitespace, joining
+  end-of-line hyphens and expanding fi/fl ligatures — 117 checked, 117
+  found, none over 40 words. Section headers match `ls sources/gpt/` one
+  to one (`.DS_Store` excluded). `npm run typecheck` clean. `npm run
+  check`: 2 lessons, 0 errors, 12 warnings, unchanged from entry 22.
+  `git status` before starting was clean; after, exactly
+  `drafts/GPT-source-index.md` and `CHANGELOG.md` are modified.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for accuracy.
+  The index exists for that review: a lesson sentence written from an entry
+  is traceable before it is checked.
+- 4.01 — courses in subjects that undergo frequent changes such as updates
+  to codes, laws, rulings and interpretations must be reviewed at least once
+  a year; the per-source "Currency risk" line sets that cadence, and the
+  statute joins the Code on the annual list.
+
+**Decisions**
+- The AICPA file's MD5 is unchanged from entry 22, so its 18 entries were
+  reused and re-verified rather than re-selected. Regenerating "whole"
+  was read as re-deriving the file from the current set and re-checking
+  every quote, not as discarding entries that still hold.
+- The pricing page's comparison grids extracted as row labels without
+  their per-plan cells. Entries 10–12 quote the labels and say in the
+  claim that the plan mapping did not survive extraction, rather than
+  inferring which plan has which feature. The page is not cited for "plan
+  X trains by default".
+- The pricing page's context-window footnote is indexed under LO 1 as the
+  set's only statement of what the model is working from during a
+  conversation. It is a footnote on a price page, and the Gaps list says
+  so; LO 1's mechanism is still reported as unsourced.
+- The statute's silence on third-party providers is reported as a "Does
+  not cover" bullet and a Gaps finding, not resolved. Whether the Code's
+  contract route satisfies a New Hampshire licensee is a question for the
+  author with counsel, and no source in the set answers it.
+- No web research, per the spec. The "Team"/"Business" question is
+  reported as still unsettled by the set; no outside knowledge was used to
+  settle it.
+
+**Known gaps**
+- "Team" versus "Business" is still not decidable from the set. Three
+  OpenAI pages say Business, one says Team, none connects them. LO 2 as
+  worded names Team; rewording it is not this feature's decision.
+- The enterprise privacy page's FAQ answers and the pricing page's grid
+  cells and data-handling FAQ answers were collapsed at capture. The
+  business-tier prices were not captured at all. Re-capturing is a
+  `sources/` change and its own feature.
+- LO 1's mechanism, LO 3's five-element pattern, and a form of record for
+  LO 4's "document the verification" remain unsourced, as in entry 22.
+- The verifier script and extracted text are in the session scratchpad,
+  not the repo; the index's last section records the method so it can be
+  re-run.
+- ATO-01's six review-coverage warnings and ATO-02's six sheet-window
+  warnings predate this feature and are unchanged; see entries 20 and 21.
