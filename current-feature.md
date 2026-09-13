@@ -1,22 +1,23 @@
 # Current Feature
 
-## GPT course, source index — regenerated for the corrected source set
+## GPT course, source index — regenerated for the recaptured source set
 
 ## Why this runs again
-Entry 22 built `drafts/GPT-source-index.md` over a source set that had two
-defects the index itself found: the file named as NH RSA 309-B:18 was a
-duplicate of the AICPA Code, and nothing in the set named the ChatGPT plans.
-Both are fixed in `sources/gpt/` — the duplicate is replaced by the actual
-statute, and OpenAI's pricing page is added. The AICPA file is also renamed.
+Entry 23 found that the pricing page had been captured with its plan grid
+collapsed and the enterprise-privacy page with its FAQ answers collapsed, so
+objective 2 could not be written from the set. `sources/gpt/` now carries
+recaptured pages: the pricing page split into
+`openai-chatgpt-pricing-personal-2026-09-13.pdf` and
+`openai-chatgpt-pricing-business-2026-09-13.pdf`, a new
+`openai-chatgpt-business-2026-09-13.pdf` (the ChatGPT Business product page),
+and a re-saved enterprise-privacy page. The collapsed pricing capture is
+removed; git history is its archive.
 
-The index is regenerated whole rather than patched. It is a generated working
-file, not a human record, and it was written by a different feature than this
-one; regenerating avoids editing a file this feature did not create, drops the
-column for a file that no longer exists, and re-verifies every quote.
-Overwrite `drafts/GPT-source-index.md`. Do not keep the old one under another
-name; git history is the archive.
+The index is regenerated whole rather than patched, as entry 23 was. It is a
+generated working file, not a human record, and it was written by a different
+feature than this one. Overwrite `drafts/GPT-source-index.md`.
 
-Everything below is entry 22's spec, unchanged except where marked **(v2)**.
+Everything below is entry 22's spec, unchanged except where marked **(v2)** or **(v3)**.
 
 ## Goal
 `drafts/GPT-source-index.md` exists and tells the author, for every file in
@@ -118,10 +119,13 @@ is two entries. Aim for the claims that matter to the learning objectives
 above, not for completeness — twelve well-chosen entries beat forty.
 
 **Does not cover** — things a course author might expect this document to
-support but it does not. **(v2)** For the pricing page in particular: say
-plainly whether it names a plan called "Team", a plan called "Business",
-both, or neither, and whether it says anything about one replacing the
-other. Objective 2 depends on this and entry 22 could not settle it. Two to five bullets. This is the part that prevents
+support but it does not. **(v3)** For the three business-plan files (pricing-business,
+chatgpt-business, enterprise-privacy): say plainly which plan names each one
+uses, whether any names "Team", and what each says about whether business
+data is used for training. For pricing-personal: what it says about training
+on data, if anything. Objective 2 depends on this and entries 22 and 23 could
+not settle it. Note that the grid captures repeat cell text in row labels;
+quote them as they are. Two to five bullets. This is the part that prevents
 UNSOURCED flags: it is where the author learns that the prompt-engineering
 page says nothing about accuracy, or that the data-controls FAQ does not
 define "Enterprise".
@@ -145,8 +149,8 @@ on any learning objective, say so plainly in a one-line note at the top of
 each section rather than stretching claims to fit.
 
 ### 5. Changelog
-One entry, numbered one past the last, in the CLAUDE.md format. **(v2)** Say
-that this supersedes entry 22's index and why, in one line; do not edit
+One entry, numbered one past the last, in the CLAUDE.md format. **(v3)** Say
+that this supersedes entry 23's index and why, in one line; do not edit
 entry 22. Standards
 touched: cite 4.01.1 only if, having read it in the 2026 Statement under
 `docs/standards/`, the content developer's accuracy-review duty is what this

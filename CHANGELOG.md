@@ -2453,3 +2453,105 @@ Shipped: 2026-09-13
   re-run.
 - ATO-01's six review-coverage warnings and ATO-02's six sheet-window
   warnings predate this feature and are unchanged; see entries 20 and 21.
+
+## 24 — GPT source index, regenerated for the recaptured source set
+Shipped: 2026-09-13
+
+**What changed**
+- `drafts/GPT-source-index.md` overwritten. It supersedes entry 23's index
+  because that one was built over a pricing capture with its plan grid
+  collapsed and an enterprise-privacy capture with its FAQ answers
+  collapsed, so objective 2 could not be written from it; the set was
+  recaptured (committed before this feature ran) and the index regenerated
+  whole rather than patched. Entry 22 is not edited.
+- Thirteen sections, one per PDF in `ls sources/gpt/` order, each with the
+  header, "What it is", "Claims supported", "Does not cover" and "Currency
+  risk" parts. 144 claim entries. Four sections written fresh from the
+  recaptured files: `openai-chatgpt-business-2026-09-13.pdf` (2 entries,
+  no LO), `openai-chatgpt-pricing-business-2026-09-13.pdf` (13),
+  `openai-chatgpt-pricing-personal-2026-09-13.pdf` (12) and
+  `openai-enterprise-privacy-2026-09-13.pdf` (23). The section for the
+  removed collapsed pricing capture is dropped with the file. The nine
+  sections whose files did not change were carried over and re-verified,
+  with one edit to the AICPA note's wording about its unchanged bytes.
+- The v3 questions answered per file. Plan names: the business pricing
+  grid uses "Business" and "Enterprise" only; the enterprise-privacy page
+  names ChatGPT Business, Enterprise, Healthcare, Edu, Teachers and the
+  API Platform; the ChatGPT Business page's readable text names no plan;
+  the personal grid uses Free, Go, Plus and Pro. "Team": no file in the set
+  other than the Data Controls FAQ names it. Training: the enterprise page
+  says twice that business data, ChatGPT Business and Enterprise by name,
+  is not used for training by default, with explicit opt-in as the
+  exception; neither pricing grid and the product page say anything about
+  training.
+- Coverage table regenerated over thirteen columns from the entry tags by
+  the verifier script and pasted unchanged. Gaps rewritten: LO 2's
+  training-controls gap is closed on both the consumer and business sides;
+  the "Team" gap stays open; a new finding lists the facts the earlier
+  captures carried that the recaptures dropped (the enterprise page's date
+  and SAML SSO line, every price, the Privacy and Security & Administration
+  row labels, the context-window footnote), which are now in git history
+  only and not citable.
+- Extraction with `pypdf` 6.18.1 in a scratchpad virtualenv, plain text
+  mode with a page marker per page; `pdftotext` is still not installed and
+  no dependency was added to `package.json`. Nothing written under
+  `sources/` or `out/`; nothing committed from the scratchpad.
+- Verification, per the spec's Verify list: every quote grepped against
+  the extracted text of its cited page after collapsing whitespace, joining
+  end-of-line hyphens and expanding fi/fl ligatures — 144 checked, 144
+  found, none over 40 words. Section headers match `ls sources/gpt/` one
+  to one (`.DS_Store` excluded). `npm run typecheck` clean. `npm run
+  check`: 2 lessons, 0 errors, 12 warnings, unchanged from entry 23.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for accuracy.
+  The index exists for that review: a lesson sentence written from an entry
+  is traceable before it is checked.
+- 4.01 — courses in subjects that undergo frequent changes such as updates
+  to codes, laws, rulings and interpretations must be reviewed at least once
+  a year; the per-source "Currency risk" line sets that cadence.
+
+**Decisions**
+- The tree was not clean when this feature started: `current-feature.md`
+  was modified and `current-feature-022.md` and `current-feature-023.md`
+  were deleted in the working tree, all of them the spec's own archival
+  edits. `sources/gpt/` and `drafts/` were clean and the recapture was
+  already committed, which is what the spec's clean-tree rule protects, so
+  the feature ran rather than stopping. Reported here and in the session
+  report rather than silently.
+- The ChatGPT Business product page is a single embedded image with a
+  147-word text layer of testimonials. It is indexed from that text with
+  two no-LO entries and a note at the top saying it is not usable as a
+  source in this capture, per Task 1's "index it from whatever text can be
+  read"; no OCR was attempted, because that would add a dependency and
+  the result would not be the file's own text.
+- Grid cells are quoted exactly as extracted, including the repeated
+  value in front of the `Plan:` label and the `V oice` split, because the
+  verifier has to find them; the preamble explains the shape once.
+- The enterprise-privacy section's entries are all new even where a claim
+  survives from entry 23, because the re-saved page's text differs (FAQ
+  answers present, question headings, intro bullets and the date line
+  absent) and no old quote was assumed to still be on the page without
+  being found there.
+- No web research, per the spec. The "Team" question is reported as still
+  unsettled by the set; no outside knowledge was used to settle it.
+
+**Known gaps**
+- "Team" versus "Business" is still not decidable from the set. LO 2 as
+  worded names Team; rewording it is not this feature's decision.
+- The recaptures dropped facts the earlier captures had — the enterprise
+  page's date and SAML SSO line, all prices, the Privacy and Security &
+  Administration rows, the context-window footnote — and the ChatGPT
+  Business page is an image. Re-capturing is a `sources/` change and its
+  own feature.
+- LO 1's mechanism, LO 3's five-element pattern, and a form of record for
+  LO 4's "document the verification" remain unsourced, as in entries 22
+  and 23.
+- The verifier script and extracted text are in the session scratchpad,
+  not the repo; the index's last section records the method so it can be
+  re-run.
+- `git status` shows the two changes this feature made plus the three
+  pre-existing spec-file changes noted under Decisions.
+- ATO-01's six review-coverage warnings and ATO-02's six sheet-window
+  warnings predate this feature and are unchanged; see entries 20 and 21.
