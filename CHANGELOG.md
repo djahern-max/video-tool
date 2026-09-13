@@ -2555,3 +2555,256 @@ Shipped: 2026-09-13
   pre-existing spec-file changes noted under Decisions.
 - ATO-01's six review-coverage warnings and ATO-02's six sheet-window
   warnings predate this feature and are unchanged; see entries 20 and 21.
+
+## 25 — GPT source index, regenerated for the final source set
+Shipped: 2026-09-13
+
+**What changed**
+- `drafts/GPT-source-index.md` overwritten. It supersedes entry 24's index
+  because that one was built over a set whose enterprise-privacy re-save
+  had lost the page's "Updated: January 8, 2026" date and its SAML SSO
+  line, and whose ChatGPT Business product page was an image; commit
+  8239c24 restored the print-layout enterprise-privacy capture as
+  `openai-enterprise-privacy-print-2026-09-13.pdf` and removed the image
+  page, and the index was regenerated whole over that set. Entry 22 is
+  not edited.
+- Thirteen sections, one per PDF in `ls sources/gpt/` order, each with the
+  header, "What it is", "Claims supported", "Does not cover" and "Currency
+  risk" parts. 155 claim entries. One section written fresh, for the
+  print-layout capture: 13 entries, all LO 2 and L02, three also LO 5 and
+  L05 — the date line, the SAML SSO line, the retention-control line that
+  names Enterprise, Healthcare and Edu, the access-control and
+  fine-grained-control commitments, the SOC 2 and encryption commitments,
+  and six FAQ question headings each paired to the Reader-view entry that
+  holds its answer. No claim the Reader-view section already carries is
+  repeated, as the spec asks. The section for the removed product page is
+  dropped with the file.
+- Twelve sections carried over and re-verified. Two of them edited: the
+  Reader-view enterprise-privacy section's "Date stated", "What it is",
+  "Does not cover" and "Currency risk" now point to the print-layout
+  capture instead of saying the date and SAML SSO line are in no file, and
+  the business pricing section's Security & Administration bullet says
+  the same for SSO. The preamble gains a "Two captures of one page"
+  paragraph.
+- The v3/v4 questions answered for the print-layout capture: plan names
+  are ChatGPT Business, Enterprise, Healthcare, Edu, Teachers and the API
+  Platform; "Team" appears only in lower case ("engineering teams", "for
+  your team"); on training it carries the headline "We do not train our
+  models on your data by default" and the FAQ question with its answer
+  collapsed, and the section sends the author to the Reader-view entries
+  for the citable statement. The other files' answers are unchanged from
+  entry 24.
+- Coverage table regenerated over thirteen columns from the entry tags by
+  the verifier script and pasted unchanged. Gaps rewritten: the "dropped
+  facts" finding now lists what file 11 restored (date, SSO, retention
+  line) and what is still history-only (every price, the Privacy and
+  Security & Administration row labels, the context-window footnote, the
+  ads line); the image-page finding is replaced by one saying the product
+  page is no longer in the set; a new finding says SAML SSO is sourced as
+  a commitment, not as a feature of any named plan.
+- Extraction with `pypdf` 6.18.1 in a scratchpad virtualenv, plain text
+  mode with a page marker per page; `pdftotext` is still not installed and
+  no dependency was added to `package.json`. Nothing written under
+  `sources/` or `out/`; nothing committed from the scratchpad.
+- Verification, per the spec's Verify list: every quote grepped against
+  the extracted text of its cited page after collapsing whitespace, joining
+  end-of-line hyphens and expanding fi/fl ligatures — 155 checked, 155
+  found, none over 40 words. Section headers match `ls sources/gpt/` one
+  to one (`.DS_Store` excluded). `npm run typecheck` clean. `npm run
+  check`: 2 lessons, 0 errors, 12 warnings, unchanged from entry 24.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for accuracy.
+  The index exists for that review: a lesson sentence written from an entry
+  is traceable before it is checked.
+- 4.01 — courses in subjects that undergo frequent changes such as updates
+  to codes, laws, rulings and interpretations must be reviewed at least once
+  a year; the per-source "Currency risk" line sets that cadence, and the
+  print-layout capture is the one OpenAI page that carries a date to
+  compare at the next review.
+
+**Decisions**
+- The tree was not clean when this feature started: `current-feature.md`
+  was modified and `current-feature-024.md` was untracked, both the spec's
+  own archival edits. `sources/gpt/` and `drafts/` were clean and commit
+  8239c24 was already in, which is what the spec's clean-tree rule
+  protects, so the feature ran rather than stopping. Reported here and in
+  the session report.
+- The restored print-layout file is not byte-identical to the blob at
+  commit 20fee1e (MD5 `e05acbb9…` against `38e020e9…`), but its extracted
+  text and PDF creation timestamp (2026-09-13 20:56:39 UTC) are identical
+  to it. The section states that and tells the author to cite the file in
+  the tree, not the history. The file was not touched.
+- The print-layout section indexes FAQ question headings as entries. The
+  Reader-view capture has the answers without the questions; the pairing
+  is what lets a lesson cite a question and its answer to the same page,
+  and each such entry names the Reader-view entry it pairs with.
+- The headline "We do not train our models on your data by default" line
+  is quoted in the print-layout section's "Does not cover", not as an
+  entry, because the Reader-view section already carries that claim three
+  times and the spec says not to repeat it.
+- The two enterprise-privacy sections are adjacent by `ls` order, which is
+  also the reading order the preamble describes; no reordering was needed.
+- No web research, per the spec. The "Team" question is reported as still
+  unsettled by the set; no outside knowledge was used to settle it.
+
+**Known gaps**
+- "Team" versus "Business" is still not decidable from the set. LO 2 as
+  worded names Team; rewording it is not this feature's decision.
+- Prices, the pricing page's Privacy and Security & Administration rows,
+  its context-window footnote and the Go plan's ads line are still in git
+  history only. SAML SSO is now sourced, but as a general commitment; no
+  file says which plan has it.
+- The ChatGPT Business product page is no longer in the set in any form;
+  the enterprise page's Business FAQ answer is the set's description of
+  the plan.
+- LO 1's mechanism, LO 3's five-element pattern, and a form of record for
+  LO 4's "document the verification" remain unsourced, as in entries 22
+  through 24.
+- The verifier script and extracted text are in the session scratchpad,
+  not the repo; the index's last section records the method so it can be
+  re-run.
+- `git status` shows the two changes this feature made plus the two
+  pre-existing spec-file changes noted under Decisions.
+- ATO-01's six review-coverage warnings and ATO-02's six sheet-window
+  warnings predate this feature and are unchanged; see entries 20 and 21.
+
+## 26 — Course GPT registered, objectives set, GPT-01 section plan
+Shipped: 2026-09-13
+
+**What changed**
+- `npm run new` six times: lessons 03–08, package ids GPT-01 … GPT-06,
+  five text and one video, in course `GPT` — "Using ChatGPT in an
+  Accounting Practice". The first run created `COURSE_GPT` in
+  `src/course.ts`; the rest joined it at positions 2–6. `src/lessons.ts`
+  and `src/questions.ts` were edited by the command, not by hand.
+- `COURSE_GPT`'s three TODO descriptors filled: `nasbaFieldOfStudy`
+  "Computer Software & Applications" (copied from `FIELDS_OF_STUDY` in
+  `scripts/validate-package.ts`), `prerequisites` "None",
+  `advancePreparation` "None". `knowledgeLevel` "Basic" and
+  `deliveryMethod` "Self study" are what the scaffold wrote and what ATO
+  uses. The record's doc comment was written.
+- Every new module's `learningObjectives` carries the spec's objectives
+  verbatim, ids `lo-1` … per lesson (3, 3, 4, 4, 4, 1). `sources` lists
+  only the `sources/gpt/` files the index shows contributing at least one
+  entry to that lesson's objectives, each cited by publisher, title as the
+  index prints it, retrieval or publication date, and path. `author` is
+  ATO-01's block, test-package sentinels included. `revision` "1",
+  `revisionDate` 2026-09-13, `status` "draft". Lesson 08's display
+  `fieldOfStudy` was set to the same string as the NASBA field; its
+  `subtitle` is still the scaffold's TODO.
+- Lesson 03 (`GPT-01`) has a section plan: seven `meta.sections`
+  (front-matter, sec-01 … sec-05, glossary) and the matching files under
+  `guide/03/`. Each body file is its heading, one `<!-- index: … -->`
+  comment naming the entries it will draw on, and a `TODO prose` line; the
+  glossary file is its heading and `TODO`; the front matter is the
+  scaffold's "How this course works" template. The scaffold's `01-body.md`
+  was replaced by the five planned files. `glossaryTerms` stays empty.
+- `drafts/GPT-01-review.md` … `GPT-06-review.md`, created by the scaffold
+  this feature, gained two things and nothing else: under "Learning
+  objectives", each objective with its index references and a key from
+  file number to filename; under "Sources still needed", the Gaps bullets
+  from the index that bear on that lesson, copied verbatim.
+- Verified: `npm run typecheck` clean. `npm run check` runs over eight
+  lessons; see Known gaps for its result. `npm run generate -- --lesson 08
+  --dry-run` reports one scaffold block with no audio and "Nothing sent,
+  nothing written"; generate was not run without `--dry-run`. `git status`
+  shows the files the spec lists plus `src/audio-meta-08.json`, which the
+  scaffold writes for a video lesson, and the pre-existing uncommitted
+  changes noted under Decisions. Nothing under `sources/`, nothing in
+  `drafts/GPT-source-index.md`, nothing in lessons 01 or 02.
+
+**Standards touched**
+- 3.01 — learning activities must be based on relevant learning objectives
+  and outcomes that clearly articulate the professional competence to be
+  achieved, set with the knowledge level and prerequisites in view.
+- 3.01.1 — the sponsor must specify knowledge level, content and learning
+  objectives so a participant can judge fit; the levels are Basic,
+  Intermediate, Advanced, Update and Overview. "Basic" is the level on
+  every GPT lesson.
+- 3.02.1 — for Basic and Overview programs, prerequisite education or
+  experience and advance preparation are noted if applicable, otherwise
+  stated as "none". Both are "None" on the course record every GPT lesson
+  reads.
+- 4.01.1 — if technology is used in developing the program, the content
+  developer is responsible for reviewing the content for accuracy. The
+  six accuracy records exist for that review and now say what each
+  objective rests on.
+- 6.01.2 — the qualified assessment; `check`'s rule 1 (every objective
+  measured by at least one assessment question) fires on every GPT
+  objective because no questions exist yet. See Known gaps.
+
+**Decisions**
+- The objectives are the spec's rewrite of the index's five working LOs to
+  what the sources actually support. Dropped: LO 1's "describe how a large
+  language model produces a response" (no source explains the mechanism;
+  the nearest is "patterns in data it was trained on"), "instruction
+  drift" (in no source), "Team" (a plan name only the Data Controls FAQ
+  uses, and nothing in the set connects it to Business), and LO 3's
+  five-element prompt pattern (no source names role, inputs, constraints
+  or output format as elements). What replaced them is what the index
+  cites: generated-not-computed, the four named failure modes, the
+  calculation-via-code-tool limit, Business and Enterprise by name, and
+  the prompting practices files 13 and 4 actually state.
+- **Index numbering.** The spec cites the index "as the index numbers
+  them", but it was written against the committed index (entry 24), whose
+  file 6 was the ChatGPT Business product page that commit 8239c24
+  removed. The working-tree index (entry 25, uncommitted when this feature
+  started) renumbers: its files 6–11 are the spec's 7–11 shifted down by
+  one, with the restored print-layout capture as its 11; files 1–5, 12 and
+  13 are unchanged. Every reference was checked entry by entry against the
+  working-tree index and matched under that translation (spec 10#1 is the
+  "patterns in its training data" claim, which is file 9 entry 1 in the
+  tree). The review records, the guide stubs' `<!-- index -->` comments and
+  this entry all use the working-tree numbering, because that is the index
+  a reader will open and the numbering its own Gaps bullets use. Each
+  record states the translation and keys file numbers to filenames so the
+  references survive another regeneration. The index itself was not
+  edited.
+- Every `sources` entry is `role: "primary"`. The distinction was
+  considered and set aside: each listed file is the only source for at
+  least one objective it is listed against, so none is merely supporting.
+- Section ids on lesson 03 are the spec's (`front-matter`, `sec-01` …,
+  `glossary`), not the scaffold's `sec-00`/`sec-90` pattern ATO-01 uses.
+  Lessons 04–07 keep the scaffold's two sections and `01-body.md`; their
+  plans wait for the previous lesson's prose, as the spec says.
+- The tree was not clean when this feature started: `CHANGELOG.md`,
+  `current-feature.md` and `drafts/GPT-source-index.md` were modified
+  (entry 25's work, uncommitted) and `current-feature-024.md` and
+  `-025.md` were untracked. None of them is touched by this feature except
+  this append to the changelog. Reported here and in the session report.
+
+**Known gaps**
+- **`npm run check` exits 1.** 19 ERRORs, all rule 1 (6.01.2: "objective
+  lo-N has no assessment question"), one per GPT objective across lessons
+  03–08. They are entailed by the spec, which fills the objectives and
+  writes no questions, and they are the same state entry 15 shipped in
+  for ATO-01 before its questions came in entry 16. The spec expected
+  "no questions" to surface as a WARN; it is an ERROR, and it names
+  lessons this feature created, which CLAUDE.md's Workflow step 4 calls
+  blocking. Nothing in scope can clear it: questions are the next
+  feature, and downgrading rule 1 would be a change to a shared file the
+  spec does not ask for. The entry is written over that red check
+  deliberately and says so; whether that is acceptable is the human's
+  call.
+- The expected WARNs on GPT lessons, 21 in all: `glossaryTerms` empty on
+  each of the five text lessons; `status` "draft" on all six; lesson 03's
+  five body sections and lessons 04–07's one each carry no review
+  question; lesson 08's scaffold block is outside the sheet window. The
+  12 ATO warnings are unchanged. Total: 8 lessons, 19 errors, 33 warnings.
+- The index's finding on lesson 05 (`GPT-05`) stands: the Confidential
+  Client Information Rule and RSA 309-B:18 will both be applied to a
+  chatbot that neither names. Whether typing client information into
+  ChatGPT is a "disclosure" under the Code or a "voluntary disclosure"
+  under the statute is the author's inference in both cases, and the
+  prose must state it as a course position, not as what either rule says.
+  The statute also has no service-provider clause, so the Code's contract
+  route cannot be taught as sufficient for a New Hampshire licensee.
+- Lesson 03's body sections hold five to seven words each — heading plus
+  `TODO prose`. The estimated credit line prints 0.00 and means nothing
+  until prose exists.
+- Lesson 08's `subtitle`, its scaffold block and its narration are TODO;
+  no clip, no audio, no `audio-meta-08.json` entry.
+- `current-feature.md` remains modified in the tree from before this
+  feature; the spec's own archival edits are not this feature's to commit.

@@ -10,18 +10,19 @@ sitting. Every factual sentence in a GPT lesson should trace to an entry
 below before it is written; a sentence that has no entry is `UNSOURCED` from
 the moment it is typed.
 
-This is the third generation of the index. The first (changelog entry 22)
+This is the fourth generation of the index. The first (changelog entry 22)
 was built over a set with a duplicate file and no plan page; the second
-(entry 23) over a corrected set whose pricing page had been captured with
-its plan grid collapsed and whose enterprise-privacy page had its FAQ
-answers collapsed, so objective 2 could not be written from it. The set is
-recaptured: the pricing page is split into a personal and a business
-capture, the ChatGPT Business product page is added, the enterprise-privacy
-page is re-saved, and the collapsed pricing capture is removed. The index
-was regenerated whole over the recaptured set and every quote re-verified;
-git history holds both earlier generations, and quotes that were true of
-the removed or re-saved captures are not carried forward unless they are
-also in the current file.
+(entry 23) over a corrected set whose pricing and enterprise-privacy pages
+had been captured with their grid cells and FAQ answers collapsed; the
+third (entry 24) over a recaptured set in which the enterprise-privacy
+re-save had lost the page's "Updated" date and its SAML SSO line, and the
+added ChatGPT Business product page turned out to be an image with no
+citable text. The set is now settled: the print-layout enterprise-privacy
+capture is back alongside the Reader-view one, and the image-only product
+page is removed. The index was regenerated whole over that set and every
+quote re-verified; git history holds the three earlier generations, and a
+quote that was true of a removed capture is not carried forward unless it
+is also in a current file.
 
 **How to read an entry.** The claim is in this index's words and is what the
 course could say. The quote under it is the document's words, verbatim,
@@ -44,6 +45,17 @@ cells extracted as `Plan: <plan>, Feature: <row>, <value>`, and in many rows
 the cell value is repeated in front of the `Plan:` label with no space
 (`54KPlan: Business, …`). Quotes from those files reproduce the extracted
 text exactly, repeats and all, because that is what the verifier can find.
+
+**Two captures of one page.** `openai-enterprise-privacy-2026-09-13.pdf`
+(Safari Reader view, FAQ answers expanded) and
+`openai-enterprise-privacy-print-2026-09-13.pdf` (Chrome print layout, FAQ
+answers collapsed) are the same OpenAI page captured an hour apart on the
+same day. Each has its own section. The Reader-view section carries the
+answers; the print-layout section carries only what the Reader-view capture
+lacks — the date, the intro commitments including SAML SSO and the
+retention-control line, and the FAQ question headings — and does not
+repeat a claim the Reader-view section already makes. An entry in either
+section cites its own file.
 
 **One fact about the file set, found on listing it.** `sources/gpt/.DS_Store`
 is a macOS Finder artifact, not a source. It is not indexed and is not
@@ -557,66 +569,6 @@ compare the "Source." line for a newer session law.
 
 ---
 
-## openai-chatgpt-business-2026-09-13.pdf
-
-**Note.** Not usable as a source in this capture. The file is one page
-rendered as a single embedded image, and the only extractable text is a
-four-item customer-testimonial strip. Neither entry below bears on a
-learning objective; the file is indexed because it is in the set.
-
-- **Filename:** `openai-chatgpt-business-2026-09-13.pdf`
-- **Publisher:** OpenAI (the ChatGPT Business product page on chatgpt.com;
-  the capture carries no URL, browser title or print footer)
-- **Title as printed:** none extractable; the first line of text is
-  "Trusted by over a million businesses globally" (p. 1), a section heading,
-  and the PDF has no metadata title
-- **Date stated:** not stated. PDF metadata creation date 2026-09-13
-  22:18 UTC.
-- **Retrieval date:** 2026-09-13 (filename)
-
-**What it is**
-
-A one-page export of the ChatGPT Business product page, written for a
-prospective business buyer. The page is rendered as one 1347 × 1761 pt
-image with a text layer that holds only the testimonial strip: four case
-studies with a name, a saving, and a pull quote each. Whatever the page says
-about the product itself — its name, features, prices, data commitments —
-is inside the image, if it is on the page at all, and the extractor cannot
-read it.
-
-**Claims supported**
-
-1. **OpenAI's product page claims over a million businesses use ChatGPT —
-   a marketing figure the course could attribute to OpenAI, not state as
-   fact.** *(no LO)*
-   > Trusted by over a million businesses globally (p. 1)
-
-2. **The page sells the product on customer-reported time savings, quoted
-   per employee per day.** *(no LO)*
-   > Singular Bank saves 60-90 minutes per banker per day with Codex (p. 1)
-
-**Does not cover**
-
-- **Plan names.** The extractable text names no plan. "Business" does not
-  appear as a plan name (or at all, other than in "businesses"); "Team"
-  does not appear; "Enterprise" appears once, inside the organization name
-  "Minnesota Enterprise Translations Office", not as a plan.
-- **Training on business data.** Nothing. "Train", "data" and "privacy" do
-  not occur in the extractable text.
-- **Prices, seats, features, admin controls, or who can see whose chats.**
-  Nothing readable. If the product page states any of these, it is in the
-  image layer and would need a text capture to be citable.
-- **Accounting.** The four testimonials are a bank, a coffee company, a
-  state translation office and a media company; none is an accounting
-  firm.
-
-**Currency risk:** product marketing page that changes without notice and
-carries no date; this capture is an image and cannot be cited for anything
-beyond the testimonial strip, so re-capture as text before lesson 02 needs
-the product page at all.
-
----
-
 ## openai-chatgpt-pricing-business-2026-09-13.pdf
 
 - **Filename:** `openai-chatgpt-pricing-business-2026-09-13.pdf`
@@ -712,7 +664,9 @@ cells did survive this time, so the file says which plan has what.
   either.
 - **Security and administration.** SAML SSO, admin console, admin roles,
   SOC 2, data residency, compliance API and the other rows of the earlier
-  capture's Security & Administration grid are absent here.
+  capture's Security & Administration grid are absent here. SAML SSO alone
+  is in the print-layout enterprise-privacy capture (file 11), as a general
+  commitment not tied to a plan; the rest is in no file.
 - **Footnotes.** "Flexible**" and "input maximum***" point to footnotes
   that were not captured; the earlier capture's context-window footnote
   (shared window, system instructions, memories) is gone with them.
@@ -982,22 +936,24 @@ of tools is plan-dependent and its audience is educators.
 - **Publisher:** OpenAI (openai.com/enterprise-privacy, the corporate site,
   not the help center; the capture carries no URL or print footer)
 - **Title as printed:** "Enterprise privacy at OpenAI" (p. 1)
-- **Date stated:** not stated in this capture. The earlier capture of the
-  same page carried "Updated: January 8, 2026"; that line did not survive
-  the re-save. PDF metadata creation date 2026-09-13 21:57 UTC.
+- **Date stated:** not stated in this capture. The print-layout capture of
+  the same page (next section) carries "Updated: January 8, 2026"; that
+  line did not survive the Reader-view re-save. PDF metadata creation date
+  2026-09-13 21:57 UTC.
 - **Retrieval date:** 2026-09-13 (filename)
 
 **What it is**
 
 OpenAI's public statement of its data commitments for its business
-products, five pages, re-saved with the FAQ accordions expanded. It is
-written for prospective business customers and their compliance staff. The
-earlier capture had the FAQ questions without their answers; this one has
-the answers without their question headings — only one heading survives,
-"ChatGPT Enterprise, ChatGPT Edu, and ChatGPT for Healthcare FAQ" (p. 2) —
-and the intro's bullet list of commitments is gone too. Which answer belongs
-to which product is read from the answer's own words (each names its
-product), not from a heading.
+products, five pages, saved from Safari Reader view with the FAQ accordions
+expanded. It is written for prospective business customers and their
+compliance staff. The print-layout capture (next section) has the FAQ
+questions without their answers; this one has the answers without their
+question headings — only one heading survives, "ChatGPT Enterprise,
+ChatGPT Edu, and ChatGPT for Healthcare FAQ" (p. 2) — and the intro's
+bullet list of commitments is gone too. Which answer belongs to which
+product is read from the answer's own words (each names its product), or
+paired with a question heading in the print-layout capture.
 
 **Claims supported**
 
@@ -1121,10 +1077,12 @@ product), not from a heading.
   opt in individually.
 - **The FAQ questions.** The answers are present; the question headings
   are not, so "which question this answers" is inferred from the answer's
-  own text. The intro bullet list of the earlier capture — including
-  "Enterprise-level authentication through SAML SSO" and the line
-  restricting retention control to Enterprise, Healthcare and Edu — is not
-  in this capture, and SAML SSO is now in no file in the set.
+  own text or paired with a heading in the print-layout capture. The intro
+  bullet list — the "Updated: January 8, 2026" line, "Enterprise-level
+  authentication through SAML SSO" and the line restricting the headline
+  retention commitment to Enterprise, Healthcare and Edu — is not in this
+  capture; the print-layout capture (next section) carries all three and
+  is the file to cite for them.
 - **Consumer plans.** One sentence (entry 22) says OpenAI trains on data
   from ChatGPT for individuals; the consumer default and opt-out are on the
   "How your data is used" and Data Controls pages.
@@ -1133,9 +1091,137 @@ product), not from a heading.
   prompting.**
 
 **Currency risk:** corporate web page that changes without notice and, in
-this capture, carries no date (the earlier capture said January 8, 2026);
+this capture, carries no date (the print-layout capture of the same page
+says January 8, 2026);
 the product names have already drifted between this page and the Data
 Controls FAQ captured the same day; re-capture before every 4.01 review.
+
+---
+
+## openai-enterprise-privacy-print-2026-09-13.pdf
+
+**Note.** Second capture of the page indexed in the section above, in the
+browser's print layout rather than Reader view. Its extracted text and its
+PDF creation timestamp (2026-09-13 20:56:39 UTC) are identical to the
+capture indexed in entries 22 and 23 and replaced in entry 24; the bytes
+are not identical to that git blob (MD5 `e05acbb9…` here, `38e020e9…` at
+commit `20fee1e`), so cite this file, not the history. The entries below
+take only what the Reader-view capture lacks; a claim that capture already
+carries is cited there and not repeated here.
+
+- **Filename:** `openai-enterprise-privacy-print-2026-09-13.pdf`
+- **Publisher:** OpenAI (openai.com/enterprise-privacy; the print footer
+  carries the URL `https://openai.com/enterprise-privacy/?utm_source=chatgpt.com`
+  and the browser title "Enterprise privacy at OpenAI | OpenAI")
+- **Title as printed:** "Enterprise privacy at OpenAI" (p. 1)
+- **Date stated:** "Updated: January 8, 2026" (p. 1). PDF metadata creation
+  date 2026-09-13 20:56 UTC (Chrome print to PDF).
+- **Retrieval date:** 2026-09-13 (filename; print footer 9/13/26, 4:56 PM)
+
+**What it is**
+
+Chrome's print-to-PDF of OpenAI's enterprise-privacy page, nine pages: the
+page's headline commitments as bullets under Ownership, Control and
+Security; the FAQ as question headings grouped by product, with every
+answer collapsed; and two pages of site navigation at the end. It is
+written for the same readers as the Reader-view capture, prospective
+business customers and their compliance staff. In this set it is that
+capture's complement: the date, the intro bullets and the question headings
+are here, the answers are there.
+
+**Claims supported**
+
+1. **The page states its own last-updated date, January 8, 2026 — the one
+   dated statement of OpenAI's business-data commitments in the set.**
+   *(LO 2; L02)*
+   > Updated: January 8, 2026 (p. 1)
+
+2. **Enterprise-level single sign-on through SAML is one of the access
+   controls OpenAI lists among its commitments.** *(LO 2; L02)*
+   > Enterprise-level authentication through SAML SSO (p. 2)
+
+3. **The headline retention commitment names Enterprise, Healthcare and Edu
+   and not Business; the Business FAQ answer (Reader-view entry 20)
+   separately says Business admins can control retention.** *(LO 2; L02)*
+   > You control how long your data is retained (ChatGPT Enterprise, ChatGPT for Healthcare, ChatGPT Edu) (p. 1)
+
+4. **The customer decides who in its organization has access to the
+   workspace.** *(LO 2; L02)*
+   > You decide who has access within your organization (p. 1)
+
+5. **Access and available features are controllable at a fine grain — the
+   admin-side control a firm policy can lean on.** *(LO 2; L02)*
+   > Fine-grained control over access and available features (p. 2)
+
+6. **OpenAI describes its SOC 2 audit as confirming controls for security
+   and confidentiality — published control information of the kind the
+   Code's assurance step weighs (AICPA entry 9).** *(LO 2, 5; L02, L05)*
+   > Successfully completed a SOC 2 audit, confirming that our controls align with industry standards for security and confidentiality (p. 2)
+
+7. **Encryption is stated as a commitment, at rest and in transit both to
+   the customer and to OpenAI's own service providers.** *(LO 2; L02)*
+   > Data encryption at rest (AES-256) and in transit between our customers and us, and between us and our service providers (TLS 1.2+) (p. 2)
+
+8. **Whether OpenAI trains on business data is a question the page poses
+   in its own words; Reader-view entries 2 and 3 are the answer.** *(LO 2;
+   L02)*
+   > Does OpenAI train its models on my business data? (p. 2)
+
+9. **Whether OpenAI reviews business data is its own FAQ question;
+   Reader-view entries 9 and 10 are the answer.** *(LO 2, 5; L02, L05)*
+   > Does OpenAI review my business data? (p. 3)
+
+10. **Who can see conversations in ChatGPT Business is its own FAQ
+    question, asked for Business separately from Enterprise; Reader-view
+    entry 17 is the answer.** *(LO 2, 5; L02, L05)*
+    > Who can view conversations and chat history in ChatGPT Business? (p. 5)
+
+11. **Retention for ChatGPT Business is its own FAQ question; Reader-view
+    entry 20 is the answer.** *(LO 2; L02)*
+    > What is OpenAI’s policy on data retention for ChatGPT Business? (p. 5)
+
+12. **The page groups its FAQ by product, so a Business answer is not an
+    Enterprise answer and the course should not read one plan's terms
+    onto the other.** *(LO 2; L02)*
+    > ChatGPT Business FAQ (p. 5)
+
+13. **What data OpenAI trains on is its own FAQ question; Reader-view
+    entries 22 and 23 are the answer, including the consumer/business
+    line.** *(LO 2; L02)*
+    > What sources of data are used for training OpenAI models? (p. 8)
+
+**Does not cover**
+
+- **Plan names.** The same six products as the Reader-view capture: ChatGPT
+  Business, ChatGPT Enterprise, ChatGPT for Healthcare, ChatGPT Edu,
+  ChatGPT for Teachers and the API Platform, plus "Custom models" as a
+  link label. "Team" does not appear as a plan name; "team" occurs twice
+  in lower case ("engineering teams", p. 2; "for your team", p. 5).
+  Nothing connects Business to a plan called Team.
+- **Training on business data.** The headline commitment reads "We do not
+  train our models on your data by default" (p. 1), and the FAQ asks
+  "Does OpenAI train its models on my business data?" (p. 2) with the
+  answer collapsed. The commitment, its opt-in exception and its
+  product-by-product restatement are Reader-view entries 2, 3 and 23;
+  cite those, not this file, for the training default.
+- **FAQ answers.** None. Every answer is collapsed. This capture was made
+  at 4:56 PM and the Reader-view capture at 5:57 PM the same day; pairing a
+  question here with an answer there rests on the question text and the
+  product heading it sits under, not on anything either file says about
+  the other.
+- **Which plans have SAML SSO.** The line sits in the general commitments,
+  not under a product heading, and nothing says whether ChatGPT Business
+  has it. The business pricing grid (file 6) was captured without its
+  Security & Administration rows, so no file assigns SSO to a plan.
+- **Navigation, not content.** Pages 8 and 9 are the site footer. The
+  product and model names listed there (GPT-6, GPT-5.6, Codex, ChatGPT
+  Business, ChatGPT Enterprise) are menu items and must not be cited as
+  facts about any plan.
+
+**Currency risk:** corporate web page that changes without notice; this
+capture is dated January 8, 2026 by the page itself and 9/13/26, 4:56 PM
+by the print footer, the only such pairing in the set; re-capture before
+every 4.01 review and compare the "Updated" line.
 
 ---
 
@@ -1281,96 +1367,95 @@ script and pasted here unchanged.
 | 3 | `cpacom-build-vs-buy-ai-decision-framework.pdf` |
 | 4 | `cpacom-genai-toolkit.pdf` |
 | 5 | `nh-rsa-309-b-18-confidential-communications.pdf` |
-| 6 | `openai-chatgpt-business-2026-09-13.pdf` |
-| 7 | `openai-chatgpt-pricing-business-2026-09-13.pdf` |
-| 8 | `openai-chatgpt-pricing-personal-2026-09-13.pdf` |
-| 9 | `openai-data-controls-faq-2026-09-13.pdf` |
-| 10 | `openai-does-chatgpt-tell-the-truth-2026-09-13.pdf` |
-| 11 | `openai-enterprise-privacy-2026-09-13.pdf` |
+| 6 | `openai-chatgpt-pricing-business-2026-09-13.pdf` |
+| 7 | `openai-chatgpt-pricing-personal-2026-09-13.pdf` |
+| 8 | `openai-data-controls-faq-2026-09-13.pdf` |
+| 9 | `openai-does-chatgpt-tell-the-truth-2026-09-13.pdf` |
+| 10 | `openai-enterprise-privacy-2026-09-13.pdf` |
+| 11 | `openai-enterprise-privacy-print-2026-09-13.pdf` |
 | 12 | `openai-how-your-data-is-used-2026-09-13.pdf` |
 | 13 | `openai-prompt-engineering-best-practices-2026-09-13.pdf` |
 
 | | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| LO 1 |   |   |   | ✓ |   |   | ✓ | ✓ |   | ✓ | ✓ | ✓ |   |
-| LO 2 |   | ✓ |   | ✓ |   |   | ✓ | ✓ | ✓ |   | ✓ | ✓ |   |
-| LO 3 |   |   |   | ✓ |   |   | ✓ | ✓ |   |   |   |   | ✓ |
-| LO 4 | ✓ | ✓ |   | ✓ |   |   | ✓ | ✓ |   | ✓ |   |   |   |
-| LO 5 | ✓ | ✓ |   | ✓ | ✓ |   |   |   |   |   | ✓ |   |   |
-| L01 | ✓ |   |   | ✓ |   |   | ✓ | ✓ |   | ✓ | ✓ | ✓ |   |
-| L02 |   | ✓ |   | ✓ |   |   | ✓ | ✓ | ✓ |   | ✓ | ✓ |   |
-| L03 |   |   |   | ✓ |   |   | ✓ | ✓ |   |   |   |   | ✓ |
-| L04 | ✓ | ✓ |   | ✓ |   |   | ✓ | ✓ |   | ✓ |   |   |   |
-| L05 | ✓ | ✓ |   | ✓ | ✓ |   |   |   |   |   | ✓ | ✓ |   |
-| L06 |   |   |   | ✓ |   |   | ✓ |   | ✓ | ✓ |   |   | ✓ |
+| LO 1 |   |   |   | ✓ |   | ✓ | ✓ |   | ✓ | ✓ |   | ✓ |   |
+| LO 2 |   | ✓ |   | ✓ |   | ✓ | ✓ | ✓ |   | ✓ | ✓ | ✓ |   |
+| LO 3 |   |   |   | ✓ |   | ✓ | ✓ |   |   |   |   |   | ✓ |
+| LO 4 | ✓ | ✓ |   | ✓ |   | ✓ | ✓ |   | ✓ |   |   |   |   |
+| LO 5 | ✓ | ✓ |   | ✓ | ✓ |   |   |   |   | ✓ | ✓ |   |   |
+| L01 | ✓ |   |   | ✓ |   | ✓ | ✓ |   | ✓ | ✓ |   | ✓ |   |
+| L02 |   | ✓ |   | ✓ |   | ✓ | ✓ | ✓ |   | ✓ | ✓ | ✓ |   |
+| L03 |   |   |   | ✓ |   | ✓ | ✓ |   |   |   |   |   | ✓ |
+| L04 | ✓ | ✓ |   | ✓ |   | ✓ | ✓ |   | ✓ |   |   |   |   |
+| L05 | ✓ | ✓ |   | ✓ | ✓ |   |   |   |   | ✓ | ✓ | ✓ |   |
+| L06 |   |   |   | ✓ |   | ✓ |   | ✓ | ✓ |   |   |   | ✓ |
 
 **Currency of the ✓s.** Files 6 through 13 are web pages that change
-without notice, and 6 is an image capture with no citable product text;
-file 4 is a 2023 publication already overtaken on the facts it states
-about ChatGPT. Files 1 (the Code) and 5 (the statute) are the stable,
-authoritative sources, and both are on 4.01's annual cadence as a code and
-a law; files 2 and 3 are dated trade-body publications.
+without notice; of them only file 11 states a date on the page. File 4 is
+a 2023 publication already overtaken on the facts it states about ChatGPT.
+Files 1 (the Code) and 5 (the statute) are the stable, authoritative
+sources, and both are on 4.01's annual cadence as a code and a law; files
+2 and 3 are dated trade-body publications.
 
 ### Gaps
 
 Reported, not fixed. No new source is proposed here.
 
-- **LO 2's training controls are now sourced on both sides of the line.**
-  File 11 says business data — ChatGPT Business and Enterprise by name —
-  is not used for training by default and that the exception is an explicit
+- **LO 2's training controls are sourced on both sides of the line.** File
+  10 says business data — ChatGPT Business and Enterprise by name — is not
+  used for training by default and that the exception is an explicit
   opt-in; file 12 says the same for business products and gives the
   consumer default (training on, opt-out available); file 9 gives the
-  consumer switch. This is the gap entries 22 and 23 could not close.
-- **LO 2's "Team" is still a name only one source uses.** File 9 says Team,
-  Enterprise and Edu have "additional data controls" and stops. Files 7,
-  11 and 12 say "Business" and never "Team"; file 6's readable text names
-  no plan at all. Nothing in the set says whether Team and Business are the
-  same plan, and nothing says one replaced the other. The set can
-  distinguish consumer from business and can describe Business and
-  Enterprise; it cannot describe a plan called Team. Rewording the
-  objective is not this index's decision.
-- **The recapture dropped facts the earlier captures had.** Now in git
-  history only, and not citable from the current set: the enterprise
-  page's "Updated: January 8, 2026" date and its intro bullets (SAML SSO;
-  retention control listed for Enterprise, Healthcare and Edu only); the
-  pricing page's plan prices, its "Paid plans (Go, Plus, Business, and
-  Enterprise) are priced per user per month" sentence, its
+  consumer switch; file 11 dates the business commitments January 8, 2026.
+- **LO 2's "Team" is still a name only one source uses.** File 8 says Team,
+  Enterprise and Edu have "additional data controls" and stops. Files 6,
+  10, 11 and 12 say "Business" and never "Team". Nothing in the set says
+  whether Team and Business are the same plan, and nothing says one
+  replaced the other. The set can distinguish consumer from business and
+  can describe Business and Enterprise; it cannot describe a plan called
+  Team. Rewording the objective is not this index's decision.
+- **What the recaptures dropped is partly back.** File 11 restores the
+  enterprise page's "Updated: January 8, 2026" date, its SAML SSO line and
+  the line restricting the headline retention commitment to Enterprise,
+  Healthcare and Edu. Still in git history only, and not citable from the
+  current set: the pricing page's plan prices, its "Paid plans (Go, Plus,
+  Business, and Enterprise) are priced per user per month" sentence, its
   "Enterprise and Business can purchase credits" footnote, its Privacy and
   Security & Administration row labels, its shared-context-window
-  footnote, and the Go plan's "may include ads" line. SAML SSO in
-  particular is now in no file. A lesson that needs any of these needs a
-  capture that has them.
-- **File 6 is not a source in this capture.** The ChatGPT Business product
-  page is an image; the only extractable text is four testimonials. It
-  contributes no ✓ and cannot be cited for the plan name, its features or
-  its data handling.
+  footnote, and the Go plan's "may include ads" line. A lesson that needs
+  any of these needs a capture that has them.
+- **The ChatGPT Business product page is not in the set.** The image-only
+  capture was removed, so the product page's own description of the plan
+  is not citable. File 10's Business FAQ answer (entry 16) is the set's
+  description of what ChatGPT Business is, and the business pricing grid
+  (file 6) is the set's list of what it includes.
 - **Prices are in no file.** Both pricing captures are feature grids
   without plan cards. The course does not need a price, but it cannot
   state one.
 - **LO 1, first half, is still mostly unsourced.** No document explains how
   a large language model produces a response. The nearest are "patterns in
-  data it was trained on" (file 10), "generated output, not computed
+  data it was trained on" (file 9), "generated output, not computed
   answers" (file 4, a quoted CEO), the two-stage training account (file
-  11, entry 21), and the context-window and input-maximum rows of the two
-  grids (files 7 and 8), which now attach figures to plans but no longer
-  carry the footnote explaining what shares the window. "Instruction
-  drift" appears in no source. "Staleness" is supported only as the
-  knowledge cutoff on file 10. Every ✓ on LO 1 is from a web page or the
-  2023 toolkit; L01's ✓ from file 1 is only the Code's pointer to AI
-  guidance it does not contain.
+  10, entry 21), and the context-window and input-maximum rows of the two
+  grids (files 6 and 7), which attach figures to plans but do not carry
+  the footnote explaining what shares the window. "Instruction drift"
+  appears in no source. "Staleness" is supported only as the knowledge
+  cutoff on file 9. Every ✓ on LO 1 is from a web page or the 2023
+  toolkit; L01's ✓ from file 1 is only the Code's pointer to AI guidance it
+  does not contain.
 - **LO 2's ✓s are all high-currency-risk.** Every source bearing on LO 2 and
-  L02 is a web page (7, 8, 9, 11, 12), the 2023 toolkit (4), or a
-  vendor-question list (2). File 11 is the most complete of them and is
-  undated in this capture.
+  L02 is a web page (6, 7, 8, 10, 11, 12), the 2023 toolkit (4), or a
+  vendor-question list (2). File 10 is the most complete of them and is
+  undated in its own capture; file 11 supplies the date for the same page.
 - **LO 3's pattern is unsourced.** No source names role, inputs,
   constraints or output format as elements of a prompt. Files 13 and 4
-  support clarity, specificity, examples, iteration and tone; files 7 and
-  8 add only that input length is bounded and that files can be uploaded.
+  support clarity, specificity, examples, iteration and tone; files 6 and
+  7 add only that input length is bounded and that files can be uploaded.
   The five-element pattern in LO 3 will be `UNSOURCED` as a pattern even
   if each element can be argued from those. Every LO 3 source is high
   currency risk.
 - **LO 4 is sourced but thin on documentation.** Verification itself is well
-  supported (files 1, 2, 4, 10). "Document the verification" has one line
+  supported (files 1, 2, 4, 9). "Document the verification" has one line
   of support: file 4 sends the firm to counsel for what to document. No
   source gives a form of record.
 - **LO 5 has state law, and the two rules do not line up.** File 5 supplies
@@ -1378,11 +1463,11 @@ Reported, not fixed. No new source is proposed here.
   client" and its exceptions list has no service-provider clause, while
   the Code (file 1) lets a member use a third-party provider under a
   confidentiality contract with reasonable assurance and no client
-  consent. File 11 now supplies the vendor-side half of the Code's route
-  (a DPA, SOC 2 Type 2, limited human access, entries 8, 13, 14, 18, 19);
-  nothing supplies the statute's half. A lesson that teaches the Code's
-  contract route as sufficient for a New Hampshire licensee would be
-  unsourced on the statute.
+  consent. Files 10 and 11 supply the vendor-side half of the Code's route
+  (a DPA, SOC 2 audits, limited human access, SAML SSO: file 10 entries 8,
+  13, 14, 18, 19 and file 11 entries 2, 6); nothing supplies the statute's
+  half. A lesson that teaches the Code's contract route as sufficient for
+  a New Hampshire licensee would be unsourced on the statute.
 - **Neither rule names technology.** Whether entering client information
   into ChatGPT is a "disclosure" (file 1) or a "voluntary disclosure"
   (file 5) is the author's inference in both cases; no source in the set
@@ -1390,34 +1475,41 @@ Reported, not fixed. No new source is proposed here.
 - **"General-purpose model" is undefined.** LO 5 turns on it; file 4 says
   "public LLM" and "public generative AI tool" without defining either, and
   no OpenAI page uses any such term.
+- **SAML SSO is sourced as a commitment, not as a plan feature.** File 11
+  lists it under OpenAI's general commitments; no file says which plan has
+  it, because the business pricing grid was captured without its Security
+  & Administration rows.
 - **L06 has no source of its own.** The video lesson will rest on file 4's
   use-case prompts (2023, naming tools that may no longer exist as named),
-  on files 7, 9, 10 and 13 for the workspace, settings, verification and
+  on files 6, 8, 9 and 13 for the workspace, settings, verification and
   iteration steps. Nothing in the set describes a complete accounting task
   end to end.
-- **File 3 contributes nothing** to any objective, by subject; file 6
-  contributes nothing, by capture. File 2 contributes five entries, all
-  practices rather than facts. File 5 contributes eleven, all to LO 5 and
-  L05.
+- **File 3 contributes nothing** to any objective, by subject. File 2
+  contributes five entries, all practices rather than facts. File 5
+  contributes eleven, all to LO 5 and L05. File 11 contributes thirteen,
+  all to LO 2 and L02 with three also on LO 5 and L05, and by design none
+  that file 10 already carries.
 
 ---
 
 ## How this index was made
 
 - Extracted 2026-09-13 with `pypdf` 6.18.1 in plain text mode into the
-  session scratchpad, one `.txt` per PDF, a `=== PAGE N ===` marker per
+  session scratchpad, one `.txt` per PDF, a `===== PAGE N =====` marker per
   page. `pdftotext` is not installed here. Nothing was written under
   `sources/` or `out/`.
 - Every quote above was checked mechanically against the extracted text of
   its cited page: whitespace collapsed, end-of-line hyphens joined, fi/fl
-  ligatures expanded, nothing else normalized. 144 quotes checked,
-  144 found verbatim on the cited page, none over 40 words. A quote
+  ligatures expanded, nothing else normalized. 155 quotes checked,
+  155 found verbatim on the cited page, none over 40 words. A quote
   that had failed would have been removed, not paraphrased; none did.
 - Section headers were compared to `ls sources/gpt/` and match one to one;
   `.DS_Store` is excluded as noted at the top.
-- Sections for the nine files whose bytes did not change between the
-  second index and this one were carried over and re-verified rather than
-  rewritten. The four sections for the recaptured files (6, 7, 8, 11) were
-  written fresh from the current captures; the section for the removed
-  collapsed pricing capture was dropped with the file.
-
+- Sections for the twelve files whose bytes did not change between the
+  third index and this one were carried over and re-verified rather than
+  rewritten, with edits to the Reader-view enterprise-privacy section and
+  the business pricing section where they had said the date and SAML SSO
+  line were in no file. The section for
+  `openai-enterprise-privacy-print-2026-09-13.pdf` was written fresh from
+  the file; the section for the removed ChatGPT Business product page was
+  dropped with it.

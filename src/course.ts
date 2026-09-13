@@ -93,8 +93,63 @@ export const COURSE_ATO = {
 } as const;
 
 /**
+ * GPT — using ChatGPT in an accounting practice, for CPAs who will put a
+ * general-purpose model to work on routine tasks and need to know what it
+ * gets wrong, how to set it up, and what client data may never enter it.
+ * Computer Software & Applications, Basic level, five text study guides
+ * and one video lesson.
+ */
+export const COURSE_GPT = {
+  courseCode: "GPT",
+  title: "Using ChatGPT in an Accounting Practice",
+  nasbaFieldOfStudy: "Computer Software & Applications",
+  knowledgeLevel: "Basic",
+  prerequisites: "None",
+  advancePreparation: "None",
+  deliveryMethod: "Self study",
+  lessons: [
+    {
+      position: 1,
+      lessonId: "GPT-01",
+      title: "What the model gets wrong",
+      status: "draft",
+    },
+    {
+      position: 2,
+      lessonId: "GPT-02",
+      title: "Setting up for professional use",
+      status: "draft",
+    },
+    {
+      position: 3,
+      lessonId: "GPT-03",
+      title: "Prompting for accounting tasks",
+      status: "draft",
+    },
+    {
+      position: 4,
+      lessonId: "GPT-04",
+      title: "Verifying the output",
+      status: "draft",
+    },
+    {
+      position: 5,
+      lessonId: "GPT-05",
+      title: "Confidentiality and client data",
+      status: "draft",
+    },
+    {
+      position: 6,
+      lessonId: "GPT-06",
+      title: "A task, start to finish",
+      status: "draft",
+    },
+  ] as CourseLesson[],
+} as const;
+
+/**
  * Every course this repo exports for. export.ts and check-lessons.ts look
  * a lesson's package id up across all of them; lesson modules import their
  * own course const directly, as before.
  */
-export const COURSES: readonly Course[] = [COURSE_ATO];
+export const COURSES: readonly Course[] = [COURSE_ATO, COURSE_GPT];
