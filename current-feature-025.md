@@ -1,177 +1,218 @@
 # Current Feature
 
-## GPT course, source index — regenerated for the final source set
-
-## Why this runs again
-Entry 24 reported two things about the source set. The Reader-view recapture
-of the enterprise-privacy page had lost the page's "Updated: January 8,
-2026" date and its SAML SSO line, and the ChatGPT Business product page was
-an image whose only text was testimonials. Both are fixed in `sources/gpt/`
-(commit 8239c24): the original print-layout capture is restored from git
-history as `openai-enterprise-privacy-print-2026-09-13.pdf` alongside the
-Reader-view capture, and `openai-chatgpt-business-2026-09-13.pdf` is removed.
-Thirteen files.
-
-The index is regenerated whole, as entries 23 and 24 were. Overwrite
-`drafts/GPT-source-index.md`. Two captures of one page is deliberate: index
-each as its own section, and in the print-layout section's "Claims
-supported" take the date, the SSO line, and the retention-control bullet
-that the Reader-view capture lacks; do not repeat claims the Reader-view
-section already carries.
-
-Everything below is entry 22's spec, unchanged except where marked **(v2)**, **(v3)** or **(v4)**.
+## Register course GPT, set its learning objectives, plan lesson 01
 
 ## Goal
-`drafts/GPT-source-index.md` exists and tells the author, for every file in
-`sources/gpt/`, exactly which claims that file supports — quoted verbatim with
-a page reference — so that lesson prose can be written from the index and
-every factual sentence traces to a source *before* drafting. This is the
-pre-drafting sourcing rule from the ATO course, made executable for course
-GPT.
+Course `GPT` — "Using ChatGPT in an Accounting Practice" — is registered
+with its six lessons, every lesson module carries its learning objectives
+and descriptors, and lesson 01 has a section plan: guide files that exist,
+carry a heading and the index entries they will draw on, and nothing else.
+After this feature `npm run check` runs over eight lessons and the next
+feature can draft lesson 01's prose from a section plan the author has
+reviewed.
 
-Nothing in this feature drafts lesson content, registers a lesson, or touches
-a source file.
-
-## The course this serves
-Working title: "Using ChatGPT in an Accounting Practice". Field of study
-Computer Software & Applications (Non-technical), Basic, QAS Self Study,
-course code `GPT`. Planned shape — five text lessons and one video lesson:
-
-| # | Working title | Kind |
-|---|---|---|
-| 01 | What the model is doing | text |
-| 02 | Setting up for professional use | text |
-| 03 | Prompting for accounting tasks | text |
-| 04 | Verifying the output | text |
-| 05 | Confidentiality and client data | text |
-| 06 | A task, start to finish | video |
-
-Working learning objectives:
-1. Describe how a large language model produces a response and identify the
-   failure modes that matter in professional work: fabrication, staleness,
-   instruction drift.
-2. Configure a ChatGPT workspace for professional use, including data-sharing
-   and training controls, and distinguish consumer, Team, and Enterprise data
-   handling.
-3. Apply a structured prompt pattern (role, task, inputs, constraints, output
-   format) to routine accounting tasks.
-4. Verify model output against a source before relying on it, and document
-   the verification.
-5. Identify client information that must not be entered into a
-   general-purpose model under the confidentiality rule, and apply a firm
-   policy to a given situation.
-
-These are working drafts. The index reports how well the sources cover them;
-it does not rewrite them.
+No prose is written. No questions are written. Nothing is exported.
 
 ## In scope
-- Reading every file in `sources/gpt/`
-- Overwriting `drafts/GPT-source-index.md` **(v2)**
-- A changelog entry
+- `npm run new` six times, creating lessons 03–08 in course GPT
+- Filling each new module's `meta`: objectives, descriptors, sources
+- Lesson 03's (`GPT-01`) section plan: `meta.sections` and stub guide files
+- The changelog entry
 
 ## Out of scope
-- Any change under `sources/`. Not a rename, not a re-save, not a text
-  extraction written there. Extract to a temp directory or `out/`.
-- Any change to any other file under `drafts/`. **(v2)**
-- `npm run new`, or any lesson module, questions file, or `guide/` content.
-  The course is not registered by this feature.
-- Rewriting the learning objectives or lesson list. Report gaps; do not fix
-  them.
-- Web research. If a source does not say something, the index says the
-  source does not say it. Do not fill in from general knowledge.
+- Body prose, glossary definitions, questions, narration, blocks. Every one
+  of those is a later feature.
+- Lessons 01 and 02 (ATO). Untouched.
+- Any change under `sources/`.
+- Editing `drafts/GPT-source-index.md`. It is read, not written.
+- Credit estimates, question-count minimums, or anything the CLAUDE.md
+  Boundary assigns to superCPE.
 
 ## Read first
-- `CLAUDE.md`, "Evidence directories" and "Four rules"
-- `drafts/SEC-01-flag-triage.md` — the shape of the problem this index
-  prevents: 41 UNSOURCED flags found after drafting
-- `sources/gpt/` — list it; the file set is whatever is there, and the index
-  must cover all of it
+- `CLAUDE.md`, all of it
+- `scripts/new-lesson.ts` — what the scaffold creates and refuses
+- `src/types.ts` — `TextLessonMeta`, `LearningObjective`, `Source`, `Author`
+- `scripts/validate-package.ts` — the `FIELDS_OF_STUDY` set, so the field
+  of study string is copied exactly from there, not typed from memory
+- `drafts/GPT-source-index.md` — the whole file. The objectives below cite
+  its entries by file number and entry number as the index numbers them.
+- `src/lesson-01.ts` and its questions file, as the worked example of a
+  filled-in module (ATO-01 is a text lesson)
 
-## Tasks
+## The course
 
-### 1. Extract
-Extract text from every PDF in `sources/gpt/` into a temp directory, one
-`.txt` per source, with page breaks preserved so page numbers can be cited.
-`pdftotext -layout` is fine; the Standards under `docs/standards/` were
-extracted the same way. **(v2)** Entry 22 used pypdf in a scratchpad
-virtualenv because pdftotext was absent; do the same, and do not add a
-dependency to `package.json` for it. If a file is not a PDF, report what it is and index
-it from whatever text can be read; if nothing can be read, say so in the
-index rather than guessing at its contents.
+| id | code | kind | title |
+|---|---|---|---|
+| 03 | GPT-01 | text | What the model gets wrong |
+| 04 | GPT-02 | text | Setting up for professional use |
+| 05 | GPT-03 | text | Prompting for accounting tasks |
+| 06 | GPT-04 | text | Verifying the output |
+| 07 | GPT-05 | text | Confidentiality and client data |
+| 08 | GPT-06 | video | A task, start to finish |
 
-Do not commit the extracted text.
+Course code `GPT`, course title "Using ChatGPT in an Accounting Practice".
+The first `npm run new` carries `--course-code GPT --course-title "..."`;
+the rest carry `--course-code GPT` only.
 
-### 2. Index each source
-One section per file, in filename order. Each section has exactly these
-parts:
+Descriptors, identical on every lesson (3.02.1 — a course requires
+agreement across its lessons):
+- field of study: Computer Software & Applications — use the exact string
+  from `FIELDS_OF_STUDY`
+- knowledge level: Basic
+- prerequisites: "None"
+- advance preparation: "None"
+- delivery method: whatever ATO-01 uses for QAS self study; copy it
 
-**Header** — filename as it exists on disk; publisher; document title as
-printed on the document; publication or last-updated date if the document
-states one, otherwise "not stated"; retrieval date if the filename carries
-one.
+`author`: copy the shape from ATO-01 and fill it with Dane's details from
+that module. `revision` "1", `revisionDate` today. `status` stays `"draft"`.
 
-**What it is** — two or three sentences on what the document is and who it
-is written for. Not a summary of its contents.
+## Learning objectives
 
-**Claims supported** — a list. Each entry is one factual claim the course
-could make, followed by the supporting passage quoted verbatim, at most 40
-words, with its page number. The claim is in the index's words; the quote is
-in the document's. One claim, one quote. If a claim needs two passages, that
-is two entries. Aim for the claims that matter to the learning objectives
-above, not for completeness — twelve well-chosen entries beat forty.
+Put these into each module's `learningObjectives` verbatim, with ids
+`lo-1`, `lo-2`, … per lesson. The bracketed index references are for the
+accuracy record, not the objective text — record them in the lesson's
+`drafts/GPT-0N-review.md` under "Learning objectives", one line per
+objective, so the developer can see what each rests on.
 
-**Does not cover** — things a course author might expect this document to
-support but it does not. **(v3, v4)** For the business-plan files (pricing-business and both
-enterprise-privacy captures): say plainly which plan names each one
-uses, whether any names "Team", and what each says about whether business
-data is used for training. For pricing-personal: what it says about training
-on data, if anything. Objective 2 depends on this and entries 22 and 23 could
-not settle it. Note that the grid captures repeat cell text in row labels;
-quote them as they are. Two to five bullets. This is the part that prevents
-UNSOURCED flags: it is where the author learns that the prompt-engineering
-page says nothing about accuracy, or that the data-controls FAQ does not
-define "Enterprise".
+**03 / GPT-01**
+- lo-1: Explain that ChatGPT produces responses from patterns in its
+  training data, so output is generated rather than computed.
+  [index 10#1, 4#3]
+- lo-2: Recognize the failure modes that matter in professional work:
+  hallucination, fabricated citations, knowledge cutoff, and confidence
+  that does not track correctness. [10#2–6]
+- lo-3: State when calculation is reliable: only when the model uses a
+  code tool. [10#12]
 
-**Currency risk** — one line. Is this a help-center page that can change
-without notice, a dated publication, or a statute? This drives the 4.01
-review cadence later.
+**04 / GPT-02**
+- lo-1: Distinguish the training defaults: individual plans train on
+  conversations unless the user opts out; Business and Enterprise do not
+  train by default, with explicit opt-in as the only exception.
+  [12#1,2,7; 11#2,3,23]
+- lo-2: Locate and set the training control on an individual plan, and
+  state what it does and does not do: account-wide, prospective, does not
+  clear history, and feedback can override it. [9#1–4,8; 12#3–5]
+- lo-3: Describe the controls a Business or Enterprise workspace adds:
+  admin access to conversations, retention settings, a Data Processing
+  Addendum, and SOC 2 Type 2. [11#8,15,17,19,20]
 
-### 3. Coverage
-After the per-source sections, one table: rows are the five learning
-objectives and the six lessons, columns are the source filenames, cells are
-✓ where the source has at least one claim entry bearing on that row. Then a
-short **Gaps** list: objectives or lessons with no ✓, or with a ✓ only from a
-source whose currency risk is high. Report; do not propose new sources.
+**05 / GPT-03**
+- lo-1: Write a prompt that is clear, specific, gives context, sets tone,
+  and includes examples. [13#3,5; 4#8,9]
+- lo-2: Refine a prompt iteratively by reviewing the output and adjusting
+  the input. [13#4]
+- lo-3: Ask for verbatim excerpts with citations when the answer will be
+  checked against a source. [4#7]
+- lo-4: Recognize that input length is bounded and that the bound differs
+  by plan and model. [7#3; 8#2,3]
 
-### 4. Two sources are probably not this course
-`cpacom-ai-solution-due-diligence-guide.pdf` and
-`cpacom-build-vs-buy-ai-decision-framework.pdf` are about selecting AI tools
-for a firm. Index them like the rest, but if their claim entries do not bear
-on any learning objective, say so plainly in a one-line note at the top of
-each section rather than stretching claims to fit.
+**06 / GPT-04**
+- lo-1: Treat output as a first draft, and verify quotes, figures,
+  technical content, and document references against a source before
+  relying on them. [10#7–9]
+- lo-2: Use search-backed answers by following the cited links to the
+  source rather than relying on the summary. [10#10,11]
+- lo-3: Relate verification to the General Standards Rule: due professional
+  care and sufficient relevant data. [1#14,15]
+- lo-4: Document the review of AI output as firm policy, with counsel
+  deciding the form of the record. [4#4–6]
 
-### 5. Changelog
-One entry, numbered one past the last, in the CLAUDE.md format. **(v4)** Say
-that this supersedes entry 24's index and why, in one line; do not edit
-entry 22. Standards
-touched: cite 4.01.1 only if, having read it in the 2026 Statement under
-`docs/standards/`, the content developer's accuracy-review duty is what this
-index serves. Otherwise write "none".
+**07 / GPT-05**
+- lo-1: Apply the Confidential Client Information Rule: information is
+  confidential by default, public information is not, and a client's name
+  alone can be confidential. [1#1–5]
+- lo-2: Describe the Code's two routes for third-party service providers —
+  a confidentiality contract with reasonable assurance, or the client's
+  specific consent — and the member's continuing responsibility.
+  [1#6–12,16]
+- lo-3: Recognize that state law may be more restrictive, using New
+  Hampshire RSA 309-B:18, whose only general release is client permission
+  and whose exceptions contain no service-provider clause. [1#13; 5#1–3]
+- lo-4: Apply a firm policy that keeps client data out of individual-plan
+  tools and de-identifies data before it enters any AI tool. [4#11–13]
+
+**08 / GPT-06**
+- lo-1: Carry a de-identified accounting task through prompt, output,
+  verification, and refinement, and identify where the model's output
+  required correction. [13#4; 10#7–12; 4#10,13]
+
+## Sources on each module
+
+`meta.sources` lists, on every lesson, only the files in `sources/gpt/`
+that the index shows contributing at least one entry to that lesson's
+objectives. Use the `Source` shape from `src/types.ts`; where it wants a
+title, use the title as printed in the index's header for that file. The
+two CPA.com selection guides and the print-layout enterprise capture appear
+only where the index actually cites them.
+
+## Lesson 03 section plan
+
+For `GPT-01` only, set `meta.sections` and create the files under
+`guide/03/`:
+
+| id | file | role | title |
+|---|---|---|---|
+| front-matter | 00-front-matter.md | front_matter | How this course works |
+| sec-01 | 01-generated-not-computed.md | body | Generated, not computed |
+| sec-02 | 02-hallucination.md | body | Hallucination and fabricated citations |
+| sec-03 | 03-knowledge-cutoff.md | body | The knowledge cutoff |
+| sec-04 | 04-confidence.md | body | Confidence is not correctness |
+| sec-05 | 05-calculation.md | body | When the model can calculate |
+| glossary | 90-glossary.md | glossary | Glossary |
+
+The front-matter file starts from the contract's "How this course works"
+template, as `new-lesson.ts` already does. Each body file contains its
+heading, then one HTML comment listing the index entries it will draw on —
+`<!-- index: 10#1, 4#3 -->` — and a `TODO prose` line. Nothing else. The
+glossary file contains its heading and a `TODO` line; `meta.glossaryTerms`
+stays empty (`check` will WARN; that is correct for a plan).
+
+Section-to-entry mapping: sec-01 → 10#1, 4#3; sec-02 → 10#2–4; sec-03 →
+10#5; sec-04 → 10#6; sec-05 → 10#12, 4#3.
+
+Lessons 04–08 get whatever sections the scaffold gives them and nothing
+more. Their plans are later features, each written after the previous
+lesson's prose exists, because what lesson 02 needs to say depends on what
+lesson 01 already said.
+
+## Accuracy records
+
+`npm run new` creates `drafts/GPT-0N-review.md` for each lesson. This
+feature may write to those files because it created them. Under "Learning
+objectives", list each objective with its index references. Under
+"Sources still needed", copy the Gaps bullets from the index that bear on
+that lesson, verbatim. Touch no other section, and touch no other file
+under `drafts/`.
 
 ## Verify
-1. Every quote in the index is findable verbatim in the extracted text of the
-   source it is attributed to. Check mechanically — grep each quote — and
-   report the count checked and the count found. A quote that cannot be found
-   is removed, not paraphrased.
-2. Every file in `sources/gpt/` has a section. `ls sources/gpt/` and the
-   section headers must match one to one.
-3. `git status` shows exactly two changes: `drafts/GPT-source-index.md`
-   modified and `CHANGELOG.md` modified. Nothing under `sources/`. **(v2)**
-   If the tree is not clean before starting, stop and report — `sources/gpt/`
-   should have been committed before this runs.
-4. `npm run typecheck` and `npm run check` unchanged from before — nothing
-   here touches code, so this is a sanity check, not a gate.
+1. `npm run typecheck` clean.
+2. `npm run check`. Eight lessons. ERRORs naming any GPT lesson block the
+   feature. WARNs on GPT lessons are expected — empty glossary, no
+   questions, body sections with no prose — list them in the changelog
+   entry under Known gaps rather than fixing them. The 12 ATO warnings
+   are unchanged.
+3. `npm run generate -- --lesson 08 --dry-run` reports nothing to spend:
+   the video lesson's scaffold blocks have no narration to voice. Do not
+   run generate without `--dry-run`.
+4. `git status` shows only: `src/lesson-03.ts` … `src/lesson-08.ts`,
+   `src/questions-03.json` … `-08.json`, `src/lessons.ts`,
+   `src/questions.ts`, `src/course.ts`, `guide/03/`, `guide/04/` … as the
+   scaffold makes them, `drafts/GPT-01-review.md` … `GPT-06-review.md`,
+   `CHANGELOG.md`. Nothing under `sources/`, nothing in
+   `drafts/GPT-source-index.md`, nothing in lessons 01 or 02.
+5. Paste back the full text of `src/lesson-03.ts` and
+   `drafts/GPT-01-review.md` for review before committing.
+
+## Changelog
+One entry, numbered one past the last. Standards touched: read 3.01,
+3.01.1, and 3.02.1 in the 2026 Statement under `docs/standards/` before
+citing them for the objectives and descriptors. Under Decisions: the
+objectives were rewritten to what the index sources, dropping a model
+mechanism, "instruction drift", "Team", and a five-element prompt pattern
+that no source names. Under Known gaps: the WARNs from Verify 2, and the
+index's finding that lesson 05 will apply two confidentiality rules to a
+chatbot neither rule mentions — a course position the prose must state as
+such.
 
 ## Not this feature
-Registering course GPT, drafting lesson 01, and writing questions are the
-next features, in that order, and each starts from this index.
+Lesson 01's prose, its glossary terms, its questions. Next.
