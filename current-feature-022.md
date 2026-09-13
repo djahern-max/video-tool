@@ -1,22 +1,6 @@
 # Current Feature
 
-## GPT course, source index — regenerated for the corrected source set
-
-## Why this runs again
-Entry 22 built `drafts/GPT-source-index.md` over a source set that had two
-defects the index itself found: the file named as NH RSA 309-B:18 was a
-duplicate of the AICPA Code, and nothing in the set named the ChatGPT plans.
-Both are fixed in `sources/gpt/` — the duplicate is replaced by the actual
-statute, and OpenAI's pricing page is added. The AICPA file is also renamed.
-
-The index is regenerated whole rather than patched. It is a generated working
-file, not a human record, and it was written by a different feature than this
-one; regenerating avoids editing a file this feature did not create, drops the
-column for a file that no longer exists, and re-verifies every quote.
-Overwrite `drafts/GPT-source-index.md`. Do not keep the old one under another
-name; git history is the archive.
-
-Everything below is entry 22's spec, unchanged except where marked **(v2)**.
+## GPT course, source index
 
 ## Goal
 `drafts/GPT-source-index.md` exists and tells the author, for every file in
@@ -63,13 +47,13 @@ it does not rewrite them.
 
 ## In scope
 - Reading every file in `sources/gpt/`
-- Overwriting `drafts/GPT-source-index.md` **(v2)**
+- Writing one new file, `drafts/GPT-source-index.md`
 - A changelog entry
 
 ## Out of scope
 - Any change under `sources/`. Not a rename, not a re-save, not a text
   extraction written there. Extract to a temp directory or `out/`.
-- Any change to any other file under `drafts/`. **(v2)**
+- Any change to an existing file under `drafts/`.
 - `npm run new`, or any lesson module, questions file, or `guide/` content.
   The course is not registered by this feature.
 - Rewriting the learning objectives or lesson list. Report gaps; do not fix
@@ -90,9 +74,7 @@ it does not rewrite them.
 Extract text from every PDF in `sources/gpt/` into a temp directory, one
 `.txt` per source, with page breaks preserved so page numbers can be cited.
 `pdftotext -layout` is fine; the Standards under `docs/standards/` were
-extracted the same way. **(v2)** Entry 22 used pypdf in a scratchpad
-virtualenv because pdftotext was absent; do the same, and do not add a
-dependency to `package.json` for it. If a file is not a PDF, report what it is and index
+extracted the same way. If a file is not a PDF, report what it is and index
 it from whatever text can be read; if nothing can be read, say so in the
 index rather than guessing at its contents.
 
@@ -118,10 +100,7 @@ is two entries. Aim for the claims that matter to the learning objectives
 above, not for completeness — twelve well-chosen entries beat forty.
 
 **Does not cover** — things a course author might expect this document to
-support but it does not. **(v2)** For the pricing page in particular: say
-plainly whether it names a plan called "Team", a plan called "Business",
-both, or neither, and whether it says anything about one replacing the
-other. Objective 2 depends on this and entry 22 could not settle it. Two to five bullets. This is the part that prevents
+support but it does not. Two to five bullets. This is the part that prevents
 UNSOURCED flags: it is where the author learns that the prompt-engineering
 page says nothing about accuracy, or that the data-controls FAQ does not
 define "Enterprise".
@@ -145,9 +124,7 @@ on any learning objective, say so plainly in a one-line note at the top of
 each section rather than stretching claims to fit.
 
 ### 5. Changelog
-One entry, numbered one past the last, in the CLAUDE.md format. **(v2)** Say
-that this supersedes entry 22's index and why, in one line; do not edit
-entry 22. Standards
+One entry, numbered one past the last, in the CLAUDE.md format. Standards
 touched: cite 4.01.1 only if, having read it in the 2026 Statement under
 `docs/standards/`, the content developer's accuracy-review duty is what this
 index serves. Otherwise write "none".
@@ -159,10 +136,8 @@ index serves. Otherwise write "none".
    is removed, not paraphrased.
 2. Every file in `sources/gpt/` has a section. `ls sources/gpt/` and the
    section headers must match one to one.
-3. `git status` shows exactly two changes: `drafts/GPT-source-index.md`
-   modified and `CHANGELOG.md` modified. Nothing under `sources/`. **(v2)**
-   If the tree is not clean before starting, stop and report — `sources/gpt/`
-   should have been committed before this runs.
+3. `git status` shows exactly two changes: the new `drafts/GPT-source-index.md`
+   and `CHANGELOG.md`. Nothing under `sources/`.
 4. `npm run typecheck` and `npm run check` unchanged from before — nothing
    here touches code, so this is a sanity check, not a gate.
 
