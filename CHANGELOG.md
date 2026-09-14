@@ -3300,3 +3300,158 @@ Shipped: 2026-09-14
 - The scratchpad extraction of the thirteen PDFs (`pypdf` in a
   throwaway venv, for the Part 0 quote check) was not committed, as
   with the index's own extraction.
+
+## 31 — Video theme v2, end-of-video tail measured, voice-change dry run
+Shipped: 2026-09-14
+
+**What changed**
+- `src/theme.ts`: the sheet surfaces are now the superCPE app's own UI, not
+  the logo. Tokens renamed to say what they are: `page` `#F5F7FB` (the app's
+  page ground, outside the sheet), `surface` `#FFFFFF` (the sheet), `panel`
+  `#F5F7FB` (panel fills), `ink` `#032660` (headings and primary type, navy),
+  `muted` `#51607A` (the app's muted text), `border` `#D5DCEA` (the app's
+  border), `flag` `#01B0A9` and `flagWash` `#E6F7F6` (the one emphasis
+  role), `accent` `#0166FC` (blue chrome). No pink, no cream. Fonts: Inter
+  for display and body, loaded at weights 400–800 latin; IBM Plex Mono at
+  500–600 latin, used by the Calc column only. Sizes: display 84, heading
+  64, subhead 48, body 40, label 32, caption 28, chrome 24, chrome label 18
+  — body at 40px on the 1920px sheet is 20px at half width and ~15px in a
+  700px player. New `leading`, `radius` (8, the app's), and `inset` (shield
+  band 96, side 64, footer 84) tokens; `margin` 84 → 64.
+- `src/Sheet.tsx`: the sheet is a white card with the app's border and
+  radius on the grey page ground. The corner registration ticks are gone;
+  the shield stays, in the band above the content. The lower-right title
+  block became a full-width footer strip: COURSE, REFERENCE (flexible, so
+  the whole citation shows on every ATO-02 sheet but S-13's), REV, SHEET
+  (accent, bold), all in Inter. The draft stamp moved from the bottom-left
+  corner into the strip as a STATUS cell in accent blue, absent on
+  `"checked"`; it no longer uses teal.
+- `src/slides.tsx`: every slide restyled. Facts is a two-column grid (460px
+  label column, value left-aligned beside it) instead of label-left /
+  value-right across the sheet; the values are sentences, and a sentence
+  ragged against the far edge did not read. Compare columns are `flex: 1 1
+  0` with `minWidth: 0` (equal widths, whatever the content) and a 48px
+  gutter, and each row stacks the label above the value. Statement lines
+  are `heading` (64px) with a rule between them. List numbers are accent
+  blue sans. Calc keeps Plex Mono for its figures and `nowrap` so a figure
+  never breaks. Eyebrow, Title meta line, Image caption and Compare headings
+  are all Inter; nothing is monospace except the Calc figure column.
+- `README.md`: the layout table's `Sheet.tsx` line and the Design notes
+  paragraphs, which described the title block, the drawing border and the
+  bottom-left stamp, now describe the card, the footer strip and the STATUS
+  cell.
+- No narration, block id, `estimatedSeconds`, reveal, `audio-meta`, MP3,
+  `Lesson.tsx`, `Root.tsx`, `reveal.ts` or script changed.
+- Verification. `npm run typecheck` clean. `npm run check` before and after
+  is byte-identical: 8 lessons, 5 errors, 21 warnings, every error naming
+  lesson 07 or 08's questions (see Known gaps). One still per block of
+  ATO-02 and GPT-06 rendered at each block's last frame (every reveal in)
+  and inspected: every block fits at the new sizes with room below.
+  `npm run render -- --lesson 02` re-rendered: ffprobe reports 16,287 frames
+  and 542.933 s at 30 fps, identical to the 2026-09-13 render, because no
+  tail was added (Part 2). Frames for the developer at `out/frame-title.png`
+  (S-00, frame 200), `out/frame-compare.png` (S-03, frame 2700) and
+  `out/frame-closing.png` (S-13, the last frame). `git status` shows nothing
+  under `public/audio/` or `src/audio-meta-*.json`; no MP3 changed.
+- Part 2, the tail cut, measured and left alone. `public/audio/02/block-13.mp3`
+  is 44.907 s by ffprobe and its last audible sample is at 44.57 s
+  (silencedetect, −45 dB); its `audio-meta` duration is 45.508 s, the
+  spoken end plus `generate`'s 0.6 s `TAIL_SECONDS`, so its Sequence is
+  1,365 frames = 45.5 s. In the rendered MP4 the block starts at frame
+  14,922 (497.4 s), the last audible sample is at 542.008 s, and the file
+  ends at 542.9 s (video) / 542.933 s (audio). The render carries 0.59 s of
+  silence past the end of the MP3 and 0.9 s past the last audible sample.
+  It does not end before the audio and not exactly at it: the MP4 already
+  carries a tail. Per the spec's step 3 the cut the developer heard is in
+  the player, not the render, and nothing was changed. No `END_TAIL`
+  constant was added.
+- Part 3, the voice-change dry run. `.env` now carries
+  `ELEVENLABS_VOICE_ID=uFIXVu9mmnDZ7dTKCBTX`. `npm run generate -- --lesson
+  02 --dry-run` reports all 13 narrated blocks as `voice changed:
+  S9EGwlCtMF7VXtENq79v to uFIXVu9mmnDZ7dTKCBTX` and "13 of 13 block(s)
+  would be resent over the voice or the model, not because their narration
+  changed". For the record: **every MP3 under `public/audio/02/` and every
+  entry in `src/audio-meta-02.json` was generated under voice
+  `S9EGwlCtMF7VXtENq79v`, model `eleven_multilingual_v2`, on 2026-09-11.**
+  The new voice is `uFIXVu9mmnDZ7dTKCBTX`; nothing has been generated under
+  it. `--lesson 01` is refused by name: lesson 01 is ATO-01, a text lesson,
+  and BALLOON-01 is no longer registered. `--lesson 08` (GPT-06, the other
+  registered video lesson) reports its one narrated block as `no audio
+  yet`. Nothing sent, nothing written, nothing regenerated.
+
+**Standards touched**
+- 7.02.7 — A/V duration may be added to the word count formula only if the
+  segments are additional learning, not narration of the text; for an
+  all-video program the formula is actual video time plus questions × 1.85,
+  over 50. Not affected: no narration and no additional-learning claim
+  changed, and the measured duration is unchanged because no tail was added.
+- 9.02.2(2)(ii) — the supporting documentation for the data used in the word
+  count formula, including the duration of audio or video segments, must be
+  retained. Not affected for the same reason: the render measures the same
+  542.933 s it did on 2026-09-13. Had a tail been added, the measured
+  duration would have grown by exactly the tail and this entry would say so.
+
+**Decisions**
+- Type size wins over fit. The spec's readability floor — legible at half
+  the render's width — is what the player enforces, and a sheet that fits
+  at a size nobody can read is not fit. Every block was checked at the new
+  sizes and every one fits, so the choice was not exercised on any block;
+  had one overflowed it would have been reported here, not shrunk.
+- Statement lines at `heading` (64px) rather than the old `display` (84px)
+  is a design choice, not a fit compromise: a Statement is three sentences,
+  not a headline, and at 84px bold each of ATO-02's ~70-character lines
+  wrapped to two. 64px is still the largest type on any content sheet and
+  is 32px at half width.
+- Inter, not the app's system stack. The app's `--font-stack` resolves to
+  whatever the viewer's OS has; a render has to be reproducible on the
+  machine that makes it, so a bundled Google font that reads like the
+  system UI was chosen over the stack itself. Archivo was rejected as the
+  body face because it reads as a display grotesque at body sizes.
+- The tail, had one been needed, would have been a render constant and not
+  silence appended to the last MP3, because the MP3s are committed source
+  that cannot be regenerated identically and their `audio-meta` durations
+  and hashes describe them as they are; and because a render constant is
+  one number in one place that every lesson inherits, whereas silence in
+  one file is a per-lesson fact nobody can see. It was not needed: the
+  render already carries `generate`'s 0.6 s per-block tail on the final
+  block, which is the same mechanism (a constant, in the measured
+  duration) already in place.
+- The draft stamp leaves teal. The spec reserves teal for a single emphasis
+  role; the stamp is chrome, and accent blue is the chrome colour. Entry 21
+  kept it teal; that is reversed here.
+- Registration ticks removed. The spec lists what stays (shield, footer
+  strip); the ticks were the drawing-set signature and do not read as the
+  app. The border, radius and grey ground do.
+- Token names changed (`vellum` → `surface`, `graphite` → `ink`, `slate` →
+  `muted`, `hairline` → `border`, `vellumEdge` → `panel`). Entry 21 kept the
+  names to avoid touching components; this feature touches every component
+  anyway, and a token called `vellum` that is `#FFFFFF` is a name that lies.
+- The spec is headed "Run after feature 31 (GPT-05)". GPT-05 has not been
+  drafted (lesson 07 still errors on missing assessment questions) and the
+  last changelog entry is 30, so this is entry 31 as the spec's own note
+  directs. Nothing here depended on GPT-05.
+- Compare row values sit under their labels, not beside them. A panel is
+  half the sheet; a value that is a sentence does not fit beside a label at
+  36px. Facts, which has the full width, keeps label and value side by side
+  in a fixed grid.
+
+**Known gaps**
+- No block fails to fit; none to report.
+- ATO-02's package in superCPE is the 2026-09-13 render and is not
+  re-exported here, per the spec; the app still shows the old theme until
+  the developer exports and re-ingests.
+- The tail cut is reported as the player's. If the developer wants a
+  longer silent tail regardless, that is a separate decision: `export.ts`
+  refuses when ffprobe and `audio-meta` disagree by more than 1 s, so a
+  tail above that would also mean teaching `export.ts` and `totalSeconds`
+  about it.
+- The stills at `out/stills-02/` and `out/stills-08/` (one per block) and
+  the three named frames are in gitignored `out/`, alongside the entry-21
+  stills.
+- Pre-existing, untouched: lesson 07 (GPT-05) errors on objectives lo-1 to
+  lo-4 having no assessment question and lesson 08 (GPT-06) on lo-1 —
+  scaffolds awaiting their features. ATO-01's six review-coverage warnings
+  and GPT-05's one, and GPT-06's sheet-window and draft warnings, are
+  unchanged.
+- The `Image` slide was restyled but no registered lesson carries one, so
+  it was checked by reading, not by a still.

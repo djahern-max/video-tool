@@ -1,108 +1,105 @@
 # Current Feature
 
-## GPT-01 questions, then GPT-02 in full — no stop between
+## Video theme v2, end-of-video tail, voice-change dry run
+
+> Run after feature 31 (GPT-05). Number the changelog entry from the last
+> one in `CHANGELOG.md`.
 
 ## Goal
-Lesson GPT-01 has its review and assessment questions and `check` shows
-no ERROR on it. Lesson GPT-02, "Setting up for professional use", has body
-prose, front matter, glossary, and questions, drafted the same way. Both
-stay `"draft"`. The content developer reads the whole course once at the
-end, not lesson by lesson; this feature does not wait for that read.
+A rendered lesson looks like a page of the superCPE app, is readable at
+the size the app's player shows it, and does not cut the narrator's last
+word. Verified by re-rendering ATO-02 (lesson 02) — render only, no
+narration generated. Nothing about what is said, counted, or measured
+changes except the total duration if a tail is added.
 
-## Process change — record it first
-Add a short paragraph to `CLAUDE.md` under the review/record section:
+## Why
+The content developer watched ATO-02 in the superCPE player and found:
+small monospace type on cream and pink cards, cramped spacing, a sheet
+background that does not match the app, and the narrator's final word
+cut off at the end. Entry 21 put the logo palette in the chrome; the
+sheets themselves were not restyled.
 
-> **Rulings.** Every `UNSOURCED` flag and every judgment item in a
-> `drafts/GPT-NN-review.md` carries a recommended ruling written by the
-> draft. That recommendation is the ruling unless the content developer's
-> 4.01.1 read of the guide text says otherwise. The developer's read is the
-> review; the record is the evidence of it. Features do not stop to ask.
+## Part 1 — Theme v2
+Wherever the theme tokens live after entry 21, restyle the sheet surfaces
+to match the superCPE app's own UI, not the logo:
+- White sheet background; page-level background the app's light grey if
+  the player shows one around the video.
+- Headings in navy (#032660), accents and highlights in blue (#0166FC),
+  teal (#01B0A9) only for a single emphasis role. No pink, no cream.
+- Body type: a proportional sans, not monospace, at a size readable when
+  the player is ~700 px wide — assume body text must be legible at half
+  the render's native width. Monospace remains only for literal code,
+  prompts, or figures presented as typed.
+- Spacing: generous line height and card padding; at most one idea per
+  card; comparison cards side by side get a clear gutter and equal widths.
+- Chrome (shield, footer strip with lesson id, source, and block ref)
+  stays, restyled to match.
+- Every existing block type renders in the new theme. Practice lesson
+  BALLOON-01 and ATO-02 are the test set.
 
-Apply it here: write the recommended ruling under each item as you go, mark
-the list `CLOSED (default rulings; developer read pending)`, and continue.
+Do not change any narration, block id, `estimatedSeconds`, reveal, or
+`audio-meta`. If a layout cannot fit its content at the new type size,
+report the block; do not shrink the type to make it fit.
 
-## Part 1 — GPT-01 questions (`src/questions-03.json`)
-Follow the shape of `src/questions-01.json` and the rules in
-`docs/course-package.md`.
+## Part 2 — Tail cut
+1. Measure: `ffprobe` the last block's MP3 duration and the rendered
+   ATO-02 MP4 duration; compare against where the final block starts.
+   Report whether the MP4 ends before the audio does, or exactly at it
+   with no silence after.
+2. If the render ends at or before the last audio sample, add a fixed
+   end tail (a configurable constant, default 1.5 s) of the closing
+   sheet after the final block's audio ends. The tail is part of the
+   rendered file and therefore part of the measured duration; it is not
+   narration and contains no new content.
+3. If the MP4 already carries a tail, report that the cut is in the
+   player, not the render, and change nothing.
 
-- **Review questions:** one per body section (sec-01 … sec-05), placed by
-  `after_section`. Multiple choice; feedback for correct and for incorrect
-  (5.01.2.1). Not scored.
-- **Assessment questions:** at least one per objective lo-1, lo-2, lo-3,
-  which clears the three rule-1 ERRORs. Write what the text honestly
-  supports; do not write to a count — question minimums are superCPE's.
-- Every question's correct answer is stated in the guide text and traces to
-  an index entry. Distractors must be plausible but wrong on the sources'
-  account; no distractor may be a claim the sources would also support.
-- Under **Questions** in `drafts/GPT-01-review.md`: per question — id,
-  type, section or objective, index entry, and the sentence in the guide
-  that answers it.
-
-## Part 2 — Index extension for file 9 (J7)
-Additive only. In `drafts/GPT-source-index.md`, file 9, add entries for
-the items the page lists that the index omits: "Incorrect definitions,
-dates, or facts", "Overconfident answers to ambiguous or complex
-questions", "Lack of access", "Bias and over-simplification". Number them
-after the existing entries; renumber nothing. Note the extension in the
-index's own change note.
-
-## Part 3 — GPT-02 (`src/lesson-04.ts`, `guide/04/`, `src/questions-04.json`)
-1. **Section plan.** From lesson 04's objectives and the index entries
-   they cite, write a plan of four to six body sections, each with a
-   `<!-- index: … -->` tag. Set `meta.sections` and create the files.
-2. **Prose.** The three-way sentence rule from feature 27's spec applies
-   unchanged: sourced, attributed, or connective; anything else is
-   `UNSOURCED`, quoted in the record, left in the text. Add the lesson
-   learned in feature 28 from the start: **no method-voice in participant
-   text.** The guide teaches; it does not describe its own sourcing
-   restraint, count its sources, or explain why a heading exists. Scope
-   handoffs to other lessons are fine.
-3. **Front matter.** Template block untouched (4.05.3). Opening paragraph:
-   scope and audience, this lesson's topics from its objectives. No lesson
-   list, no course-level descriptors, no source count.
-4. **Glossary.** Terms the sections use; each traced or flagged, never
-   invented. Fill `meta.glossaryTerms`. Extend `meta.sources` if a glossary
-   term needs a file the lesson does not yet list, marked supporting.
-5. **Questions.** Same rules as Part 1.
-6. **Record.** `drafts/GPT-02-review.md` in the same shape as GPT-01's,
-   with recommended rulings written in and the list marked CLOSED as above.
-
-Stop and report if flagged sentences exceed ten in the lesson; that means
-the plan or the index is wrong, not the prose.
+## Part 3 — Voice-change dry run
+`ELEVENLABS_VOICE_ID` in `.env` was changed by the developer. Run
+`npm run generate -- --lesson 02 --dry-run` and `--lesson 01 --dry-run`
+(BALLOON-01, if still registered). Report the per-block miss reasons;
+every generated block should report `voice changed: <old> to <new>`.
+Send nothing. Regenerate nothing. Record the old and new voice ids in the
+changelog entry so the record of which voice produced ATO-02's existing
+audio survives.
 
 ## Out of scope
-- GPT-03 onward. Next feature.
-- `meta.status` on any lesson. The developer's hand edit.
-- `sources/`; any index edit beyond Part 2.
-- Any web research or general knowledge.
+- `generate` without `--dry-run`. Not one block.
+- Any narration or content edit to any lesson.
+- GPT-06 design — next feature. Any new block type or animation.
+- `export`. ATO-02's package in superCPE is test data and is not
+  re-exported here.
 
 ## Read first
-- `CLAUDE.md`; `docs/course-package.md` (questions and roles)
-- `src/questions-01.json` — worked example of question shape
-- `drafts/GPT-01-review.md`; `drafts/GPT-source-index.md`
-- `guide/03/` as shipped after feature 28 — the house style to match
-- `src/lesson-04.ts` — objectives and current scaffold
+- `CLAUDE.md`; `CHANGELOG.md` entry 21 (theme rebrand) and entry 13
+  (audio identity); `LESSON-RUNBOOK.md`
+- The theme module and every sheet/block component under `src/`
+- `scripts/render.ts` (or whatever `npm run render` runs) — where the
+  composition's total duration is computed
 
 ## Verify
-1. `npm run typecheck` clean.
-2. `npm run check`: lesson 03 — no ERROR, only `[draft]` WARN. Lesson 04 —
-   no ERROR, `[draft]` WARN only. Report totals.
-3. Sentence counts for GPT-02 (sourced / attributed / connective /
-   flagged) and per-section word estimates for both lessons.
-4. `git status` limited to: `CLAUDE.md`, `src/questions-03.json`,
-   `drafts/GPT-01-review.md`, `drafts/GPT-source-index.md`,
-   `src/lesson-04.ts`, `guide/04/*.md`, `src/questions-04.json`,
-   `drafts/GPT-02-review.md`, `CHANGELOG.md`.
-5. Report once, at the end. No paste-back of guide text; the developer reads
-   it from the repo. Then commit.
+1. `npm run typecheck` clean; `npm run check` unchanged from before the
+   feature except any finding this feature deliberately introduces (none
+   expected).
+2. `npm run render -- --lesson 02`; report frame count and duration before
+   and after. If Part 2 added a tail, duration grows by exactly the tail.
+3. Extract three frames from the new ATO-02 render (a title sheet, a
+   comparison sheet, the closing sheet) to `out/` for the developer to
+   look at, and name the files.
+4. Part 3 dry-run output, per block.
+5. `git status` limited to theme/component files, the render script if
+   touched, `CHANGELOG.md`, and the spec rotation files. No `audio-meta`
+   change, no MP3 change.
+6. One report. Then commit.
 
 ## Changelog
-Entry 29. Standards touched: 4.01.1 (default-ruling rule; read pending),
-5.01.2.1 (review questions with feedback), 3.01 (assessment coverage per
-objective). Under Decisions: the process change and why. Under Known gaps:
-both lessons draft and unread; flag counts; anything the index could not
-define for GPT-02.
+Standards touched: 7.02.7 is not affected (no narration or additional-
+learning claim changes); 9.02.2(2)(ii) if the tail changes the measured
+duration — say so. Under Decisions: why type size wins over fit, and why
+the tail is a render constant rather than silence appended to the last
+MP3. Under Known gaps: any block that no longer fits.
 
 ## Not this feature
-GPT-03, GPT-04, GPT-05, each as one feature in this same shape; then
-GPT-06 (video); then export.
+GPT-06: an on-screen task walkthrough — a prompt typed, output appearing,
+the wrong figure highlighted, the corrected figure beside it — designed
+against a real block from GPT-06's script. Then the ATO-02 rebuild.

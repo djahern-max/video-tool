@@ -138,7 +138,7 @@ src/
   blocks.ts            Block and Figure — the render side's shape, not any lesson's
   types.ts             PackageLessonMeta and Question — what the manifest needs
   theme.ts             palette, type, layout tokens
-  Sheet.tsx            drawing border + title block, wraps every slide
+  Sheet.tsx            the sheet card, shield and footer strip, wraps every slide
   slides.tsx           slide components (Title, Statement, Facts, Calc, List, Compare,
                        Image), all rendering from a block's data
   Lesson.tsx           sequences one lesson's blocks; no timing numbers
@@ -192,21 +192,28 @@ Do not resize or re-encode them.
 
 ## Design notes
 
-The visual language is a numbered sheet set. Each slide is a sheet inside a
-border, with the superCPE shield mark at the top left and a title block in
-the lower right carrying the course code, the citation under discussion, the
-revision, and the sheet number. The chrome persists from the construction
-drawing set this started as, and it is not decoration: it puts a persistent
-citation on screen without a caption fighting the content. The Title sheet
-carries the full logo instead of the shield.
+The visual language is a numbered sheet set drawn as a page of the superCPE
+app. Each slide is a white card on the app's light-grey page ground, with
+the superCPE shield mark at the top left and a footer strip along the bottom
+carrying the course code, the citation under discussion, the revision, and
+the sheet number. The chrome persists from the construction drawing set this
+started as, and it is not decoration: it puts a persistent citation on
+screen without a caption fighting the content. The Title sheet carries the
+full logo instead of the shield.
 
-The palette is the superCPE logo: navy for type, blue for chrome (eyebrows,
-the Title rule, the sheet number), and teal as the one marker. The teal marks
-only the thing currently under discussion. If it appears on more than two
-elements at once, something is wrong. Blue is chrome and never marks content.
+The surfaces are the app's own UI (white card, grey page, the app's border
+and muted-text values); the three brand colours are the logo's. Navy is
+headings and primary type, blue is chrome (eyebrows, rules, list numbers,
+the sheet number), and teal is the one marker. The teal marks only the thing
+currently under discussion. If it appears on more than two elements at once,
+something is wrong. Blue is chrome and never marks content. Type is a
+proportional sans (Inter) sized to read in the app's player, which shows the
+render at roughly a third of its native width; monospace remains only for
+the Calc column, where a figure is presented as typed.
 
-The draft stamp is a lesson module's own `meta.status`, drawn raw and blank
-once it reads `"checked"`. That flag is the single authority on whether a
+The draft stamp is a lesson module's own `meta.status`, the first cell of
+the footer strip and absent once it reads `"checked"`. That flag is the
+single authority on whether a
 lesson may ship: export refuses any lesson still `"draft"`, and the content
 developer clears it after making the 4.01.1 accuracy check
 (LESSON-RUNBOOK.md, step 7).

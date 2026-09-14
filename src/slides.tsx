@@ -26,18 +26,46 @@ const revealTimeFor = (i: number, reveals: number[]) =>
 /* Shared primitives                                                   */
 /* ------------------------------------------------------------------ */
 
+const column: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  height: "100%",
+  fontFamily: theme.font.body,
+};
+
 const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div
     style={{
-      fontFamily: theme.font.mono,
+      fontFamily: theme.font.body,
       fontSize: theme.size.caption,
-      letterSpacing: "0.16em",
+      fontWeight: 600,
+      letterSpacing: "0.1em",
       color: theme.color.accent,
-      marginBottom: 28,
+      marginBottom: 32,
     }}
   >
     {children}
   </div>
+);
+
+/** The label above a value, in the muted colour. */
+const Label: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({
+  children,
+  style,
+}) => (
+  <span
+    style={{
+      fontFamily: theme.font.body,
+      fontSize: theme.size.label,
+      fontWeight: 500,
+      lineHeight: theme.leading.body,
+      color: theme.color.muted,
+      ...style,
+    }}
+  >
+    {children}
+  </span>
 );
 
 const Panel: React.FC<{
@@ -47,9 +75,10 @@ const Panel: React.FC<{
 }> = ({ children, marked, style }) => (
   <div
     style={{
-      background: marked ? theme.color.flagWash : theme.color.vellumEdge,
-      border: `1px solid ${marked ? theme.color.flag : theme.color.hairline}`,
-      padding: "26px 30px",
+      background: marked ? theme.color.flagWash : theme.color.panel,
+      border: `1px solid ${marked ? theme.color.flag : theme.color.border}`,
+      borderRadius: theme.radius,
+      padding: "36px 40px",
       ...style,
     }}
   >
@@ -65,7 +94,7 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
   const frame = useCurrentFrame();
   const m = meta!;
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+    <div style={column}>
       {/* The full logo shares the eyebrow's reveal so the two come up
           together. Title has three hand-set reveals and no markers, and the
           validator special-cases it on that basis — do not add a fourth. */}
@@ -73,7 +102,7 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
         <Img
           src={staticFile("brand/supercpe-logo.png")}
           alt="superCPE"
-          style={{ height: 96, width: "auto", display: "block", marginBottom: 40 }}
+          style={{ height: 104, width: "auto", display: "block", marginBottom: 44 }}
         />
         <Eyebrow>{m.courseTitle.toUpperCase()}</Eyebrow>
       </div>
@@ -83,10 +112,10 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
           fontFamily: theme.font.display,
           fontSize: theme.size.display,
           fontWeight: 800,
-          lineHeight: 1.04,
-          letterSpacing: "-0.03em",
-          color: theme.color.graphite,
-          maxWidth: 1400,
+          lineHeight: theme.leading.display,
+          letterSpacing: "-0.025em",
+          color: theme.color.ink,
+          maxWidth: 1500,
         }}
       >
         {m.lessonTitle}
@@ -94,19 +123,20 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
       <div
         style={{
           ...revealAt(frame, reveals[2]),
-          marginTop: 44,
+          marginTop: 48,
           display: "flex",
-          gap: 18,
+          gap: 20,
           alignItems: "center",
-          fontFamily: theme.font.mono,
           fontSize: theme.size.caption,
-          color: theme.color.slate,
+          fontWeight: 500,
+          letterSpacing: "0.04em",
+          color: theme.color.muted,
         }}
       >
-        <span style={{ width: 60, height: 2, background: theme.color.accent }} />
+        <span style={{ width: 60, height: 3, background: theme.color.accent }} />
         <span>
           {[m.position, m.deliveryMethod, m.fieldOfStudy]
-            .join("\u00A0·\u00A0")
+            .join(" · ")
             .toUpperCase()}
         </span>
       </div>
@@ -120,7 +150,7 @@ export const Title: React.FC<SlideProps> = ({ reveals, meta }) => {
 
 const EMPHASIS_COLOR = {
   right: theme.color.flag,
-  wrong: theme.color.slate,
+  wrong: theme.color.muted,
 } as const;
 
 export const Statement: React.FC<SlideProps> = ({ reveals, figure }) => {
@@ -128,19 +158,20 @@ export const Statement: React.FC<SlideProps> = ({ reveals, figure }) => {
   if (!figure || figure.kind !== "statement") return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+    <div style={column}>
       {figure.lines.map((line, i) => (
         <div
           key={i}
           style={{
             ...revealAt(frame, revealTimeFor(i, reveals)),
             fontFamily: theme.font.display,
-            fontSize: theme.size.display,
+            fontSize: theme.size.heading,
             fontWeight: 700,
-            lineHeight: 1.15,
-            letterSpacing: "-0.02em",
-            color: theme.color.graphite,
-            marginBottom: 16,
+            lineHeight: theme.leading.heading,
+            letterSpacing: "-0.015em",
+            color: theme.color.ink,
+            padding: "22px 0",
+            borderTop: i === 0 ? "none" : `1px solid ${theme.color.border}`,
           }}
         >
           {line}
@@ -150,34 +181,37 @@ export const Statement: React.FC<SlideProps> = ({ reveals, figure }) => {
   );
 };
 
+/**
+ * Label on the left, value on the right, each row one fact. The value
+ * column takes the width: a fact's value is prose, and prose reads
+ * left-aligned beside its label rather than ragged against the far edge.
+ */
 export const Facts: React.FC<SlideProps> = ({ reveals, figure }) => {
   const frame = useCurrentFrame();
   if (!figure || figure.kind !== "facts") return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+    <div style={column}>
       {figure.rows.map((row, i) => (
         <div
           key={row.label}
           style={{
             ...revealAt(frame, revealTimeFor(i, reveals)),
-            display: "flex",
-            justifyContent: "space-between",
+            display: "grid",
+            gridTemplateColumns: "460px 1fr",
+            columnGap: 48,
             alignItems: "baseline",
-            gap: 40,
-            padding: "22px 0",
-            borderTop: `1px solid ${theme.color.hairline}`,
+            padding: "24px 0",
+            borderTop: `1px solid ${theme.color.border}`,
           }}
         >
-          <span style={{ fontFamily: theme.font.body, fontSize: theme.size.body, color: theme.color.slate }}>
-            {row.label}
-          </span>
+          <Label>{row.label}</Label>
           <span
             style={{
-              fontFamily: theme.font.mono,
-              fontSize: theme.size.subhead,
+              fontSize: theme.size.body,
               fontWeight: 600,
-              color: theme.color.graphite,
+              lineHeight: theme.leading.body,
+              color: theme.color.ink,
             }}
           >
             {row.value}
@@ -189,16 +223,17 @@ export const Facts: React.FC<SlideProps> = ({ reveals, figure }) => {
 };
 
 /**
- * Right-aligned figure column, left-aligned labels, monospace for the
- * numbers so digits line up. `emphasis: "wrong"` renders in slate, not red —
- * this is a working calculation, not an error state.
+ * A working calculation. Right-aligned figure column, left-aligned labels,
+ * monospace for the figures so digits line up — this is the one slide where
+ * the value is a figure presented as typed. `emphasis: "wrong"` renders in
+ * the muted colour, not red — it is a working figure, not an error state.
  */
 export const Calc: React.FC<SlideProps> = ({ reveals, figure }) => {
   const frame = useCurrentFrame();
   if (!figure || figure.kind !== "calc") return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+    <div style={column}>
       {figure.rows.map((row, i) => (
         <div
           key={row.label}
@@ -207,21 +242,20 @@ export const Calc: React.FC<SlideProps> = ({ reveals, figure }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "baseline",
-            gap: 40,
-            padding: "14px 0",
-            borderTop: row.rule ? `1px solid ${theme.color.hairline}` : "1px solid transparent",
+            gap: 48,
+            padding: "16px 0",
+            borderTop: row.rule ? `1px solid ${theme.color.border}` : "1px solid transparent",
           }}
         >
-          <span style={{ fontFamily: theme.font.body, fontSize: theme.size.body, color: theme.color.slate }}>
-            {row.label}
-          </span>
+          <Label style={{ fontSize: theme.size.body }}>{row.label}</Label>
           <span
             style={{
               fontFamily: theme.font.mono,
               fontSize: theme.size.subhead,
               fontWeight: 600,
               textAlign: "right",
-              color: row.emphasis ? EMPHASIS_COLOR[row.emphasis] : theme.color.graphite,
+              whiteSpace: "nowrap",
+              color: row.emphasis ? EMPHASIS_COLOR[row.emphasis] : theme.color.ink,
             }}
           >
             {row.value}
@@ -237,7 +271,7 @@ export const List: React.FC<SlideProps> = ({ reveals, figure }) => {
   if (!figure || figure.kind !== "list") return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+    <div style={column}>
       {figure.items.map((item, i) => (
         <div
           key={item}
@@ -245,15 +279,30 @@ export const List: React.FC<SlideProps> = ({ reveals, figure }) => {
             ...revealAt(frame, revealTimeFor(i, reveals)),
             display: "flex",
             alignItems: "baseline",
-            gap: 30,
-            padding: "18px 0",
-            borderTop: `1px solid ${theme.color.hairline}`,
+            gap: 32,
+            padding: "22px 0",
+            borderTop: `1px solid ${theme.color.border}`,
           }}
         >
-          <span style={{ fontFamily: theme.font.mono, fontSize: theme.size.caption, color: theme.color.slate, width: 40 }}>
+          <span
+            style={{
+              fontSize: theme.size.caption,
+              fontWeight: 700,
+              color: theme.color.accent,
+              width: 56,
+              flex: "0 0 auto",
+            }}
+          >
             {String(i + 1).padStart(2, "0")}
           </span>
-          <span style={{ fontFamily: theme.font.body, fontSize: theme.size.body, color: theme.color.graphite }}>
+          <span
+            style={{
+              fontSize: theme.size.body,
+              fontWeight: 500,
+              lineHeight: theme.leading.body,
+              color: theme.color.ink,
+            }}
+          >
             {item}
           </span>
         </div>
@@ -262,23 +311,32 @@ export const List: React.FC<SlideProps> = ({ reveals, figure }) => {
   );
 };
 
+/**
+ * Two (or more) panels side by side, equal widths, one gutter. Rows stack
+ * the label above the value: a panel is half the sheet wide, and a value
+ * that is a sentence does not fit beside its label at a readable size.
+ */
 export const Compare: React.FC<SlideProps> = ({ reveals, figure }) => {
   const frame = useCurrentFrame();
   if (!figure || figure.kind !== "compare") return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
-      <div style={{ display: "flex", gap: 32 }}>
+    <div style={column}>
+      <div style={{ display: "flex", gap: 48 }}>
         {figure.columns.map((col, i) => (
-          <div key={col.heading} style={{ ...revealAt(frame, revealTimeFor(i, reveals)), flex: 1 }}>
+          <div
+            key={col.heading}
+            style={{ ...revealAt(frame, revealTimeFor(i, reveals)), flex: "1 1 0", minWidth: 0 }}
+          >
             <Panel marked={col.emphasis === "right"} style={{ height: "100%" }}>
               <div
                 style={{
-                  fontFamily: theme.font.mono,
                   fontSize: theme.size.caption,
-                  letterSpacing: "0.14em",
+                  fontWeight: 700,
+                  letterSpacing: "0.06em",
+                  lineHeight: theme.leading.heading,
                   marginBottom: 20,
-                  color: col.emphasis ? EMPHASIS_COLOR[col.emphasis] : theme.color.slate,
+                  color: col.emphasis ? EMPHASIS_COLOR[col.emphasis] : theme.color.accent,
                 }}
               >
                 {col.heading.toUpperCase()}
@@ -288,20 +346,19 @@ export const Compare: React.FC<SlideProps> = ({ reveals, figure }) => {
                   key={row.label}
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
-                    padding: "12px 0",
-                    borderTop: `1px solid ${theme.color.hairline}`,
+                    flexDirection: "column",
+                    gap: 4,
+                    padding: "18px 0",
+                    borderTop: `1px solid ${theme.color.border}`,
                   }}
                 >
-                  <span style={{ fontFamily: theme.font.body, fontSize: 26, color: theme.color.slate }}>
-                    {row.label}
-                  </span>
+                  <Label style={{ fontSize: theme.size.caption }}>{row.label}</Label>
                   <span
                     style={{
-                      fontFamily: theme.font.mono,
-                      fontSize: 30,
+                      fontSize: 36,
                       fontWeight: 600,
-                      color: col.emphasis ? EMPHASIS_COLOR[col.emphasis] : theme.color.graphite,
+                      lineHeight: theme.leading.heading,
+                      color: col.emphasis ? EMPHASIS_COLOR[col.emphasis] : theme.color.ink,
                     }}
                   >
                     {row.value}
@@ -319,12 +376,12 @@ export const Compare: React.FC<SlideProps> = ({ reveals, figure }) => {
 /**
  * A photograph, diagram, or screenshot, one per sheet.
  *
- * The theme is a construction drawing set and a full-bleed image fights it,
- * so the image sits inside the same `Panel` the Compare columns use and
- * carries the same hairline border and vellum-edge fill. It is contained,
- * never cropped: the panel is capped by the sheet's drawing area and the
- * image is capped by the panel, so a wide screenshot and a tall photograph
- * both land whole, each in a panel that hugs it.
+ * The sheet is a page of the app and a full-bleed image fights it, so the
+ * image sits inside the same `Panel` the Compare columns use and carries
+ * the same border and panel fill. It is contained, never cropped: the panel
+ * is capped by the sheet's content area and the image is capped by the
+ * panel, so a wide screenshot and a tall photograph both land whole, each
+ * in a panel that hugs it.
  *
  * `theme.color.flag` is deliberately absent. The flag marks the one thing
  * under discussion, and on this sheet that is the whole image.
@@ -339,7 +396,7 @@ export const Image: React.FC<SlideProps> = ({ reveals, figure }) => {
   if (!figure || figure.kind !== "image") return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <div style={{ ...column, justifyContent: "flex-start" }}>
       <div
         style={{
           ...revealAt(frame, revealTimeFor(0, reveals)),
@@ -375,10 +432,11 @@ export const Image: React.FC<SlideProps> = ({ reveals, figure }) => {
         <div
           style={{
             ...revealAt(frame, revealTimeFor(1, reveals)),
-            marginTop: 22,
-            fontFamily: theme.font.mono,
+            marginTop: 24,
             fontSize: theme.size.caption,
-            color: theme.color.slate,
+            fontWeight: 500,
+            lineHeight: theme.leading.body,
+            color: theme.color.muted,
           }}
         >
           {figure.caption}
