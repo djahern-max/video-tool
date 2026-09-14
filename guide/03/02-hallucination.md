@@ -18,9 +18,7 @@ do not exist. Suppose, purely as an illustration, that a response cites a
 numbered paragraph of an accounting standard in support of a position.
 Nothing in the form of that citation says whether the paragraph exists, or
 whether it says what the response claims; a fabricated citation reads the
-same as a real one until someone goes and looks. That is why this lesson
-gives fabricated citations their own heading rather than treating them as
-one hallucination among others.
+same as a real one until someone goes and looks.
 
 ## The profession's own source says the same
 
@@ -29,9 +27,7 @@ The CPA.com Generative AI Toolkit, writing in 2023, says that generative AI
 hallucinate," and that its confident, articulate and well-reasoned answers
 may mask that failing. The toolkit offers one example: when asked to cite
 precedents to be used in a court case, the system responded with cases
-that did not exist. The vendor and a trade body for the profession describe
-the same failure in the same terms, and the profession's example is a
-fabricated citation.
+that did not exist.
 
 ## What this lesson does and does not do about it
 

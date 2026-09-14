@@ -2931,6 +2931,13 @@ Shipped: 2026-09-14
   change is a rewrite in place. Attributions stay; every sourced and
   attributed sentence keeps its meaning and index entry; no new fact
   entered. Sec-04 needed no change.
+- Style pass before commit, on the developer's instruction: sec-02 lost
+  two connectives (the "own heading" sentence and the "vendor and a trade
+  body" summary, so the toolkit paragraph ends on the court-case example);
+  sec-05's sentences 3 and 4 were reworded ("as section 01 said"; "An
+  executive quoted in the CPA.com toolkit puts it the other way round");
+  the front matter's second paragraph lost "Where they say nothing, the
+  lesson says nothing …". No new facts; same sources; no flag touched.
 - `src/lesson-03.ts`: lo-3 is now "Identify the code tool as the feature
   OpenAI ties accurate calculation to, and treat ordinary responses as
   unverified arithmetic." — the source (9#12) says the tool "enables
@@ -2944,7 +2951,8 @@ Shipped: 2026-09-14
   Decisions).
 - `guide/03/00-front-matter.md`: the opening paragraph no longer lists the
   six lessons by title. It names the course, this lesson's three topics,
-  and the audience. "How this course works" untouched.
+  and the audience. Its second paragraph names the sources and stops.
+  "How this course works" untouched.
 - `drafts/GPT-01-review.md`: **Judgment list — CLOSED (2026-09-14)**, with
   a `Ruling:` under each of J1–J10 and under each of the five `UNSOURCED`
   flags; per-section counts, classifications and word counts revised;
@@ -2953,15 +2961,15 @@ Shipped: 2026-09-14
   record of the developer's rulings.
 - Reclassification under the three-way rule, body sections only:
   before 62 sentences — 22 sourced, 5 attributed, 32 connective, 3 flagged;
-  after 61 — 22 sourced, 5 attributed, 31 connective, 3 flagged. Five flags
+  after 59 — 22 sourced, 5 attributed, 29 connective, 3 flagged. Five flags
   overall, before and after; the flagged sentences are untouched.
 - Verified: `npm run typecheck` clean. `npm run check`: lesson 03 shows the
   same three rule-1 ERRORs, the `[draft]` WARN and five no-review-question
   WARNs; nothing new; totals 8 lessons, 19 errors, 32 warnings, as before.
-  Word count per `check`'s preview, an estimate: front matter 336
-  (excluded), sec-01 388, sec-02 364, sec-03 256, sec-04 208, sec-05 249,
-  glossary 334 (excluded); body total 1,465 counted (first draft 1,563),
-  2,135 shipped. superCPE's count is authoritative.
+  Word count per `check`'s preview, an estimate: front matter 315
+  (excluded), sec-01 388, sec-02 319, sec-03 256, sec-04 208, sec-05 248,
+  glossary 334 (excluded); body total 1,419 counted (first draft 1,563),
+  2,068 shipped. superCPE's count is authoritative.
 - `git status`: `guide/03/*.md` (00, 01, 02, 03, 05, 90), `src/lesson-03.ts`,
   `drafts/GPT-01-review.md`, `CHANGELOG.md`, plus `current-feature.md`
   (modified) and `current-feature-027.md` (untracked), both already so
@@ -2992,7 +3000,7 @@ Shipped: 2026-09-14
 - **One sentence cut rather than rewritten.** Sec-02's "adds nothing to
   it" could only have been rewritten as a claim that the toolkit gives no
   court, case or date, and the index does not say whether it does. Cutting
-  was the honest option; sentence 9 still reports the example as the
+  was the honest option; sentence 8 still reports the example as the
   toolkit states it.
 - **Sec-05 sentence 3 leans on 9#1, not on an inference.** Saying the
   page attaches accuracy to the tool "and not to the ordinary response"

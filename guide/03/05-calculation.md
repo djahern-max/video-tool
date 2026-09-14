@@ -9,11 +9,11 @@ OpenAI's help page lists, among the tools that may be available to
 ChatGPT, one it prints as "Code interpreter / Data analysis," and describes
 what it does as enabling accurate calculations, data visualizations, and
 structured logic. That is the feature OpenAI ties accurate calculation to:
-accuracy is attached to the tool, and what the page says of the ordinary
-response is what section 01 recorded, that it may be incorrect or
-misleading. The toolkit's quoted executive puts the other side of the same
-rule: large language models produce generated output, not computed
-answers, so you should not trust them with math or financial analysis.
+accuracy is attached to the tool, and of the ordinary response the page
+says, as section 01 said, that it may be incorrect or misleading. An
+executive quoted in the CPA.com toolkit puts it the other way round: large
+language models produce generated output, not computed answers, so you
+should not trust them with math or financial analysis.
 
 Read together, they give the lesson its one practical rule. A number that
 came out of a conversation in which the tool did not run is generated text

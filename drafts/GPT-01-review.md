@@ -57,11 +57,15 @@ rule on. Sentence numbers are in reading order within the section, headings
 excluded, as split at sentence-ending punctuation; the numbering is a
 convenience for this record and is not in the guide text.
 
-**Tally, whole lesson (body sections only), as revised 2026-09-14:** 61
-sentences — 22 sourced, 5 attributed, 31 connective, 3 flagged `UNSOURCED`.
-(First draft: 62 — 22 sourced, 5 attributed, 32 connective, 3 flagged; the
-one sentence removed was sec-02's "This course takes that example exactly
-as the toolkit states it and adds nothing to it", a connective.) Two
+**Tally, whole lesson (body sections only), as revised 2026-09-14:** 59
+sentences — 22 sourced, 5 attributed, 29 connective, 3 flagged `UNSOURCED`.
+(First draft: 62 — 22 sourced, 5 attributed, 32 connective, 3 flagged. The
+three sentences removed were all connective and all in sec-02: "This
+course takes that example exactly as the toolkit states it and adds nothing
+to it"; "That is why this lesson gives fabricated citations their own
+heading …"; and "The vendor and a trade body for the profession describe
+the same failure in the same terms …", the last two in a style pass the
+developer directed before commit.) Two
 further flags sit outside the body: the front matter's audience statement
 and the glossary's *large language model* entry. Five flags in all, before
 and after; the flagged sentences themselves are untouched.
@@ -89,9 +93,11 @@ by title was dropped on 2026-09-14 (J9), so nothing in the paragraph now
 depends on another lesson's title. No course-level descriptor (field of
 study, level, prerequisites, advance preparation) is typed here, per the
 spec, so nothing in the prose can drift from `src/course.ts`. The second
-paragraph states the lesson's sourcing method; its "two documents" count
-was replaced before commit with wording that names no number, since
-`meta.sources` now lists three (file 13, glossary only). 336 words.
+paragraph names the lesson's sources; its "two documents" count was
+replaced before commit with wording that names no number, since
+`meta.sources` now lists three (file 13, glossary only), and its closing
+sentence ("Where they say nothing, the lesson says nothing …") was cut in
+the style pass. 315 words.
 
 **Flags**
 - `UNSOURCED` (descriptive) — "It is written for CPAs in public practice who
@@ -133,7 +139,7 @@ Sentence count and classification unchanged.
 
 **Flags** — none.
 
-### sec-02 — `02-hallucination.md` — role `body` — counted — 364 words (first draft 402) — lo-2
+### sec-02 — `02-hallucination.md` — role `body` — counted — 319 words (first draft 402) — lo-2
 
 **Index entries used, in order**
 1. 9#2 — sound confident even when wrong (sentence 1)
@@ -142,19 +148,20 @@ Sentence count and classification unchanged.
 3. 9#4 — fabricated quotes, studies, citations or references to
    non-existent sources (sentence 4)
 4. 4#1 — toolkit: gets things wrong, makes things up, confident tone masks
-   it — **attributed** (sentence 8)
-5. 4#2 — toolkit's court-case example — **attributed** (sentence 9)
+   it — **attributed** (sentence 7)
+5. 4#2 — toolkit's court-case example — **attributed** (sentence 8)
 6. 9#9 — always verify quotes, data, technical information, references
-   (sentence 11)
+   (sentence 9)
 
 Entries 4#1, 4#2 and 9#9 are beyond the plan tag (9#2–4); all three are
 file 4 or file 9 entries, which the sourcing rule permits. 9#9 is tagged
 L04 in the index and is used here only to hand off to lesson 4.
 
-**Classification (revised 2026-09-14):** 13 sentences — 3 sourced (1, 4,
-11) · 2 attributed (8, 9) · 7 connective (2, 3, 5, 7, 10, 12, 13) · 1
-flagged (6). First draft: 14 — 3 sourced (1, 4, 12) · 2 attributed (8, 9)
-· 8 connective (2, 3, 5, 7, 10, 11, 13, 14) · 1 flagged (6).
+**Classification (revised 2026-09-14, after the style pass):** 11
+sentences — 3 sourced (1, 4, 9) · 2 attributed (7, 8) · 5 connective (2,
+3, 5, 10, 11) · 1 flagged (6). First draft: 14 — 3 sourced (1, 4, 12) · 2
+attributed (8, 9) · 8 connective (2, 3, 5, 7, 10, 11, 13, 14) · 1 flagged
+(6).
 
 Sentence 5 is a hypothetical, marked "purely as an illustration", and
 states no fact about any standard or about the model's behaviour on it
@@ -163,12 +170,16 @@ exactly as the toolkit states it and adds nothing to it — no court, no case
 name, no date") was removed on 2026-09-14: it described the course's
 restraint, and it could not be rewritten as a statement about the toolkit
 because the index does not say whether the toolkit gives those details.
-The restraint itself stands — sentence 9 still reports the example exactly
+The restraint itself stands — sentence 8 still reports the example exactly
 as the toolkit states it. Sentence 2 now reads "The term is the vendor's,
-and it means exactly that", and sentence 10 (first draft 11) now reads "The
-vendor and a trade body for the profession describe the same failure in the
-same terms, and the profession's example is a fabricated citation". Later
-sentences renumber by one; the flag stays at sentence 6.
+and it means exactly that". In the style pass two further connectives were
+cut: the first draft's sentence 7 ("That is why this lesson gives
+fabricated citations their own heading rather than treating them as one
+hallucination among others") and its sentence 11 ("Two sources, then, from
+two sides …", which the revision had first rewritten as "The vendor and a
+trade body for the profession describe the same failure in the same
+terms …"); the toolkit paragraph now ends on the court-case example. Later
+sentences renumber; the flag stays at sentence 6.
 
 **Flags**
 - `UNSOURCED` (interpretive) — "Nothing in the form of that citation says
@@ -244,7 +255,7 @@ J4 for confirmation.
   assertion the course would have to defend.
   Ruling: keep as written — course reasoning, not a sourced claim.
 
-### sec-05 — `05-calculation.md` — role `body` — counted — 249 words (first draft 252) — lo-3
+### sec-05 — `05-calculation.md` — role `body` — counted — 248 words (first draft 252) — lo-3
 
 **Index entries used, in order**
 1. 9#12 — the tool "Enables accurate calculations, data visualizations,
@@ -278,7 +289,13 @@ or misleading." It matches the reworded lo-3, asserts no "only", and its
 claim about the ordinary response is 9#1 rather than an inference from
 9#12. Sentence 5 lost "the two sources"; sentence 8 was "Two things this
 section does not say, because its sources do not" and is now "Two things
-this section does not cover." Count and classification unchanged. The
+this section does not cover." In the style pass, sentence 3's "what the
+page says of the ordinary response is what section 01 recorded" became "of
+the ordinary response the page says, as section 01 said", and sentence 4's
+"The toolkit's quoted executive puts the other side of the same rule"
+became "An executive quoted in the CPA.com toolkit puts it the other way
+round"; same sources (9#1; 4#3 attributed), same classes. Count and
+classification unchanged. The
 glossary's *Code interpreter / Data analysis* entry says "the one case in
 this lesson in which a number from ChatGPT is computed rather than
 generated" — a statement about computed versus generated (4#3's framing,
@@ -423,8 +440,8 @@ the spec's target of about 2,000, with sections 03–05 under the 350-word
 floor. The spec says to write fewer where a section can be written
 honestly in fewer, and these could not be lengthened without unsourced
 material. Confirm the shortfall is acceptable.
-Ruling: accepted as drafted. (After the 2026-09-14 revision the body totals
-1,465 counted words by `check`'s estimate.)
+Ruling: accepted as drafted. (After the 2026-09-14 revision and style pass
+the body totals 1,419 counted words by `check`'s estimate.)
 
 ## Sources still needed
 

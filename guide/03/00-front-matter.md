@@ -12,8 +12,7 @@ tool.
 Everything factual in this lesson comes from the OpenAI and CPA.com
 documents listed as this lesson's sources: chiefly OpenAI's own help-center
 page on whether ChatGPT tells the truth, and the CPA.com Generative AI
-Toolkit. Where they say nothing, the lesson says nothing, and it says so at
-the point where a reader would expect more.
+Toolkit.
 
 ## How this course works
 
