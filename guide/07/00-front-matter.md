@@ -1,6 +1,27 @@
 # Confidentiality and client data
 
-TODO: one paragraph saying what this course covers and who it is for.
+This is the fifth lesson in *Using ChatGPT in an Accounting Practice*.
+It covers what the AICPA Code's Confidential Client Information Rule
+treats as confidential and what it treats as public; the Code's two
+routes for disclosing to a third-party service provider, a
+confidentiality contract with reasonable assurance or the client's
+specific consent, and what stays with the member either way; New
+Hampshire's RSA 309-B:18 as one example of a state rule narrower than
+the Code's interpretation, whose only general release is the client's
+permission; the position this course takes on whether entering client
+information into ChatGPT is a disclosure under either rule, stated as
+the course's and not as either rule's; and the CPA.com toolkit's policy
+practices for keeping client data out of the tool and de-identifying
+data before it enters any AI tool. It is written for CPAs in public
+practice who use, or are deciding whether to use, ChatGPT in their work,
+and it assumes no prior experience with the tool.
+
+Everything factual in this lesson comes from the documents listed as this
+lesson's sources: the AICPA Code of Professional Conduct, section
+309-B:18 of the New Hampshire Accountancy Act, and the CPA.com
+Generative AI Toolkit. Nothing in it is advice about any reader's own
+situation: it states what the rules say, what this course concludes from
+them, and what the toolkit recommends.
 
 ## How this course works
 

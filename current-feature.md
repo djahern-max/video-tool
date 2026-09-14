@@ -1,105 +1,91 @@
 # Current Feature
 
-## Video theme v2, end-of-video tail, voice-change dry run
+## GPT-05 "Confidentiality and client data" in full
 
-> Run after feature 31 (GPT-05). Number the changelog entry from the last
-> one in `CHANGELOG.md`.
+> Changelog entry 32 (theme v2 took 31).
 
 ## Goal
-A rendered lesson looks like a page of the superCPE app, is readable at
-the size the app's player shows it, and does not cut the narrator's last
-word. Verified by re-rendering ATO-02 (lesson 02) — render only, no
-narration generated. Nothing about what is said, counted, or measured
-changes except the total duration if a tail is added.
+Lesson GPT-05 (`src/lesson-07.ts`, `guide/07/`, `src/questions-07.json`)
+has body prose, front matter, glossary, questions, and its review record,
+drafted by the feature-29/30 procedure. Stays `"draft"`. After this, every
+text lesson of course GPT exists and `check` reports rule-1 ERRORs only on
+lesson 08.
 
-## Why
-The content developer watched ATO-02 in the superCPE player and found:
-small monospace type on cream and pink cards, cramped spacing, a sheet
-background that does not match the app, and the narrator's final word
-cut off at the end. Entry 21 put the logo palette in the chrome; the
-sheets themselves were not restyled.
+## Why this one runs alone
+Its sources are the AICPA Code (1.700.001, file 1) and NH RSA 309-B:18
+(file 5), plus the toolkit's policy guidance (file 4). A study guide that
+misstates what a conduct rule or a statute says is the failure 4.01.1
+exists to catch, and a participant will act on it. So, in addition to the
+three-way sentence rule:
 
-## Part 1 — Theme v2
-Wherever the theme tokens live after entry 21, restyle the sheet surfaces
-to match the superCPE app's own UI, not the logo:
-- White sheet background; page-level background the app's light grey if
-  the player shows one around the video.
-- Headings in navy (#032660), accents and highlights in blue (#0166FC),
-  teal (#01B0A9) only for a single emphasis role. No pink, no cream.
-- Body type: a proportional sans, not monospace, at a size readable when
-  the player is ~700 px wide — assume body text must be legible at half
-  the render's native width. Monospace remains only for literal code,
-  prompts, or figures presented as typed.
-- Spacing: generous line height and card padding; at most one idea per
-  card; comparison cards side by side get a clear gutter and equal widths.
-- Chrome (shield, footer strip with lesson id, source, and block ref)
-  stays, restyled to match.
-- Every existing block type renders in the new theme. Practice lesson
-  BALLOON-01 and ATO-02 are the test set.
+- **Rule text is reported as the rule's.** What the Code says, the statute
+  says, or the toolkit recommends is attributed or quoted from the index
+  entry. Paraphrase does not widen or narrow it.
+- **The course's position is labelled as the course's.** The changelog
+  (entry 26) records that whether entering client information into ChatGPT
+  is a "disclosure" under the Code, or a "voluntary disclosure" under the
+  statute, is the author's inference. State it once, under its own heading,
+  as the position this course takes — never as what the Code or the
+  statute says. Flag any sentence that blurs the line.
+- **The statute has no service-provider clause.** Do not teach the Code's
+  contract-with-reasonable-assurance route as sufficient for a New
+  Hampshire licensee; the guide says the state rule is narrower and that
+  client permission is its only general release, and stops there. The
+  course does not state the position of any other state.
+- **No legal advice.** No sentence tells a participant what is or is not
+  permitted in their situation. The guide states the rules, states the
+  course's position, and states the toolkit's policy practices (lo-4).
+- Nothing on the CPA.com toolkit's 2023 date may be used for any current
+  product behaviour (index currency note on file 4).
 
-Do not change any narration, block id, `estimatedSeconds`, reveal, or
-`audio-meta`. If a layout cannot fit its content at the new type size,
-report the block; do not shrink the type to make it fit.
+## Procedure
+Feature-30 Parts 1–6 unchanged: section plan (four to six body sections
+with index tags), prose, front matter (template untouched; opening is
+scope, audience, topics; no lists, descriptors, or counts), glossary
+(traced or flagged; `meta.glossaryTerms`; `meta.sources` extended as
+supporting where needed), questions (one review per section with feedback
+both ways; at least one assessment per objective lo-1–lo-4; correct answers
+stated in the guide and traced; no distractor the sources also support),
+record (`drafts/GPT-05-review.md`, rulings written in, list marked
+`CLOSED (default rulings; developer read pending)`).
 
-## Part 2 — Tail cut
-1. Measure: `ffprobe` the last block's MP3 duration and the rendered
-   ATO-02 MP4 duration; compare against where the final block starts.
-   Report whether the MP4 ends before the audio does, or exactly at it
-   with no silence after.
-2. If the render ends at or before the last audio sample, add a fixed
-   end tail (a configurable constant, default 1.5 s) of the closing
-   sheet after the final block's audio ends. The tail is part of the
-   rendered file and therefore part of the measured duration; it is not
-   narration and contains no new content.
-3. If the MP4 already carries a tail, report that the cut is in the
-   player, not the render, and change nothing.
+For questions specifically: no question may have a correct answer that
+depends on the course's inference. Test what the rules say and what the
+toolkit recommends; the inference is taught, not examined.
 
-## Part 3 — Voice-change dry run
-`ELEVENLABS_VOICE_ID` in `.env` was changed by the developer. Run
-`npm run generate -- --lesson 02 --dry-run` and `--lesson 01 --dry-run`
-(BALLOON-01, if still registered). Report the per-block miss reasons;
-every generated block should report `voice changed: <old> to <new>`.
-Send nothing. Regenerate nothing. Record the old and new voice ids in the
-changelog entry so the record of which voice produced ATO-02's existing
-audio survives.
+Stop and report if flagged sentences exceed ten.
 
 ## Out of scope
-- `generate` without `--dry-run`. Not one block.
-- Any narration or content edit to any lesson.
-- GPT-06 design — next feature. Any new block type or animation.
-- `export`. ATO-02's package in superCPE is test data and is not
-  re-exported here.
+- GPT-06 (lesson 08). Next feature — a video lesson, different shape.
+- `meta.status`; `sources/`; any index edit. If a needed rule passage is
+  not in the index, flag the sentence; do not open the source to add it.
+- Web research or general knowledge, including any other state's law.
 
 ## Read first
-- `CLAUDE.md`; `CHANGELOG.md` entry 21 (theme rebrand) and entry 13
-  (audio identity); `LESSON-RUNBOOK.md`
-- The theme module and every sheet/block component under `src/`
-- `scripts/render.ts` (or whatever `npm run render` runs) — where the
-  composition's total duration is computed
+- `CLAUDE.md`; `docs/course-package.md`
+- `CHANGELOG.md` entry 26, the GPT-05 paragraph
+- `drafts/GPT-source-index.md` — files 1, 4, 5 in full
+- `src/lesson-07.ts`; `guide/06/` and `drafts/GPT-04-review.md` as the
+  shape to match
 
 ## Verify
-1. `npm run typecheck` clean; `npm run check` unchanged from before the
-   feature except any finding this feature deliberately introduces (none
-   expected).
-2. `npm run render -- --lesson 02`; report frame count and duration before
-   and after. If Part 2 added a tail, duration grows by exactly the tail.
-3. Extract three frames from the new ATO-02 render (a title sheet, a
-   comparison sheet, the closing sheet) to `out/` for the developer to
-   look at, and name the files.
-4. Part 3 dry-run output, per block.
-5. `git status` limited to theme/component files, the render script if
-   touched, `CHANGELOG.md`, and the spec rotation files. No `audio-meta`
-   change, no MP3 change.
+1. `npm run typecheck` clean.
+2. `npm run check`: lesson 07 no ERROR, `[draft]` WARN only; remaining
+   errors rule-1 on lesson 08 only.
+3. Sentence counts and per-section word estimates.
+4. List every sentence that states the course's position, by section and
+   number, so the developer's read can go straight to them.
+5. `git status` limited to lesson 07's files, its review record,
+   `CHANGELOG.md`, and the spec rotation files.
 6. One report. Then commit.
 
 ## Changelog
-Standards touched: 7.02.7 is not affected (no narration or additional-
-learning claim changes); 9.02.2(2)(ii) if the tail changes the measured
-duration — say so. Under Decisions: why type size wins over fit, and why
-the tail is a render constant rather than silence appended to the last
-MP3. Under Known gaps: any block that no longer fits.
+Entry 32. Standards touched: 4.01.1, 3.01, 5.01.2.1, 5.01.2.2, after
+reading them. Under Decisions: how rule text and course position were kept
+apart, and why the inference is not examined. Under Known gaps: draft and
+unread; flags; anything the index could not source.
 
 ## Not this feature
-GPT-06: an on-screen task walkthrough — a prompt typed, output appearing,
-the wrong figure highlighted, the corrected figure beside it — designed
-against a real block from GPT-06's script. Then the ATO-02 rebuild.
+GPT-06 (video): script, on-screen task walkthrough, narration blocks,
+`avIsAdditionalLearning`, generate (paid, new voice), render, measured
+duration. Then export of the whole course.

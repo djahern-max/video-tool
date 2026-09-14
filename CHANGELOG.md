@@ -3455,3 +3455,139 @@ Shipped: 2026-09-14
   unchanged.
 - The `Image` slide was restyled but no registered lesson carries one, so
   it was checked by reading, not by a still.
+
+## 32 — GPT-05 "Confidentiality and client data" drafted whole
+Shipped: 2026-09-14
+
+**What changed**
+- GPT-05, lesson 07, drafted whole by the feature-29/30 procedure:
+  `src/lesson-07.ts` (eight sections, ten glossary terms; the scaffold's
+  `sec-00` id renamed `front-matter` to match lessons 04–06; SCAFFOLD
+  note dropped from the doc comment), `guide/07/` (front matter, six
+  body sections, glossary; the scaffold's `01-body.md` renamed to
+  `01-the-confidential-client-information-rule.md`),
+  `src/questions-07.json` (ten questions — six review, one after each
+  body section, and four assessment, one per objective), and
+  `drafts/GPT-05-review.md` filled in GPT-04's shape with recommended
+  rulings on every flag and judgment item and the judgment list marked
+  `CLOSED (default rulings; developer read pending)`.
+- Every text lesson of course GPT now exists. `meta.status` stays
+  `"draft"`; `meta.sources` is unchanged from the scaffold (files 1, 4
+  and 5 only); nothing generated, rendered or exported; nothing under
+  `sources/` and nothing in the index touched.
+- Verification. `npm run typecheck` clean. `npm run check`: lesson 07 no
+  ERROR, `[draft]` WARN only; the one remaining ERROR is rule-1 on
+  lesson 08 (lo-1 has no assessment question), which this feature did
+  not touch. Totals 8 lessons, 1 error, 19 warnings (was 5 and 21: four
+  rule-1 errors, the sec-01 no-review-question warning and the
+  empty-glossary warning on lesson 07 are gone). Word count per
+  `check`'s preview, an estimate: front matter 420 (excluded), sec-01
+  426, sec-02 547, sec-03 608, sec-04 363, sec-05 490, sec-06 519,
+  glossary 720 (excluded); 2,953 counted, 4,093 shipped. superCPE's
+  count is authoritative.
+- Spec rotation committed with this entry: `current-feature-031.md` is
+  the archived spec for entry 31, and `current-feature.md` is this
+  feature's, as entry 31's commit did for 029 and 030.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for
+  accuracy. The record carries a recommended ruling on every flag and
+  judgment item, and lists by section and sentence every sentence that
+  states or refers to the course's position, so the developer's read
+  can go straight to them; the read itself is still ahead.
+- 3.01 — learning activities must be based on relevant learning
+  objectives that clearly articulate the professional competence to be
+  achieved. The six sections are planned from the four objectives and
+  the index entries those cite; every assessment question maps to one
+  objective and each objective has one.
+- 5.01.2.1 — review questions must be placed throughout the program in
+  sufficient intervals to allow the participant to evaluate the material
+  that needs re-studying. One review question after every body section,
+  placed by `after_section`.
+- 5.01.2.2 — feedback must be provided on review questions and at a
+  minimum indicate correct or incorrect; its goal is to reinforce
+  understanding and highlight knowledge gaps. Every feedback string says
+  why the correct choice is correct, why each distractor is wrong on the
+  sources' account, and names the section to re-read.
+
+**Decisions**
+- **Rule text and course position kept apart by voice, place and
+  marker.** Sections 01–03 report the Code, its interpretations and RSA
+  309-B:18 in the index quotes' words and say nothing about ChatGPT
+  beyond a handoff; every used entry's wording was checked back into the
+  guide. The position is stated once, in sec-04 under its own heading,
+  after a sentence that says whose it is, in three sentences each
+  flagged `UNSOURCED (position)`. Every other mention of it in the
+  lesson is a pointer to that section, listed in the record under J2.
+  A first draft of sec-06's recap restated the position; it was edited
+  to refer to sec-04 by heading instead, because the spec says once.
+- **The inference is not examined.** The review question after the
+  position section (q-04) tests what the Code's authoritative text says
+  about AI — that it does not name the tool and points by note to a
+  nonauthoritative staff article (1#18) — and its distractor that puts
+  the position in the Code's mouth is wrong for that reason. q-09
+  compares the two rules' texts. No correct choice in any question
+  states or depends on the position, so the developer can overrule the
+  position without rewriting a question. The alternative, examining
+  the position as GPT-04 examined its General Standards link, was
+  rejected because the spec for this lesson forbids it.
+- **The statute reported whole.** Sec-03 reproduces RSA 309-B:18's
+  operative sentence in one piece from three contiguous index quotes,
+  then each exception in the statute's words, and closes on the spec's
+  three sentences: no service-provider clause, narrower than the Code's
+  interpretation, client permission the only general release. Whether a
+  vendor falls within the organization clause is said to be
+  unaddressed and left there. No other state's law is stated.
+- **lo-4's "individual-plan tools" taught as a second, separate
+  position.** The toolkit says "public LLM" and defines it nowhere;
+  the objective says "individual-plan". Sec-05 reports the toolkit's
+  words, says what it does not define, recaps lesson 2's line, and then
+  reads "public" as including an individual plan in one flagged sentence
+  that says the line is the course's. Rewording the objective was
+  rejected as a change to the objectives, not to the prose (J3).
+- **The 2023 toolkit used for policy practices only.** Sec-05 says so in
+  the participant's terms, and no sentence states what ChatGPT does
+  with input on the toolkit's authority; lesson 2's pages are reached by
+  handoff. 4#18 (the toolkit's Samsung account) is not used because the
+  index says not to repeat it as fact.
+- **Files 10, 11, 12 and 2 not added.** Lesson 2 already teaches the
+  vendor-side documents (DPA, SOC 2, admin access); sec-02 hands off to
+  it and describes the assurance step as the Code describes it. Two
+  sentences recap lesson 2 without citing its files, listed under J7
+  with the option of adding files 10 and 12 as supporting.
+- **The scaffold record was filled, not replaced**, as entries 29 and 30
+  did: preamble, objectives and "Sources still needed" kept; the three
+  empty headings filled.
+
+**Known gaps**
+- Lesson 07 is `"draft"` and unread. The developer's 4.01.1 read of the
+  guide text is the review; every ruling in the record is a default
+  until then.
+- Flag count: seven — four body (sec-04 sentences 8, 9, 10, the course's
+  position; sec-05 sentence 12, "public" read as including an
+  individual plan), one front matter (audience), two glossary position
+  flags (*Public LLM / public generative AI tool*, *Third-party service
+  provider*). Under the ten that would have stopped the draft; every
+  flag's recommended ruling is keep.
+- Sentence counts: 114 body sentences — 35 sourced, 0 attributed, 75
+  connective, 4 flagged. Per section: 19, 21, 25, 14, 19, 16.
+- What the index could not source or define: what "disclosure" or
+  "voluntarily disclose" means when information is entered into
+  software operated by someone else; whether a model vendor is a
+  third-party service provider or falls within the statute's
+  organization clause; whether de-identified client information is
+  still confidential client information; what de-identifying consists
+  of; what "public LLM" means and whether a paid workspace is one; the
+  form the statute's "permission" must take; whether OpenAI's published
+  controls amount to reasonable assurance for any firm; any state's law
+  other than New Hampshire's. Each is stated as unsaid in the guide or
+  taken as the course's position and flagged; none was supplied from
+  general knowledge.
+- `npm run check` after this feature: 1 ERROR, rule-1 on lesson 08
+  (GPT-06, lo-1 has no assessment question), which the next feature
+  builds. 19 warnings: the `[draft]` warnings, the 12 ATO warnings and
+  lesson 08's sheet-window warning, unchanged.
+- The sentence numbering and the quote-window check were done with
+  throwaway scripts in the session scratchpad and were not committed,
+  as with the index's own extraction.
