@@ -34,6 +34,16 @@ the 155 before them. The coverage table is unchanged, because file 9
 already carried ✓ on every objective and lesson the new entries are tagged
 with.
 
+**Extension, 2026-09-14 (changelog entry 30).** File 8
+(`openai-data-controls-faq-2026-09-13.pdf`) gained entry 10: the training
+switch's label as the page prints it, "Improve the model for everyone".
+GPT-02's review record had read the label from the page under its J1
+because entry 8#2 quotes the setting's location and not its name; the
+entry gives that reading an index home. Additive — nothing reworded or
+renumbered — and the quote was checked against the page's extracted text
+the same way as the rest. The coverage table is unchanged, because file 8
+already carried ✓ on LO 2 and L02.
+
 **How to read an entry.** The claim is in this index's words and is what the
 course could say. The quote under it is the document's words, verbatim,
 forty words or fewer, with the page it sits on. One claim, one quote. The tag
@@ -836,6 +846,15 @@ plan sign-ups, which shows how live the page is.
    the consumer ones; this page defers to the enterprise privacy page for
    them.** *(LO 2; L02)*
    > Yes, our Team, Enterprise, and Edu plans offer additional data controls. (p. 5)
+
+Entry 10 was added 2026-09-14 (changelog entry 30; GPT-02 review J1). It
+carries the label the page prints for the setting entries 2, 3, 4 and 8
+describe. Nothing above was renumbered.
+
+10. **The training setting is labelled "Improve the model for everyone" —
+    the name a user looks for under Data Controls, and the page's own
+    shorthand for stopping chats from training ChatGPT.** *(LO 2; L02, L06)*
+    > How do I stop my chats from training ChatGPT? (i.e., “Improve the model for everyone”)? (p. 2)
 
 **Does not cover**
 

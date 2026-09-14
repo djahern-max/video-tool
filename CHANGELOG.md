@@ -3163,3 +3163,140 @@ Shipped: 2026-09-14
   question, because their questions files are still `[]`. Next features.
 - The 12 ATO warnings and the scaffold lessons' glossary warnings are
   unchanged.
+
+## 30 — Index entry for the switch label, GPT-03 and GPT-04 in full
+Shipped: 2026-09-14
+
+**What changed**
+- `drafts/GPT-source-index.md`: file 8 gained entry 10, the training
+  switch's label as the page prints it ("Improve the model for
+  everyone"), quoting the page's question heading on p. 2, checked
+  verbatim against the extracted text; a dated change note in the
+  preamble. Nothing reworded or renumbered; coverage table unchanged.
+  `drafts/GPT-02-review.md` J1 gained a dated update citing 8#10 with a
+  revised recommended ruling; `guide/04/02-turning-training-off.md`'s
+  index tag carries 8#10 (index tag only; no prose changed).
+- GPT-03, lesson 05, drafted whole: `src/lesson-05.ts` (eight sections,
+  ten glossary terms), `guide/05/` (front matter, six body sections,
+  glossary; the scaffold's `01-body.md` renamed to
+  `01-what-a-prompt-is.md`), `src/questions-05.json` (ten questions —
+  six review, four assessment, one per objective), and
+  `drafts/GPT-03-review.md` written in GPT-02's shape with recommended
+  rulings and the judgment list marked `CLOSED (default rulings;
+  developer read pending)`.
+- GPT-04, lesson 06, drafted whole the same way: `src/lesson-06.ts`
+  (eight sections, ten glossary terms), `guide/06/` (`01-body.md`
+  renamed to `01-a-first-draft.md`), `src/questions-06.json` (ten
+  questions — six review, four assessment, one per objective), and
+  `drafts/GPT-04-review.md`.
+- `meta.status` on both lessons stays `"draft"`; `meta.sources` on both
+  is unchanged from the scaffold; nothing generated, rendered, or
+  exported; nothing under `sources/` touched.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for
+  accuracy. Both records carry a recommended ruling on every flag and
+  judgment item; the developer's read of the guide text is the review
+  and is still ahead.
+- 3.01 — learning activities must be based on relevant learning
+  objectives that clearly articulate the professional competence to be
+  achieved. Both lessons' sections are planned from their four
+  objectives and the index entries those cite; every assessment
+  question maps to one objective and each objective has one.
+- 5.01.2.1 — review questions must be placed throughout the program in
+  sufficient intervals to allow the participant to evaluate the material
+  that needs re-studying. One review question after every body section
+  of both lessons, placed by `after_section`.
+- 5.01.2.2 — feedback must be provided on review questions and at a
+  minimum indicate correct or incorrect; its goal is to reinforce
+  understanding and highlight knowledge gaps. Every feedback string on
+  both lessons says why the correct choice is correct, why each
+  distractor is wrong on the sources' account, and names the section to
+  re-read.
+
+**Decisions**
+- **Part 0's tag went on sec-02, not sec-01.** The spec names sec-01 and
+  `guide/04/01-*.md`, but the switch label is introduced in sec-02
+  (sentence 5, per GPT-02's own record) and sec-01 does not use it; a
+  tag lists the entries a section's prose uses, so tagging sec-01 would
+  have been false. Sec-02's tag carries 8#10 and the J1 update says so.
+  Reported here as a deviation from the spec's wording, not its intent.
+- **Two page-read sentences in GPT-03 (J1).** File 13's page puts one
+  further sentence under each of two practices ("Avoid ambiguity and be
+  as precise as possible …"; "Adjust the wording, add more context, or
+  simplify the request …"); neither is an index entry. Both were read
+  from the page for lo-1 and lo-2, classed sourced, and recorded — the
+  same reading as GPT-02's J1 was for the switch label, which Part 0
+  has now given an entry. An entry for each is the tidy fix and is
+  outside this feature's index scope.
+- **GPT-03's sourced share is low (28 of 100 body sentences) and that is
+  the sources, not padding (J7).** File 13 is three practices of a
+  sentence or two each and the toolkit's contribution is five one-line
+  entries; the objectives ask the participant to write, refine and ask,
+  which are applications. Every connective sentence applies an entry,
+  illustrates one with a hypothetical that states no fact, or hands off.
+- **LO 3's five-element pattern is not taught (GPT-03 J8).** The index
+  says no source names it; lesson 05's objectives as scaffolded do not
+  ask for it; the lesson teaches what the sources support.
+- **GPT-04 lo-3: the Rule's words are the Rule's, the link is the
+  course's (J1).** Sec-04 reports 1#14 and 1#15 verbatim, says the Rule
+  does not mention AI, reports the Code's own pointer to nonauthoritative
+  guidance on technology's output (1#17), and then states the course's
+  position under its own heading in three sentences, each flagged
+  `UNSOURCED (position)` with a recommended ruling of keep. Index entry
+  1#15's own gloss makes the same link; it was not relied on as the
+  source for the position. The front matter and two glossary entries
+  carry the same marker.
+- **GPT-04 lo-4: the record's contents are not described (J2).** Sec-06
+  says the review process is documented and that counsel decides the
+  form, and says that what the record should contain is not something
+  the lesson says. The "firm policy" half rests on readings of 4#6
+  (addressed to a firm; a process; beside 4#5 in one list), not on
+  additions.
+- **Hypothetical illustrations, flagged by listing rather than by
+  `UNSOURCED`.** Both lessons use short hypotheticals that state no fact
+  (contrasting prompts, a filing date in a response, a client's
+  question). Each is listed under a J3 item in its record for the
+  developer to cut; none was classed `UNSOURCED`, because the rule flags
+  claims and these make none.
+- **Existing records were edited by instruction.** `drafts/GPT-03-review.md`
+  and `drafts/GPT-04-review.md` were scaffolds created by entry 25 with
+  empty Sections, Questions and Judgment headings; the spec names them
+  as the record to write, as entry 29 did for GPT-02's. Their preamble,
+  objectives and "Sources still needed" bullets were kept; the headings
+  were filled. `drafts/GPT-02-review.md` and `drafts/GPT-source-index.md`
+  were edited only as Part 0 names, additively and dated.
+
+**Known gaps**
+- Both lessons are `"draft"` and unread. The developer's 4.01.1 read of
+  the guide text is the review; every ruling in both records is a
+  default until then.
+- Flag counts. GPT-03: six — two body (sec-02 sentence 13, sec-05
+  sentence 12), one front matter (audience), three glossary boundary
+  flags (*Context window*, *GPT Instant / GPT Reasoning*, *Input
+  maximum*). GPT-04: seven — four body (sec-02 sentence 13; sec-04
+  sentences 14, 15, 16, the course's position), one front matter, two
+  glossary boundary flags (*Third-party service provider*, *Verify*).
+  Both under the ten that would have stopped the draft; every flag's
+  recommended ruling is keep.
+- What the index could not define. GPT-03: what the context-window
+  figure counts or what K stands for; what the input-maximum footnote
+  says; what "limited" file uploads means; what the two model names
+  denote; any price; the five-element prompt pattern. GPT-04: what
+  "technical information" or a "reliable source" means for accounting
+  work; what a review consists of or what its record contains; whether
+  a model vendor is a third-party service provider; what "deep research"
+  does beyond the page's name for it; which plans include search (files
+  6 and 7, not this lesson's). None was supplied from general knowledge.
+- Sentence counts. GPT-03: 100 body sentences — 28 sourced, 0
+  attributed, 70 connective, 2 flagged. GPT-04: 98 — 30 sourced, 1
+  attributed, 63 connective, 4 flagged.
+- `npm run check` after this feature: 5 ERRORs, all rule-1 findings on
+  lessons 07 (four objectives with no assessment question) and 08 (one),
+  which this feature did not touch. Next features. 21 warnings: the two
+  new `[draft]` warnings, the 12 ATO warnings, and the scaffold lessons'
+  glossary and status warnings, unchanged.
+- The scratchpad extraction of the thirteen PDFs (`pypdf` in a
+  throwaway venv, for the Part 0 quote check) was not committed, as
+  with the index's own extraction.

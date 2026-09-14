@@ -1,6 +1,19 @@
 # Prompting for accounting tasks
 
-TODO: one paragraph saying what this course covers and who it is for.
+This is the third lesson in *Using ChatGPT in an Accounting Practice*.
+It covers what a prompt is and what makes one clear, specific, and in
+context; setting the tone and giving examples; refining a prompt by
+reviewing the response and changing the input; asking for verbatim
+excerpts with citations when the answer will be checked against a source;
+and the limit on how much text can go into one request, which differs by
+plan and by model. It is written for CPAs in public practice who use, or
+are deciding whether to use, ChatGPT in their work, and it assumes no
+prior experience with the tool.
+
+Everything factual in this lesson comes from the OpenAI and CPA.com
+documents listed as this lesson's sources: OpenAI's help-center page on
+prompt engineering best practices, the personal and business tabs of its
+pricing page, and the CPA.com Generative AI Toolkit.
 
 ## How this course works
 

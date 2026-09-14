@@ -1,6 +1,21 @@
 # Verifying the output
 
-TODO: one paragraph saying what this course covers and who it is for.
+This is the fourth lesson in *Using ChatGPT in an Accounting Practice*.
+It covers treating a response as a first draft rather than a final
+source; the four kinds of content OpenAI says always to verify — quotes,
+data, technical information, and references to external documents;
+search-backed answers, and why the cited links are followed to the source
+rather than taken as confirmation; what the AICPA Code's General
+Standards Rule requires, and how this course relates verification to it;
+and the review of AI output as a matter of firm policy, with the form of
+the record left to counsel. It is written for CPAs in public practice who
+use, or are deciding whether to use, ChatGPT in their work, and it
+assumes no prior experience with the tool.
+
+Everything factual in this lesson comes from the documents listed as this
+lesson's sources: OpenAI's help-center page on whether ChatGPT tells the
+truth, the AICPA Code of Professional Conduct, and the CPA.com Generative
+AI Toolkit.
 
 ## How this course works
 

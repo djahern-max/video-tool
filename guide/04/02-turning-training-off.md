@@ -1,6 +1,6 @@
 # Turning training off on an individual plan
 
-<!-- index: 8#1, 8#2, 8#4, 8#8, 8#9; 12#3; 10#4 -->
+<!-- index: 8#1, 8#2, 8#4, 8#8, 8#9, 8#10; 12#3; 10#4 -->
 
 The setting that changes an individual plan's training default lives in a
 part of ChatGPT that OpenAI's help center calls Data Controls. The Data

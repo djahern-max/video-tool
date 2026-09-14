@@ -403,6 +403,15 @@ control, and the label is how a control is located; an index entry
 carrying the label would be the tidy fix, but index edits beyond file 9
 are outside this feature.
 
+*Update, 2026-09-14 (changelog entry 30).* The tidy fix is made: file 8
+now carries entry 10, quoting the page's question heading, "How do I stop
+my chats from training ChatGPT? (i.e., “Improve the model for everyone”)?"
+(p. 2). Recommended ruling, revised: accept, citing 8#10. The label's
+uses in sec-02 sentence 5, sec-03 sentence 1, the glossary's *"Improve
+the model for everyone"* entry and the two question stems (q-03, q-08)
+now trace to that entry; sec-02's index tag carries it, since sec-02 is
+where the label is introduced. No prose changed.
+
 **J2 — "Team".** The index's Gaps say the set cannot describe a plan
 called Team and cannot say whether Team and Business are the same plan.
 Sec-02 sentences 11–12 report 8#9 (Team, Enterprise and Edu have
