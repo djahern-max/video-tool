@@ -2808,3 +2808,110 @@ Shipped: 2026-09-13
   no clip, no audio, no `audio-meta-08.json` entry.
 - `current-feature.md` remains modified in the tree from before this
   feature; the spec's own archival edits are not this feature's to commit.
+
+## 27 — GPT-01 prose: five body sections, front matter, glossary
+Shipped: 2026-09-13
+
+**What changed**
+- `guide/03/` holds a complete first draft of lesson GPT-01, "What the
+  model gets wrong": five body sections written from the section plan's
+  index tags, the front matter completed from the contract's "How this
+  course works" template with a scope-and-audience opening, and a
+  six-term glossary. The `<!-- index: … -->` comment at the head of each
+  body file was kept and updated to the entries the prose uses.
+- `src/lesson-03.ts`: `glossaryTerms` filled with the same six terms,
+  each with `sectionId: "glossary"`. No other field of `meta` changed
+  (`git diff` confirms).
+- `drafts/GPT-01-review.md`: the **Sections** heading now carries one
+  block per section — file, role, word count, the index entries used in
+  order, and a per-sentence classification under the spec's three-way
+  rule — and the **Judgment list — OPEN** heading carries the five
+  `UNSOURCED` flags by reference and ten judgments J1–J10. Other headings
+  untouched.
+- Every factual sentence traces to a numbered index entry for file 4 or
+  file 9. Counts over the five body sections: 62 sentences — 22 sourced,
+  5 attributed, 32 connective, 3 flagged `UNSOURCED`. Two more flags
+  outside the body (front-matter audience statement; glossary *large
+  language model*). Five in all, under the spec's stop threshold of ten.
+- Verified: `npm run typecheck` clean. `npm run check`: lesson 03's
+  glossary WARN is gone; its `[draft]` WARN and five no-review-question
+  WARNs remain; the three rule-1 ERRORs remain (see Known gaps). Totals
+  8 lessons, 19 errors, 32 warnings. Word count per `check`'s preview,
+  an estimate: front matter 365 (excluded), sec-01 450, sec-02 402,
+  sec-03 251, sec-04 208, sec-05 252, glossary 326 (excluded); body
+  total 1,563 counted, 2,254 shipped. superCPE's count is authoritative.
+- `git status`: `guide/03/*.md`, `src/lesson-03.ts`,
+  `drafts/GPT-01-review.md`, `CHANGELOG.md`, plus `current-feature.md`,
+  which was already modified when the feature started. Nothing under
+  `sources/`, nothing in the index, no other lesson.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for
+  accuracy. The accuracy record is built so that review can be done
+  sentence by sentence against numbered index entries, and every sentence
+  the sources do not carry is quoted there for the developer to rule on.
+- 7.02.5 — the word count formula begins with the words in the required
+  reading and excludes material not critical to the learning objectives,
+  naming course introduction, instructions to the participant, and
+  glossary among the exclusions. The front matter and glossary sections
+  carry those roles; only the five body sections are counted, and the
+  package declares no count of its own.
+
+**Decisions**
+- **The three-way sentence rule.** Every body sentence is sourced (states
+  in the course's words a claim the index carries as a numbered entry for
+  file 4 or 9), attributed (reports what a named source says, where the
+  claim is the source's), or connective (transitions, summaries, and
+  statements about what this course does or does not say). Anything else
+  is flagged and kept, never paraphrased into a sourced-looking sentence
+  and never cut silently. Boundary statements ("no source this course
+  relies on explains the mechanism") are classed connective because they
+  state no fact about the model and rest on the index's own Gaps list.
+- **Attribution for file 4 entry 3.** "Generated output, not computed
+  answers" is Jeff Seibert, CEO of Digits, quoted in the 2023 CPA.com
+  toolkit — one executive's phrasing, not a finding. The lesson's title
+  and lo-1 rest on the phrase, so it is reported as a quotation, named to
+  its speaker, disclaimed in the next sentence, and never asserted in the
+  course's voice. The alternative, stating it as fact, would have made
+  the section's central sentence unsourced.
+- **Sections 03–05 are short.** The index carries one entry for the
+  cutoff, one for confidence, one for the calculation tool. Each section
+  was written to what those entries and their neighbours support and
+  stopped; the lesson lands at 1,563 body words against a target of about
+  2,000. Padding was rejected by name in the spec.
+- **The tool's name was read from the page, not invented.** The index
+  entry for calculation quotes the tool's description and not its name.
+  The spec asks for "whatever name file 9 uses"; the page prints "Code
+  interpreter / Data analysis" at that location, and the source file was
+  opened for that one purpose. Recorded as J5.
+- **The glossary defines *prompt* from an entry outside this lesson's
+  sources** (13#1). The alternative was to flag the term as undefinable,
+  which would have been false — the index defines it. `meta.sources` was
+  not extended because the spec puts every other `meta` change out of
+  scope. Recorded as J6.
+- Sections drew on file 4 and file 9 entries beyond their plan tags (4#1,
+  4#2, 9#7, 9#9, 9#10) where a section needed them; the sourcing rule
+  permits any entry for those two files. Recorded as J8.
+- `pypdf` was installed into the session scratchpad, not the repo, to
+  read the one page. Nothing was written under `sources/`.
+
+**Known gaps**
+- No questions. `src/questions-03.json` is `[]`; the three rule-1 ERRORs
+  on lesson 03 (every objective needs an assessment question, 6.01.2)
+  persist from entry 26 and are the next feature's to clear. The spec
+  said `check` would show lesson 03 with no ERROR and a questions WARN;
+  the questions finding is an ERROR, as entry 26 recorded.
+- Flag count: five — three in the body, one in the front matter, one in
+  the glossary — all quoted in `drafts/GPT-01-review.md` with a default.
+  The judgment list has ten open items; `meta.status` stays `"draft"`.
+- What the index could not define: *large language model*, whose glossary
+  entry says so in its own text. What the index could not supply: a
+  mechanism for how a response is produced (the lesson says it is silent
+  on it), a knowledge-cutoff date (none given), which plans include the
+  calculation tool (not said), and how to tell from the interface that
+  the tool ran (deferred to later lessons).
+- The page carries two further hallucination forms and two further
+  limitations that the index does not index; none is used. The index was
+  not edited. J7.
+- The 12 ATO warnings and the other GPT lessons' findings are unchanged.

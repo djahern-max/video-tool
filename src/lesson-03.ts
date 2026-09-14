@@ -49,7 +49,50 @@ export const meta = {
 
   // 4.05.3 item 3: superCPE refuses to publish a course whose guide has no
   // glossary. `npm run check` warns until this is written.
-  glossaryTerms: [],
+  //
+  // Each definition traces to the same two documents the lesson rests on,
+  // or says that it cannot; see drafts/GPT-01-review.md. "Staleness" is the
+  // course's own word; "large language model" is used by both sources and
+  // defined by neither; "prompt" is defined by an OpenAI page that is not
+  // among this lesson's sources.
+  glossaryTerms: [
+    {
+      term: "Code interpreter / Data analysis",
+      definition:
+        "The ChatGPT tool that OpenAI's help page describes as enabling accurate calculations, data visualizations, and structured logic; the name is as the page prints it. The one case in this lesson in which a number from ChatGPT is computed rather than generated. (OpenAI Help Center, \"Does ChatGPT tell the truth?\")",
+      sectionId: "glossary",
+    },
+    {
+      term: "Hallucination",
+      definition:
+        "OpenAI's term for a response that is not factually accurate. The forms its help page names include fabricated quotes, studies, citations, or references to non-existent sources. (OpenAI Help Center, \"Does ChatGPT tell the truth?\")",
+      sectionId: "glossary",
+    },
+    {
+      term: "Knowledge cutoff",
+      definition:
+        "The point up to which a model's training data runs. Responses do not incorporate information about events beyond that point unless tools are used. (OpenAI Help Center, \"Does ChatGPT tell the truth?\")",
+      sectionId: "glossary",
+    },
+    {
+      term: "Large language model (LLM)",
+      definition:
+        "The kind of model behind ChatGPT. OpenAI's help page describes ChatGPT as a language model that produces responses from patterns in the data it was trained on; the CPA.com Generative AI Toolkit uses the abbreviation LLM. No source this course relies on defines the term further, and this entry does not either.",
+      sectionId: "glossary",
+    },
+    {
+      term: "Prompt",
+      definition:
+        "A text input that initiates a conversation or triggers a response from the model. (OpenAI Help Center, \"Prompt engineering best practices for ChatGPT.\")",
+      sectionId: "glossary",
+    },
+    {
+      term: "Staleness",
+      definition:
+        "This course's own word for a response that reflects the training data as of the knowledge cutoff and not what has happened since. Neither source this lesson relies on uses the word.",
+      sectionId: "glossary",
+    },
+  ],
 
   learningObjectives: [
     {
