@@ -1,150 +1,162 @@
 {
   "block-01": {
-    "durationSeconds": 26.792,
+    "durationSeconds": 28.417,
     "reveals": [
       0,
-      5.143,
-      16.893
+      4.586,
+      18.994
     ],
-    "hash": "49f77dadea03",
+    "hash": "8a6329974ff8",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:16.280Z"
+    "generatedAt": "2026-09-14T10:31:30.652Z"
   },
   "block-02": {
-    "durationSeconds": 32.968,
+    "durationSeconds": 33.154,
     "reveals": [
       0,
-      8.603,
-      28.107
+      9.183,
+      27.62
     ],
-    "hash": "6508658a7857",
+    "hash": "c79777832c38",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:24.543Z"
+    "generatedAt": "2026-09-14T10:31:38.570Z"
   },
   "block-03": {
-    "durationSeconds": 30.136,
+    "durationSeconds": 30.925,
     "reveals": [
       0,
-      21.362,
-      23.789
+      21.699,
+      24.578
     ],
-    "hash": "f760eb241bda",
+    "hash": "73732bb09c8b",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:32.089Z"
+    "generatedAt": "2026-09-14T10:31:46.404Z"
   },
   "block-04": {
-    "durationSeconds": 26.328,
+    "durationSeconds": 26.699,
     "reveals": [
       0,
-      13.398
+      13.003
     ],
-    "hash": "0021008e4773",
+    "hash": "89c3e00c292c",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:38.225Z"
+    "generatedAt": "2026-09-14T10:31:52.649Z"
   },
   "block-05": {
-    "durationSeconds": 28.186,
+    "durationSeconds": 34.036,
     "reveals": [
       0,
-      12.342
+      17.403
     ],
-    "hash": "bba41b510676",
+    "hash": "a6308f2cc56a",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:44.626Z"
+    "generatedAt": "2026-09-14T10:31:59.728Z"
   },
   "block-06": {
-    "durationSeconds": 31.483,
+    "durationSeconds": 31.204,
     "reveals": [
       0,
-      10.043,
-      10.867,
-      12.318
+      10.124,
+      10.844,
+      12.33
     ],
-    "hash": "af7c4d2bb153",
+    "hash": "8ecbf8af5c1f",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:52.334Z"
+    "generatedAt": "2026-09-14T10:32:07.011Z"
   },
   "block-07": {
-    "durationSeconds": 31.018,
+    "durationSeconds": 29.578,
     "reveals": [
       0,
-      7.79,
-      9.033,
-      11.436,
-      14.106,
-      16.44,
-      18.356,
-      22.152
+      7.152,
+      8.011,
+      9.892,
+      12.365,
+      14.303,
+      15.859,
+      20.12
     ],
-    "hash": "0cc45928c329",
+    "hash": "39d00f706318",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:53:59.011Z"
+    "generatedAt": "2026-09-14T10:32:13.493Z"
   },
   "block-08": {
-    "durationSeconds": 34.78,
+    "durationSeconds": 34.547,
     "reveals": [
       0,
-      13.363,
-      21.385
+      13.618,
+      21.873
     ],
-    "hash": "dde043974872",
+    "hash": "0388ac244e89",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:54:07.349Z"
+    "generatedAt": "2026-09-14T10:32:21.624Z"
   },
   "block-09": {
-    "durationSeconds": 32.039,
+    "durationSeconds": 36.126,
     "reveals": [
       0,
-      21.548
+      24.033
     ],
-    "hash": "5b7486c2ad1f",
+    "hash": "3ac5f51ff3c0",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:54:15.102Z"
+    "generatedAt": "2026-09-14T10:32:29.936Z"
   },
   "block-10": {
-    "durationSeconds": 33.99,
+    "durationSeconds": 32.318,
     "reveals": [
       0,
-      3.878,
-      6.385,
-      23.045
+      3.959,
+      6.676,
+      22.279
     ],
-    "hash": "4093a765c3dc",
+    "hash": "6ba300f8f212",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:54:23.253Z"
+    "generatedAt": "2026-09-14T10:32:37.561Z"
   },
   "block-11": {
-    "durationSeconds": 33.898,
+    "durationSeconds": 34.176,
     "reveals": [
       0,
-      7.059,
-      25.356
+      6.455,
+      25.322
     ],
-    "hash": "1256aa10f7f9",
+    "hash": "3971686da5bf",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:54:31.643Z"
+    "generatedAt": "2026-09-14T10:32:45.689Z"
   },
   "block-12": {
-    "durationSeconds": 32.504,
+    "durationSeconds": 33.572,
     "reveals": [
       0,
-      13.99,
-      27.249
+      15.105,
+      27.702
     ],
-    "hash": "a561348c6492",
+    "hash": "9f81b858ebc8",
     "voice": "uFIXVu9mmnDZ7dTKCBTX",
     "model": "eleven_multilingual_v2",
-    "generatedAt": "2026-09-14T08:54:39.117Z"
+    "generatedAt": "2026-09-14T10:32:53.571Z"
+  },
+  "block-13": {
+    "durationSeconds": 21.451,
+    "reveals": [
+      0,
+      8.371,
+      16.381
+    ],
+    "hash": "039d46941ca0",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T10:32:58.377Z"
   }
 }
