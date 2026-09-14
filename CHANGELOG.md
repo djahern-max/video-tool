@@ -3034,3 +3034,132 @@ Shipped: 2026-09-14
   limitations) is deferred to its own feature, before lesson 04 draws on
   that page.
 - The 12 ATO warnings and the other GPT lessons' findings are unchanged.
+
+## 29 — GPT-01 questions, index extension for file 9, GPT-02 in full
+Shipped: 2026-09-14
+
+**What changed**
+- `CLAUDE.md`: a **Rulings** paragraph under rule 4. Every `UNSOURCED`
+  flag and judgment item in a `drafts/GPT-NN-review.md` carries a
+  recommended ruling; that recommendation is the ruling unless the
+  developer's 4.01.1 read says otherwise, and features do not stop to
+  ask.
+- `src/questions-03.json` (was `[]`): nine questions for GPT-01 — five
+  review, one after each body section, and four assessment (lo-1 one,
+  lo-2 two, lo-3 one). Four choices each, feedback on every choice,
+  section to re-read named. The three rule-1 ERRORs on lesson 03 are
+  cleared. `drafts/GPT-01-review.md` gained a Questions section (id,
+  kind, placement or objective, index entries, the guide sentence that
+  answers it) and four question judgments with recommended rulings.
+- `drafts/GPT-source-index.md`: file 9 gained entries 13–16 (the two
+  hallucination forms and two limitations GPT-01's J7 listed), numbered
+  after the existing twelve, nothing renumbered, quotes checked verbatim
+  on their pages the same way as the rest; a change note in the preamble
+  records the extension. Coverage table unchanged.
+- GPT-02, lesson 04, drafted whole: `src/lesson-04.ts` (eight sections,
+  ten glossary terms, file 11 added to `meta.sources` as supporting),
+  `guide/04/` (front matter, six body sections, glossary; the scaffold's
+  `01-body.md` renamed to `01-two-kinds-of-service.md`),
+  `src/questions-04.json` (ten questions — six review, four assessment:
+  lo-1 one, lo-2 one, lo-3 two), and `drafts/GPT-02-review.md` written in
+  GPT-01's shape with recommended rulings and the judgment list marked
+  `CLOSED (default rulings; developer read pending)`.
+- `meta.status` on both lessons stays `"draft"`; nothing generated,
+  rendered, or exported.
+
+**Standards touched**
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for
+  accuracy. The Rulings rule makes the draft's recommendation the default
+  ruling on each flag and judgment; the developer's read of the guide
+  text remains the review, and it is still ahead for both lessons.
+- 5.01.2.1 — review questions must be placed throughout the program in
+  sufficient intervals to allow the participant to evaluate what needs
+  re-studying. One review question after every body section of both
+  lessons, placed by `after_section`; feedback on every choice names the
+  section to re-read (5.01.2.2: feedback must at minimum say correct or
+  incorrect, and its goal is to reinforce understanding and highlight
+  gaps).
+- 3.01 — learning activities must be based on relevant learning
+  objectives that clearly articulate the professional competence to be
+  achieved. Every assessment question maps to one objective, and each
+  objective of both lessons has at least one; GPT-02's six sections are
+  planned two per objective from the index entries the objectives cite.
+
+**Decisions**
+- **The Rulings process change, and why.** The review record's flags and
+  judgments were written to be ruled on, and entry 28 showed the cost of
+  a stop-and-ask cycle: one feature to draft, one to rule, one to revise.
+  Writing the recommended ruling at draft time keeps the draft honest
+  (it still has to name what it could not source) while letting the
+  developer's single read of the whole course be the review, as the spec
+  intends. The record remains the evidence; the ruling is the developer's
+  either way, by default or by override.
+- **Question counts are what the text supports.** Rule 1 needs one
+  assessment question per objective; a second was written where an
+  objective names distinct facts one question cannot honestly measure
+  (GPT-01 lo-2: hallucination and the cutoff; GPT-02 lo-3: the Business
+  admin controls and the Enterprise audit-log route). No count was
+  written to a minimum, because the minimum is a function of course
+  credit, which superCPE computes.
+- **Distractors are wrong on the sources' account, not merely different.**
+  Each feedback string says which source statement rules each distractor
+  out. Where a distractor's falsity rests on the page's description of
+  another tool (GPT-01 q-05: search, deep research), that description was
+  read from the page's tools table under the same reading as J5, and the
+  record says so.
+- **GPT-02 draws on files 8, 10 and 12 in the body and on file 11 only in
+  the glossary.** The SOC 2 entry needed the page's one line on what the
+  audit confirms, which only the print-layout capture carries (11#6); the
+  spec's glossary allowance was used and file 11 is `supporting`. The
+  body cites no file 11 entry, so the date, the SAML SSO line and the
+  headline retention restriction are not in the lesson.
+- **"Team" is reported, not resolved.** The FAQ's sentence (8#9) and the
+  enterprise privacy page's names (10#4) sit side by side in sec-02; the
+  lesson says it uses the enterprise privacy page's names and asserts no
+  identity between Team and Business, because the index says no source
+  supports one.
+- **The switch's label is read from the page.** "Improve the model for
+  everyone" is not in index entry 8#2's quote; lo-2 asks the participant
+  to locate the control, and a control is located by its label. Recorded
+  as GPT-02 J1, the same reading as GPT-01's J5 for the tool's name; an
+  index entry carrying the label is the tidy fix and is outside this
+  feature's index scope.
+- **Boundary statements stayed in GPT-02's body** (three sentences saying
+  what the pages do not state — retroactivity of the opt-out, retention
+  length on an individual plan, who in a workspace can opt in). Each
+  rests on an index "Does not cover" note and each exists so a
+  participant does not assume the missing fact; feature 28 kept sentences
+  of that kind. Listed as J7 for the developer to cut if they read as
+  method.
+- **Existing records were edited by instruction.** `drafts/GPT-01-review.md`
+  and `drafts/GPT-source-index.md` were created by earlier features; the
+  spec names both edits (Part 1's Questions section, Part 2's extension).
+  Nothing existing was deleted, reworded or renumbered; the index
+  extension is additive and dated.
+- **Sentence numbering in GPT-02's record** is by a split at
+  sentence-ending punctuation followed by a capital, quote or asterisk,
+  stated in the record; GPT-01's record numbers by hand and its Questions
+  table follows GPT-01's own numbering.
+
+**Known gaps**
+- Both lessons are `"draft"` and unread. The developer's 4.01.1 read of
+  the guide text is the review; every ruling in both records is a default
+  until then.
+- Flag counts: GPT-01 unchanged at five (three body, one front matter,
+  one glossary), all ruled keep on 2026-09-14. GPT-02: five — one body
+  (sec-01 sentence 16, the account-not-person application of 12#2), one
+  front matter (audience), three glossary boundary flags (*Data
+  Processing Addendum*, *Training*, *Workspace admin*), each with a
+  recommended ruling of keep. Well under the ten that would have stopped
+  the draft.
+- What the index could not define for GPT-02: what a Data Processing
+  Addendum is or contains (10#8 says only that OpenAI can execute one);
+  what "training" does with a conversation technically; "workspace admin"
+  as a term; the plan called Team; the switch's label (read from the
+  page, J1). None was supplied from general knowledge.
+- The 13 remaining ERRORs are all rule-1 findings on lessons 05–08, which
+  this feature did not touch: each has objectives with no assessment
+  question, because their questions files are still `[]`. Next features.
+- The 12 ATO warnings and the scaffold lessons' glossary warnings are
+  unchanged.

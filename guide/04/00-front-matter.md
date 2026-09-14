@@ -1,6 +1,19 @@
 # Setting up for professional use
 
-TODO: one paragraph saying what this course covers and who it is for.
+This is the second lesson in *Using ChatGPT in an Accounting Practice*.
+It covers the training defaults on OpenAI's individual plans and on its
+ChatGPT Business and ChatGPT Enterprise plans; the training control on an
+individual plan, where it is and what it does and does not do; and the
+controls a Business or Enterprise workspace adds — admin access to
+conversations, retention settings, a Data Processing Addendum, and a
+SOC 2 Type 2 audit. It is written for CPAs in public practice who use, or
+are deciding whether to use, ChatGPT in their work, and it assumes no
+prior experience with the tool.
+
+Everything factual in this lesson comes from the OpenAI documents listed
+as this lesson's sources: OpenAI's help-center pages on data controls and
+on how your data is used to improve model performance, and its enterprise
+privacy page.
 
 ## How this course works
 

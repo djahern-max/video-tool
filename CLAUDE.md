@@ -106,6 +106,12 @@ figure of its own, and any per-lesson credit this repo prints is an estimate.
    Nothing in this repo evidences it, and there is deliberately no reviewer
    surface here.
 
+   **Rulings.** Every `UNSOURCED` flag and every judgment item in a
+   `drafts/GPT-NN-review.md` carries a recommended ruling written by the
+   draft. That recommendation is the ruling unless the content developer's
+   4.01.1 read of the guide text says otherwise. The developer's read is the
+   review; the record is the evidence of it. Features do not stop to ask.
+
 ## Two kinds of lesson
 
 `meta.kind` is `"video"` or `"text"`; absent means `"video"`. A course may hold

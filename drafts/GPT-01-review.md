@@ -21,6 +21,9 @@ Revised 2026-09-14 (changelog entry 28): body prose de-meta'd, lo-3
 reworded, file 13 added to sources, front matter's lesson list dropped,
 judgment list closed. Still unchecked pending the developer's read.
 
+Questions added 2026-09-14 (changelog entry 29): nine, in
+`src/questions-03.json`; see Questions below. Still unchecked.
+
 Learning objectives (from `src/lesson-03.ts`):
 
 Index references are to `drafts/GPT-source-index.md` as it stands in the
@@ -344,6 +347,62 @@ the file's definitions carry a section pointer the module's do not.
   Ruling: keep as written — course reasoning, not a sourced claim.
 
 ## Questions
+
+Written 2026-09-14 (changelog entry 29) into `src/questions-03.json`, which
+had been `[]`. Nine questions: five review, one after each body section
+(5.01.2.1), and four assessment, at least one per objective (6.01.2, the
+75 percent floor). Every question is multiple choice with four choices;
+every feedback string says why the correct choice is correct and why each
+of the other three is wrong on the sources' account, and names the section
+to re-read (5.01.2.2). The count is what the text honestly supports —
+lo-2 names four failures and gets two assessment questions; lo-1 and lo-3
+get one each — and is not written to a minimum, which is superCPE's to
+compute from course credit. Each question's `_source` field in the JSON
+repeats the index entries below.
+
+The "sentence in the guide" column quotes the sentence the correct choice
+restates, from the guide as it stands after entry 28. Section sentence
+numbers are as in the Sections part of this record.
+
+| id | kind | placed / measures | index entries | sentence in the guide that answers it |
+|---|---|---|---|---|
+| q-01 | review | after sec-01 | 9#1; 9#10, 9#12 (distractors) | sec-01 s2: "OpenAI's help-center page … says that ChatGPT is designed to provide useful responses based on patterns in the data it was trained on, and that, like any language model, it can produce incorrect or misleading outputs." |
+| q-02 | review | after sec-02 | 9#4, 9#9; 9#3, 9#10, 4#2 (distractors) | sec-02 s4: "Among the forms the page names is one that bears directly on professional work: fabricated quotes, studies, citations, or references to sources that do not exist." and s9: "The same OpenAI page says to always verify quotes, data, technical information, or references to external documents." |
+| q-03 | review | after sec-03 | 9#5; 9#10 (distractor) | sec-03 s1: "OpenAI's page lists a knowledge cutoff among the limitations of its models: the models are trained on data up to a certain point, and responses do not incorporate information about events beyond that point unless tools are used." |
+| q-04 | review | after sec-04 | 9#6, 9#2, 4#1 (attributed) | sec-04 s1: "OpenAI's page states the limitation in three words — 'Confidence isn't reliability' — and explains it: the model may express high confidence even in incorrect answers." and s3 (the toolkit, attributed). |
+| q-05 | review | after sec-05 | 9#12, 9#1, 9#9 | sec-05 s2–3: "OpenAI's help page lists, among the tools that may be available to ChatGPT, one it prints as 'Code interpreter / Data analysis,' and describes what it does as enabling accurate calculations, data visualizations, and structured logic. That is the feature OpenAI ties accurate calculation to …" |
+| q-06 | assessment | lo-1 | 9#1; 4#3 (attributed); 9#6 (distractor) | sec-01 s2 (above) and s11: the toolkit quotes Jeff Seibert as saying that today's large language models "produce generated output, not computed answers," and that this means you should not trust them with math or financial analysis. |
+| q-07 | assessment | lo-2 | 9#3, 9#4; 9#5, 9#2, 9#10 (distractors) | sec-02 s1: "… it gives the phenomenon a name: a hallucination, 'when the model produces responses that are not factually accurate.'" and s4 (above). |
+| q-08 | assessment | lo-2 | 9#5, 9#10, 9#9; 9#6 (distractor) | sec-03 s11–12: "A response produced without a tool carries only what the training data carried, up to the cutoff. The page's own advice covers the case: verify data before relying on it." |
+| q-09 | assessment | lo-3 | 9#12, 9#9, 9#1; 4#3 (attributed) | sec-05 s6: "A number that came out of a conversation in which the tool did not run is generated text about a number, not a calculation; if the number matters, either the tool computed it or it is recomputed somewhere else before it is relied on." |
+
+**Judgments on the questions**, each with its recommended ruling under the
+CLAUDE.md Rulings rule (default rulings; developer read pending):
+
+- **Q1 — q-09's correct choice restates a flagged sentence.** Sec-05 s6 is
+  the lesson's one practical rule, flagged `UNSOURCED` (interpretive) and
+  ruled keep on 2026-09-14. The question therefore measures a synthesis,
+  not a single index entry; its feedback cites the three components (9#12,
+  9#1, 9#9; 4#3 attributed) rather than the rule. Recommended ruling: keep
+  — lo-3 is the objective the rule exists to teach, and the ruling on the
+  sentence covers the question that tests it.
+- **Q2 — q-05 and q-09 name the tool as the page prints it,** "Code
+  interpreter / Data analysis", and q-05's feedback describes search and
+  deep research from the same tools table (p. 2). None of those names or
+  descriptions is an index entry; the tool's name was already read from
+  the page under J5, and the search and deep research rows were read from
+  the same location for the distractors. Recommended ruling: accept — the
+  distractors must be wrong on the sources' account, and the page's own
+  descriptions of the other two tools are what makes them so.
+- **Q3 — q-08's stem reuses sec-03's hypothetical** (a figure revised
+  every year), accepted under J2. It states no fact about any figure.
+  Recommended ruling: accept.
+- **Q4 — two assessment questions on lo-2, one on each of lo-1 and lo-3.**
+  Coverage under rule 1 is one per objective; the second lo-2 question
+  is there because the objective names four failures and one question
+  cannot honestly measure both hallucination and the cutoff. Recommended
+  ruling: accept; how many questions the course needs is superCPE's
+  finding, not this record's.
 
 ## Judgment list — CLOSED (2026-09-14)
 

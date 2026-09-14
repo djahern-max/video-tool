@@ -24,6 +24,16 @@ quote re-verified; git history holds the three earlier generations, and a
 quote that was true of a removed capture is not carried forward unless it
 is also in a current file.
 
+**Extension, 2026-09-14 (changelog entry 29).** File 9
+(`openai-does-chatgpt-tell-the-truth-2026-09-13.pdf`) gained entries 13–16:
+the two hallucination forms and the two limitations that GPT-01's review
+record listed under J7 as on the page but not in the index. The extension
+is additive — no existing entry was reworded or renumbered — and the four
+new quotes were checked against the page's extracted text the same way as
+the 155 before them. The coverage table is unchanged, because file 9
+already carried ✓ on every objective and lesson the new entries are tagged
+with.
+
 **How to read an entry.** The claim is in this index's words and is what the
 course could say. The quote under it is the document's words, verbatim,
 forty words or fewer, with the page it sits on. One claim, one quote. The tag
@@ -912,6 +922,28 @@ that speaks to accuracy at all.
 12. **Calculation is done reliably only when the model uses a code tool,
     not from the language model itself.** *(LO 1; L01)*
     > Enables accurate calculations, data visualizations, and structured logic (p. 2)
+
+Entries 13–16 were added 2026-09-14 (changelog entry 29; GPT-01 review J7).
+They are the items the page lists at the locations of entries 4 and 5 that
+the fourth generation did not carry. Nothing above was renumbered.
+
+13. **Incorrect definitions, dates, or facts are a named form of
+    hallucination.** *(LO 1; L01)*
+    > Incorrect definitions, dates, or facts (p. 1)
+
+14. **Overconfident answers to ambiguous or complex questions are a named
+    form of hallucination.** *(LO 1; L01)*
+    > Overconfident answers to ambiguous or complex questions (p. 1)
+
+15. **Lack of access is a listed limitation: the model may be unable to
+    reach a given website because of technical issues, paywalls, or a
+    site's robots.txt preferences.** *(LO 1; L01, L04)*
+    > Lack of access: The model may not be able to obtain relevant information from a given website due to technical issues, paywalls or preferences set via robots.txt. (p. 2)
+
+16. **Bias and over-simplification is a listed limitation: the model may
+    present one perspective as absolute truth, oversimplify nuanced issues,
+    or misrepresent the weight of consensus or debate.** *(LO 1; L01)*
+    > Bias and over-simplification: In some cases, it may: Present a single perspective as absolute truth Oversimplify complex or nuanced issues Misrepresent the weight of scientific consensus or social debate (p. 2)
 
 **Does not cover**
 

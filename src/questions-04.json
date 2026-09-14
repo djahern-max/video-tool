@@ -1,1 +1,298 @@
-[]
+[
+  {
+    "id": "q-01",
+    "kind": "review",
+    "after_section": "sec-01",
+    "stem": "A sole practitioner uses ChatGPT through a personal account, and a colleague at a larger firm uses it through the firm's ChatGPT Enterprise workspace. According to OpenAI's pages, what is the training default on each?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Both accounts are trained on by default; the only way to stop it on either is a Temporary Chat."
+      },
+      {
+        "id": "b",
+        "text": "The personal account's conversations are used for training unless the user opts out; the Enterprise workspace's are not used for training unless the customer has explicitly opted in."
+      },
+      {
+        "id": "c",
+        "text": "Neither is trained on by default; on every plan, training is something the user switches on."
+      },
+      {
+        "id": "d",
+        "text": "The personal account is not trained on because the user is a professional; the Enterprise workspace is, because the firm pays for the service."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The two sides of the line start from opposite defaults. OpenAI's help-center page says ChatGPT improves by further training on the conversations people have with it unless you opt out, and that on its services for individuals it may use your content to train. Its enterprise privacy page says that by default business data is not used for training, and that the exception is an explicit opt-in. Choice (a) puts both accounts on the individual side and mistakes Temporary Chat, which is one feature, for the only control. Choice (c) puts both on the business side. Choice (d) attaches the default to the person and to who pays; the pages attach it to the service, and nothing in them says a professional's personal account is treated differently. Re-read section 01.",
+    "objective_ids": [
+      "lo-1"
+    ],
+    "_source": "drafts/GPT-source-index.md file 12 entry 1 (improves by training unless you opt out), entry 2 (services for individuals: may use content to train); file 10 entry 2 (business data not used for training by default) and entry 3 (explicit opt-in is the exception); guide/04/01-two-kinds-of-service.md, second, third and fourth paragraphs. The section's one UNSOURCED flag (that the side of the line follows the account, not the person) is the point choice (d) gets wrong; the correct choice rests on the sourced sentences, not on the flag."
+  },
+  {
+    "id": "q-02",
+    "kind": "review",
+    "after_section": "sec-02",
+    "stem": "Where does OpenAI say the training control for an individual ChatGPT plan is, and does opting out in one place require opting out in the other?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Under Settings → Data Controls in ChatGPT, or by selecting \"Do not train on my content\" in OpenAI's privacy portal; either one is sufficient on its own."
+      },
+      {
+        "id": "b",
+        "text": "Under Settings → Data Controls in ChatGPT, but the privacy portal must be used as well or the opt-out does not take effect."
+      },
+      {
+        "id": "c",
+        "text": "Only by writing to OpenAI's support team, which records the opt-out against the account."
+      },
+      {
+        "id": "d",
+        "text": "In the settings of each device separately, because the setting is stored on the device."
+      }
+    ],
+    "correct": "a",
+    "feedback": "The Data Controls FAQ says to turn training off in ChatGPT under Settings → Data Controls, or to select \"Do not train on my content\" in the privacy portal, and the page on how your data is used says that for ChatGPT either option is sufficient and you do not need to opt out in both places. Choice (b) contradicts that sentence directly. Choice (c) makes support the only route, which neither page says; the FAQ describes two self-service routes. Choice (d) is wrong on the FAQ's own words: once training is turned off, the setting applies to the entire account, and it does not matter which device you are using. Re-read section 02.",
+    "objective_ids": [
+      "lo-2"
+    ],
+    "_source": "drafts/GPT-source-index.md file 8 entry 2 (Settings → Data Controls, or the privacy portal) and entry 4 (account-wide, not per device); file 12 entry 3 (either option is sufficient); guide/04/02-turning-training-off.md, \"Where it is\" and \"What it covers\". No flag inherited — sec-02 carries no UNSOURCED flag; the switch label is GPT-02 review J1."
+  },
+  {
+    "id": "q-03",
+    "kind": "review",
+    "after_section": "sec-03",
+    "stem": "A user turned off \"Improve the model for everyone\" last month. Today they give a thumbs-up on a response. What does OpenAI's help center say may happen to that conversation?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Nothing changes: once training is off, no conversation on the account can be used for training."
+      },
+      {
+        "id": "b",
+        "text": "The entire conversation associated with that feedback may be used to train OpenAI's models."
+      },
+      {
+        "id": "c",
+        "text": "Only the rated response, and not the rest of the conversation, may be used for training."
+      },
+      {
+        "id": "d",
+        "text": "The conversation is removed from history and deleted after 30 days, as a Temporary Chat would be."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The page on how your data is used says that even if you have opted out of training you can still provide feedback, for instance by selecting thumbs up or thumbs down, and that if you do, the entire conversation associated with that feedback may be used to train OpenAI's models. That is the override the section exists to point out, and (a) is the assumption it corrects. Choice (c) narrows the page's \"entire conversation\" to one response, which the page does not do. Choice (d) confuses feedback with Temporary Chat; the FAQ says that after training is turned off, conversations still appear in chat history, and nothing links a rating to deletion. Re-read section 03, \"Feedback can override it\".",
+    "objective_ids": [
+      "lo-2"
+    ],
+    "_source": "drafts/GPT-source-index.md file 12 entry 5 (feedback puts the whole conversation into training even after opting out); file 8 entry 3 (history is kept) and entry 5 (Temporary Chats deleted after 30 days) for the distractors; guide/04/03-what-the-setting-does.md, \"Feedback can override it\". No flag inherited."
+  },
+  {
+    "id": "q-04",
+    "kind": "review",
+    "after_section": "sec-04",
+    "stem": "OpenAI's enterprise privacy page says business data is not used for training by default. What is the exception the page states?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Data from a workspace that has not executed a Data Processing Addendum with OpenAI."
+      },
+      {
+        "id": "b",
+        "text": "Data the customer has explicitly opted in to share with OpenAI, for example through its opt-in feedback mechanisms."
+      },
+      {
+        "id": "c",
+        "text": "Data that OpenAI's automated content classifiers have flagged, which the page says is then used for training."
+      },
+      {
+        "id": "d",
+        "text": "Conversations older than 30 days, which become training data once they are removed from the workspace."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The page states the default and its exception in one paragraph: by default OpenAI does not use business data to train its models, and if you have explicitly opted in to share your data, for example through its opt-in feedback mechanisms, then it may use the shared data to train. Choice (a) ties training to the addendum; the page presents the addendum as something OpenAI can execute for compliance purposes, not as the condition of the training default. Choice (c) misreads the classifiers paragraph — the page says the classifications are metadata that do not contain the business data, and says nothing about training on them. Choice (d) invents a link between retention and training that the page does not make; deleted conversations are removed within 30 days. Re-read section 04, \"The exception\".",
+    "objective_ids": [
+      "lo-1"
+    ],
+    "_source": "drafts/GPT-source-index.md file 10 entry 2 (the default) and entry 3 (explicit opt-in, feedback mechanisms as the example); entry 8 (the DPA), entry 9 (classifiers produce metadata) and entries 15 and 20 (deleted conversations removed within 30 days) for the distractors; guide/04/04-the-business-default.md, \"The exception\". No flag inherited."
+  },
+  {
+    "id": "q-05",
+    "kind": "review",
+    "after_section": "sec-05",
+    "stem": "According to the enterprise privacy page, who can see an end user's conversations in a ChatGPT Business workspace?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Only the end user; neither OpenAI nor the workspace's admins have access to them."
+      },
+      {
+        "id": "b",
+        "text": "The end user; the workspace admins, who can view, access, export, and delete end user conversations; and OpenAI, whose access is limited to authorized employees for support, abuse investigation and legal compliance, and to confidentiality-bound contractors reviewing for abuse."
+      },
+      {
+        "id": "c",
+        "text": "Every member of the workspace, because conversations in a shared workspace are visible to the whole team."
+      },
+      {
+        "id": "d",
+        "text": "The end user and OpenAI's employees at any time; workspace admins see only an audit log through the Enterprise Compliance API."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The page's ChatGPT Business answer says end users can view their own conversations, that workspace admins can view, access, export, and delete end user conversations in the workspace, and that OpenAI's own access is limited to authorized employees for engineering support, investigating platform abuse and legal compliance, and to specialized contractors bound by confidentiality obligations, solely to review for abuse and misuse. Choice (a) leaves out both the admins and OpenAI's limited access. Choice (c) extends visibility to every member, which the page does not say; the page names admins, not members. Choice (d) takes the audit-log route from the Enterprise answer and puts it on Business, and it drops the page's limits on OpenAI's access. Re-read section 05, \"ChatGPT Business\".",
+    "objective_ids": [
+      "lo-3"
+    ],
+    "_source": "drafts/GPT-source-index.md file 10 entry 17 (Business admins can view, access, export and delete) and entry 18 (OpenAI's access on Business); entry 12 (the Enterprise audit log) for distractor (d); guide/04/05-who-can-see-conversations.md, \"ChatGPT Business\". No flag inherited."
+  },
+  {
+    "id": "q-06",
+    "kind": "review",
+    "after_section": "sec-06",
+    "stem": "Which of the following does the enterprise privacy page say about data retention on ChatGPT Enterprise?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Retention is fixed by OpenAI at 30 days for every conversation, and the workspace cannot change it."
+      },
+      {
+        "id": "b",
+        "text": "Workspace admins control how long data is retained, and deleted conversations are removed from OpenAI's systems within 30 days unless OpenAI is legally required to retain them."
+      },
+      {
+        "id": "c",
+        "text": "Conversations are retained indefinitely unless the end user deletes them, and OpenAI keeps a copy for training."
+      },
+      {
+        "id": "d",
+        "text": "Retention is set by each end user individually and is not something the workspace controls."
+      }
+    ],
+    "correct": "b",
+    "feedback": "The page's Enterprise answer says workspace admins control how long data is retained, and that any deleted conversations are removed from OpenAI's systems within 30 days unless OpenAI is legally required to retain them. Retention is therefore a setting the admin holds, which rules out both (a), a fixed period, and (d), a per-user setting. Choice (c) contradicts the page twice: retention is not indefinite by default but admin-controlled, and business data is not used for training by default. Re-read section 06, \"Retention\".",
+    "objective_ids": [
+      "lo-3"
+    ],
+    "_source": "drafts/GPT-source-index.md file 10 entry 15 (Enterprise: admins control retention; deleted conversations removed within 30 days unless law requires) and entry 2 (not used for training by default) for distractor (c); guide/04/06-retention-addendum-audit.md, \"Retention\". No flag inherited."
+  },
+  {
+    "id": "q-07",
+    "kind": "assessment",
+    "stem": "A firm is deciding whether staff may use ChatGPT for client work. On the OpenAI pages this lesson relies on, which statement about training defaults is accurate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Individual plans: conversations are used for training unless the user opts out. ChatGPT Business and ChatGPT Enterprise: inputs and outputs are not used for training by default, and the only exception is an explicit opt-in."
+      },
+      {
+        "id": "b",
+        "text": "Every ChatGPT plan trains on conversations by default; a business plan differs only in giving the firm an admin console."
+      },
+      {
+        "id": "c",
+        "text": "No ChatGPT plan trains on conversations; OpenAI's models are trained only on public and licensed data."
+      },
+      {
+        "id": "d",
+        "text": "Individual plans do not train on conversations by default; business plans do, because business data is more valuable to the model."
+      }
+    ],
+    "correct": "a",
+    "feedback": "The help-center page on how your data is used states both defaults: on services for individuals OpenAI may use your content to train, and ChatGPT improves by training on conversations unless you opt out; for business users, by default OpenAI does not train on any inputs or outputs from ChatGPT Business, ChatGPT Enterprise, or the API. The enterprise privacy page adds that the exception is an explicit opt-in. Choice (b) reads the individual default onto the business plans. Choice (c) is contradicted by the enterprise privacy page, which says OpenAI also uses data from the versions of ChatGPT for individuals. Choice (d) reverses the two defaults. Re-read sections 01 and 04.",
+    "objective_ids": [
+      "lo-1"
+    ],
+    "_source": "drafts/GPT-source-index.md file 12 entry 1, entry 2 and entry 7; file 10 entry 2, entry 3, entry 22 (OpenAI trains on data from individual versions of ChatGPT) and entry 23; guide/04/01-two-kinds-of-service.md and guide/04/04-the-business-default.md. No flag inherited."
+  },
+  {
+    "id": "q-08",
+    "kind": "assessment",
+    "stem": "Which statement correctly describes what turning off \"Improve the model for everyone\" on an individual ChatGPT plan does and does not do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It applies to the whole account whatever the device; it covers new conversations from then on; it does not remove past conversations from chat history; and giving feedback on a response can still put that conversation into training."
+      },
+      {
+        "id": "b",
+        "text": "It applies only to the device on which it was set, and it deletes the account's chat history."
+      },
+      {
+        "id": "c",
+        "text": "It withdraws every past conversation from OpenAI's training data, and once set it cannot be reversed."
+      },
+      {
+        "id": "d",
+        "text": "It stops every use of the account's conversations by OpenAI, including feedback and abuse monitoring."
+      }
+    ],
+    "correct": "a",
+    "feedback": "Four sourced statements make up the correct choice. The Data Controls FAQ says the setting applies to the entire account regardless of device, and that conversations still appear in chat history but are not used to train. The page on how your data is used says that after you opt out OpenAI will not train on your new conversations, and that if you give feedback, the entire conversation associated with it may be used to train. Choice (b) is wrong on device scope and on history. Choice (c) claims a retroactive effect neither page states — the page says new conversations — and the FAQ says the setting can be changed at any time. Choice (d) ignores the feedback override and the FAQ's statement that Temporary Chats may still be reviewed to monitor for abuse. Re-read sections 02 and 03.",
+    "objective_ids": [
+      "lo-2"
+    ],
+    "_source": "drafts/GPT-source-index.md file 8 entry 3 (history kept), entry 4 (account-wide), entry 6 (Temporary Chats may be reviewed for abuse) and entry 8 (changeable at any time); file 12 entry 4 (prospective) and entry 5 (feedback override); guide/04/02-turning-training-off.md and guide/04/03-what-the-setting-does.md. No flag inherited."
+  },
+  {
+    "id": "q-09",
+    "kind": "assessment",
+    "stem": "A firm's managing partner asks what a ChatGPT Business or ChatGPT Enterprise workspace gives the firm that an individual plan's training switch does not. Which list matches the enterprise privacy page?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Admin access to members' conversations, admin control over how long data is retained, a Data Processing Addendum, and a completed SOC 2 Type 2 audit."
+      },
+      {
+        "id": "b",
+        "text": "A guarantee that no OpenAI employee can ever access a conversation, and retention with no time limit."
+      },
+      {
+        "id": "c",
+        "text": "Training on the firm's data by default, so that the model learns the firm's style, with a per-user opt-out."
+      },
+      {
+        "id": "d",
+        "text": "A single switch under Settings → Data Controls that the admin sets once for all staff."
+      }
+    ],
+    "correct": "a",
+    "feedback": "The enterprise privacy page says workspace admins can view, access, export, and delete end user conversations on ChatGPT Business and reach an audit log through the Enterprise Compliance API on ChatGPT Enterprise; that admins control how long data is retained on both; that OpenAI can execute a Data Processing Addendum for both plans and the API; and that both plans have completed a SOC 2 Type 2 audit. Choice (b) overstates the page: OpenAI's access is described as limited, not absent, and retention is admin-controlled, not unlimited. Choice (c) reverses the business default, which is not to train unless the customer explicitly opts in. Choice (d) is the individual plan's control; the page describes no such switch for a workspace. Re-read sections 05 and 06.",
+    "objective_ids": [
+      "lo-3"
+    ],
+    "_source": "drafts/GPT-source-index.md file 10 entry 17 and entry 12 (admin access), entries 15 and 20 (retention), entry 8 (DPA), entries 14 and 19 (SOC 2 Type 2); entries 13 and 18 (OpenAI's limited access) and entries 2 and 3 (the training default) for the distractors; guide/04/06-retention-addendum-audit.md, \"What the workspace adds, in one list\". No flag inherited."
+  },
+  {
+    "id": "q-10",
+    "kind": "assessment",
+    "stem": "On ChatGPT Enterprise, how does the enterprise privacy page say workspace admins reach the workspace's conversations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Through an audit log of conversations and GPTs, via the Enterprise Compliance API."
+      },
+      {
+        "id": "b",
+        "text": "They cannot; on Enterprise only authorized OpenAI employees can access conversations, and only to resolve incidents."
+      },
+      {
+        "id": "c",
+        "text": "By signing in as the end user, once the user has given explicit permission."
+      },
+      {
+        "id": "d",
+        "text": "By asking OpenAI's support team, which exports the conversations on request."
+      }
+    ],
+    "correct": "a",
+    "feedback": "The page's Enterprise answer says that end users can view their own conversations, that the organization has control over workspaces, and that workspace admins can access an audit log of conversations and GPTs through the Enterprise Compliance API. Choice (b) drops the admin route altogether and narrows OpenAI's stated grounds, which also include recovering a user's conversations with the organization's permission and legal requirement. Choice (c) borrows the \"explicit permission\" phrase from the sentence about OpenAI's own access and turns it into a sign-in method the page never describes. Choice (d) describes a support process that appears nowhere on the page. Re-read section 05, \"ChatGPT Enterprise\".",
+    "objective_ids": [
+      "lo-3"
+    ],
+    "_source": "drafts/GPT-source-index.md file 10 entry 12 (Enterprise admins: audit log through the Compliance API) and entry 13 (OpenAI employees' three grounds); guide/04/05-who-can-see-conversations.md, \"ChatGPT Enterprise\". No flag inherited."
+  }
+]
