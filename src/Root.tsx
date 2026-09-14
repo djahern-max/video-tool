@@ -3,14 +3,22 @@ import { Composition } from "remotion";
 import { Lesson } from "./Lesson";
 import { isTextLesson, LESSONS, LessonId } from "./lessons";
 import { FPS, WIDTH, HEIGHT, seconds } from "./theme";
+import { CLOSING_HOLD_SECONDS, LEAD_IN_SECONDS, isTitle, runtimeSeconds } from "./timing";
 
 // Sum the frames the same way Lesson.tsx does, so a composition's length can
-// never drift from its content. The credit calculation depends on this number
-// being the real runtime, which is why it is derived rather than typed in.
+// never drift from its content: the lead-in, every sequenced block, the
+// closing hold. The title sheet is a layer over the opening and adds no
+// frames of its own. The credit calculation depends on this number being the
+// real runtime, which is why it is derived rather than typed in.
 const framesFor = (
-  blocks: { id: string }[],
+  blocks: { id: string; slide: string }[],
   durationOf: (b: never) => number
-) => blocks.reduce((sum, b) => sum + seconds(durationOf(b as never)), 0);
+) =>
+  seconds(LEAD_IN_SECONDS) +
+  blocks
+    .filter((b) => !isTitle(b))
+    .reduce((sum, b) => sum + seconds(durationOf(b as never)), 0) +
+  seconds(CLOSING_HOLD_SECONDS);
 
 const warnIfEstimated = (
   label: string,
@@ -29,17 +37,21 @@ const warnIfEstimated = (
 // A text lesson is a study guide with no composition to register; only
 // video lessons reach Remotion at all.
 type VideoLessonModule = {
-  blocks: { id: string }[];
+  blocks: { id: string; slide: string }[];
   durationOf: (b: never) => number;
   usingEstimates: boolean;
-  totalSeconds: number;
 };
 const IDS = (Object.keys(LESSONS) as LessonId[]).filter((id) => !isTextLesson(id));
 const videoLesson = (id: LessonId) => LESSONS[id] as unknown as VideoLessonModule;
 
-IDS.forEach((id) =>
-  warnIfEstimated(`Lesson${id}`, videoLesson(id).usingEstimates, videoLesson(id).totalSeconds)
-);
+IDS.forEach((id) => {
+  const lesson = videoLesson(id);
+  warnIfEstimated(
+    `Lesson${id}`,
+    lesson.usingEstimates,
+    runtimeSeconds(lesson.blocks, lesson.durationOf as never)
+  );
+});
 
 export const RemotionRoot: React.FC = () => (
   <>

@@ -53,6 +53,7 @@ import audioMeta from "./audio-meta-08.json";
 import { audioHashOf } from "./audio-identity";
 import type { Block, BlockMeta, Table } from "./blocks";
 import { COURSE_GPT } from "./course";
+import { runtimeSeconds } from "./timing";
 import type { PackageLessonMeta } from "./types";
 
 export type { Block, Figure } from "./blocks";
@@ -215,8 +216,11 @@ export const blocks: Block[] = [
     citation: "",
     slide: "Title",
     narration: "",
-    reveals: [0.5, 1.5, 2.5],
-    estimatedSeconds: 8,
+    // The hold: the title is a layer over the opening (src/timing.ts) for
+    // this long, and the first narrated block starts underneath it at the
+    // lead-in. Its three reveals are hand-set and have no markers to match.
+    reveals: [0, 0.3, 0.6],
+    estimatedSeconds: 4,
   },
 
   // Index: connective throughout; the composed-session statement is the
@@ -235,15 +239,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]This lesson runs one task from the first prompt to the figure you " +
-      "would rely on. [[r]]The session is composed: written for this course to " +
-      "show the failure the earlier lessons describe, not a recording of " +
-      "ChatGPT, and no evidence of what the tool does on any given day. " +
-      "[[r]]The task is a straight-line depreciation schedule for three assets " +
-      "over three years, using the arithmetic the prompt spells out and nothing " +
-      "else.",
-    reveals: [0.5, 7.5, 22.5],
-    estimatedSeconds: 33,
+      "[[r]]I'm going to take one task from the first prompt to the figure I'd " +
+      "rely on. [[r]]One thing first: this session is composed. It was written " +
+      "for this course to show the failure the earlier lessons describe; it's " +
+      "not a recording of ChatGPT, and no evidence of what the tool does on any " +
+      "given day. [[r]]The task is a straight-line depreciation schedule for " +
+      "three assets over three years, using the arithmetic my prompt spells out " +
+      "and nothing else.",
+    reveals: [0.5, 7.9, 25.9],
+    estimatedSeconds: 36,
   },
 
   // Index: 4#10 (identifiable information removed before any upload),
@@ -261,15 +265,15 @@ export const blocks: Block[] = [
       })),
     },
     narration:
-      "[[r]]Here are the inputs: three assets with generic names, and for each " +
-      "a cost, a salvage value and a useful life. [[r]]Nothing here identifies " +
-      "a client. The CPA.com toolkit's sample use cases require all " +
-      "identifiable information to be removed before any data is uploaded, and " +
-      "its advice is to de-identify personal information before it goes into " +
-      "any AI tool, internal or public. [[r]]Generic names and round figures " +
-      "are what that looks like on a task this size.",
-    reveals: [0.5, 9.5, 28.5],
-    estimatedSeconds: 36,
+      "[[r]]Here are my inputs: three assets with generic names, each with a " +
+      "cost, a salvage value and a useful life. [[r]]Nothing here identifies a " +
+      "client. The CPA.com toolkit's sample use cases require all identifiable " +
+      "information to be removed before any data is uploaded, and its advice is " +
+      "to de-identify personal information before it goes into any AI tool, " +
+      "internal or public. [[r]]Generic names and round figures are what that " +
+      "looks like on a task this size.",
+    reveals: [0.5, 9.7, 28.7],
+    estimatedSeconds: 35,
   },
 
   // Index: 13#3 (clear, specific, enough context), 4#8 (only as good as
@@ -296,15 +300,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]The prompt first. OpenAI's practice is that a prompt should be " +
-      "clear, specific, and carry enough context for the model to understand " +
-      "what is being asked; the toolkit puts it more bluntly: generative AI is " +
-      "only as good as the prompt that drives it. So the request states the " +
-      "arithmetic in one line rather than assuming it. [[r]]It gives the inputs " +
-      "in full. [[r]]And it says what the output should look like, so what " +
-      "comes back can be read against what was asked.",
-    reveals: [0.5, 26.5, 29],
-    estimatedSeconds: 38,
+      "[[r]]Now the prompt. OpenAI's practice is that a prompt should be clear, " +
+      "specific, and carry enough context for the model to understand what's " +
+      "being asked, and the toolkit puts it more bluntly: generative AI is only " +
+      "as good as the prompt that drives it. So I state the arithmetic in one " +
+      "line rather than assume it. [[r]]I paste the three assets in, in full. " +
+      "[[r]]And I say what the output should look like, so I can read what " +
+      "comes back against what I asked for.",
+    reveals: [0.5, 26.3, 30.0],
+    estimatedSeconds: 39,
   },
 
   // Index: 4#9 (examples help get a better output), 13#3 (enough context).
@@ -335,13 +339,13 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]Two more lines, each with a job. The toolkit says that giving the " +
-      "model examples helps get a better output, so the prompt shows one row in " +
-      "the shape it wants, with figures that belong to no asset. [[r]]Then the " +
-      "context, in one sentence: what the figures are and what the schedule is " +
-      "for. That is the enough-context part of the page's practice, stated " +
-      "rather than assumed.",
-    reveals: [0.5, 17.5],
+      "[[r]]Two more lines, each with a job. The toolkit says giving the model " +
+      "examples helps get a better output, so I show it one row in the shape I " +
+      "want, with figures that belong to no asset. [[r]]Then the context, in " +
+      "one sentence: what these figures are and what the schedule is for. " +
+      "That's the enough-context part of OpenAI's practice, and I'd rather " +
+      "state it than assume it.",
+    reveals: [0.5, 17.6],
     estimatedSeconds: 31,
   },
 
@@ -370,14 +374,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]The response comes back in the shape the prompt asked for: three " +
-      "rows, three years, whole dollars. The columns line up, the figures are " +
-      "the right size, nothing invites a second look. [[r]]OpenAI's page says " +
-      "the model may sound confident even when it is wrong, and that confidence " +
-      "is not reliability. A tidy table is confidence in another form. Nothing " +
-      "on this sheet says whether any figure in it is right.",
-    reveals: [0.5, 15],
-    estimatedSeconds: 33,
+      "[[r]]And there's the table, in the shape I asked for: three rows, three " +
+      "years, whole dollars. The columns line up, the figures are the right " +
+      "size, and nothing invites a second look. That's where I have to be " +
+      "careful. [[r]]OpenAI's page says the model may sound confident even when " +
+      "it's wrong, and that confidence isn't reliability. A tidy table is " +
+      "confidence in another form. Nothing on this screen tells me whether any " +
+      "figure in it is right.",
+    reveals: [0.5, 18.5],
+    estimatedSeconds: 36,
   },
 
   // Index: 9#8 (first draft, not a final source), 9#9 (always verify
@@ -398,15 +403,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]Before any of these figures goes anywhere, the page's rule applies: " +
+      "[[r]]Before any of these figures goes anywhere, I apply the page's rule: " +
       "use ChatGPT as a first draft, not a final source, and always verify " +
       "quotes, [[r]]data, [[r]]technical information, [[r]]and references to " +
-      "external documents. A depreciation schedule is data, all of it. A figure " +
-      "is checked by recomputing it, or by finding it in the record it is said " +
-      "to come from. There is no record here; every figure came from the " +
-      "prompt's own inputs. So the check is arithmetic.",
-    reveals: [0.5, 11.5, 12, 13],
-    estimatedSeconds: 36,
+      "external documents. This schedule is data, all of it. I check a figure " +
+      "by recomputing it, or by finding it in the record it's said to come " +
+      "from. There's no record here; every figure came from my own inputs. So " +
+      "my check is arithmetic.",
+    reveals: [0.5, 12.5, 13.0, 13.9],
+    estimatedSeconds: 35,
   },
 
   // Index: 9#9 (data is always verified); guide/06 sec-02's "recomputing
@@ -438,15 +443,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]Pick one asset and recompute it yourself, from the inputs, without " +
-      "looking at the table. Equipment B. [[r]]Its cost. [[r]]Its salvage " +
+      "[[r]]I'll pick one asset and recompute it myself, from the inputs, " +
+      "without looking at the table. Equipment B. [[r]]Cost. [[r]]Salvage " +
       "value. [[r]]The difference is what gets depreciated. [[r]]Spread over " +
-      "the life the prompt stated. [[r]]That is the annual charge, [[r]]and " +
-      "year three is the same figure, as the prompt asked. [[r]]Now the table. " +
-      "The year-three figure the response gave for Equipment B is not that " +
-      "figure. It is wrong.",
-    reveals: [0.5, 8, 9, 10, 13, 16, 18.5, 23.5],
-    estimatedSeconds: 32,
+      "the life I gave it. [[r]]That's the annual charge, [[r]]and year three " +
+      "is the same figure, because that's what I asked for. [[r]]Now back to " +
+      "the table. The year-three figure it gave me for Equipment B isn't the " +
+      "figure I just computed. It's wrong.",
+    reveals: [0.5, 8.8, 9.3, 10.2, 13.0, 16.2, 18.0, 24.0],
+    estimatedSeconds: 34,
   },
 
   // Index: 4#3 (generated output, not computed answers — attributed in the
@@ -466,15 +471,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]Lesson one gave the one-sentence reason this can happen. An " +
+      "[[r]]Lesson one gave me the one-sentence reason this can happen. An " +
       "executive quoted in the CPA.com toolkit put it this way: today's large " +
       "language models produce generated output, not computed answers. " +
       "[[r]]OpenAI's own page says a response is based on patterns in the data " +
-      "the model was trained on, and can be incorrect or misleading. [[r]]That " +
-      "is the whole explanation this course offers. No source says how often a " +
-      "figure comes out wrong, or why this one would; only that the ordinary " +
+      "the model was trained on, and can be incorrect or misleading. " +
+      "[[r]]That's the whole explanation I have. No source tells me how often a " +
+      "figure comes out wrong, or why this one did; only that the ordinary " +
       "response is not a calculation.",
-    reveals: [0.5, 14, 25],
+    reveals: [0.5, 14.8, 25.9],
     estimatedSeconds: 40,
   },
 
@@ -509,15 +514,15 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]The page's second practice is iteration: start with an initial " +
-      "prompt, review the response, and refine the prompt based on the output. " +
-      "OpenAI ties accurate calculation to a tool its page names, not to the " +
-      "ordinary response, so the second prompt says what was found and asks for " +
-      "the arithmetic to be run there and shown. [[r]]How a plan exposes that " +
-      "tool, or how to tell it ran, no source here says; that is why the check " +
-      "you just made is what settles the figure.",
-    reveals: [0.5, 26],
-    estimatedSeconds: 39,
+      "[[r]]So I go back to the prompt, which is OpenAI's second practice, " +
+      "iteration: start with an initial prompt, review the response, and refine " +
+      "it based on the output. OpenAI ties accurate calculation to a tool its " +
+      "page names, not to the ordinary response, so I say what I found and ask " +
+      "for the arithmetic to be run there and shown. [[r]]How my plan exposes " +
+      "that tool, or how I'd tell it ran, no source here says. That's why my " +
+      "own check, not this second pass, settles the figure.",
+    reveals: [0.5, 28.2],
+    estimatedSeconds: 41,
   },
 
   // Index: 9#12 (the code tool enables accurate calculations), 9#9 (data
@@ -541,13 +546,13 @@ export const blocks: Block[] = [
     },
     narration:
       "[[r]]The second pass comes back, and this time the figure in that cell " +
-      "[[r]]matches the one you computed. [[r]]Lesson one's rule, restated: a " +
+      "[[r]]matches the one I computed. [[r]]Lesson one's rule, restated: a " +
       "number from a conversation in which the tool did not run is generated " +
       "text about a number; if the number matters, either the tool computed it " +
-      "or it is recomputed somewhere else before it is relied on. [[r]]Here " +
-      "both happened, and they agree. That agreement, not the second table on " +
-      "its own, is what makes this figure one you can rely on.",
-    reveals: [0.5, 6, 8.5, 27.5],
+      "or I recompute it somewhere else before I rely on it. [[r]]Here both " +
+      "happened, and they agree. That agreement, not the second table on its " +
+      "own, is what makes this a figure I can rely on.",
+    reveals: [0.5, 6.5, 8.8, 28.2],
     estimatedSeconds: 39,
   },
 
@@ -570,16 +575,16 @@ export const blocks: Block[] = [
       ],
     },
     narration:
-      "[[r]]What this session leaves behind is on the sheet: the prompt, both " +
-      "responses, and the check. [[r]]The toolkit says a human should review " +
-      "and ensure the accuracy of any content used in decision-making or shared " +
+      "[[r]]What I've left on the desk is on the sheet: the prompt, both " +
+      "responses, and my check. [[r]]The toolkit says a human should review and " +
+      "ensure the accuracy of any content used in decision-making or shared " +
       "with clients, that monitoring the answers is the accounting " +
       "professional's responsibility, and that a firm should discuss with " +
       "general counsel the necessary documentation of its review process. " +
-      "[[r]]What that record contains is the firm's decision, with counsel. " +
-      "This lesson says nothing about what it must hold.",
-    reveals: [0.5, 7.5, 28.5],
-    estimatedSeconds: 37,
+      "[[r]]What that record contains is my firm's decision, with counsel. This " +
+      "lesson says nothing about what it must hold.",
+    reveals: [0.5, 8.3, 29.6],
+    estimatedSeconds: 38,
   },
 
   // Index: 9#8 (first draft, not a final source), 9#7 (approach critically;
@@ -599,14 +604,35 @@ export const blocks: Block[] = [
     },
     narration:
       "[[r]]The rule this course has been building to fits in one sentence, and " +
-      "it is the vendor's: use ChatGPT as a first draft, not a final source, " +
-      "and verify important information from reliable sources before relying on " +
-      "it. [[r]]Everything in this session was that sentence applied: a prompt " +
-      "written so the task was clear, a response read as a draft, a figure " +
-      "recomputed, a correction asked for, a record kept. [[r]]The tool did " +
-      "what its vendor says it does. The check made the schedule yours.",
-    reveals: [0.5, 17.5, 32.5],
-    estimatedSeconds: 39,
+      "it's the vendor's: use ChatGPT as a first draft, not a final source, and " +
+      "verify important information from reliable sources before relying on it. " +
+      "[[r]]Everything I just did was that sentence applied: I wrote the prompt " +
+      "so the task was clear, read the response as a draft, recomputed a " +
+      "figure, asked for a correction, and kept the record. [[r]]The tool did " +
+      "what its vendor says it does. My check is what made the schedule mine.",
+    reveals: [0.5, 17.6, 33.3],
+    estimatedSeconds: 41,
+  },
+  // Index: 9#8 (first draft, not a final source), 9#9 (always verify data)
+  // — the rule restated as the course's; the rest is the sign-off. What the
+  // guides and the assessment are, and their order, is superCPE's.
+  {
+    id: "block-13",
+    sheet: "S-13",
+    citation: "OpenAI, Does ChatGPT tell the truth?, pp. 2–3",
+    slide: "Closing",
+    figure: {
+      kind: "closing",
+      rule: "A first draft. Verify before relying on it.",
+    },
+    narration:
+      "[[r]]That's the task, done: one prompt, one wrong figure, one check, one " +
+      "corrected schedule. [[r]]The rule I carried through it is the course's " +
+      "one rule: a response is a first draft, and I verify before I rely on it. " +
+      "[[r]]This is the end of the lesson. The course's guides and its " +
+      "assessment follow.",
+    reveals: [0.5, 7.0, 18.5],
+    estimatedSeconds: 24,
   },
 ];
 
@@ -653,4 +679,9 @@ export const usingEstimates = blocks.some(
   (b) => b.narration.trim().length > 0 && !hasAudio(b)
 );
 
-export const totalSeconds = blocks.reduce((sum, b) => sum + durationOf(b), 0);
+/**
+ * The runtime the render will have: the lead-in, the sequenced blocks, the
+ * closing hold (src/timing.ts). The title's hold is not a term — it is a
+ * layer over the opening, not a slot in the sequence.
+ */
+export const totalSeconds = runtimeSeconds(blocks, durationOf);

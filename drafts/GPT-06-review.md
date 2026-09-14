@@ -20,9 +20,25 @@ review happens in superCPE, against the ingested package — not in this file.
 words, rendered silent on estimated timings; five questions. Every flag
 and judgment item below carries a recommended ruling under the CLAUDE.md
 Rulings rule; the judgment list is closed on those defaults, and the
-content developer's 4.01.1 read of the script is still ahead. **Still
-unchecked, still unvoiced.** No narration has been purchased; the
-developer reads this script first.
+content developer's 4.01.1 read of the script is still ahead.
+
+**Voiced 2026-09-14, then rewritten (changelog entry 34).** The developer
+generated the entry-33 script (twelve blocks, voice `uFIXVu9mmnDZ7dTKCBTX`)
+and watched the render: dead air before the first word, an abrupt end, and
+narration that explained rather than did. Entry 34 rewrites every block in
+first person, present tense, as the participant doing the task, adds a
+thirteenth sign-off block on a closing sheet, and changes the render's
+timing (a 1 s lead-in under the title, a 3 s closing hold). The block
+entries below are the **rewritten** script; the entry-33 script is in git
+history at commit `96a76d2`. Every sentence keeps the index entry it had;
+the flag count is unchanged at five. The rewrite invalidates every MP3
+under `public/audio/08/` (the hash in `audio-meta-08.json` no longer
+matches the words), so until `npm run generate -- --lesson 08` has been
+run again the lesson renders silent on estimates and `npm run check`
+errors on every block by design. The measured reveal seconds belong in
+each block's Reveals list once that has happened; the times there now are
+the 130 wpm fallbacks. **Still unchecked.** The developer's read is of
+this script.
 
 Learning objectives (from `src/lesson-08.ts`):
 
@@ -117,13 +133,32 @@ guide/06 sec-02's account of how each of the four verified items is
 checked, and it is flagged below because one of those four sentences
 carries a flag in GPT-04's record.
 
-**Tally, whole script:** 56 sentences — 11 sourced, 1 attributed, 42
-connective, 2 flagged `UNSOURCED`. Three further flags are not sentences:
-the composed session itself, the depiction of the tool running on S-09,
-and S-06's right-hand column. **Five flags in all**, under the ten that
-would have stopped the draft; every recommended ruling is keep. The one
-attributed sentence is the toolkit's quoted executive (4#3), as in GPT-01
-and GPT-04.
+**Tally, whole script (entry 34 rewrite):** 63 sentences over thirteen
+blocks — 12 sourced, 1 attributed, 48 connective, 2 flagged `UNSOURCED`.
+Over the twelve task blocks alone: 59 sentences — 11 sourced, 1
+attributed, 45 connective, 2 flagged, which is the entry-33 distribution
+with three more connective sentences (the first-person voice adds short
+connective beats: "Now the prompt.", "That's where I have to be careful.",
+"Now back to the table."). Three further flags are not sentences: the
+composed session itself, the depiction of the tool running on S-09, and
+S-06's right-hand column. **Five flags in all, unchanged by the rewrite**;
+every recommended ruling is keep. The one attributed sentence is the
+toolkit's quoted executive (4#3), as in GPT-01 and GPT-04.
+
+*Entry 33's tally, for the record:* 56 sentences — 11 sourced, 1
+attributed, 42 connective, 2 flagged.
+
+**First person (entry 34).** The narrator is the participant doing the
+task and thinking aloud: "I'll pick one asset and recompute it myself",
+"there's the table", "Now back to the table … It's wrong." Every factual
+sentence keeps the entry it had: what changed is the pronoun and the tense
+of the connective tissue around the sourced sentences, and the sourced
+sentences themselves still report the source ("The toolkit says…",
+"OpenAI's page says…"). Where a rewritten sentence would have referred to
+something not on screen, the sentence was rewritten, not the screen; no
+sheet changed. The composed-session disclosure is said once, in S-01, as
+"One thing first: this session is composed." The toolkit quote in S-08
+keeps its arm's-length attribution.
 
 **Additional learning (7.02.7).** `meta.avIsAdditionalLearning` is `true`.
 Course GPT holds five text lessons, so the test is the stronger one: the
@@ -139,7 +174,10 @@ explains what to do with what is on screen and why; it does not read the
 tables, the prompt or the arithmetic aloud. The claim is the content
 developer's to accept.
 
-**Word count and rate.** 941 narrated words. The rate used to size the
+**Word count and rate.** 962 narrated words over the twelve task blocks
+after the entry-34 rewrite (941 before), plus 53 in the sign-off block:
+1,015 in all. At the measured rate below the twelve run about 5.9 minutes
+and the thirteen about 6.2. *Entry 33's paragraph follows.* 941 narrated words. The rate used to size the
 script is measured, not assumed: ATO-02's thirteen voiced blocks total
 1,464 transcript words over 534.894 s of `audio-meta-02.json` duration,
 which is **164.2 words per minute** (166.7 excluding the 0.6 s tail
@@ -153,10 +191,31 @@ does not, and either way the warnings are about the silent preview
 
 ## Blocks
 
-Thirteen blocks: one Title sheet, which carries no narration by design,
-and twelve narrated. The title block is not counted in `after_block`
+Fourteen blocks: one Title sheet, which carries no narration by design,
+twelve narrated task blocks, and a narrated sign-off block on a Closing
+sheet (entry 34). The title block is not counted in `after_block`
 numbering — `scripts/export.ts` builds `video.blocks` from the narrated
-blocks only — so block 1 below is `after_block: 1`.
+blocks only — so block 1 below is `after_block: 1` and the sign-off is
+block 13.
+
+**Non-narration time (entry 34).** Two stretches of the render are not
+narration and are recorded here so that the measured duration is
+accounted for in full (9.02.2(2)(ii)):
+
+- **Lead-in, 1 s** (`LEAD_IN_SECONDS`, `src/timing.ts`). The first
+  narrated block starts one second after the first frame. The title sheet
+  is a layer over the opening, on screen from frame 0 for its own hold
+  (`estimatedSeconds: 4` on the title block, three reveals at 0, 0.3 and
+  0.6 s), so the voice begins while the title is still readable and the
+  title lifts at 4 s to show S-01 with its first line already up. Before
+  entry 34 the title held for 8 s of silence and S-01 followed it.
+- **Closing hold, 3 s** (`CLOSING_HOLD_SECONDS`). After block 13's audio
+  ends (its measured duration already includes `generate`'s 0.6 s tail),
+  S-13 stays on screen for a further 3 s. Before entry 34 the render ended
+  0.9 s after the last audible sample, on S-12.
+
+Both are render constants, part of the file ffprobe measures and export
+packages, and inherited by every video lesson (J15). Neither is speech.
 
 Each block gives the narration as drafted with `[[r]]` in place, what each
 marker brings up, the index entries with their locators, the sentence
@@ -165,29 +224,31 @@ guides.
 
 ---
 
-### Block 1 — `block-01` — S-01 — Statement — 72 words, est. 33s
+### Block 1 — `block-01` — S-01 — Statement — 78 words, est. 36s
 
-**Narration as drafted** (markers in place):
+**Narration as rewritten** (markers in place):
 
-> [[r]]This lesson runs one task from the first prompt to the figure you
-> would rely on. [[r]]The session is composed: written for this course to
-> show the failure the earlier lessons describe, not a recording of
-> ChatGPT, and no evidence of what the tool does on any given day.
-> [[r]]The task is a straight-line depreciation schedule for three assets
-> over three years, using the arithmetic the prompt spells out and
-> nothing else.
+> [[r]]I'm going to take one task from the first prompt to the figure I'd
+> rely on. [[r]]One thing first: this session is composed. It was written
+> for this course to show the failure the earlier lessons describe; it's
+> not a recording of ChatGPT, and no evidence of what the tool does on any
+> given day. [[r]]The task is a straight-line depreciation schedule for
+> three assets over three years, using the arithmetic my prompt spells out
+> and nothing else.
 
-**Reveals** — 3 markers, 3 entries in `reveals`, 3 figure elements:
+**Reveals** — 3 markers, 3 entries in `reveals`, 3 figure elements
+(fallback seconds at 130 wpm; measured seconds replace them in
+`audio-meta-08.json` once `generate` has run on this script):
 
-1. `0.5s` — "This lesson runs one task…" — the first line: one task, first prompt to the figure relied on
-2. `7.5s` — "The session is composed…" — the second line: composed for this course, not a recording
-3. `22.5s` — "The task is…" — the third line: three assets, three years, the arithmetic as asked
+1. `0.5s` — "I'm going to take one task…" — the first line: one task, first prompt to the figure relied on. This sentence plays under the title sheet, which lifts at 4 s.
+2. `7.9s` — "One thing first: this session is composed…" — the second line: composed for this course, not a recording
+3. `25.9s` — "The task is…" — the third line: three assets, three years, the arithmetic as asked
 
 **Index entries used** — none; the block is the lesson's own framing.
 
-**Classification:** 0 sourced · 0 attributed · 3 connective (1, 2, 3) · 0
-flagged. Sentence 2 is the composed-session disclosure the spec
-requires, once and early (J1). Sentence 3 describes the task without
+**Classification:** 0 sourced · 0 attributed · 4 connective (1, 2, 3, 4) ·
+0 flagged. Sentences 2–3 are the composed-session disclosure the spec
+requires, once and early (J1). Sentence 4 describes the task without
 stating any fact about a method (J2).
 
 **Flags** — none in the narration. The composed session as a whole is
@@ -198,23 +259,23 @@ contents page for the sheets that follow; the guides have no worked
 task. On its own this block is framing, and it is the one sheet in the
 lesson closest to mirroring its narration (J6).
 
-### Block 2 — `block-02` — S-02 — Facts — 77 words, est. 36s
+### Block 2 — `block-02` — S-02 — Facts — 76 words, est. 35s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]Here are the inputs: three assets with generic names, and for each
-> a cost, a salvage value and a useful life. [[r]]Nothing here identifies
-> a client. The CPA.com toolkit's sample use cases require all
-> identifiable information to be removed before any data is uploaded, and
-> its advice is to de-identify personal information before it goes into
-> any AI tool, internal or public. [[r]]Generic names and round figures
-> are what that looks like on a task this size.
+> [[r]]Here are my inputs: three assets with generic names, each with a
+> cost, a salvage value and a useful life. [[r]]Nothing here identifies a
+> client. The CPA.com toolkit's sample use cases require all identifiable
+> information to be removed before any data is uploaded, and its advice is
+> to de-identify personal information before it goes into any AI tool,
+> internal or public. [[r]]Generic names and round figures are what that
+> looks like on a task this size.
 
 **Reveals** — 3 markers, 3 entries, 3 rows:
 
-1. `0.5s` — "Here are the inputs…" — Vehicle A's row
-2. `9.5s` — "Nothing here identifies…" — Equipment B's row
-3. `28.5s` — "Generic names and round figures…" — Furniture C's row
+1. `0.5s` — "Here are my inputs…" — Vehicle A's row
+2. `9.7s` — "Nothing here identifies…" — Equipment B's row
+3. `28.7s` — "Generic names and round figures…" — Furniture C's row
 
 **Index entries used, in order**
 1. 4#10 — examples that reference uploading data require all
@@ -224,7 +285,7 @@ lesson closest to mirroring its narration (J6).
 
 **Classification:** 1 sourced (3) · 0 attributed · 3 connective (1, 2, 4)
 · 0 flagged. Sentence 4 applies the two entries to the inputs on the
-sheet (J4).
+sheet (J4). Unchanged from entry 33 but for "my inputs".
 
 **Flags** — none.
 
@@ -234,24 +295,24 @@ value, and which every later sheet's arithmetic is computed from.
 Guide/07 sec-05 teaches de-identification as a rule; this sheet shows
 what a de-identified input set is.
 
-### Block 3 — `block-03` — S-03 — Session — 83 words, est. 38s
+### Block 3 — `block-03` — S-03 — Session — 85 words, est. 39s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]The prompt first. OpenAI's practice is that a prompt should be
-> clear, specific, and carry enough context for the model to understand
-> what is being asked; the toolkit puts it more bluntly: generative AI is
-> only as good as the prompt that drives it. So the request states the
-> arithmetic in one line rather than assuming it. [[r]]It gives the inputs
-> in full. [[r]]And it says what the output should look like, so what
-> comes back can be read against what was asked.
+> [[r]]Now the prompt. OpenAI's practice is that a prompt should be clear,
+> specific, and carry enough context for the model to understand what's
+> being asked, and the toolkit puts it more bluntly: generative AI is only
+> as good as the prompt that drives it. So I state the arithmetic in one
+> line rather than assume it. [[r]]I paste the three assets in, in full.
+> [[r]]And I say what the output should look like, so I can read what
+> comes back against what I asked for.
 
 **Reveals** — 3 markers, 3 entries, 3 turns (each types in from its
 marker):
 
-1. `0.5s` — "The prompt first…" — the task line with the arithmetic spelled out
-2. `26.5s` — "It gives the inputs…" — the inputs line (built from `ASSETS` in the module)
-3. `29s` — "And it says what the output…" — the format line
+1. `0.5s` — "Now the prompt…" — the task line with the arithmetic spelled out
+2. `26.3s` — "I paste the three assets in…" — the inputs line (built from `ASSETS` in the module)
+3. `30.0s` — "And I say what the output…" — the format line
 
 **Index entries used, in order**
 1. 13#3 — clear, specific, enough context for the model to understand
@@ -260,8 +321,8 @@ marker):
    (sentence 2)
 
 **Classification:** 1 sourced (2) · 0 attributed · 4 connective (1, 3, 4,
-5) · 0 flagged. Sentences 3–5 say what each typed paragraph does; the
-paragraphs are on screen.
+5) · 0 flagged. Sentences 3–5 say what each typed paragraph does, now as
+the participant's own actions; the paragraphs are on screen.
 
 **Flags** — none in the narration. The prompt text is part of F1.
 
@@ -272,23 +333,23 @@ examples; this sheet shows a whole prompt for a whole task, with the
 arithmetic, the inputs and the format each in its own paragraph. The
 narration does not read it.
 
-### Block 4 — `block-04` — S-04 — Session — 67 words, est. 31s
+### Block 4 — `block-04` — S-04 — Session — 68 words, est. 31s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]Two more lines, each with a job. The toolkit says that giving the
-> model examples helps get a better output, so the prompt shows one row
-> in the shape it wants, with figures that belong to no asset. [[r]]Then
-> the context, in one sentence: what the figures are and what the
-> schedule is for. That is the enough-context part of the page's
-> practice, stated rather than assumed.
+> [[r]]Two more lines, each with a job. The toolkit says giving the model
+> examples helps get a better output, so I show it one row in the shape I
+> want, with figures that belong to no asset. [[r]]Then the context, in
+> one sentence: what these figures are and what the schedule is for.
+> That's the enough-context part of OpenAI's practice, and I'd rather
+> state it than assume it.
 
 **Reveals** — 2 markers, 2 entries, 2 turns (the first prompt is on
 screen from frame 0 as a `prior` turn, compact, with "[inputs as above]"
 standing in for the inputs paragraph):
 
 1. `0.5s` — "Two more lines…" — the example row, "for format only: Asset X | 1,000 | 1,000 | 1,000"
-2. `17.5s` — "Then the context…" — the context line: illustrative and de-identified; goes into a working paper after review
+2. `17.6s` — "Then the context…" — the context line: illustrative and de-identified; goes into a working paper after review
 
 **Index entries used, in order**
 1. 4#9 — providing the model with examples helps get a better output
@@ -305,40 +366,41 @@ context sentence as typed. Guide/05 sec-03 says examples help and does
 not show one for a figures task; the row on screen has figures that
 belong to no asset, which is what "for format only" means in practice.
 
-### Block 5 — `block-05` — S-05 — Session — 71 words, est. 33s
+### Block 5 — `block-05` — S-05 — Session — 77 words, est. 36s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]The response comes back in the shape the prompt asked for: three
-> rows, three years, whole dollars. The columns line up, the figures are
-> the right size, nothing invites a second look. [[r]]OpenAI's page says
-> the model may sound confident even when it is wrong, and that
-> confidence is not reliability. A tidy table is confidence in another
-> form. Nothing on this sheet says whether any figure in it is right.
+> [[r]]And there's the table, in the shape I asked for: three rows, three
+> years, whole dollars. The columns line up, the figures are the right
+> size, and nothing invites a second look. That's where I have to be
+> careful. [[r]]OpenAI's page says the model may sound confident even when
+> it's wrong, and that confidence isn't reliability. A tidy table is
+> confidence in another form. Nothing on this screen tells me whether any
+> figure in it is right.
 
 **Reveals** — 2 markers, 2 entries, 2 turns (the prompt, compacted to one
 paragraph with ellipses, is a `prior` turn):
 
-1. `0.5s` — "The response comes back…" — the first response's table (`firstResponse`: the computed schedule with `WRONG` in Equipment B, Year 3; nothing marked)
-2. `15s` — "OpenAI's page says…" — the response's closing line, "Totals and closing book values can be added if useful."
+1. `0.5s` — "And there's the table…" — the first response's table (`firstResponse`: the computed schedule with `WRONG` in Equipment B, Year 3; nothing marked)
+2. `18.5s` — "OpenAI's page says…" — the response's closing line, "Totals and closing book values can be added if useful." The marker stayed with this phrase; the new sentence 3 was placed before it.
 
 **Index entries used, in order**
-1. 9#2 — it might sound confident even when it's wrong (sentence 3)
-2. 9#6 — confidence isn't reliability (sentence 3)
+1. 9#2 — it might sound confident even when it's wrong (sentence 4)
+2. 9#6 — confidence isn't reliability (sentence 4)
 
-**Classification:** 1 sourced (3) · 0 attributed · 3 connective (1, 2, 5)
-· 1 flagged (4).
+**Classification:** 1 sourced (4) · 0 attributed · 4 connective (1, 2, 3,
+6) · 1 flagged (5).
 
 **Flags**
 - `UNSOURCED` (interpretive) — "A tidy table is confidence in another
-  form." The page's two entries are about how a response sounds; this
-  sentence extends them to how a table looks. No source says it. It
-  states no fact about the tool; it tells the participant not to read a
-  table's neatness as evidence, which is the page's point applied to the
-  sheet in front of them. Recommended ruling: keep — it is the sentence
-  that makes 9#6 bite on a table rather than on prose; cut it if the
-  developer reads it as a claim about the tool rather than about the
-  participant's reading.
+  form." Unchanged by the rewrite. The page's two entries are about how
+  a response sounds; this sentence extends them to how a table looks. No
+  source says it. It states no fact about the tool; it tells the
+  participant not to read a table's neatness as evidence, which is the
+  page's point applied to the sheet in front of them. Recommended
+  ruling: keep — it is the sentence that makes 9#6 bite on a table rather
+  than on prose; cut it if the developer reads it as a claim about the
+  tool rather than about the participant's reading.
 - The table itself is F1 (composed). The wrong figure is on screen and
   is deliberately not marked: nothing has been checked yet.
 
@@ -349,24 +411,24 @@ sheet lets the participant look at one that is and see that nothing on
 it shows which figure. That experience is the sheet's, not the
 narration's.
 
-### Block 6 — `block-06` — S-06 — Facts — 79 words, est. 36s
+### Block 6 — `block-06` — S-06 — Facts — 76 words, est. 35s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]Before any of these figures goes anywhere, the page's rule applies:
+> [[r]]Before any of these figures goes anywhere, I apply the page's rule:
 > use ChatGPT as a first draft, not a final source, and always verify
 > quotes, [[r]]data, [[r]]technical information, [[r]]and references to
-> external documents. A depreciation schedule is data, all of it. A figure
-> is checked by recomputing it, or by finding it in the record it is said
-> to come from. There is no record here; every figure came from the
-> prompt's own inputs. So the check is arithmetic.
+> external documents. This schedule is data, all of it. I check a figure
+> by recomputing it, or by finding it in the record it's said to come
+> from. There's no record here; every figure came from my own inputs. So
+> my check is arithmetic.
 
 **Reveals** — 4 markers, 4 entries, 4 rows:
 
 1. `0.5s` — "Before any of these figures…" — Quotes: found in the document they are attributed to
-2. `11.5s` — "data" — Data — this schedule: recomputed, or found in the record it is said to come from
-3. `12s` — "technical information" — Technical information: checked against the document that sets it
-4. `13s` — "and references…" — References to documents: the document is found
+2. `12.5s` — "data" — Data — this schedule: recomputed, or found in the record it is said to come from
+3. `13.0s` — "technical information" — Technical information: checked against the document that sets it
+4. `13.9s` — "and references…" — References to documents: the document is found
 
 **Index entries used, in order**
 1. 9#8 — use ChatGPT as a first draft, not a final source (sentence 1)
@@ -375,23 +437,23 @@ narration's.
 
 **Classification:** 1 sourced (1) · 0 attributed · 4 connective (2, 3, 4,
 5) · 0 flagged in the narration. Sentence 2 applies 9#9's "data" to the
-task. Sentence 3 is guide/06 sec-02's gloss of how a figure is checked
-(classed connective there, J4 of GPT-04's record). Sentences 4–5 are
-about the composed task.
+task. Sentence 3 is guide/06 sec-02's gloss of how a figure is checked,
+now as what the participant does (classed connective there, J4 of
+GPT-04's record). Sentences 4–5 are about the composed task.
 
 **Flags**
 - `UNSOURCED` (screen text, boundary) — the right-hand column of the
-  sheet. Its four lines repeat guide/06 sec-02's account of how each
-  item is checked: quotes found in the document they are attributed to
-  and references by finding the document (GPT-04 J4, connective), data
-  by recomputing or by the record (the same), and technical information
-  "checked against the document that sets it", which is the second half
-  of GPT-04's flagged sentence 13 in that section (ruling recommended
-  there: keep). The column is on screen and not spoken; it is here so
-  the sheet carries the "how" the narration does not say. Recommended
-  ruling: keep, on the same ruling as GPT-04 sec-02's flag; if the
-  developer cuts that sentence in guide/06, cut the third line here in
-  the same commit.
+  sheet. Unchanged by the rewrite; the sheet did not change. Its four
+  lines repeat guide/06 sec-02's account of how each item is checked:
+  quotes found in the document they are attributed to and references by
+  finding the document (GPT-04 J4, connective), data by recomputing or by
+  the record (the same), and technical information "checked against the
+  document that sets it", which is the second half of GPT-04's flagged
+  sentence 13 in that section (ruling recommended there: keep). The
+  column is on screen and not spoken; it is here so the sheet carries the
+  "how" the narration does not say. Recommended ruling: keep, on the same
+  ruling as GPT-04 sec-02's flag; if the developer cuts that sentence in
+  guide/06, cut the third line here in the same commit.
 
 **What this block adds beyond the guides.** The right-hand column: the
 narration quotes the page's four items and says the schedule is data;
@@ -400,31 +462,31 @@ task's. Guide/06 sec-02 has the same four items over four hundred
 words; this sheet is the checklist form of it the guide deliberately
 does not call a checklist.
 
-### Block 7 — `block-07` — S-07 — Check — 70 words, est. 32s
+### Block 7 — `block-07` — S-07 — Check — 73 words, est. 34s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]Pick one asset and recompute it yourself, from the inputs, without
-> looking at the table. Equipment B. [[r]]Its cost. [[r]]Its salvage
+> [[r]]I'll pick one asset and recompute it myself, from the inputs,
+> without looking at the table. Equipment B. [[r]]Cost. [[r]]Salvage
 > value. [[r]]The difference is what gets depreciated. [[r]]Spread over
-> the life the prompt stated. [[r]]That is the annual charge, [[r]]and
-> year three is the same figure, as the prompt asked. [[r]]Now the table.
-> The year-three figure the response gave for Equipment B is not that
-> figure. It is wrong.
+> the life I gave it. [[r]]That's the annual charge, [[r]]and year three
+> is the same figure, because that's what I asked for. [[r]]Now back to
+> the table. The year-three figure it gave me for Equipment B isn't the
+> figure I just computed. It's wrong.
 
 **Reveals** — 8 markers, 8 entries, 8 rows (the response's table is on
 the left from frame 0; each numbered line on the right appears on its
 marker; the last line's `against` marks the table's Equipment B, Year 3
 cell in the wrong role when it appears):
 
-1. `0.5s` — "Pick one asset…" — 01 Asset · Equipment B
-2. `8s` — "Its cost." — 02 Cost · 45,000
-3. `9s` — "Its salvage value." — 03 Salvage value · 5,000
-4. `10s` — "The difference…" — 04 Cost less salvage · 40,000
-5. `13s` — "Spread over the life…" — 05 Useful life · 8 years
-6. `16s` — "That is the annual charge," — 06 Annual charge · 5,000
-7. `18.5s` — "and year three is the same figure…" — 07 Year 3, the same amount, as asked · 5,000 (right, teal)
-8. `23.5s` — "Now the table." — 08 The table's Year 3 figure — wrong · 5,500 (accent), and the table cell highlighted with a WRONG tag
+1. `0.5s` — "I'll pick one asset…" — 01 Asset · Equipment B
+2. `8.8s` — "Cost." — 02 Cost · 45,000
+3. `9.3s` — "Salvage value." — 03 Salvage value · 5,000
+4. `10.2s` — "The difference…" — 04 Cost less salvage · 40,000
+5. `13.0s` — "Spread over the life…" — 05 Useful life · 8 years
+6. `16.2s` — "That's the annual charge," — 06 Annual charge · 5,000
+7. `18.0s` — "and year three is the same figure…" — 07 Year 3, the same amount, as asked · 5,000 (right, teal)
+8. `24.0s` — "Now back to the table." — 08 The table's Year 3 figure — wrong · 5,500 (accent), and the table cell highlighted with a WRONG tag
 
 Every figure on lines 02–07 is computed in the module from Equipment
 B's inputs; line 08 is `WRONG`.
@@ -434,10 +496,10 @@ block performs; guide/06 sec-02's "checked by recomputing it" is the
 practice. No sentence states a claim.
 
 **Classification:** 0 sourced · 0 attributed · 10 connective (1–10) · 0
-flagged. The block is the walk-through: sentences 2–8 name each step
-while the sheet shows its figure; sentences 9–10 state the composed
-mismatch and label it wrong, as the spec requires (J2). The narration
-reads no digit.
+flagged. The block is the walk-through, now in the participant's own
+voice: sentences 2–7 name each step while the sheet shows its figure;
+sentences 8–10 state the composed mismatch and label it wrong, as the
+spec requires (J2). The narration reads no digit.
 
 **Flags** — none in the narration; the mismatch is F1.
 
@@ -450,22 +512,22 @@ highlight are the sheet's.
 
 ### Block 8 — `block-08` — S-08 — Calc — 86 words, est. 40s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]Lesson one gave the one-sentence reason this can happen. An
+> [[r]]Lesson one gave me the one-sentence reason this can happen. An
 > executive quoted in the CPA.com toolkit put it this way: today's large
 > language models produce generated output, not computed answers.
 > [[r]]OpenAI's own page says a response is based on patterns in the data
-> the model was trained on, and can be incorrect or misleading. [[r]]That
-> is the whole explanation this course offers. No source says how often a
-> figure comes out wrong, or why this one would; only that the ordinary
-> response is not a calculation.
+> the model was trained on, and can be incorrect or misleading. [[r]]That's
+> the whole explanation I have. No source tells me how often a figure
+> comes out wrong, or why this one did; only that the ordinary response is
+> not a calculation.
 
 **Reveals** — 3 markers, 3 entries, 3 rows:
 
-1. `0.5s` — "Lesson one gave…" — First response — Equipment B, Year 3 — wrong · 5,500 (muted, the Calc slide's wrong role)
-2. `14s` — "OpenAI's own page says…" — Recomputed from the inputs — right · 5,000 (teal)
-3. `25s` — "That is the whole explanation…" — Overstated by · 500 (computed: `WRONG.figure − annualOf(B)`)
+1. `0.5s` — "Lesson one gave me…" — First response — Equipment B, Year 3 — wrong · 5,500 (muted, the Calc slide's wrong role)
+2. `14.8s` — "OpenAI's own page says…" — Recomputed from the inputs — right · 5,000 (teal)
+3. `25.9s` — "That's the whole explanation…" — Overstated by · 500 (computed: `WRONG.figure − annualOf(B)`)
 
 **Index entries used, in order**
 1. 4#3 — generated output, not computed answers; attributed in the
@@ -476,7 +538,8 @@ highlight are the sheet's.
 **Classification:** 1 sourced (3) · 1 attributed (2) · 3 connective (1, 4,
 5) · 0 flagged. Sentence 5's first half is a boundary statement resting
 on file 9's "Does not cover" ("Any error rate or measure of how often it
-is wrong") (J5); its second half restates 4#3.
+is wrong") (J5); "why this one did" refers to the composed figure and
+asserts nothing about the tool; its second half restates 4#3.
 
 **Flags** — none.
 
@@ -485,23 +548,23 @@ side with the difference, which the spec asks for and no guide has.
 Guide/03 sec-01 gives the generated-not-computed distinction in prose;
 this sheet is what the distinction costs, in one asset's year.
 
-### Block 9 — `block-09` — S-09 — Session — 85 words, est. 39s
+### Block 9 — `block-09` — S-09 — Session — 88 words, est. 41s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]The page's second practice is iteration: start with an initial
-> prompt, review the response, and refine the prompt based on the output.
-> OpenAI ties accurate calculation to a tool its page names, not to the
-> ordinary response, so the second prompt says what was found and asks
-> for the arithmetic to be run there and shown. [[r]]How a plan exposes
-> that tool, or how to tell it ran, no source here says; that is why the
-> check you just made is what settles the figure.
+> [[r]]So I go back to the prompt, which is OpenAI's second practice,
+> iteration: start with an initial prompt, review the response, and refine
+> it based on the output. OpenAI ties accurate calculation to a tool its
+> page names, not to the ordinary response, so I say what I found and ask
+> for the arithmetic to be run there and shown. [[r]]How my plan exposes
+> that tool, or how I'd tell it ran, no source here says. That's why my
+> own check, not this second pass, settles the figure.
 
 **Reveals** — 2 markers, 2 entries, 2 turns (the first response, with
 its Year 3 cell now marked wrong, is a `prior` turn, compact):
 
-1. `0.5s` — "The page's second practice…" — the second prompt types in: "Year 3 for Equipment B does not equal (cost − salvage) ÷ life. Redo the schedule with the arithmetic run in the data analysis tool, and show the calculation."
-2. `26s` — "How a plan exposes…" — the response's shown calculation: the formula and one line per asset, each computed in the module
+1. `0.5s` — "So I go back to the prompt…" — the second prompt types in: "Year 3 for Equipment B does not equal (cost − salvage) ÷ life. Redo the schedule with the arithmetic run in the data analysis tool, and show the calculation."
+2. `28.2s` — "How my plan exposes…" — the response's shown calculation: the formula and one line per asset, each computed in the module
 
 **Index entries used, in order**
 1. 13#4 — start with an initial prompt, review the response, and refine
@@ -509,26 +572,27 @@ its Year 3 cell now marked wrong, is a `prior` turn, compact):
 2. 9#12 — the tool the page prints as "Code interpreter / Data analysis"
    enables accurate calculations (sentence 2)
 
-**Classification:** 2 sourced (1, 2) · 0 attributed · 1 connective (3) · 0
-flagged in the narration. Sentence 3 is a boundary statement resting on
-file 9's "Does not cover" and on guide/03 sec-05's closing paragraph,
+**Classification:** 2 sourced (1, 2) · 0 attributed · 2 connective (3, 4)
+· 0 flagged in the narration. Sentence 3 is a boundary statement resting
+on file 9's "Does not cover" and on guide/03 sec-05's closing paragraph,
 which says that how to prompt for the tool and how to tell it ran belong
 to later lessons; this is the later lesson, and its sources still do not
-say (J3, J5).
+say (J3, J5). Sentence 4 draws the consequence in the first person (J14).
 
 **Flags**
 - `UNSOURCED` (illustration) — the depiction of the tool running: the
   second prompt names "the data analysis tool" and the response shows a
-  calculation. No source says that naming the tool causes it to run, how
-  a given plan exposes it, or what the screen shows when it has run. The
-  narration says exactly that in sentence 3 and draws the consequence:
-  the participant's own check, not the second pass, settles the figure.
-  The response text on screen is a calculation the module computed, not
-  a claim about ChatGPT's interface. Recommended ruling: keep, with the
-  sentence-3 disclaimer; if the developer would rather the lesson not
-  depict the tool at all, the second prompt becomes "Recompute the
-  schedule and show the calculation" and sentence 2 loses its second
-  half, which is a change to `src/lesson-08.ts` only.
+  calculation. Unchanged by the rewrite. No source says that naming the
+  tool causes it to run, how a given plan exposes it, or what the screen
+  shows when it has run. The narration says exactly that in sentence 3
+  and draws the consequence in sentence 4: the participant's own check,
+  not the second pass, settles the figure. The response text on screen is
+  a calculation the module computed, not a claim about ChatGPT's
+  interface. Recommended ruling: keep, with the sentence-3 disclaimer; if
+  the developer would rather the lesson not depict the tool at all, the
+  second prompt becomes "Recompute the schedule and show the calculation"
+  and sentence 2 loses its second half, which is a change to
+  `src/lesson-08.ts` only.
 
 **What this block adds beyond the guides.** The refinement prompt as
 typed, saying what the review found and what to do about it. Guide/05
@@ -537,22 +601,22 @@ shows the second prompt of a real exchange, written after the check.
 
 ### Block 10 — `block-10` — S-10 — Sweep — 85 words, est. 39s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
 > [[r]]The second pass comes back, and this time the figure in that cell
-> [[r]]matches the one you computed. [[r]]Lesson one's rule, restated: a
+> [[r]]matches the one I computed. [[r]]Lesson one's rule, restated: a
 > number from a conversation in which the tool did not run is generated
 > text about a number; if the number matters, either the tool computed it
-> or it is recomputed somewhere else before it is relied on. [[r]]Here
-> both happened, and they agree. That agreement, not the second table on
-> its own, is what makes this figure one you can rely on.
+> or I recompute it somewhere else before I rely on it. [[r]]Here both
+> happened, and they agree. That agreement, not the second table on its
+> own, is what makes this a figure I can rely on.
 
 **Reveals** — 4 markers, 4 entries, 1 + 3 elements:
 
 1. `0.5s` — "The second pass comes back…" — the corrected table (`schedule`, every cell computed) appears and a neutral highlight sweeps down its rows, then settles teal on Equipment B, Year 3 with a RIGHT tag; the panel takes the marked wash
-2. `6s` — "matches the one you computed" — line: Recomputed by hand — Equipment B, Year 3 · 5,000 RIGHT
-3. `8.5s` — "Lesson one's rule…" — line: Second pass, arithmetic run in the tool · 5,000 RIGHT
-4. `27.5s` — "Here both happened…" — line: First response · 5,500 WRONG
+2. `6.5s` — "matches the one I computed" — line: Recomputed by hand — Equipment B, Year 3 · 5,000 RIGHT
+3. `8.8s` — "Lesson one's rule…" — line: Second pass, arithmetic run in the tool · 5,000 RIGHT
+4. `28.2s` — "Here both happened…" — line: First response · 5,500 WRONG
 
 **Index entries used** — 9#12 (accurate calculation tied to the tool) and
 9#9 (always verify data), through guide/03 sec-05's rule, which sentence
@@ -561,9 +625,9 @@ shows the second prompt of a real exchange, written after the check.
 **Classification:** 0 sourced · 0 attributed · 4 connective (1, 2, 3, 4)
 · 0 flagged. Sentence 2 is the course's own rule from guide/03 sec-05
 ("Read together, they give the lesson its one practical rule"), restated
-with attribution to lesson one; it is a handoff, not a new claim (J7).
-Sentences 3–4 are about the composed session and the lesson's reading of
-it.
+with attribution to lesson one and with the participant as the one who
+recomputes; it is a handoff, not a new claim (J7). Sentences 3–4 are
+about the composed session and the lesson's reading of it.
 
 **Flags** — none in the narration; the second pass is F1.
 
@@ -573,25 +637,25 @@ figures — by hand, by the tool, and the first response — stacked with
 their roles. The guides state the rule; this sheet is the rule's two
 halves agreeing on one figure.
 
-### Block 11 — `block-11` — S-11 — List — 81 words, est. 37s
+### Block 11 — `block-11` — S-11 — List — 82 words, est. 38s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]What this session leaves behind is on the sheet: the prompt, both
-> responses, and the check. [[r]]The toolkit says a human should review
-> and ensure the accuracy of any content used in decision-making or
-> shared with clients, that monitoring the answers is the accounting
+> [[r]]What I've left on the desk is on the sheet: the prompt, both
+> responses, and my check. [[r]]The toolkit says a human should review and
+> ensure the accuracy of any content used in decision-making or shared
+> with clients, that monitoring the answers is the accounting
 > professional's responsibility, and that a firm should discuss with
 > general counsel the necessary documentation of its review process.
-> [[r]]What that record contains is the firm's decision, with counsel.
-> This lesson says nothing about what it must hold.
+> [[r]]What that record contains is my firm's decision, with counsel. This
+> lesson says nothing about what it must hold.
 
 **Reveals** — 3 markers, 3 entries, 4 items (item 4 reveals with the
 last marker):
 
-1. `0.5s` — "What this session leaves behind…" — 01 The prompt, as sent — including the example row and the context
-2. `7.5s` — "The toolkit says…" — 02 The first response, with the wrong figure marked
-3. `28.5s` — "What that record contains…" — 03 The recomputation by hand, for one asset; 04 The second pass, with the arithmetic shown
+1. `0.5s` — "What I've left on the desk…" — 01 The prompt, as sent — including the example row and the context
+2. `8.3s` — "The toolkit says…" — 02 The first response, with the wrong figure marked
+3. `29.6s` — "What that record contains…" — 03 The recomputation by hand, for one asset; 04 The second pass, with the arithmetic shown
 
 **Index entries used, in order**
 1. 4#4 — a human should review and ensure the appropriateness and
@@ -603,11 +667,13 @@ last marker):
    review process for AI output (sentences 2, 3)
 
 **Classification:** 1 sourced (2) · 0 attributed · 3 connective (1, 3, 4)
-· 0 flagged. Sentence 3 restates 4#6's "with general counsel"; sentence
-4 is the spec's instruction — nothing about what the record contains —
-stated in the participant's terms (J5). The list on the sheet is what
-*this session* produced, not what a record must hold; sentence 1 says
-so and sentence 4 closes the door.
+· 0 flagged. Sentence 3 restates 4#6's "with general counsel" as the
+participant's firm's decision; sentence 4 is the spec's instruction —
+nothing about what the record contains — and is the one sentence in the
+script that speaks as the lesson rather than the participant, because
+the boundary is the lesson's, not the participant's (J5). The list on
+the sheet is what *this session* produced, not what a record must hold;
+sentence 1 says so and sentence 4 closes the door.
 
 **Flags** — none.
 
@@ -617,24 +683,23 @@ documented in a form counsel decides and describes no record; this
 sheet shows what one task leaves on the desk, which is the input to
 that decision and not the decision.
 
-### Block 12 — `block-12` — S-12 — Statement — 85 words, est. 39s
+### Block 12 — `block-12` — S-12 — Statement — 88 words, est. 41s
 
-**Narration as drafted:**
+**Narration as rewritten:**
 
-> [[r]]The rule this course has been building to fits in one sentence,
-> and it is the vendor's: use ChatGPT as a first draft, not a final
-> source, and verify important information from reliable sources before
-> relying on it. [[r]]Everything in this session was that sentence
-> applied: a prompt written so the task was clear, a response read as a
-> draft, a figure recomputed, a correction asked for, a record kept.
-> [[r]]The tool did what its vendor says it does. The check made the
-> schedule yours.
+> [[r]]The rule this course has been building to fits in one sentence, and
+> it's the vendor's: use ChatGPT as a first draft, not a final source, and
+> verify important information from reliable sources before relying on
+> it. [[r]]Everything I just did was that sentence applied: I wrote the
+> prompt so the task was clear, read the response as a draft, recomputed a
+> figure, asked for a correction, and kept the record. [[r]]The tool did
+> what its vendor says it does. My check is what made the schedule mine.
 
 **Reveals** — 3 markers, 3 entries, 3 lines:
 
 1. `0.5s` — "The rule this course…" — A response is a first draft, not a final source
-2. `17.5s` — "Everything in this session…" — A figure is relied on when it was computed or recomputed — not when it looks right
-3. `32.5s` — "The tool did what…" — Verify before relying. That is the whole course.
+2. `17.6s` — "Everything I just did…" — A figure is relied on when it was computed or recomputed — not when it looks right
+3. `33.3s` — "The tool did what…" — Verify before relying. That is the whole course.
 
 **Index entries used, in order**
 1. 9#8 — use ChatGPT as a first draft, not a final source (sentence 1)
@@ -647,20 +712,67 @@ rests on 9#1 — the vendor says it can produce incorrect output, and in
 the composed session it did — and is classed connective as a summary.
 
 **Flags**
-- `UNSOURCED` (interpretive) — "The check made the schedule yours." A
-  closing gloss: the participant's recomputation, not the response, is
-  what the schedule rests on. It echoes guide/06 sec-04's position that
-  a verified source, not the response, is what a conclusion rests on,
-  which is flagged as the course's there; here it is said in the
-  participant's terms with no standard named. Recommended ruling: keep;
-  cut it if the developer reads it as importing the General Standards
-  link, which this lesson does not otherwise mention.
+- `UNSOURCED` (interpretive) — "My check is what made the schedule mine."
+  The same flag as entry 33's "The check made the schedule yours", in
+  the first person. A closing gloss: the participant's recomputation,
+  not the response, is what the schedule rests on. It echoes guide/06
+  sec-04's position that a verified source, not the response, is what a
+  conclusion rests on, which is flagged as the course's there; here it
+  is said in the participant's terms with no standard named. Recommended
+  ruling: keep; cut it if the developer reads it as importing the General
+  Standards link, which this lesson does not otherwise mention.
 
 **What this block adds beyond the guides.** The three lines are the
 course's rule in three registers; the narration says the vendor's
 sentence and lists what the session did. The second line — computed or
 recomputed, not "looks right" — is the sheet's and is not spoken. This
 is a close, and with S-01 the sheet nearest to its narration (J6).
+
+### Block 13 — `block-13` — S-13 — Closing — 53 words, est. 24s (entry 34)
+
+**Narration as drafted:**
+
+> [[r]]That's the task, done: one prompt, one wrong figure, one check, one
+> corrected schedule. [[r]]The rule I carried through it is the course's
+> one rule: a response is a first draft, and I verify before I rely on it.
+> [[r]]This is the end of the lesson. The course's guides and its
+> assessment follow.
+
+**Screen.** A Title-style closing sheet in the v2 theme: the full logo
+and the course title as the eyebrow ("USING CHATGPT IN AN ACCOUNTING
+PRACTICE"), the rule in one line at heading size ("A first draft. Verify
+before relying on it."), and an end line built from `meta.position`
+("END OF LESSON · LESSON 6 OF 6"). The shield mark is hidden, as on the
+Title sheet, because the full logo is on screen. Footer REFERENCE:
+"OpenAI, Does ChatGPT tell the truth?, pp. 2–3".
+
+**Reveals** — 3 markers, 3 entries, 3 positional elements:
+
+1. `0.5s` — "That's the task, done…" — the logo and course title
+2. `7.0s` — "The rule I carried through it…" — the rule line
+3. `18.5s` — "This is the end of the lesson." — the end line
+
+After the block's audio (its measured duration includes the 0.6 s tail)
+the sheet holds for a further 3 s (`CLOSING_HOLD_SECONDS`), which is
+non-narration time; see the note under "Blocks".
+
+**Index entries used, in order**
+1. 9#8 — use ChatGPT as a first draft, not a final source (sentence 2)
+2. 9#7 — verify important information from reliable sources (sentence 2);
+   9#9 (always verify data) is the same rule as the task applied it
+
+**Classification:** 1 sourced (2) · 0 attributed · 3 connective (1, 3, 4)
+· 0 flagged. Sentence 1 summarises the composed session (F1). Sentence 4
+is the spec's instruction about what follows and is a statement about
+the course, not about the tool or a source (J13).
+
+**Flags** — none. No new claim: the rule is 9#7–9 as S-06 and S-12
+already state it.
+
+**What this block adds beyond the guides.** Nothing beyond a close. It
+is the third sheet nearest to its narration (J16), 23 s of connective
+runtime by design; the additional-learning claim rests on the ten task
+sheets, as before.
 
 ## Questions
 
@@ -716,9 +828,10 @@ Each question's `_source` field in the JSON repeats the entries below.
 
 ## Judgment list — CLOSED (default rulings; developer read pending)
 
-Five flags: two in the narration (S-05 sentence 4, S-12 sentence 4), one
-on the composed session as a whole (F1), one on the depiction of the
-tool running (S-09), one on S-06's screen column. Each is quoted in its
+Five flags: two in the narration (S-05 sentence 5, S-12 sentence 4, as
+the entry-34 script numbers them), one on the composed session as a whole
+(F1), one on the depiction of the tool running (S-09), one on S-06's
+screen column. Each is quoted in its
 block above with its recommended ruling. The items below are the
 judgments the draft had to make that a flag does not capture. Under the
 CLAUDE.md Rulings rule each recommendation is the ruling unless the
@@ -831,6 +944,49 @@ same constant; both are discarded when `audio-meta-08.json` is
 populated. The stills at `out/stills-08/` are each block's last frame
 with every reveal in; they show layout, not timing. Recommended ruling:
 none needed — this is rule 2 working as designed.
+
+**J13 — the sign-off's "follow" (entry 34).** S-13 s4, "The course's
+guides and its assessment follow", is the spec's instruction, said in the
+participant's terms. Course GPT places this video at position 6, after the
+five guides; what a participant sees next is superCPE's sequencing, which
+this repo cannot see. The sentence is classed connective (a statement
+about the course, not a claim about the tool or a source) and is not a
+flag. Recommended ruling: keep as the spec directs; if superCPE plays the
+lessons in position order, the sentence becomes "The course's assessment
+follows", a change to `src/lesson-08.ts` and one regenerated block.
+
+**J14 — first person and the sourced sentences (entry 34).** The rewrite
+puts the participant in the narration ("I paste the three assets in", "So
+my check is arithmetic") and leaves the sourced sentences reporting their
+source in the third person ("The toolkit says…", "OpenAI's page says…").
+That split is deliberate: the participant's actions are the composed
+session's and are connective; the claims are the sources' and stay
+attributed to them. Two rewritten sentences change what "the check" is:
+S-12's flagged closing gloss is now "My check is what made the schedule
+mine" and S-09's boundary sentence ends "my own check, not this second
+pass, settles the figure". Neither adds a claim. Recommended ruling:
+accept the voice; reclassify any first-person sentence the developer reads
+as asserting a fact about the tool.
+
+**J15 — lead-in and closing hold are render constants (entry 34).** Both
+live in `src/timing.ts`, are part of the measured runtime, and are
+inherited by every video lesson, including ATO-02 on its next render. They
+are not narration and are noted above under "Non-narration time". The
+title's hold (4 s) is the title block's own `estimatedSeconds`, so it is
+per lesson. Recommended ruling: accept; the two numbers are the
+developer's to tune, and changing either changes every measured duration
+by exactly that amount without touching any MP3.
+
+**J16 — the closing sheet mirrors its narration (entry 34).** S-13 is a
+Title-style sheet: the course title, the rule in one line ("A first draft.
+Verify before relying on it."), and an end line. Its narration says the
+rule and says the lesson has ended. With S-01 and S-12 it is the third
+sheet nearest to its narration (J6); the additional-learning claim still
+rests on the ten task sheets between S-01 and S-12, and the sign-off adds
+about 23 s of runtime that is connective by design. Recommended ruling:
+accept; if the developer wants no third mirroring sheet, block 13 is
+folded into block 12 as one more sentence and the closing hold does the
+rest.
 
 ## Sources still needed
 

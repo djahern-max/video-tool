@@ -140,8 +140,10 @@ src/
   theme.ts             palette, type, layout tokens
   Sheet.tsx            the sheet card, shield and footer strip, wraps every slide
   slides.tsx           slide components (Title, Statement, Facts, Calc, List, Compare,
-                       Session, Check, Sweep,
+                       Session, Check, Sweep, Closing,
                        Image), all rendering from a block's data
+  timing.ts            the lead-in and closing hold — the two render-side
+                       constants — and the runtime sum every reader shares
   Lesson.tsx           sequences one lesson's blocks; no timing numbers
   Root.tsx             one composition per lesson, durations derived from content
 scripts/

@@ -76,6 +76,7 @@ const FIGURE_KIND_FOR: Record<string, string> = {
   Session: "session",
   Check: "check",
   Sweep: "sweep",
+  Closing: "closing",
 };
 
 /* ------------------------------------------------------------------ */
@@ -145,6 +146,9 @@ const figureElements = (figure: Record<string, unknown> | undefined): number | n
   // number rather than falling through to null keeps the markers-exceed-
   // elements check below live on these blocks instead of silently skipping.
   if (figure.kind === "image") return figure.caption ? 2 : 1;
+  // A closing figure's elements are positional too: the logo and course
+  // title, the rule, and the end line built from meta.position.
+  if (figure.kind === "closing") return 3;
   // The GPT-06 components. A session's elements are its revealable turns
   // (`prior` turns are on screen from frame 0 and have no marker); a sweep's
   // are the table-and-sweep, then each comparison line — its `lines` key

@@ -40,10 +40,12 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { audioHashOf, hashOf, parseMarkers } from "../src/audio-identity";
 import { isTextLesson, LESSONS, type LessonId } from "../src/lessons";
+import { runtimeSeconds } from "../src/timing";
 
 type Block = {
   id: string;
   sheet: string;
+  slide: string;
   estimatedSeconds: number;
   narration: string;
 };
@@ -428,9 +430,11 @@ const main = async () => {
   /* -------------------------------------------------------------- */
 
   const missing = spoken.filter((b) => result[b.id] === undefined);
-  const totalSeconds = blocks.reduce(
-    (sum, b) => sum + (result[b.id]?.durationSeconds ?? b.estimatedSeconds),
-    0
+  // The runtime the render will have: lead-in, blocks, closing hold
+  // (src/timing.ts), with what was just measured standing in for estimates.
+  const totalSeconds = runtimeSeconds(
+    blocks,
+    (b) => result[b.id]?.durationSeconds ?? b.estimatedSeconds
   );
 
   console.log(`\n  generated ${generated}, skipped ${skipped}`);

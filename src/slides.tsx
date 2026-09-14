@@ -810,6 +810,69 @@ export const Sweep: React.FC<SlideProps> = ({ reveals, figure }) => {
   );
 };
 
+/* ------------------------------------------------------------------ */
+/* Closing                                                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The Title sheet's bookend: the full logo and the course title, the
+ * course's one rule as a single line, and an end line built from
+ * `meta.position`. Same faces and sizes as Title, one step down for the
+ * rule so that a sentence fits on one line where a lesson title would not.
+ * The block's narration says the lesson has ended; this sheet is what it
+ * ends on, and the closing hold in `timing.ts` keeps it up after the audio.
+ *
+ * Elements are positional, as on the Title sheet: 0 the logo and course
+ * title, 1 the rule, 2 the end line. Three markers bring them up in turn.
+ */
+export const Closing: React.FC<SlideProps> = ({ reveals, figure, meta }) => {
+  const frame = useCurrentFrame();
+  if (!figure || figure.kind !== "closing") return null;
+  const m = meta!;
+  return (
+    <div style={column}>
+      <div style={revealAt(frame, revealTimeFor(0, reveals))}>
+        <Img
+          src={staticFile("brand/supercpe-logo.png")}
+          alt="superCPE"
+          style={{ height: 104, width: "auto", display: "block", marginBottom: 44 }}
+        />
+        <Eyebrow>{m.courseTitle.toUpperCase()}</Eyebrow>
+      </div>
+      <div
+        style={{
+          ...revealAt(frame, revealTimeFor(1, reveals)),
+          fontFamily: theme.font.display,
+          fontSize: theme.size.heading,
+          fontWeight: 800,
+          lineHeight: theme.leading.display,
+          letterSpacing: "-0.025em",
+          color: theme.color.ink,
+          whiteSpace: "nowrap",
+        }}
+      >
+        {figure.rule}
+      </div>
+      <div
+        style={{
+          ...revealAt(frame, revealTimeFor(2, reveals)),
+          marginTop: 48,
+          display: "flex",
+          gap: 20,
+          alignItems: "center",
+          fontSize: theme.size.caption,
+          fontWeight: 500,
+          letterSpacing: "0.04em",
+          color: theme.color.muted,
+        }}
+      >
+        <span style={{ width: 60, height: 3, background: theme.color.accent }} />
+        <span>{`End of lesson · ${m.position}`.toUpperCase()}</span>
+      </div>
+    </div>
+  );
+};
+
 export const SLIDES = {
   Title,
   Statement,
@@ -821,4 +884,5 @@ export const SLIDES = {
   Session,
   Check,
   Sweep,
+  Closing,
 } as const;

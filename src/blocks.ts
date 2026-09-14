@@ -72,7 +72,14 @@ export type Figure =
       table: Table;
       settle: CellRef;
       lines: { label: string; value: string; emphasis?: "wrong" | "right" }[];
-    };
+    }
+  /**
+   * The Title sheet's bookend: a sign-off that carries the course title
+   * (from meta, as Title does) and the course's one rule in a single line.
+   * Its elements are positional, like an image's: the logo and course title
+   * are 0, the rule is 1, and the end line (built from meta.position) is 2.
+   */
+  | { kind: "closing"; rule: string };
 
 /** A small table: one row-label column, then `columns`. */
 export type Table = {
@@ -115,7 +122,8 @@ export type Block = {
     | "Image"
     | "Session"
     | "Check"
-    | "Sweep";
+    | "Sweep"
+    | "Closing";
   figure?: Figure;
   narration: string; // transcript of record, may contain [[r]] markers
   reveals: number[]; // fallback seconds from block start, used until measured

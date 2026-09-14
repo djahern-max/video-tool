@@ -53,6 +53,7 @@ import {
   courseScopeOf,
   type Finding,
 } from "./check-lessons";
+import { CLOSING_HOLD_SECONDS, LEAD_IN_SECONDS, isTitle, runtimeSeconds } from "../src/timing";
 import { MODEL_ID, TTS_PROVIDER } from "./generate-audio";
 import { printTextPreview, sectionWordCounts } from "./text-preview";
 import {
@@ -67,6 +68,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 type Block = {
   id: string;
   sheet: string;
+  slide: string;
   narration: string;
 };
 
@@ -77,7 +79,6 @@ type LessonModule = {
   hasAudio: (b: Block) => boolean;
   durationOf: (b: Block) => number;
   usingEstimates: boolean;
-  totalSeconds: number;
 };
 
 const refuse = (message: string): never => {
@@ -247,7 +248,9 @@ const main = () => {
   // the wrong order to learn it in.
   gateOnLessonChecks(lessonId);
 
-  // 5. The render must exist and agree with the audio metadata.
+  // 5. The render must exist and agree with the audio metadata. The
+  // expected runtime is the lead-in, the measured blocks, and the closing
+  // hold — src/timing.ts, the same sum Root.tsx lays the composition out by.
   const videoSource = join(root, "out", `lesson-${lessonId}.mp4`);
   if (!existsSync(videoSource)) {
     refuse(
@@ -256,12 +259,13 @@ const main = () => {
     );
   }
   const measuredSeconds = ffprobeSeconds(videoSource);
-  if (Math.abs(measuredSeconds - lesson.totalSeconds) > 1) {
+  const expectedSeconds = runtimeSeconds(lesson.blocks, lesson.durationOf);
+  if (Math.abs(measuredSeconds - expectedSeconds) > 1) {
     refuse(
       `out/lesson-${lessonId}.mp4 measures ${measuredSeconds.toFixed(2)}s but the ` +
-        `audio metadata totals ${lesson.totalSeconds.toFixed(2)}s — the render is ` +
-        `stale relative to the audio metadata. Re-run \`npm run render -- ` +
-        `--lesson ${lessonId}\`.`
+        `audio metadata, lead-in and closing hold total ${expectedSeconds.toFixed(2)}s ` +
+        `— the render is stale relative to the audio metadata. Re-run \`npm run ` +
+        `render -- --lesson ${lessonId}\`.`
     );
   }
 
@@ -293,21 +297,26 @@ const main = () => {
 
   // Where each narrated block starts and ends, measured, so superCPE can
   // pause the video for review questions at the right second. The cursor
-  // walks every block in playback order; the title sheet (the only
-  // unnarrated block) contributes only its offset. Its length is a fixed
-  // render constant, not an estimate of speech, so it is not subject to the
-  // 7.02.7 measured-durations rule; every narrated duration here is
+  // walks the sequenced blocks in playback order from the lead-in, exactly
+  // as Lesson.tsx lays them out. The title sheet is a layer over the
+  // opening and holds no slot of its own: the first entry's start is the
+  // lead-in, the stretch during which only the title is on screen. The
+  // closing hold belongs to the last block, whose sheet stays up for it, so
+  // the last end_seconds is the file's end. Lead-in and hold are fixed
+  // render constants, not estimates of speech, so they are not subject to
+  // the 7.02.7 measured-durations rule; every narrated duration here is
   // measured, because step 3 refused the export otherwise.
   const round3 = (seconds: number) => Math.round(seconds * 1000) / 1000;
   const blockTimings: { id: string; start_seconds: number; end_seconds: number }[] = [];
-  let cursor = 0;
-  for (const b of lesson.blocks) {
+  const sequenced = lesson.blocks.filter((b) => !isTitle(b));
+  let cursor = LEAD_IN_SECONDS;
+  sequenced.forEach((b, i) => {
     const start = round3(cursor);
-    cursor += lesson.durationOf(b);
+    cursor += lesson.durationOf(b) + (i === sequenced.length - 1 ? CLOSING_HOLD_SECONDS : 0);
     if (b.narration.trim().length > 0) {
       blockTimings.push({ id: b.id, start_seconds: start, end_seconds: round3(cursor) });
     }
-  }
+  });
 
   // The hash cannot cover its own field (023a): the manifest is built
   // first, hashed in canonical form with content_hash absent, and the

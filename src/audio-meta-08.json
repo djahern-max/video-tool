@@ -1,1 +1,150 @@
-{}
+{
+  "block-01": {
+    "durationSeconds": 26.792,
+    "reveals": [
+      0,
+      5.143,
+      16.893
+    ],
+    "hash": "49f77dadea03",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:16.280Z"
+  },
+  "block-02": {
+    "durationSeconds": 32.968,
+    "reveals": [
+      0,
+      8.603,
+      28.107
+    ],
+    "hash": "6508658a7857",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:24.543Z"
+  },
+  "block-03": {
+    "durationSeconds": 30.136,
+    "reveals": [
+      0,
+      21.362,
+      23.789
+    ],
+    "hash": "f760eb241bda",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:32.089Z"
+  },
+  "block-04": {
+    "durationSeconds": 26.328,
+    "reveals": [
+      0,
+      13.398
+    ],
+    "hash": "0021008e4773",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:38.225Z"
+  },
+  "block-05": {
+    "durationSeconds": 28.186,
+    "reveals": [
+      0,
+      12.342
+    ],
+    "hash": "bba41b510676",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:44.626Z"
+  },
+  "block-06": {
+    "durationSeconds": 31.483,
+    "reveals": [
+      0,
+      10.043,
+      10.867,
+      12.318
+    ],
+    "hash": "af7c4d2bb153",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:52.334Z"
+  },
+  "block-07": {
+    "durationSeconds": 31.018,
+    "reveals": [
+      0,
+      7.79,
+      9.033,
+      11.436,
+      14.106,
+      16.44,
+      18.356,
+      22.152
+    ],
+    "hash": "0cc45928c329",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:53:59.011Z"
+  },
+  "block-08": {
+    "durationSeconds": 34.78,
+    "reveals": [
+      0,
+      13.363,
+      21.385
+    ],
+    "hash": "dde043974872",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:54:07.349Z"
+  },
+  "block-09": {
+    "durationSeconds": 32.039,
+    "reveals": [
+      0,
+      21.548
+    ],
+    "hash": "5b7486c2ad1f",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:54:15.102Z"
+  },
+  "block-10": {
+    "durationSeconds": 33.99,
+    "reveals": [
+      0,
+      3.878,
+      6.385,
+      23.045
+    ],
+    "hash": "4093a765c3dc",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:54:23.253Z"
+  },
+  "block-11": {
+    "durationSeconds": 33.898,
+    "reveals": [
+      0,
+      7.059,
+      25.356
+    ],
+    "hash": "1256aa10f7f9",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:54:31.643Z"
+  },
+  "block-12": {
+    "durationSeconds": 32.504,
+    "reveals": [
+      0,
+      13.99,
+      27.249
+    ],
+    "hash": "a561348c6492",
+    "voice": "uFIXVu9mmnDZ7dTKCBTX",
+    "model": "eleven_multilingual_v2",
+    "generatedAt": "2026-09-14T08:54:39.117Z"
+  }
+}
