@@ -17,9 +17,10 @@ reflects the training data as of the cutoff and not what has happened
 since. The word is the course's, not the vendor's; the vendor's term is
 the knowledge cutoff, and the glossary lists both.
 
-This course does not give a date for the cutoff. Any date written here
-would be a fact this course cannot source from the documents it relies on,
-and one that could not be kept current in a printed guide.
+This lesson gives no date for the cutoff. A date printed in a guide could
+not be kept current, and the point does not depend on one: whatever the
+date is, the training data stops there and so does what the model learned
+from it.
 
 Suppose, purely as an illustration, that a question turns on a figure that
 is revised every year. A response produced without a tool carries only

@@ -2915,3 +2915,114 @@ Shipped: 2026-09-13
   limitations that the index does not index; none is used. The index was
   not edited. J7.
 - The 12 ATO warnings and the other GPT lessons' findings are unchanged.
+
+## 28 — GPT-01 revision: de-meta the prose, close the judgment list
+Shipped: 2026-09-14
+
+**What changed**
+- `guide/03/01–05*.md`: sentences that described the course's own sourcing
+  restraint ("this course uses it in the vendor's sense and no wider",
+  "takes that example exactly as the toolkit states it and adds nothing to
+  it", "two sources, then, from two sides", "the whole of what this course
+  claims", "a fact this course cannot source from the documents it relies
+  on", "because its sources do not") were removed or rewritten so the
+  participant reads teaching, not method. One sentence was removed
+  outright (sec-02's "adds nothing to it", a connective); every other
+  change is a rewrite in place. Attributions stay; every sourced and
+  attributed sentence keeps its meaning and index entry; no new fact
+  entered. Sec-04 needed no change.
+- `src/lesson-03.ts`: lo-3 is now "Identify the code tool as the feature
+  OpenAI ties accurate calculation to, and treat ordinary responses as
+  unverified arithmetic." — the source (9#12) says the tool "enables
+  accurate calculations", not "only". Sec-05 sentence 3 was revised to
+  match; its claim about the ordinary response now rests on 9#1 (added to
+  the file's `<!-- index -->` comment). File 13,
+  `openai-prompt-engineering-best-practices-2026-09-13.pdf`, added to
+  `meta.sources` as `supporting` with the title as the index header prints
+  it; the comment on `sources` was updated to say why. `git diff` shows
+  lo-3, the `sources` block, and the `glossaryTerms` comment (see
+  Decisions).
+- `guide/03/00-front-matter.md`: the opening paragraph no longer lists the
+  six lessons by title. It names the course, this lesson's three topics,
+  and the audience. "How this course works" untouched.
+- `drafts/GPT-01-review.md`: **Judgment list — CLOSED (2026-09-14)**, with
+  a `Ruling:` under each of J1–J10 and under each of the five `UNSOURCED`
+  flags; per-section counts, classifications and word counts revised;
+  lo-3 line updated; a revision line under the status paragraph. Flags
+  not renumbered. Written on the spec's instruction, as the developer's
+  record of the developer's rulings.
+- Reclassification under the three-way rule, body sections only:
+  before 62 sentences — 22 sourced, 5 attributed, 32 connective, 3 flagged;
+  after 61 — 22 sourced, 5 attributed, 31 connective, 3 flagged. Five flags
+  overall, before and after; the flagged sentences are untouched.
+- Verified: `npm run typecheck` clean. `npm run check`: lesson 03 shows the
+  same three rule-1 ERRORs, the `[draft]` WARN and five no-review-question
+  WARNs; nothing new; totals 8 lessons, 19 errors, 32 warnings, as before.
+  Word count per `check`'s preview, an estimate: front matter 336
+  (excluded), sec-01 388, sec-02 364, sec-03 256, sec-04 208, sec-05 249,
+  glossary 334 (excluded); body total 1,465 counted (first draft 1,563),
+  2,135 shipped. superCPE's count is authoritative.
+- `git status`: `guide/03/*.md` (00, 01, 02, 03, 05, 90), `src/lesson-03.ts`,
+  `drafts/GPT-01-review.md`, `CHANGELOG.md`, plus `current-feature.md`
+  (modified) and `current-feature-027.md` (untracked), both already so
+  when the feature started. Nothing under `sources/`, nothing in the
+  index, no other lesson, `src/questions-03.json` untouched.
+
+**Standards touched**
+- 3.01 — learning activities must be based on relevant learning objectives
+  that clearly articulate the professional competence to be achieved.
+  lo-3 now claims no more than its source: the page ties accurate
+  calculation to the tool; it does not say "only".
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for
+  accuracy. The developer's rulings on the ten judgments and five flags
+  are recorded; the read of the revised text itself is still ahead, and
+  `meta.status` stays `"draft"` until it is done.
+
+**Decisions**
+- **Meta-commentary moved out of participant text.** A study guide that
+  keeps announcing what it declines to claim reads as an accuracy record,
+  and a participant has no use for the method — only for what it produced.
+  The restraint is real and is evidenced where it belongs, in
+  `drafts/GPT-01-review.md`, which quotes what each sentence lost. Scope
+  statements the participant needs ("this lesson does not explain the
+  mechanism", "this section does not cover which plans include the tool",
+  "staleness is the course's word") were kept; only the sourcing voice
+  ("no source this course relies on", "because its sources do not") went.
+- **One sentence cut rather than rewritten.** Sec-02's "adds nothing to
+  it" could only have been rewritten as a claim that the toolkit gives no
+  court, case or date, and the index does not say whether it does. Cutting
+  was the honest option; sentence 9 still reports the example as the
+  toolkit states it.
+- **Sec-05 sentence 3 leans on 9#1, not on an inference.** Saying the
+  page attaches accuracy to the tool "and not to the ordinary response"
+  was the index's "only" in another form. The rewrite reports what the
+  page does say of the ordinary response (may be incorrect or misleading,
+  already sourced in sec-01) and stops.
+- **File 13 is `supporting`, not `primary`.** It defines one glossary term
+  and contributes to no objective.
+- **The front matter's "first of six" went with the list.** The count is
+  the same staleness J9 named; the course title and this lesson's ordinal
+  stay.
+- **The three "two documents" statements were fixed before commit**, on
+  the developer's instruction after the first report: the front matter's
+  second paragraph, the glossary preamble, and the `glossaryTerms` comment
+  in `src/lesson-03.ts`. Each now names no number ("the OpenAI and CPA.com
+  documents listed as this lesson's sources") and the glossary preamble
+  says the prompt-engineering page is listed as a supporting source. All
+  three predated file 13's addition and had understated `meta.sources`.
+- `drafts/GPT-01-review.md` was edited although a previous feature created
+  it. The spec instructs the edit by name, the rulings are the developer's
+  own, and nothing existing was deleted or renumbered; earlier text is
+  kept alongside the revision notes.
+
+**Known gaps**
+- Still no questions. `src/questions-03.json` is `[]`; the three rule-1
+  ERRORs on lesson 03 persist from entry 26. Next feature.
+- `meta.status` is still `"draft"`. The rulings are recorded; the
+  developer's 4.01.1 read of the revised text is not, and this feature
+  does not stand in for it.
+- J7's index extension for file 9 (two hallucination forms, two
+  limitations) is deferred to its own feature, before lesson 04 draws on
+  that page.
+- The 12 ATO warnings and the other GPT lessons' findings are unchanged.

@@ -5,10 +5,10 @@
 OpenAI's help page says that ChatGPT can sometimes sound confident even
 when it is wrong, and it gives the phenomenon a name: a hallucination,
 "when the model produces responses that are not factually accurate." The
-term is the vendor's, and this course uses it in the vendor's sense and no
-wider: a response that is not factually accurate, whatever the response is
-about. The definition is broad, and nothing in it limits the failure to a
-particular kind of question or a particular kind of answer.
+term is the vendor's, and it means exactly that: a response that is not
+factually accurate, whatever the response is about. The definition is
+broad, and nothing in it limits the failure to a particular kind of
+question or a particular kind of answer.
 
 ## The form that matters most here
 
@@ -29,11 +29,9 @@ The CPA.com Generative AI Toolkit, writing in 2023, says that generative AI
 hallucinate," and that its confident, articulate and well-reasoned answers
 may mask that failing. The toolkit offers one example: when asked to cite
 precedents to be used in a court case, the system responded with cases
-that did not exist. This course takes that example exactly as the toolkit
-states it and adds nothing to it — no court, no case name, no date. Two
-sources, then, from two sides — the vendor and a trade body for the
-profession — describe the same failure in the same terms, and one of them
-gives fabricated citations as the example.
+that did not exist. The vendor and a trade body for the profession describe
+the same failure in the same terms, and the profession's example is a
+fabricated citation.
 
 ## What this lesson does and does not do about it
 

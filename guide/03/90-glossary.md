@@ -3,11 +3,12 @@
 Reference material. Nothing here is required reading, and none of it counts
 toward the course's word count (7.02.5).
 
-Each definition traces to the same two documents the lesson rests on, or
-says that it cannot. One term — *staleness* — is the course's own; one —
-*large language model* — is used by both sources and defined by neither;
-one — *prompt* — is defined by an OpenAI page the course's later lessons
-rely on, not by either of this lesson's two sources.
+Each definition traces to the OpenAI and CPA.com documents listed as this
+lesson's sources, or says that it cannot. One term — *staleness* — is the
+course's own; one — *large language model* — is used by the accuracy page
+and the toolkit and defined by neither; one — *prompt* — is defined by
+OpenAI's prompt-engineering page, which the course's later lessons rely on
+and which is listed here as a supporting source.
 
 ---
 

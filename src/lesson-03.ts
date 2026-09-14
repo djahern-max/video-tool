@@ -50,11 +50,11 @@ export const meta = {
   // 4.05.3 item 3: superCPE refuses to publish a course whose guide has no
   // glossary. `npm run check` warns until this is written.
   //
-  // Each definition traces to the same two documents the lesson rests on,
-  // or says that it cannot; see drafts/GPT-01-review.md. "Staleness" is the
-  // course's own word; "large language model" is used by both sources and
-  // defined by neither; "prompt" is defined by an OpenAI page that is not
-  // among this lesson's sources.
+  // Each definition traces to the OpenAI and CPA.com documents listed in
+  // `sources` below, or says that it cannot; see drafts/GPT-01-review.md.
+  // "Staleness" is the course's own word; "large language model" is used
+  // by the accuracy page and the toolkit and defined by neither; "prompt"
+  // is defined by OpenAI's prompt-engineering page, a supporting source.
   glossaryTerms: [
     {
       term: "Code interpreter / Data analysis",
@@ -108,16 +108,17 @@ export const meta = {
     {
       id: "lo-3",
       text:
-        "State when calculation is reliable: only when the model uses a code tool.",
+        "Identify the code tool as the feature OpenAI ties accurate calculation to, and treat ordinary responses as unverified arithmetic.",
     },
   ],
   nasbaFieldOfStudy: COURSE_GPT.nasbaFieldOfStudy,
   knowledgeLevel: COURSE_GPT.knowledgeLevel,
   prerequisites: COURSE_GPT.prerequisites,
   advancePreparation: COURSE_GPT.advancePreparation,
-  // Only the files in sources/gpt/ that drafts/GPT-source-index.md shows
-  // contributing at least one entry to this lesson's objectives; the entry
-  // numbers behind each objective are in drafts/GPT-01-review.md.
+  // The files in sources/gpt/ that drafts/GPT-source-index.md shows
+  // contributing at least one entry to this lesson's objectives, plus the
+  // one the glossary's "prompt" entry is defined from (13#1, supporting);
+  // the entry numbers behind each objective are in drafts/GPT-01-review.md.
   sources: [
     {
       citation:
@@ -128,6 +129,11 @@ export const meta = {
       citation:
         "OpenAI Help Center, \"Does ChatGPT tell the truth?\" (retrieved 2026-09-13; sources/gpt/openai-does-chatgpt-tell-the-truth-2026-09-13.pdf)",
       role: "primary",
+    },
+    {
+      citation:
+        "OpenAI Help Center, \"Prompt engineering best practices for ChatGPT\" (retrieved 2026-09-13; sources/gpt/openai-prompt-engineering-best-practices-2026-09-13.pdf)",
+      role: "supporting",
     },
   ],
   // This block becomes manifest.author — the author/developer of record

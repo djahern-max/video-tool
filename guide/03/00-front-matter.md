@@ -1,21 +1,19 @@
 # What the model gets wrong
 
-This is the first of six lessons in *Using ChatGPT in an Accounting
-Practice*. The course covers, in order: what the model gets wrong, setting
-up for professional use, prompting for accounting tasks, verifying the
-output, confidentiality and client data, and one task carried through from
-start to finish. This lesson covers what ChatGPT is doing when it answers,
-in the vendor's own terms; the failures that matter in professional work —
-hallucination, fabricated citations, the knowledge cutoff, and confidence
-that does not track correctness; and the one case in which the model can
-calculate. It is written for CPAs in public practice who use, or are
-deciding whether to use, ChatGPT in their work, and it assumes no prior
-experience with the tool.
+This is the first lesson in *Using ChatGPT in an Accounting Practice*.
+It covers what ChatGPT is doing when it answers, in the vendor's own
+terms; the failures that matter in professional work — hallucination,
+fabricated citations, the knowledge cutoff, and confidence that does not
+track correctness; and the one case in which the model can calculate. It
+is written for CPAs in public practice who use, or are deciding whether to
+use, ChatGPT in their work, and it assumes no prior experience with the
+tool.
 
-Everything factual in this lesson comes from two documents: OpenAI's own
-help-center page on whether ChatGPT tells the truth, and the CPA.com
-Generative AI Toolkit. Where they say nothing, the lesson says nothing, and
-it says so at the point where a reader would expect more.
+Everything factual in this lesson comes from the OpenAI and CPA.com
+documents listed as this lesson's sources: chiefly OpenAI's own help-center
+page on whether ChatGPT tells the truth, and the CPA.com Generative AI
+Toolkit. Where they say nothing, the lesson says nothing, and it says so at
+the point where a reader would expect more.
 
 ## How this course works
 
