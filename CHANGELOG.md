@@ -3591,3 +3591,201 @@ Shipped: 2026-09-14
 - The sentence numbering and the quote-window check were done with
   throwaway scripts in the session scratchpad and were not committed,
   as with the index's own extraction.
+
+## 33 — GPT-06 "A task, start to finish": script, screen design, questions
+Shipped: 2026-09-14
+
+**What changed**
+- Lesson 08 (GPT-06) is a complete, renderable video lesson: `src/lesson-08.ts`
+  has twelve narrated blocks (941 words) walking one composed
+  straight-line depreciation task through prompt, output, verification
+  and correction; `src/questions-08.json` has five questions (three
+  review at `after_block` 4, 8 and 10; two assessment on lo-1);
+  `drafts/GPT-06-review.md` is filled in the text lessons' shape — one
+  entry per block with narration, reveals, index entries, sentence
+  classification, flags and a "What this block adds beyond the guides"
+  line — with recommended rulings on every flag and judgment item and the
+  judgment list marked CLOSED pending the developer's read. `meta.status`
+  stays `"draft"`; `meta.avIsAdditionalLearning` is `true` with the
+  per-block case in the record.
+- Every figure shown as correct is computed in the module (`annualOf`,
+  `schedule`) from three fictional assets' inputs; the one wrong figure
+  (`WRONG`, Equipment B Year 3, 5,500 against a computed 5,000) is typed
+  and labelled wrong on S-07, S-08, S-09 and S-10 and in narration.
+- Three slide components in `src/slides.tsx`, in the v2 theme with no new
+  colours: **Session** (a chat pane; user turns type in from their
+  reveal, assistant turns fade in with text and/or a figures table;
+  `prior` turns are on screen from frame 0; a header on every Session
+  sheet says the session is composed), **Check** (the response's table
+  beside numbered arithmetic lines, one per reveal; the line carrying
+  `against` marks the compared cell in the wrong role), **Sweep** (the
+  corrected table arrives, a neutral highlight moves down its rows and
+  settles teal on the fixed cell; comparison lines follow on their own
+  markers). `src/blocks.ts` gains the `session`, `check` and `sweep`
+  figure kinds with `Table`, `CellRef`, `Turn` and `CheckRow` types and
+  the three slide names. `src/reveal.ts` gains `typedChars` and
+  `sweepRow` with their two animation constants (60 characters per
+  second; 0.45 s per row), documented as the same kind of constant as
+  the 12-frame fade. `src/theme.ts` records the one content role
+  `accent` now has (the wrong figure on Check and Sweep).
+- `scripts/check-lessons.ts`: `FIGURE_KIND_FOR` maps the three new slide
+  names, and `figureElements` counts a session's revealable `turns` and a
+  sweep's table-plus-`lines`, so the markers-vs-elements check stays live
+  on the new kinds. `README.md` lists the new components.
+- Part 0: `src/lesson-07.ts` `meta.sources` gains files 10
+  (`openai-enterprise-privacy-2026-09-13.pdf`) and 12
+  (`openai-how-your-data-is-used-2026-09-13.pdf`) as `supporting`, and
+  J7 in `drafts/GPT-05-review.md` carries an updated ruling saying so.
+  No prose in guide/07 changed.
+- Verification. `npm run typecheck` clean. `npm run check`: **0 errors**
+  across all eight lessons (was 1: the rule-1 ERROR on lesson 08 is
+  gone); 29 warnings — lesson 08's `[draft]`, eleven sheet-window
+  warnings on lesson 08 (estimated), and the pre-existing ATO and
+  `[draft]` warnings. `npm run render -- --lesson 08` on estimated
+  timings: ffprobe reports **13,230 frames, 441.000 s** (7 m 21 s at 30
+  fps); `usingEstimates` is true and the Root warning fired. One still
+  per block at its last frame in `out/stills-08/` (S-00 to S-12), every
+  new component included, each inspected; S-09 overflowed on first
+  render and its compact prior table and shown calculation were
+  tightened until it fit. `npm run generate -- --lesson 08 --dry-run`:
+  all twelve narrated blocks `no audio yet`, "Nothing sent, nothing
+  written." `git status` shows no `audio-meta` and no MP3 change;
+  `src/audio-meta-08.json` is still `{}`.
+- Narration rate and counts. Rate computed from ATO-02's audio-meta:
+  1,464 transcript words over 534.894 s = 164.2 wpm (166.7 excluding
+  the 0.6 s per-block tail). 941 words ≈ 5.7 min at that rate; the
+  estimates use `check`'s 130 wpm constant, hence 441 s silent.
+  Sentences: 56 — 11 sourced, 1 attributed, 42 connective, 2 flagged;
+  five flags in all (the two sentences, the composed session, the tool
+  depiction on S-09, S-06's screen column), every recommended ruling
+  keep.
+- Spec rotation committed with this entry: `current-feature-032.md` is
+  the archived spec for entry 32, and `current-feature.md` is this
+  feature's.
+
+**Standards touched**
+- 7.02.7 — audio/video segments count toward the word count formula only
+  if they constitute additional learning for the participant, not
+  narration of the text; for an all-video program the formula is actual
+  video time plus questions × 1.85, over 50. Course GPT holds text
+  lessons, so the record argues block by block what each sheet carries
+  that the narration does not say and the guides do not give (a typed
+  prompt, a response table, arithmetic beside it, a marked cell, a
+  corrected table arriving); two sheets (S-01, S-12) are noted as
+  nearest to mirroring. The flag is set honestly and the claim is the
+  developer's to accept. No duration is claimed: `usingEstimates` is
+  true and nothing is exportable.
+- 4.01.1 — if technology is used in the development of the program, the
+  content developer is responsible for reviewing the content for
+  accuracy. The script is unread; every ruling in the record is a
+  default until the developer's read, and no narration is bought before
+  it.
+- 3.01 — learning activities must be based on relevant learning
+  objectives that clearly articulate the professional competence to be
+  achieved. The twelve blocks follow lo-1's four steps in order (prompt,
+  output, verification, refinement) and end on where the output required
+  correction; both assessment questions map to lo-1.
+- 5.01.2.1 — review questions must be placed throughout the program in
+  sufficient intervals to allow the participant to evaluate the material
+  that needs re-studying. Three review questions at blocks 4, 8 and 10,
+  after the prompt is complete, after the mismatch is explained, and
+  after it is settled; none stacked at the end.
+- 5.01.2.2 — feedback must be provided on review questions and at a
+  minimum indicate correct or incorrect; its goal is to reinforce
+  understanding and highlight knowledge gaps. Every feedback string says
+  why the correct choice is correct, why each distractor is wrong on the
+  sources' account, and names the sheets to re-watch.
+
+**Decisions**
+- **The session is composed, and labelled so.** No source in the set
+  describes a complete accounting task end to end (index Gaps, L06), and
+  a real session would be evidence of one day's behaviour that the
+  sources do not support generalising from, with inputs 4#10 would
+  require de-identifying anyway. So the exchange was written for the
+  course to show exactly the failure the sources describe — a wrong
+  figure in an ordinary response (9#1, 4#3), caught by recomputing
+  (9#9), settled by the tool or an outside recompute (9#12) — and it
+  says so: once in narration (S-01), and in a header on every Session
+  sheet, so that no still reads as a screenshot. The narration never
+  says the session shows what ChatGPT does; S-08 says no source says
+  how often or why.
+- **No standard is named.** The prompt spells out the arithmetic
+  ("annual charge = (cost − salvage value) ÷ useful life, the same
+  amount each year"), so "straight-line" is what the participant asked
+  for and the course asserts nothing about any method, standard or tax
+  rule. The Check sheet's "the same amount, as asked" line rests on the
+  prompt, not on a rule. A real schedule would carry method choices the
+  sources cannot support; this one carries none.
+- **Correct figures computed, the wrong one typed and labelled.** Rule 2's
+  spirit applied to arithmetic: `annualOf` and `schedule` produce every
+  figure on S-05, S-07, S-08, S-09 and S-10 except the composed error,
+  which is one constant with one job and a `wrong` label wherever it
+  appears. The error was chosen not to look like any particular slip
+  (it is not cost ÷ life with salvage forgotten), so the participant is
+  not invited to infer a mechanism the sources do not give.
+- **The tool is depicted and disclaimed, not omitted.** The spec names
+  the code tool as the corrected pass and 9#12 is the one entry tying a
+  correct calculation to the product, so S-09 shows the second prompt
+  asking for it and the response's shown calculation. Because no source
+  says how a plan exposes the tool or how to tell it ran, S-09's last
+  sentence says so and draws the consequence: the participant's own
+  check, not the second pass, is what settles the figure. The
+  no-tool alternative is written up in the record (S-09 flag) as a
+  one-file change if the developer prefers it.
+- **Accent blue takes the wrong role on two sheets.** The spec assigns
+  blue to the mismatched cell and reserves teal for the corrected
+  figure; theme.ts had said accent never marks content and now records
+  this one exception, confined to Check and Sweep. The Calc slide's
+  existing wrong role (muted) is unchanged, so S-08 shows the same
+  figure in muted; changing that would touch ATO-02's sheets and is
+  left to the developer (record J8).
+- **Twelve blocks under the sheet window, by the spec's arithmetic.** The
+  spec's 750–950 words and 12–16 blocks cannot both sit inside the 40 s
+  window at `check`'s 130 wpm (12 × 40 s at 130 wpm is 1,040 words), so
+  the sheet-window warnings were accepted rather than the word budget
+  broken or the block count cut below the spec's floor. At the measured
+  164 wpm the blocks run 24–34 s. The window was written for the
+  argument-shaped ATO lessons; whether it fits a worked task is the
+  developer's call (record J9).
+- **The spec's "10#7–9" and "10#7" read as file 9.** Under the current
+  index numbering file 10 is the enterprise privacy page and its entries
+  7–9 are encryption, the DPA and classifiers, which cannot be "GPT-04's
+  rule"; GPT-04's lo-1 is 9#7–9. The record says so and every block
+  comment cites file 9.
+- **Typing and sweep rates are animation constants, in reveal.ts.** Two
+  numbers (60 characters per second, 0.45 s per row) sit beside the
+  12-frame fade with the same justification: they shape how an element
+  appears, not when, and nothing measured depends on them. Putting them
+  in the lesson data was rejected because content is data and an
+  animation rate is not content.
+- **The scaffold record was filled, not replaced**, as entries 29–32 did:
+  preamble, objectives and "Sources still needed" kept; the three empty
+  headings filled, and a note added under the gaps bullet saying what the
+  draft did about L06 having no source of its own.
+- **Part 0 edits an existing record.** `drafts/GPT-05-review.md` is a
+  feature-created record the developer has not read; the spec directs
+  the J7 update, and it was made as a dated addendum under J7 rather
+  than a rewrite of the ruling, with the Sections preamble's "unchanged
+  from the scaffold" note superseded in the same addendum rather than
+  edited.
+
+**Known gaps**
+- Lesson 08 is `"draft"`, unread and unvoiced. Every timing is an estimate
+  at 130 wpm; `usingEstimates` is true; nothing is exportable and no
+  duration is claimed. The developer reads the script, then buys audio.
+- Eleven sheet-window warnings on lesson 08, all "(estimated)"; see
+  Decisions. They clear or not only once audio is measured.
+- Flags: five, every recommended ruling keep — S-05 s4 ("A tidy table is
+  confidence in another form"), S-12 s4 ("The check made the schedule
+  yours"), the composed session (F1), the tool depiction (S-09), S-06's
+  screen column (which repeats a GPT-04 flagged gloss).
+- S-01 and S-12 are the two sheets nearest to mirroring their narration;
+  the additional-learning claim rests on the ten between them (record
+  J6).
+- The lesson's `meta.sources` lists files 4, 9 and 13 only; files 6 and 8
+  (plans, settings) are not used and the lesson does not say which plan
+  includes the tool.
+- `out/lesson-08.mp4` and `out/stills-08/` are in gitignored `out/` and
+  are reproducible from what is committed.
+- Pre-existing, untouched: ATO-01's six review-coverage warnings; every
+  GPT text lesson's `[draft]` warning.

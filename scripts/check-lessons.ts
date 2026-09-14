@@ -73,6 +73,9 @@ const FIGURE_KIND_FOR: Record<string, string> = {
   List: "list",
   Compare: "compare",
   Image: "image",
+  Session: "session",
+  Check: "check",
+  Sweep: "sweep",
 };
 
 /* ------------------------------------------------------------------ */
@@ -142,6 +145,12 @@ const figureElements = (figure: Record<string, unknown> | undefined): number | n
   // number rather than falling through to null keeps the markers-exceed-
   // elements check below live on these blocks instead of silently skipping.
   if (figure.kind === "image") return figure.caption ? 2 : 1;
+  // The GPT-06 components. A session's elements are its revealable turns
+  // (`prior` turns are on screen from frame 0 and have no marker); a sweep's
+  // are the table-and-sweep, then each comparison line — its `lines` key
+  // would otherwise be counted below without the table.
+  if (figure.kind === "session") return Array.isArray(figure.turns) ? figure.turns.length : null;
+  if (figure.kind === "sweep") return Array.isArray(figure.lines) ? 1 + figure.lines.length : null;
   for (const key of ["lines", "rows", "items", "columns"]) {
     const v = figure[key];
     if (Array.isArray(v)) return v.length;

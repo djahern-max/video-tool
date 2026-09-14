@@ -1,8 +1,8 @@
 import React from "react";
 import { Img, staticFile, useCurrentFrame } from "remotion";
 import { theme } from "./theme";
-import { revealAt } from "./reveal";
-import type { Figure } from "./blocks";
+import { isRevealed, revealAt, sweepRow, typedChars } from "./reveal";
+import type { CellRef, Figure, Table as TableData, Turn } from "./blocks";
 
 export type LessonMeta = {
   courseCode: string;
@@ -446,6 +446,370 @@ export const Image: React.FC<SlideProps> = ({ reveals, figure }) => {
   );
 };
 
+/* ------------------------------------------------------------------ */
+/* GPT-06: Session, Check, Sweep                                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The one content role `accent` has: a figure shown as wrong, on the Check
+ * and Sweep sheets. Teal stays reserved for the corrected figure. See the
+ * note in theme.ts.
+ */
+const CELL_ROLE = {
+  wrong: { color: theme.color.accent, border: theme.color.accent, fill: theme.color.surface },
+  right: { color: theme.color.flag, border: theme.color.flag, fill: theme.color.flagWash },
+} as const;
+
+/**
+ * A small figures table. Row labels in the body face, figures in Plex Mono
+ * so digits line up — the same rule the Calc column follows. `marks` paints
+ * individual cells in a role; `sweepAt` paints one whole row in the neutral
+ * panel colour, which is what the moving highlight on the Sweep sheet is.
+ */
+const FiguresTable: React.FC<{
+  table: TableData;
+  marks?: (CellRef & { role: "wrong" | "right"; tag?: string })[];
+  sweepAt?: number;
+  compact?: boolean;
+}> = ({ table, marks = [], sweepAt = -1, compact }) => {
+  const size = compact ? theme.size.chrome : theme.size.label;
+  const cell: React.CSSProperties = {
+    padding: compact ? "6px 18px" : "16px 24px",
+    borderTop: `1px solid ${theme.color.border}`,
+    fontSize: size,
+    lineHeight: theme.leading.heading,
+    whiteSpace: "nowrap",
+  };
+  return (
+    <table style={{ borderCollapse: "collapse", width: "100%" }}>
+      <thead>
+        <tr>
+          <th style={{ ...cell, borderTop: "none", textAlign: "left" }} />
+          {table.columns.map((c) => (
+            <th
+              key={c}
+              style={{
+                ...cell,
+                borderTop: "none",
+                textAlign: "right",
+                fontWeight: 600,
+                letterSpacing: "0.06em",
+                fontSize: compact ? theme.size.chromeLabel : theme.size.caption,
+                color: theme.color.muted,
+              }}
+            >
+              {c.toUpperCase()}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {table.rows.map((row, r) => (
+          <tr key={row.label} style={{ background: sweepAt === r ? theme.color.panel : "transparent" }}>
+            <td style={{ ...cell, textAlign: "left", fontWeight: 500, color: theme.color.muted }}>
+              {row.label}
+            </td>
+            {row.cells.map((value, c) => {
+              const mark = marks.find((m) => m.row === r && m.col === c);
+              const role = mark ? CELL_ROLE[mark.role] : null;
+              return (
+                <td
+                  key={c}
+                  style={{
+                    ...cell,
+                    textAlign: "right",
+                    fontFamily: theme.font.mono,
+                    fontWeight: 600,
+                    color: role ? role.color : theme.color.ink,
+                    background: role ? role.fill : undefined,
+                    boxShadow: role ? `inset 0 0 0 3px ${role.border}` : undefined,
+                  }}
+                >
+                  {value}
+                  {mark?.tag ? (
+                    <span
+                      style={{
+                        display: "block",
+                        fontFamily: theme.font.body,
+                        fontSize: theme.size.chromeLabel,
+                        fontWeight: 700,
+                        letterSpacing: "0.12em",
+                        color: role!.color,
+                        marginTop: 2,
+                      }}
+                    >
+                      {mark.tag.toUpperCase()}
+                    </span>
+                  ) : null}
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+const TurnLabel: React.FC<{ children: React.ReactNode; muted?: boolean }> = ({ children, muted }) => (
+  <div
+    style={{
+      fontSize: theme.size.chromeLabel,
+      fontWeight: 700,
+      letterSpacing: "0.12em",
+      color: muted ? theme.color.muted : theme.color.accent,
+      marginBottom: 8,
+    }}
+  >
+    {children}
+  </div>
+);
+
+/**
+ * A chat pane. The prompt is a literal — it is what was sent — so it is set
+ * in Plex Mono, the face reserved for figures and text presented as typed.
+ * A user turn types in from its reveal; an assistant turn fades in. `prior`
+ * turns are the conversation so far, on screen from frame 0 at caption size.
+ *
+ * The pane's header says on every sheet that the session is composed. The
+ * narration says so once; the header keeps saying it, because a still of
+ * any one sheet must not read as a screenshot.
+ */
+export const Session: React.FC<SlideProps> = ({ reveals, figure }) => {
+  const frame = useCurrentFrame();
+  if (!figure || figure.kind !== "session") return null;
+
+  const renderTurn = (t: Turn, i: number, prior: boolean) => {
+    const at = prior ? 0 : revealTimeFor(i, reveals);
+    const size = prior ? theme.size.caption : theme.size.label;
+    if (t.role === "user") {
+      const shown = prior ? t.text.length : typedChars(frame, at, t.text.length);
+      const typing = !prior && shown < t.text.length;
+      return (
+        <div key={`${prior ? "p" : "t"}-${i}`} style={{ ...(prior ? {} : { opacity: isRevealed(frame, at) ? 1 : 0 }), marginBottom: 28 }}>
+          <TurnLabel muted={prior}>PROMPT</TurnLabel>
+          <div
+            style={{
+              fontFamily: theme.font.mono,
+              fontSize: size,
+              fontWeight: 500,
+              lineHeight: theme.leading.body,
+              color: prior ? theme.color.muted : theme.color.ink,
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {t.text.slice(0, shown)}
+            {typing ? <span style={{ color: theme.color.accent }}>▍</span> : null}
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div key={`${prior ? "p" : "t"}-${i}`} style={{ ...(prior ? {} : revealAt(frame, at)), marginBottom: 28 }}>
+        <TurnLabel muted={prior}>RESPONSE</TurnLabel>
+        {t.text ? (
+          <div
+            style={{
+              fontFamily: theme.font.mono,
+              fontSize: size,
+              fontWeight: 500,
+              lineHeight: theme.leading.body,
+              color: prior ? theme.color.muted : theme.color.ink,
+              whiteSpace: "pre-wrap",
+              marginBottom: t.table ? 20 : 0,
+            }}
+          >
+            {t.text}
+          </div>
+        ) : null}
+        {t.table ? (
+          <div style={{ maxWidth: prior ? 760 : 1100 }}>
+            <FiguresTable
+              table={t.table}
+              compact={prior}
+              marks={t.mark && isRevealed(frame, at) ? [{ ...t.mark, tag: t.mark.role }] : []}
+            />
+          </div>
+        ) : null}
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ ...column, justifyContent: "flex-start" }}>
+      <Panel style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", padding: "28px 40px" }}>
+        <div
+          style={{
+            fontSize: theme.size.chromeLabel,
+            fontWeight: 600,
+            letterSpacing: "0.12em",
+            color: theme.color.muted,
+            paddingBottom: 16,
+            marginBottom: 24,
+            borderBottom: `1px solid ${theme.color.border}`,
+          }}
+        >
+          COMPOSED SESSION — WRITTEN FOR THIS COURSE, NOT A RECORDING
+        </div>
+        {(figure.prior ?? []).map((t, i) => renderTurn(t, i, true))}
+        {figure.turns.map((t, i) => renderTurn(t, i, false))}
+      </Panel>
+    </div>
+  );
+};
+
+/**
+ * The response's table on the left, the participant's own arithmetic on
+ * the right, one numbered line per reveal. The line that carries `against`
+ * is the comparison: when it reveals, the named cell in the table is marked
+ * wrong (accent) and the line's figure with it. Nothing on this sheet is
+ * teal — the corrected figure has not arrived yet.
+ */
+export const Check: React.FC<SlideProps> = ({ reveals, figure }) => {
+  const frame = useCurrentFrame();
+  if (!figure || figure.kind !== "check") return null;
+
+  const marks = figure.rows.flatMap((row, i) =>
+    row.against && isRevealed(frame, revealTimeFor(i, reveals))
+      ? [{ ...row.against, role: "wrong" as const, tag: "wrong" }]
+      : []
+  );
+
+  return (
+    <div style={column}>
+      <div style={{ display: "flex", gap: 48, alignItems: "stretch" }}>
+        <div style={{ flex: "0 0 760px", minWidth: 0 }}>
+          <Panel style={{ height: "100%" }}>
+            <TurnLabel muted>RESPONSE, AS RECEIVED</TurnLabel>
+            <FiguresTable table={figure.table} marks={marks} />
+          </Panel>
+        </div>
+        <div style={{ flex: "1 1 0", minWidth: 0 }}>
+          <Eyebrow>{figure.heading.toUpperCase()}</Eyebrow>
+          {figure.rows.map((row, i) => {
+            const role = row.emphasis ? CELL_ROLE[row.emphasis] : null;
+            return (
+              <div
+                key={row.label}
+                style={{
+                  ...revealAt(frame, revealTimeFor(i, reveals)),
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 28,
+                  padding: "12px 0",
+                  borderTop: `1px solid ${theme.color.border}`,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: theme.size.chrome,
+                    fontWeight: 700,
+                    color: theme.color.accent,
+                    width: 48,
+                    flex: "0 0 auto",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <Label style={{ flex: "1 1 0", fontSize: theme.size.label, color: role ? role.color : theme.color.muted }}>
+                  {row.label}
+                </Label>
+                <span
+                  style={{
+                    fontFamily: theme.font.mono,
+                    fontSize: theme.size.label,
+                    fontWeight: 600,
+                    whiteSpace: "nowrap",
+                    color: role ? role.color : theme.color.ink,
+                  }}
+                >
+                  {row.value}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * The corrected table arriving. From the first reveal a neutral highlight
+ * moves down the rows, one per `SWEEP_SECONDS_PER_ROW`, and once past the
+ * last row the `settle` cell is marked right (teal). The comparison lines
+ * on the right are elements 1..n and reveal on their own markers.
+ */
+export const Sweep: React.FC<SlideProps> = ({ reveals, figure }) => {
+  const frame = useCurrentFrame();
+  if (!figure || figure.kind !== "sweep") return null;
+
+  const at = revealTimeFor(0, reveals);
+  const row = sweepRow(frame, at, figure.table.rows.length);
+  const settled = row >= figure.table.rows.length;
+
+  return (
+    <div style={column}>
+      <div style={{ display: "flex", gap: 48, alignItems: "stretch" }}>
+        <div style={{ flex: "0 0 900px", minWidth: 0, ...revealAt(frame, at) }}>
+          <Panel marked={settled} style={{ height: "100%" }}>
+            <TurnLabel muted>{figure.heading.toUpperCase()}</TurnLabel>
+            <FiguresTable
+              table={figure.table}
+              sweepAt={settled ? -1 : row}
+              marks={settled ? [{ ...figure.settle, role: "right", tag: "right" }] : []}
+            />
+          </Panel>
+        </div>
+        <div style={{ flex: "1 1 0", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          {figure.lines.map((line, i) => {
+            const role = line.emphasis ? CELL_ROLE[line.emphasis] : null;
+            return (
+              <div
+                key={line.label}
+                style={{
+                  ...revealAt(frame, revealTimeFor(i + 1, reveals)),
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  padding: "18px 0",
+                  borderTop: `1px solid ${theme.color.border}`,
+                }}
+              >
+                <Label style={{ fontSize: theme.size.caption }}>{line.label}</Label>
+                <span
+                  style={{
+                    fontFamily: theme.font.mono,
+                    fontSize: theme.size.subhead,
+                    fontWeight: 600,
+                    color: role ? role.color : theme.color.ink,
+                  }}
+                >
+                  {line.value}
+                  {line.emphasis ? (
+                    <span
+                      style={{
+                        fontFamily: theme.font.body,
+                        fontSize: theme.size.chromeLabel,
+                        fontWeight: 700,
+                        letterSpacing: "0.12em",
+                        marginLeft: 20,
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      {line.emphasis.toUpperCase()}
+                    </span>
+                  ) : null}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const SLIDES = {
   Title,
   Statement,
@@ -454,4 +818,7 @@ export const SLIDES = {
   List,
   Compare,
   Image,
+  Session,
+  Check,
+  Sweep,
 } as const;

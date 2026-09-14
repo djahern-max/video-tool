@@ -25,6 +25,34 @@ export const revealAt = (frame: number, atSeconds: number) => {
   };
 };
 
+/**
+ * Characters of a typed string visible at this frame. A prompt in the
+ * Session pane appears as if typed from its reveal, at a fixed rate; the
+ * rate is an animation constant like the 12-frame fade above, not a
+ * narration timing, and nothing measured depends on it. The whole string
+ * is visible once typing is done, whatever the block's remaining length.
+ */
+export const TYPED_CHARS_PER_SECOND = 60;
+export const typedChars = (frame: number, atSeconds: number, length: number) => {
+  const elapsed = frame - atSeconds * FPS;
+  if (elapsed < 0) return 0;
+  return Math.min(length, Math.floor((elapsed / FPS) * TYPED_CHARS_PER_SECOND));
+};
+
+/**
+ * Which row a sweeping highlight sits on at this frame, or `rows` once it
+ * has passed the last one. The Sweep sheet moves a highlight down a
+ * table one row at a time from its reveal, then settles on the corrected
+ * cell; the dwell per row is an animation constant of the same kind as
+ * the typing rate.
+ */
+export const SWEEP_SECONDS_PER_ROW = 0.45;
+export const sweepRow = (frame: number, atSeconds: number, rows: number) => {
+  const elapsed = frame - atSeconds * FPS;
+  if (elapsed < 0) return -1;
+  return Math.min(rows, Math.floor(elapsed / FPS / SWEEP_SECONDS_PER_ROW));
+};
+
 /** Has this reveal happened yet? For state changes rather than fades. */
 export const isRevealed = (frame: number, atSeconds: number) =>
   frame >= atSeconds * FPS;

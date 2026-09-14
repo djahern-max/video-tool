@@ -31,6 +31,11 @@ const { fontFamily: plexMono } = loadPlexMono("normal", {
  * currently under discussion — and appears nowhere else. If it is on more
  * than two elements at once, something has gone wrong.
  *
+ * One exception, from the GPT-06 feature (changelog entry 33): on the
+ * Check and Sweep sheets a figure shown as wrong is marked in `accent`,
+ * so that teal stays reserved for the corrected figure. That is the only
+ * content role `accent` has, and it is confined to those two components.
+ *
  * Type is a proportional sans throughout. `mono` remains only for figures
  * presented as typed — the Calc column — and, later, for literal prompts
  * and code. Sizes are set for the app's player, which shows the render at

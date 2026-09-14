@@ -39,13 +39,83 @@ export type Figure =
    * description of the image that survives into the transcript of record,
    * and it is what a reviewer reads when they are not watching the render.
    */
-  | { kind: "image"; src: string; alt: string; caption?: string };
+  | { kind: "image"; src: string; alt: string; caption?: string }
+  /**
+   * A chat pane: a composed prompt-and-response exchange. Each turn is one
+   * reveal element. A `user` turn types in from its reveal; an `assistant`
+   * turn fades in and may carry text, a table, or both. `prior` turns are
+   * on screen from frame 0 — the conversation so far — and are not
+   * revealable, so they do not count toward the marker check.
+   */
+  | { kind: "session"; turns: Turn[]; prior?: Turn[] }
+  /**
+   * A table beside the participant's own arithmetic. Each row is one
+   * reveal element. A row carrying `against` names the table cell it is
+   * compared with; when that row reveals, the cell is highlighted in the
+   * "wrong" role. Every table figure not marked wrong is computed in the
+   * lesson module, never typed (rule 2's spirit applied to arithmetic).
+   */
+  | {
+      kind: "check";
+      heading: string;
+      table: Table;
+      rows: CheckRow[];
+    }
+  /**
+   * A corrected table arriving: a highlight sweeps down the rows from the
+   * first reveal and settles on `settle` in the "right" role. The table
+   * and its sweep are element 0; each of `lines` is a further element.
+   */
+  | {
+      kind: "sweep";
+      heading: string;
+      table: Table;
+      settle: CellRef;
+      lines: { label: string; value: string; emphasis?: "wrong" | "right" }[];
+    };
+
+/** A small table: one row-label column, then `columns`. */
+export type Table = {
+  columns: string[];
+  rows: { label: string; cells: string[] }[];
+};
+
+/** A cell of a Table: 0-based row, 0-based index into that row's `cells`. */
+export type CellRef = { row: number; col: number };
+
+export type Turn =
+  | { role: "user"; text: string }
+  | {
+      role: "assistant";
+      text?: string;
+      table?: Table;
+      /** Highlight one cell in the named role, from the turn's reveal. */
+      mark?: CellRef & { role: "wrong" | "right" };
+    };
+
+export type CheckRow = {
+  label: string;
+  value: string;
+  emphasis?: "wrong" | "right";
+  /** The table cell this row's figure is compared against. */
+  against?: CellRef;
+};
 
 export type Block = {
   id: string;
   sheet: string;
   citation: string;
-  slide: "Title" | "Statement" | "Facts" | "Calc" | "List" | "Compare" | "Image";
+  slide:
+    | "Title"
+    | "Statement"
+    | "Facts"
+    | "Calc"
+    | "List"
+    | "Compare"
+    | "Image"
+    | "Session"
+    | "Check"
+    | "Sweep";
   figure?: Figure;
   narration: string; // transcript of record, may contain [[r]] markers
   reveals: number[]; // fallback seconds from block start, used until measured

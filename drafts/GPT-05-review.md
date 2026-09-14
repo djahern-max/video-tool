@@ -638,6 +638,16 @@ way. Recommended ruling: accept as connective handoffs; add files 10 and
 12 as supporting sources if the developer wants every fact the lesson
 repeats to be in its own source list.
 
+*Ruling updated 2026-09-14 (changelog entry 33, Part 0):* files 10
+(`openai-enterprise-privacy-2026-09-13.pdf`) and 12
+(`openai-how-your-data-is-used-2026-09-13.pdf`) are added to
+`src/lesson-07.ts` `meta.sources` with role `supporting`, so that the
+two recap sentences (sec-02 s11, sec-05 s11) have their facts' sources in
+this lesson's own list. The sentences are unchanged and stay classed
+connective; the Sections preamble's note that `meta.sources` was
+unchanged from the scaffold is superseded by this. The developer's read
+is still ahead.
+
 **J8 — no attributed sentence.** Every toolkit entry used (4#10–16) is
 CPA.com's own advice and is reported as the toolkit's, classed sourced.
 4#3, the quoted executive, is not used; 4#18, the toolkit's Samsung

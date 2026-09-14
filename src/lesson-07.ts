@@ -145,9 +145,12 @@ export const meta = {
   knowledgeLevel: COURSE_GPT.knowledgeLevel,
   prerequisites: COURSE_GPT.prerequisites,
   advancePreparation: COURSE_GPT.advancePreparation,
-  // Only the files in sources/gpt/ that drafts/GPT-source-index.md shows
-  // contributing at least one entry to this lesson's objectives; the entry
-  // numbers behind each objective are in drafts/GPT-05-review.md.
+  // The files in sources/gpt/ that drafts/GPT-source-index.md shows
+  // contributing at least one entry to this lesson's objectives, plus the
+  // two OpenAI pages (files 10 and 12) behind lesson 2's training-default
+  // line, which sec-02 and sec-05 recap by handoff (GPT-05 review, J7);
+  // those two are supporting, not primary. The entry numbers behind each
+  // objective are in drafts/GPT-05-review.md.
   sources: [
     {
       citation:
@@ -163,6 +166,16 @@ export const meta = {
       citation:
         "New Hampshire General Court, \"Section 309-B:18 Confidential Communications.\", RSA chapter 309-B, New Hampshire Accountancy Act (as amended eff. July 1, 2024; retrieved 2026-09-13; sources/gpt/nh-rsa-309-b-18-confidential-communications.pdf)",
       role: "primary",
+    },
+    {
+      citation:
+        "OpenAI, \"Enterprise privacy at OpenAI\", openai.com/enterprise-privacy, Reader-view capture (retrieved 2026-09-13; sources/gpt/openai-enterprise-privacy-2026-09-13.pdf)",
+      role: "supporting",
+    },
+    {
+      citation:
+        "OpenAI Help Center, \"How your data is used to improve model performance\" (retrieved 2026-09-13; sources/gpt/openai-how-your-data-is-used-2026-09-13.pdf)",
+      role: "supporting",
     },
   ],
   // This block becomes manifest.author — the author/developer of record
