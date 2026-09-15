@@ -129,10 +129,10 @@ export const meta = {
   // Both must be filled with real values before any course goes to the
   // Registry. Copied verbatim from src/lesson-01.ts, sentinels included.
   author: {
-    name: "Dane Ahern",
-    credentials: "Content developer",
-    licenseJurisdiction: "N/A — test package",
-    licenseNumber: "N/A — test package",
+    name: "Daniel J Ahern",
+    credentials: "CPA",
+    licenseJurisdiction: "NH",
+    licenseNumber: "07308",
   },
   // Text a participant must read (7.02.5). 0 for an all-video lesson, and
   // it stays 0: this lesson ships video.mp4 and transcript.md, and the

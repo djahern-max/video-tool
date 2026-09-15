@@ -34,7 +34,7 @@ export const meta = {
   // accuracy. Nothing in the tooling sets it. The 4.02 content review is
   // superCPE's, by a licensed CPA against the ingested package, and this
   // flag does not evidence it.
-  status: "draft",
+  status: "checked",
 
   sections: [
     { id: "front-matter", file: "00-front-matter.md", role: "front_matter", title: "How this course works" },
@@ -179,10 +179,10 @@ export const meta = {
   // Both must be filled with real values before any course goes to the
   // Registry.
   author: {
-    name: "Dane Ahern",
-    credentials: "Content developer",
-    licenseJurisdiction: "N/A — test package",
-    licenseNumber: "N/A — test package",
+    name: "Daniel J Ahern",
+    credentials: "CPA",
+    licenseJurisdiction: "NH",
+    licenseNumber: "07308",
   },
   deliveryMethod: COURSE_GPT.deliveryMethod,
   revision: "1",

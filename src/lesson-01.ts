@@ -199,10 +199,10 @@ export const meta = {
   // Both must be filled with real values before any course goes to the
   // Registry.
   author: {
-    name: "Dane Ahern",
-    credentials: "Content developer",
-    licenseJurisdiction: "N/A — test package",
-    licenseNumber: "N/A — test package",
+    name: "Daniel J Ahern",
+    credentials: "CPA",
+    licenseJurisdiction: "NH",
+    licenseNumber: "07308",
   },
   deliveryMethod: COURSE_ATO.deliveryMethod,
   revision: "A",
