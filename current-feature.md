@@ -1,141 +1,116 @@
-# Current Feature
-
-## Feature NN — Sharper text in the render, and export checks that block ends fall in silence
-
-> Set NN from the last entry in `CHANGELOG.md`. Entry 34 (lead-in and closing hold) was the last one seen when this was drafted.
+# Feature — Reset to an empty workspace
 
 ## Goal
 
-1. **Sharper text.** Rendered sheets keep crisp text edges: lossless frame capture and an explicit encoder quality, instead of Remotion's defaults. Frame count, fps, dimensions, and measured duration are unchanged.
-2. **Silence guard.** `npm run export` refuses a video lesson if any `video.blocks[].end_seconds` does not fall inside a silence in the rendered MP4. superCPE pauses for review questions at those points, and this makes that attestation measured rather than assumed.
+Remove every lesson, course, draft, source, audio file, render, package, and
+archived spec from this repo, so the next thing built here is the first real
+course. The tool itself stays exactly as it is: scripts, components, theme,
+types, the contract, the Standards extracts, and the rules in `CLAUDE.md`.
 
-## Why
+Nothing is backed up, copied, archived, or moved aside. Delete means delete.
 
-**Blur.** Slide text in GPT-06 looks soft in superCPE's player, worst when the player is narrow. Part of that is scale and cannot be fixed here: a 1920-wide frame shown at ~400 px. superCPE's full-screen feature addresses that.
+## This is the human's decision
 
-The part this repo owns is capture and encode. Entry 01 recorded "JPEG re-encode noise" when comparing renders, which suggests Remotion's default JPEG frame capture is in use. JPEG rings and smears high-contrast text edges before H.264 ever sees them.
+`CLAUDE.md` says automation never deletes `drafts/` or `sources/`, and that
+deleting them is "a human decision made by hand." This spec **is** that
+decision, made by the content developer, for this run only. All of it is
+pre-launch practice material; no participant or reviewer record exists.
 
-**Silence guard.** superCPE measured GPT-06: every block end is inside a silence, with at least 0.5 s of silence before it and only 0.07–0.19 s after it. That holds today because `generate` appends a 0.6 s tail to every block. Nothing verifies it.
+The rule stays in `CLAUDE.md` unchanged. It protects the real course that
+comes next. Do not weaken or remove it.
 
-A future change could silently move block ends into speech, as entry 34 changed the opening and 03's offset rule had to survive that. Candidate changes include the lead-in, the title hold, the tail, or how `blocks` is built.
+## Do not
 
-## Standards
-
-Read 7.02.7 and 9.02.2(2)(ii) in the 2026 Statement before citing them.
-
-- The measured duration must not change. It is the A/V term of the credit formula, and its supporting documentation is retained. Re-rendering changes `video.mp4`'s bytes, so `content_hash` changes and superCPE ingests a new version. That is expected. Pre-launch, all superCPE data is test data.
-- No narration, MP3, `audio-meta`, reveal, or block timing may change.
-
-## In scope
-
-- Recon of current render settings and the current GPT-06 file's encode
-- Render settings: frame image format, CRF, codec and pixel format stated explicitly
-- The silence guard in `scripts/export.ts`, with named constants
-- Re-render and re-export lesson 08 (GPT-06)
-- Changelog
-
-## Out of scope
-
-- `npm run generate` in any form except `--dry-run`
-- Changing composition width, height, or fps, or any timing constant in `src/timing.ts`
-- Type sizes, sheet design, footer strip content
-- Rendering slides as HTML for the browser, or any package contract change
-- `docs/course-package.md` (see Known gaps: report, do not edit)
-- Anything in `../supercpe`
-- Re-exporting lesson 02 (ATO-02). You may re-render it to confirm the settings apply, but do not export it.
-
-## Locators
-
-- `scripts/render.ts`
-- `remotion.config.ts`, if present
-- `src/Root.tsx`: composition width, height, fps
-- `scripts/export.ts`: the video branch, its existing ffprobe duration check, and its refusal style
-- `scripts/validate-package.ts`: read only. The guard needs the media file, so it belongs in export, as rule 5's ffprobe does.
-- `dist/GPT-06/video.mp4` and `out/lesson-08.mp4`
+- Run `npm run generate` without `--dry-run` (spends ElevenLabs credits).
+- Change any script's behavior, the Boundary section, rule 2 (timing is
+  measured), the 7.02.7 section, the evidence-directory rule, or voice/model
+  settings.
+- Touch `docs/course-package.md`, `docs/standards/`, `.env`, or `node_modules/`.
+- Rewrite git history or push anything other than the normal commit below.
 
 ## Tasks
 
-### 0. Recon
+### 1. Inventory (report, then continue without stopping)
 
-Write the answers into the changelog draft first.
+List what exists under: `src/lesson-*.ts`, `src/questions-*.json`,
+`src/audio-meta-*.json`, `guide/`, `public/audio/`, `public/images/`,
+`drafts/`, `sources/`, `out/`, `dist/`, and every `current-feature-NNN.md`.
+Also list any lesson or questions file that exists but is **not** registered
+in `src/lessons.ts` (sandbox lessons such as BALLOON).
 
-1. Current render settings:
-   - every `Config.*` call in `remotion.config.ts`
-   - every flag `render.ts` passes to `remotion render`
-   - the composition's `width`, `height`, `fps` for lesson 08
-2. `ffprobe -v error -show_streams -show_format dist/GPT-06/video.mp4`. Report:
-   - `width`, `height`, `pix_fmt`, `profile`, `r_frame_rate`
-   - video `bit_rate`, `nb_frames`
-   - format `duration` and file size
-3. The installed Remotion version, and the exact option names it uses for image format, CRF, and pixel format.
-   - Check its docs or types in `node_modules`, not memory.
-   - If PNG frame capture is not available for H.264 output in this version, stop and report.
+In `public/`, identify which files the components load (e.g. logo/shield used
+by the theme via `staticFile`). Those are tool assets and stay.
 
-### 1. Render settings
+### 2. Retire every registered lesson
 
-Set explicitly, in one place (`remotion.config.ts` if it exists, else `render.ts` flags), each with a comment saying why:
+    npm run retire -- --all --force
 
-- **Frame image format: PNG.** Lossless capture, so text edges are not JPEG-damaged before encoding.
-- **Codec `h264`, pixel format `yuv420p`.** Stated, not defaulted. `yuv420p` is what every browser plays. Dark text on white is mostly luma, which 4:2:0 keeps at full resolution.
-- **CRF 16.** Sheets are mostly static, so the size cost is small. Report the before/after file size. If the file more than triples, report it and use 18.
+If it refuses on untracked MP3s, delete those MP3s by hand and run it again.
+That refusal protects audio that cannot be recovered; losing it is the choice
+this spec makes. The audio-meta invariant still holds because every
+`audio-meta-NN.json` goes in the same run.
 
-Do not change dimensions or fps.
+### 3. Delete what retire leaves behind
 
-### 2. Silence guard in export
+- Everything inside `drafts/` and `sources/`. Keep the two directories, each
+  with an empty `.gitkeep`, since `CLAUDE.md`'s layout names them.
+- Everything inside `guide/`, `public/audio/`, `public/images/` (keep the
+  directories with `.gitkeep`). Keep the tool assets found in task 1.
+- Any unregistered `src/lesson-*.ts`, `src/questions-*.json`,
+  `src/audio-meta-*.json` from task 1.
+- `out/` and `dist/` contents.
+- Every `current-feature-NNN.md`.
 
-In the video branch of `export.ts`, after the existing ffprobe duration check and before building `dist/`:
+### 4. Confirm the empty state
 
-1. Run `ffmpeg -i <render> -af silencedetect=noise=<SILENCE_NOISE_DB>dB:d=<SILENCE_MIN_SECONDS> -f null -`. Parse the `silence_start` and `silence_end` pairs.
-2. Constants, commented as ours (not from the Standards):
-   - `SILENCE_NOISE_DB = -45`
-   - `SILENCE_MIN_SECONDS = 0.3`
-3. Treat two silences separated by less than 50 ms as one. GPT-06 has a 9 ms gap at 249.014–249.023 that should not fail a block.
-4. For every entry in `blocks`, refuse unless `end_seconds` lies within a merged silence interval. The refusal names:
-   - each failing block id and its `end_seconds`
-   - the nearest silence interval
-   - that superCPE pauses for review questions at block ends, so an end inside speech cuts the narrator off
-5. Refuse before anything is created under `dist/`, like every other refusal.
-6. ffmpeg missing is its own refusal, naming the binary. ffprobe is already required, and ffmpeg ships alongside it.
+`src/lessons.ts` REGISTRY empty, `src/questions.ts` maps empty,
+`src/course.ts` `COURSES` is `[]` with no course records. These empty shapes
+are already supported (see the comments in those files).
 
-### 3. Re-render and re-export lesson 08
+### 5. Scrub course-specific text from the docs
 
-- `npm run render -- --lesson 08`, then `npm run export -- --lesson 08`.
-- The measured duration must equal the previous render's to the frame. If it does not, stop and report.
+In `CLAUDE.md`, `README.md`, `LESSON-RUNBOOK.md`, and `docs/developer-read.md`,
+remove or genericize references to specific courses and lessons: ATO, SEC,
+SEC-01, GPT, BALLOON, ASC842, lesson numbers, `sources/sec/` (delete the
+paragraph explaining why it wasn't renamed), and `drafts/GPT-NN-review.md`
+(becomes `drafts/<code>-review.md`, which is what `npm run new` writes).
 
-### 4. Changelog
+Change wording only. Every rule must say the same thing after as before. If a
+sentence can't be genericized without changing a rule, leave it and list it
+in the report.
 
-## Verify
+Leave code comments in `scripts/` and `src/` alone unless they break the
+build. If `typecheck` or `check` fails because code hardcodes a course or
+lesson, make the smallest fix and report it.
 
-1. `npm run typecheck` clean. `npm run check` output unchanged from before the feature.
-2. **Recon answers** recorded.
-3. **Before/after:**
-   - render a still of the same frame in both settings: a dense sheet, e.g. S-03 or a Calc/Compare sheet
-   - put both PNGs in `out/` for the developer
-   - report the ffprobe fields from Task 0.2 for the new file, and the size change
-4. **`nb_frames` and format `duration`** equal the old render's. The `blocks` array in the new manifest is byte-identical to the old one.
-5. **The guard passes on lesson 08.**
-6. **Negative test** on a scratch copy of the manifest data, not a committed file. Shift one block's `end_seconds` by +0.5 s into speech: export refuses, names the block, and creates nothing under `dist/`.
-7. **`npm run generate -- --lesson 08 --dry-run`** reports every block unchanged, and nothing is sent.
-8. **`git status`** shows no change under `public/audio/` or `src/audio-meta-*.json`.
+### 6. Replace `CHANGELOG.md`
 
-## When done
+Replace the file with a fresh one. Its only entry, numbered 1, titled
+"Reset to an empty workspace", states in a few lines: what was removed, that
+nothing was kept, that the tool's rules and contract were not changed, and
+the verification results below. Keep the entry format the old file used.
 
-Append the entry.
+### 7. Verify
 
-**Standards touched:**
-- **7.02.7:** duration unchanged, frame for frame.
-- **9.02.2(2)(ii):** block timings now verified against the rendered file.
+1. `npm run typecheck` clean.
+2. `npm run check`: 0 lessons, 0 errors, 0 warnings.
+3. `npm run dev` starts Studio with no compositions and no errors; stop it.
+4. Round trip, no credits, no render:
+   `npm run new -- --lesson 01 --code TEST-01 --title "T"` → typecheck →
+   check → `npm run generate -- --lesson 01 --dry-run` → `npm run export --
+   --lesson 01` refuses on status → `npm run retire -- --lesson 01 --force`.
+   Repeat with `--kind text`. Then delete the `drafts/TEST-01-review.md` each
+   scaffold left.
+5. `git grep -n -i -E "ATO|SEC-01|GPT-0|BALLOON|ASC842|sources/sec"` — report
+   every remaining hit and why it stayed.
+6. `git status` shows only this feature's deletions and edits.
 
-**Decisions:**
-- PNG capture
-- CRF value and the size it cost
-- `yuv420p` over `yuv444p`, for browser playback
-- the guard lives in export, not the validator, because it needs the media
-- the 50 ms merge rule
+### 8. Commit
 
-**Known gaps:**
-- The superCPE package for GPT-06 is stale until the developer uploads the new zip.
-- **Contract wording is stale.** `docs/course-package.md` says the first `start_seconds` "is the title sheet's duration." Since entry 34 it is `LEAD_IN_SECONDS` (GPT-06's manifest shows 1, with the title's `estimatedSeconds` at 4). Report the wording. Do not edit it here: the contract is edited byte-identically in both repos, as its own change.
-- The superCPE player pauses 0.3 s before `end_seconds` (superCPE 036). That depends on `generate`'s `TAIL_SECONDS` staying at least 0.3. Name the constant's location, so a future change to it knows it has a consumer.
+One commit on `main`: `Reset to an empty workspace`. Then delete this
+`current-feature.md` contents and leave the file empty for the next feature.
 
-Then stop.
+## Report
+
+Short: counts removed per task-1 location, any hand-deleted MP3s, doc
+sentences left unchanged and why, any code fix, and the task-7 results.

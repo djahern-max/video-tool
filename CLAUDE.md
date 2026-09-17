@@ -107,7 +107,7 @@ figure of its own, and any per-lesson credit this repo prints is an estimate.
    surface here.
 
    **Rulings.** Every `UNSOURCED` flag and every judgment item in a
-   `drafts/GPT-NN-review.md` carries a recommended ruling written by the
+   `drafts/<code>-review.md` carries a recommended ruling written by the
    draft. That recommendation is the ruling unless the content developer's
    4.01.1 read of the guide text says otherwise. The developer's read is the
    review; the record is the evidence of it. Features do not stop to ask.
@@ -176,10 +176,6 @@ actually does. It must not be set to reach a credit target.
     LESSON-RUNBOOK.md   the human's step-by-step for building a lesson
     current-feature.md  the ONE feature being built right now
     CHANGELOG.md        append only
-
-`sources/sec/` holds course `ATO`'s sources. It predates the SEC→ATO
-course-code rename and is deliberately not renamed, because earlier records
-cite that path.
 
 `current-feature.md` is the only feature spec that is authoritative. Any
 `current-feature-NNN.md` in the tree is a superseded archive kept for history.

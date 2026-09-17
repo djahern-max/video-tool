@@ -12,7 +12,7 @@ same steps plus two.
 - **Lesson number** — two digits. Just an id; it names the files
   (`src/lesson-01.ts`, `guide/01/`). Any unregistered number works.
 - **Package id** — the permanent, globally unique code the package ships
-  under (`ASC450-LC-01`). Reusing one means "new version of that lesson"
+  under (`GUM-01`). Reusing one means "new version of that lesson"
   downstream, not "new lesson." `new` refuses a code already in use.
 
 Check `ls drafts/` before you pick a code. `retire` leaves accuracy records
@@ -23,8 +23,8 @@ and `new` will leave it untouched rather than replace it.
 
 ## 1. Scaffold
 
-    npm run new -- --lesson 01 --code ASC450-LC-01 --title "..." --kind text \
-      --course-code ASC450-LC --course-title "Loss Contingencies Under ASC 450"
+    npm run new -- --lesson 01 --code GUM-01 --title "..." --kind text \
+      --course-code GUM --course-title "..."
 
 Writes:
 
@@ -32,7 +32,7 @@ Writes:
     src/questions-01.json       []
     guide/01/00-front-matter.md
     guide/01/01-body.md
-    drafts/ASC450-LC-01-review.md
+    drafts/GUM-01-review.md
 
 and registers the lesson in `src/lessons.ts`, `src/questions.ts`, and
 `src/course.ts`.
