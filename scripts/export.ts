@@ -6,7 +6,8 @@
  *
  * Produces dist/<lesson_id>.zip in exactly the shape docs/course-package.md
  * describes, refusing — with the reason — anything superCPE would reject:
- * an unchecked lesson, estimated durations, a stale render, an ERROR from
+ * an unchecked lesson, estimated durations, a stale render, a video block
+ * whose end does not fall in silence in the render, an ERROR from
  * check-lessons.ts's authoring rules, or any contract violation
  * validate-package.ts can see.
  *
@@ -28,7 +29,7 @@
  * round-trip-checked by validatePackage before zipping anyway.
  */
 
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import {
   copyFileSync,
   existsSync,
@@ -177,6 +178,113 @@ const ffprobeSeconds = (path: string): number => {
   return parsed;
 };
 
+/**
+ * Silence guard constants. These are ours, chosen against GPT-06's measured
+ * render, not taken from the Standards. -45 dB sits below the narrator's
+ * quietest syllables and above the render's digital floor; 0.3 s is shorter
+ * than generate's 0.6 s block tail and longer than a breath inside a
+ * sentence. Two silences closer than SILENCE_MERGE_SECONDS are one pause:
+ * GPT-06 has a 9 ms blip at 249.014–249.023 that is not speech.
+ */
+const SILENCE_NOISE_DB = -45;
+const SILENCE_MIN_SECONDS = 0.3;
+const SILENCE_MERGE_SECONDS = 0.05;
+
+type Interval = { start: number; end: number };
+
+/** ffmpeg silencedetect over the render's audio, merged per SILENCE_MERGE_SECONDS. */
+const silencesOf = (path: string, fileSeconds: number): Interval[] => {
+  // silencedetect reports on stderr; -f null discards the decode.
+  const result = spawnSync(
+    "ffmpeg",
+    [
+      "-hide_banner", "-nostats", "-i", path,
+      "-af", `silencedetect=noise=${SILENCE_NOISE_DB}dB:d=${SILENCE_MIN_SECONDS}`,
+      "-f", "null", "-",
+    ],
+    { encoding: "utf8", stdio: ["ignore", "ignore", "pipe"], maxBuffer: 64 * 1024 * 1024 }
+  );
+  if ((result.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+    return refuse(
+      "ffmpeg was not found on PATH. The silence guard runs ffmpeg's " +
+        "silencedetect over the render to verify every block end falls in " +
+        "silence; ffmpeg ships alongside ffprobe, which export already requires."
+    );
+  }
+  if (result.error || result.status !== 0) {
+    return refuse(
+      `ffmpeg silencedetect failed on ${path}: ` +
+        `${result.error?.message ?? result.stderr.trim().split("\n").slice(-3).join(" ")}`
+    );
+  }
+  return mergeSilences(parseSilences(result.stderr, fileSeconds));
+};
+
+const parseSilences = (log: string, fileSeconds: number): Interval[] => {
+  const intervals: Interval[] = [];
+  let open: number | undefined;
+  for (const line of log.split("\n")) {
+    const start = /silence_start:\s*(-?[\d.]+)/.exec(line);
+    const end = /silence_end:\s*(-?[\d.]+)/.exec(line);
+    if (start) open = Math.max(0, Number.parseFloat(start[1]));
+    if (end && open !== undefined) {
+      intervals.push({ start: open, end: Number.parseFloat(end[1]) });
+      open = undefined;
+    }
+  }
+  // A silence still open at end of stream runs to the end of the file.
+  if (open !== undefined) intervals.push({ start: open, end: fileSeconds });
+  return intervals;
+};
+
+const mergeSilences = (intervals: Interval[]): Interval[] => {
+  const merged: Interval[] = [];
+  for (const next of [...intervals].sort((a, b) => a.start - b.start)) {
+    const last = merged[merged.length - 1];
+    if (last && next.start - last.end < SILENCE_MERGE_SECONDS) {
+      last.end = Math.max(last.end, next.end);
+    } else {
+      merged.push({ ...next });
+    }
+  }
+  return merged;
+};
+
+const gateOnSilentBlockEnds = (
+  videoSource: string,
+  fileSeconds: number,
+  lessonId: LessonId,
+  blocks: { id: string; end_seconds: number }[]
+): void => {
+  const silences = silencesOf(videoSource, fileSeconds);
+  const fmt = (s: Interval) => `${s.start.toFixed(3)}–${s.end.toFixed(3)}s`;
+  const failures = blocks.flatMap((b) => {
+    const t = b.end_seconds;
+    if (silences.some((s) => s.start <= t && t <= s.end)) return [];
+    const distance = (s: Interval) => Math.min(Math.abs(t - s.start), Math.abs(t - s.end));
+    const nearest = silences.reduce<Interval | undefined>(
+      (best, s) => (!best || distance(s) < distance(best) ? s : best),
+      undefined
+    );
+    return [
+      `${b.id} ends at ${t}s, in sound; nearest silence ` +
+        (nearest ? `${fmt(nearest)}` : "none detected"),
+    ];
+  });
+  if (failures.length > 0) {
+    console.error(
+      `\n  export refused: ${failures.length} block end(s) in out/lesson-${lessonId}.mp4 ` +
+        `do not fall in silence (silencedetect ${SILENCE_NOISE_DB} dB, ` +
+        `≥ ${SILENCE_MIN_SECONDS}s, gaps < ${SILENCE_MERGE_SECONDS * 1000} ms merged). ` +
+        `superCPE pauses for review questions at each block's end_seconds, so an ` +
+        `end inside speech cuts the narrator off mid-sentence:\n`
+    );
+    for (const f of failures) console.error(`    ${f}`);
+    console.error("");
+    process.exit(1);
+  }
+};
+
 /** The course record holding this package id, and the lesson's row in it. */
 const courseFor = (packageId: string) => {
   for (const course of COURSES) {
@@ -269,7 +377,35 @@ const main = () => {
     );
   }
 
-  // 6. Build dist/<lesson_id>/. The manifest lesson_id is meta.courseCode —
+  // 6. Where each narrated block starts and ends, measured, so superCPE can
+  // pause the video for review questions at the right second. The cursor
+  // walks the sequenced blocks in playback order from the lead-in, exactly
+  // as Lesson.tsx lays them out. The title sheet is a layer over the
+  // opening and holds no slot of its own: the first entry's start is the
+  // lead-in, the stretch during which only the title is on screen. The
+  // closing hold belongs to the last block, whose sheet stays up for it, so
+  // the last end_seconds is the file's end. Lead-in and hold are fixed
+  // render constants, not estimates of speech, so they are not subject to
+  // the 7.02.7 measured-durations rule; every narrated duration here is
+  // measured, because step 3 refused the export otherwise.
+  const round3 = (seconds: number) => Math.round(seconds * 1000) / 1000;
+  const blockTimings: { id: string; start_seconds: number; end_seconds: number }[] = [];
+  const sequenced = lesson.blocks.filter((b) => !isTitle(b));
+  let cursor = LEAD_IN_SECONDS;
+  sequenced.forEach((b, i) => {
+    const start = round3(cursor);
+    cursor += lesson.durationOf(b) + (i === sequenced.length - 1 ? CLOSING_HOLD_SECONDS : 0);
+    if (b.narration.trim().length > 0) {
+      blockTimings.push({ id: b.id, start_seconds: start, end_seconds: round3(cursor) });
+    }
+  });
+
+  // 7. Every block end must fall in silence in the rendered file. superCPE
+  // pauses for review questions at end_seconds; this measures that the
+  // pause lands between sentences instead of assuming it.
+  gateOnSilentBlockEnds(videoSource, measuredSeconds, lessonId, blockTimings);
+
+  // 8. Build dist/<lesson_id>/. The manifest lesson_id is meta.courseCode —
   // the globally unique code — not meta.lessonId, the module selector.
   const packageId = meta.courseCode;
   const { course, courseLesson } = courseFor(packageId);
@@ -294,29 +430,6 @@ const main = () => {
       .map((f) => statSync(join(audioDir, f)).mtimeMs)
   );
   const measuredAt = new Date(measuredAtMs).toISOString().replace(/\.\d{3}Z$/, "Z");
-
-  // Where each narrated block starts and ends, measured, so superCPE can
-  // pause the video for review questions at the right second. The cursor
-  // walks the sequenced blocks in playback order from the lead-in, exactly
-  // as Lesson.tsx lays them out. The title sheet is a layer over the
-  // opening and holds no slot of its own: the first entry's start is the
-  // lead-in, the stretch during which only the title is on screen. The
-  // closing hold belongs to the last block, whose sheet stays up for it, so
-  // the last end_seconds is the file's end. Lead-in and hold are fixed
-  // render constants, not estimates of speech, so they are not subject to
-  // the 7.02.7 measured-durations rule; every narrated duration here is
-  // measured, because step 3 refused the export otherwise.
-  const round3 = (seconds: number) => Math.round(seconds * 1000) / 1000;
-  const blockTimings: { id: string; start_seconds: number; end_seconds: number }[] = [];
-  const sequenced = lesson.blocks.filter((b) => !isTitle(b));
-  let cursor = LEAD_IN_SECONDS;
-  sequenced.forEach((b, i) => {
-    const start = round3(cursor);
-    cursor += lesson.durationOf(b) + (i === sequenced.length - 1 ? CLOSING_HOLD_SECONDS : 0);
-    if (b.narration.trim().length > 0) {
-      blockTimings.push({ id: b.id, start_seconds: start, end_seconds: round3(cursor) });
-    }
-  });
 
   // The hash cannot cover its own field (023a): the manifest is built
   // first, hashed in canonical form with content_hash absent, and the
@@ -374,7 +487,7 @@ const main = () => {
   );
   writeFileSync(join(packageDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
-  // 7. The same rules superCPE will run, before anything leaves this machine.
+  // 9. The same rules superCPE will run, before anything leaves this machine.
   const violations = validatePackage(packageDir);
   if (violations.length > 0) {
     console.error(`\n  export refused: the package fails ${violations.length} contract rule(s):\n`);
@@ -384,7 +497,7 @@ const main = () => {
     process.exit(1);
   }
 
-  // 8. Zip, with the package directory as the single top-level entry.
+  // 10. Zip, with the package directory as the single top-level entry.
   const zipPath = join(root, "dist", `${packageId}.zip`);
   const files = ["manifest.json", "video.mp4", "transcript.md", "questions.json"];
   writeZip(

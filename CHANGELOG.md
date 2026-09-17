@@ -3789,3 +3789,129 @@ Shipped: 2026-09-14
   are reproducible from what is committed.
 - Pre-existing, untouched: ATO-01's six review-coverage warnings; every
   GPT text lesson's `[draft]` warning.
+
+## 35 — Sharper sheet text in the render, and an export guard that block ends fall in silence
+Shipped: 2026-09-15
+
+**What changed**
+- Recon, before any change:
+  - `remotion.config.ts` held three calls: `Config.setVideoImageFormat("jpeg")`,
+    `Config.setOverwriteOutput(true)`, `Config.setCrf(18)`. Codec and pixel
+    format were Remotion defaults.
+  - `scripts/render.ts` passes no encode flags: `npx remotion render
+    Lesson<id> out/lesson-<id>.mp4`.
+  - Lesson 08's composition is `WIDTH` × `HEIGHT` at `FPS` from `src/Root.tsx`:
+    1920 × 1080 at 30 fps.
+  - `dist/GPT-06/video.mp4` (byte-identical to the old `out/lesson-08.mp4`):
+    1920 × 1080, `pix_fmt=yuvj420p`, `profile=High`, `r_frame_rate=30/1`,
+    video `bit_rate=164674`, `nb_frames=12307`, format `duration=410.261333`,
+    25,173,370 bytes. `yuvj420p` is the full-range format JPEG capture
+    produces, which confirms entry 01's reading that JPEG frames were in use.
+  - Remotion 4.0.513 (`remotion` and `@remotion/cli`). From its installed
+    types and source: `Config.setVideoImageFormat` takes `"png" | "jpeg" |
+    "none"` (`DEFAULT_VIDEO_IMAGE_FORMAT = 'jpeg'`), `Config.setPixelFormat`
+    takes `'yuv420p' | …` (`DEFAULT_PIXEL_FORMAT = 'yuv420p'`),
+    `Config.setCrf`, `Config.setCodec`. The only image-format rule its
+    validator enforces is that alpha pixel formats require PNG; nothing
+    restricts PNG by codec, so PNG capture with H.264 is available.
+- `remotion.config.ts` now states every encode setting, each commented:
+  `setVideoImageFormat("png")`, `setCodec("h264")`,
+  `setPixelFormat("yuv420p")`, `setCrf(16)`. Width, height, fps and
+  `src/timing.ts` are untouched.
+- `scripts/export.ts`, video branch: a silence guard (step 7) between the
+  ffprobe runtime check and the build of `dist/`. It runs `ffmpeg -i <render>
+  -af silencedetect=noise=-45dB:d=0.3 -f null -`, parses the
+  `silence_start`/`silence_end` pairs (a silence still open at end of stream
+  runs to the ffprobed file end), merges silences less than 50 ms apart, and
+  refuses unless every `video.blocks[].end_seconds` lies in a merged
+  interval. The refusal names each failing block and its `end_seconds`, the
+  nearest silence, and that superCPE pauses for review questions at block
+  ends so an end inside speech cuts the narrator off. ffmpeg missing is its
+  own refusal naming the binary. Constants `SILENCE_NOISE_DB = -45`,
+  `SILENCE_MIN_SECONDS = 0.3`, `SILENCE_MERGE_SECONDS = 0.05`, commented as
+  ours. To run before `dist/`, the block-timings walk moved above the
+  package-directory build; its arithmetic is unchanged.
+- Lesson 08 re-rendered and re-exported as `dist/GPT-06.zip`.
+
+**Verification**
+- New `out/lesson-08.mp4` (= `dist/GPT-06/video.mp4`): 1920 × 1080,
+  `pix_fmt=yuv420p`, `profile=High`, `r_frame_rate=30/1`, video
+  `bit_rate=139755`, `nb_frames=12307`, format `duration=410.261333`,
+  23,895,696 bytes. Frame count and duration equal the old render's; the
+  file is 5.1 % *smaller*, because PNG frames carry no JPEG noise for the
+  encoder to spend bits on.
+- The manifest's `video.blocks` array is byte-identical to the previous
+  export's; `duration_seconds` is 410 in both. `content_hash` changed
+  (`ae1927…` → `95258e…`), as expected from the new video bytes.
+- Before/after at frame 7410 (S-08, Calc, fully revealed), extracted from
+  each MP4 as PNG: `out/before-S08-f7410.png`, `out/after-S08-f7410.png`,
+  plus `out/source-S08-f7410.png`, the same frame from `remotion still`
+  (lossless, what the browser drew). RGB PSNR against the source: before
+  41.57 dB, after 45.96 dB. The stills are extracted from the encoded
+  files rather than rendered twice with `remotion still`, because a still
+  is always PNG and would not show the video capture setting at all.
+- The guard passes on lesson 08.
+- Negative test, in a scratch copy of the repo outside the tree (node_modules
+  symlinked): `block-05`'s `durationSeconds` +0.5 s and `block-06`'s −0.5 s in
+  the copy's `audio-meta-08.json`, so only `block-05`'s end moved, to
+  154.731 s, which is speech. Export exited 1 with `block-05 ends at 154.731s,
+  in sound; nearest silence 152.242–154.401s`, and no `dist/` was created in
+  the copy. With only ffprobe on `PATH`, export refused naming ffmpeg, again
+  with no `dist/`.
+- `npm run typecheck` clean. `npm run check` output identical to before the
+  feature (0 errors, 31 warnings).
+- `npm run generate -- --lesson 08 --dry-run`: all thirteen blocks
+  "unchanged, skipped"; "Dry run. Nothing sent, nothing written."
+- `git status`: no change under `public/audio/` or to any
+  `src/audio-meta-*.json`.
+
+**Standards touched**
+- 7.02.7 — actual A/V duration time enters the formula; the rendered
+  duration is unchanged, frame for frame (12,307 frames, 410.261333 s).
+- 9.02.2(2)(ii) — supporting documentation for the word count formula's data,
+  including A/V duration, is retained; the block timings it rests on are now
+  verified against the rendered file's audio rather than assumed.
+
+**Decisions**
+- PNG frame capture over JPEG: lossless input to the encoder, so text edges
+  are not damaged before H.264. The render cost was not measured separately.
+- CRF 16 over 18. The file shrank from 25.2 MB to 23.9 MB instead of
+  growing, so the tripling fallback to 18 did not arise.
+- `yuv420p` over `yuv444p`: 4:4:4 H.264 does not play in every browser, and
+  dark text on white is mostly luma, which 4:2:0 keeps at full resolution.
+  Stating it also moved the file off full-range `yuvj420p`.
+- The guard lives in export, not `validate-package.ts`: it needs the media
+  and ffmpeg, as the ffprobe runtime check does, and the validator is a
+  maintained duplicate of superCPE's code.
+- Silences under 50 ms apart merge. On today's GPT-06 render the 9 ms blip at
+  249.014–249.023 s does not change the verdict: `block-08` ends at 249.56 s,
+  inside the second half (249.023–249.667 s) on its own. The rule is kept
+  because a blip like it could fall on a block end after a future change.
+- Numbered 35, not 34. The last entry in this file is 33, but the lead-in and
+  closing hold feature (`current-feature-034.md`) shipped in commits without
+  an entry, and `drafts/GPT-06-review.md` already cites it as "entry 34".
+  Taking 34 here would point those citations at the wrong entry. The gap is
+  left as it is; writing entry 34 is the developer's call.
+
+**Known gaps**
+- The superCPE package for GPT-06 is stale until the developer uploads the new
+  `dist/GPT-06.zip`.
+- Contract wording is stale: `docs/course-package.md` line 80 says the first
+  entry's `start_seconds` "is the title sheet's duration." Since the lead-in
+  change it is `LEAD_IN_SECONDS` (GPT-06's manifest shows 1; the title block's
+  `estimatedSeconds` is 4), and the example at lines 37–38 still shows 8.000.
+  Not edited here: the contract changes byte-identically in both repos, as its
+  own change.
+- superCPE's player pauses 0.3 s before `end_seconds`. That depends on
+  `TAIL_SECONDS` in `scripts/generate-audio.ts` (line 89, currently 0.6)
+  staying at least 0.3. A change to that constant has this consumer. The
+  guard here would catch a block end that moved into speech, but not a tail
+  shortened to between 0 and 0.3 s that still leaves the end in silence.
+- Pre-existing, untouched: export and check warn on GPT-06 that "the course
+  record's status is \"draft\" but meta.status is \"checked\"". Rule 4 says the
+  two move together in one commit; `src/course.ts` is the developer's to set.
+  Also pre-existing: GPT-06's sheet-window warnings (block-11, 12, 13 and
+  others) and ATO-01's six review-coverage warnings.
+- Lesson 02 (ATO-02) was not re-rendered or re-exported. Its
+  `out/lesson-02.mp4` and `dist/ATO-02` still use the old JPEG/CRF 18 encode
+  until it is next rendered.

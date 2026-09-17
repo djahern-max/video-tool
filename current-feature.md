@@ -1,104 +1,141 @@
 # Current Feature
 
-## GPT-06 polish: opening, close, text crispness, first-person narration
+## Feature NN — Sharper text in the render, and export checks that block ends fall in silence
 
-> Changelog entry 34. `generate` is expected in this feature — the
-> developer has approved the spend. Regenerate only what changes.
+> Set NN from the last entry in `CHANGELOG.md`. Entry 34 (lead-in and closing hold) was the last one seen when this was drafted.
 
 ## Goal
-`out/lesson-08.mp4` opens on voice within a second, ends on a held final
-sheet, renders every coloured figure crisp at native size, and is
-narrated in first person, present tense, as someone doing the task. Same
-twelve blocks, same screens, same sources, same facts. `meta.status`
-stays `"draft"`.
+
+1. **Sharper text.** Rendered sheets keep crisp text edges: lossless frame capture and an explicit encoder quality, instead of Remotion's defaults. Frame count, fps, dimensions, and measured duration are unchanged.
+2. **Silence guard.** `npm run export` refuses a video lesson if any `video.blocks[].end_seconds` does not fall inside a silence in the rendered MP4. superCPE pauses for review questions at those points, and this makes that attestation measured rather than assumed.
 
 ## Why
-The developer watched the voiced render: 7–8 s of dead air before the
-first word, an abrupt end, coloured text that looked soft, and narration
-that explains rather than does.
 
-## Part 1 — Opening
-Find why the first narration starts 7–8 s in (title hold, lead-in
-constant, or a block with empty narration). Reduce it so the voice begins
-within about one second of the first frame, with the title sheet still
-readable. No content removed.
+**Blur.** Slide text in GPT-06 looks soft in superCPE's player, worst when the player is narrow. Part of that is scale and cannot be fixed here: a 1920-wide frame shown at ~400 px. superCPE's full-screen feature addresses that.
 
-## Part 2 — Close
-The video currently stops after the last teaching sentence and the
-viewer cannot tell it has ended. Two things:
+The part this repo owns is capture and encode. Entry 01 recorded "JPEG re-encode noise" when comparing renders, which suggests Remotion's default JPEG frame capture is in use. JPEG rings and smears high-contrast text edges before H.264 ever sees them.
 
-1. **A sign-off block.** Add a thirteenth block (or extend the last one)
-   whose narration does three things in about 40–60 words: says the task
-   is done and what it showed; restates the course's one rule — output is
-   a first draft, verify before relying on it (9#9, GPT-04); and tells the
-   viewer plainly that this is the end of the lesson and the course's
-   guide and assessment follow. Connective and sourced only; no new
-   claim. Screen: a Title-style closing sheet with the course title and
-   the rule in one line, in the v2 theme. Record it in the review file
-   like any block.
-2. **A closing hold**: the final sheet stays for a configurable constant
-   (default 3 s) after the last audio ends, in addition to the existing
-   0.6 s per-block tail. Render-side, part of the measured duration; the
-   record notes it as non-narration time.
+**Silence guard.** superCPE measured GPT-06: every block end is inside a silence, with at least 0.5 s of silence before it and only 0.07–0.19 s after it. That holds today because `generate` appends a 0.6 s tail to every block. Nothing verifies it.
 
-## Part 3 — Text crispness
-Render stills of the Check, Sweep, and Session blocks at their resting
-frames at native 1920 width and inspect the coloured figures. If soft:
-find the cause — fractional translate/scale left on the element after
-its animation, opacity transitions on text, sub-pixel layout — and fix
-so every text element rests on integer pixels with no transform. Report
-which it was. If the native stills are already crisp, say so and change
-nothing; the softness was the player scaling.
+A future change could silently move block ends into speech, as entry 34 changed the opening and 03's offset rule had to survive that. Candidate changes include the lead-in, the title hold, the tail, or how `blocks` is built.
 
-## Part 4 — First-person narration
-Rewrite all twelve blocks' narration in first person, present tense, as
-the participant doing the task and thinking aloud: "I'll paste the three
-assets in… there's the table… Year 3 on Equipment B looks off — let me
-check it." Rules:
-- Every factual sentence keeps the same index entry it had. No new claim.
-  Re-run the three-way classification; flag count must not rise.
-- The composed-session disclosure stays, said naturally, once.
-- The toolkit quote stays attributed.
-- Reveal markers stay aligned to the on-screen moment they trigger; move
-  the marker with the phrase, not the phrase to the marker.
-- Screens do not change. If a rewritten sentence refers to something not
-  on screen, rewrite the sentence.
-- Keep the total within 850–1,000 words at the measured 164 wpm.
-Update `drafts/GPT-06-review.md` block by block; default rulings; list
-stays CLOSED pending the developer's read.
+## Standards
 
-## Then
-`npm run generate -- --lesson 08 --dry-run`; report the per-block reasons
-(all should be `narration changed`). Then `npm run generate -- --lesson 08`
-without dry-run, then `npm run render -- --lesson 08`. Commit the MP3s and
-`audio-meta-08.json`.
+Read 7.02.7 and 9.02.2(2)(ii) in the 2026 Statement before citing them.
+
+- The measured duration must not change. It is the A/V term of the credit formula, and its supporting documentation is retained. Re-rendering changes `video.mp4`'s bytes, so `content_hash` changes and superCPE ingests a new version. That is expected. Pre-launch, all superCPE data is test data.
+- No narration, MP3, `audio-meta`, reveal, or block timing may change.
+
+## In scope
+
+- Recon of current render settings and the current GPT-06 file's encode
+- Render settings: frame image format, CRF, codec and pixel format stated explicitly
+- The silence guard in `scripts/export.ts`, with named constants
+- Re-render and re-export lesson 08 (GPT-06)
+- Changelog
 
 ## Out of scope
-- Any other lesson. Any screen or component redesign beyond Part 3's fix.
-- `export`. `status`.
 
-## Read first
-- `CLAUDE.md`; `LESSON-RUNBOOK.md`; `CHANGELOG.md` entries 31 and 33
-- `src/lesson-08.ts`; `drafts/GPT-06-review.md`
-- The Session, Check, Sweep components; the composition's timing code
+- `npm run generate` in any form except `--dry-run`
+- Changing composition width, height, or fps, or any timing constant in `src/timing.ts`
+- Type sizes, sheet design, footer strip content
+- Rendering slides as HTML for the browser, or any package contract change
+- `docs/course-package.md` (see Known gaps: report, do not edit)
+- Anything in `../supercpe`
+- Re-exporting lesson 02 (ATO-02). You may re-render it to confirm the settings apply, but do not export it.
+
+## Locators
+
+- `scripts/render.ts`
+- `remotion.config.ts`, if present
+- `src/Root.tsx`: composition width, height, fps
+- `scripts/export.ts`: the video branch, its existing ffprobe duration check, and its refusal style
+- `scripts/validate-package.ts`: read only. The guard needs the media file, so it belongs in export, as rule 5's ffprobe does.
+- `dist/GPT-06/video.mp4` and `out/lesson-08.mp4`
+
+## Tasks
+
+### 0. Recon
+
+Write the answers into the changelog draft first.
+
+1. Current render settings:
+   - every `Config.*` call in `remotion.config.ts`
+   - every flag `render.ts` passes to `remotion render`
+   - the composition's `width`, `height`, `fps` for lesson 08
+2. `ffprobe -v error -show_streams -show_format dist/GPT-06/video.mp4`. Report:
+   - `width`, `height`, `pix_fmt`, `profile`, `r_frame_rate`
+   - video `bit_rate`, `nb_frames`
+   - format `duration` and file size
+3. The installed Remotion version, and the exact option names it uses for image format, CRF, and pixel format.
+   - Check its docs or types in `node_modules`, not memory.
+   - If PNG frame capture is not available for H.264 output in this version, stop and report.
+
+### 1. Render settings
+
+Set explicitly, in one place (`remotion.config.ts` if it exists, else `render.ts` flags), each with a comment saying why:
+
+- **Frame image format: PNG.** Lossless capture, so text edges are not JPEG-damaged before encoding.
+- **Codec `h264`, pixel format `yuv420p`.** Stated, not defaulted. `yuv420p` is what every browser plays. Dark text on white is mostly luma, which 4:2:0 keeps at full resolution.
+- **CRF 16.** Sheets are mostly static, so the size cost is small. Report the before/after file size. If the file more than triples, report it and use 18.
+
+Do not change dimensions or fps.
+
+### 2. Silence guard in export
+
+In the video branch of `export.ts`, after the existing ffprobe duration check and before building `dist/`:
+
+1. Run `ffmpeg -i <render> -af silencedetect=noise=<SILENCE_NOISE_DB>dB:d=<SILENCE_MIN_SECONDS> -f null -`. Parse the `silence_start` and `silence_end` pairs.
+2. Constants, commented as ours (not from the Standards):
+   - `SILENCE_NOISE_DB = -45`
+   - `SILENCE_MIN_SECONDS = 0.3`
+3. Treat two silences separated by less than 50 ms as one. GPT-06 has a 9 ms gap at 249.014–249.023 that should not fail a block.
+4. For every entry in `blocks`, refuse unless `end_seconds` lies within a merged silence interval. The refusal names:
+   - each failing block id and its `end_seconds`
+   - the nearest silence interval
+   - that superCPE pauses for review questions at block ends, so an end inside speech cuts the narrator off
+5. Refuse before anything is created under `dist/`, like every other refusal.
+6. ffmpeg missing is its own refusal, naming the binary. ffprobe is already required, and ffmpeg ships alongside it.
+
+### 3. Re-render and re-export lesson 08
+
+- `npm run render -- --lesson 08`, then `npm run export -- --lesson 08`.
+- The measured duration must equal the previous render's to the frame. If it does not, stop and report.
+
+### 4. Changelog
 
 ## Verify
-1. `npm run typecheck` clean; `npm run check` 0 errors.
-2. Time of first audible sample in the new MP4 (ffprobe/ffmpeg silence
-   detect); time of last audible sample vs file end.
-3. Native-size stills before and after Part 3, if changed.
-4. Word count, sentence classification counts, flag count before/after.
-5. `git status`: `src/lesson-08.ts`, components touched, timing code,
-   `drafts/GPT-06-review.md`, `public/audio/**` for lesson 08,
-   `audio-meta-08.json`, `CHANGELOG.md`, spec rotation.
-6. One report. Then commit.
 
-## Changelog
-Entry 34. Standards touched: 7.02.7 (screens unchanged; additional-
-learning case per block re-confirmed against the new narration),
-9.02.2(2)(ii) (duration changes; measured). Under Decisions: why first
-person; why the close is a render constant. Under Known gaps: unread.
+1. `npm run typecheck` clean. `npm run check` output unchanged from before the feature.
+2. **Recon answers** recorded.
+3. **Before/after:**
+   - render a still of the same frame in both settings: a dense sheet, e.g. S-03 or a Calc/Compare sheet
+   - put both PNGs in `out/` for the developer
+   - report the ffprobe fields from Task 0.2 for the new file, and the size change
+4. **`nb_frames` and format `duration`** equal the old render's. The `blocks` array in the new manifest is byte-identical to the old one.
+5. **The guard passes on lesson 08.**
+6. **Negative test** on a scratch copy of the manifest data, not a committed file. Shift one block's `end_seconds` by +0.5 s into speech: export refuses, names the block, and creates nothing under `dist/`.
+7. **`npm run generate -- --lesson 08 --dry-run`** reports every block unchanged, and nothing is sent.
+8. **`git status`** shows no change under `public/audio/` or `src/audio-meta-*.json`.
 
-## Not this feature
-Developer's read (`docs/developer-read.md`) of the whole course, then
-`status: "checked"` on lessons 03–08; then export.
+## When done
+
+Append the entry.
+
+**Standards touched:**
+- **7.02.7:** duration unchanged, frame for frame.
+- **9.02.2(2)(ii):** block timings now verified against the rendered file.
+
+**Decisions:**
+- PNG capture
+- CRF value and the size it cost
+- `yuv420p` over `yuv444p`, for browser playback
+- the guard lives in export, not the validator, because it needs the media
+- the 50 ms merge rule
+
+**Known gaps:**
+- The superCPE package for GPT-06 is stale until the developer uploads the new zip.
+- **Contract wording is stale.** `docs/course-package.md` says the first `start_seconds` "is the title sheet's duration." Since entry 34 it is `LEAD_IN_SECONDS` (GPT-06's manifest shows 1, with the title's `estimatedSeconds` at 4). Report the wording. Do not edit it here: the contract is edited byte-identically in both repos, as its own change.
+- The superCPE player pauses 0.3 s before `end_seconds` (superCPE 036). That depends on `generate`'s `TAIL_SECONDS` staying at least 0.3. Name the constant's location, so a future change to it knows it has a consumer.
+
+Then stop.
